@@ -1,20 +1,71 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+﻿# HubEx.Test.Api.CI
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Описание проекта
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Этот проект предназначен для автоматического тестирования REST API приложения HubEx.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Технологии
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+- Python 3.12: Основной язык программирования проекта.
+- pytest: Тестовый фреймворк для написания и выполнения тестов.
+- requests: Библиотека для взаимодействия с API.
+- pydantic: Библиотека для валидации ответов от API.
+- loguru: Библиотека логирования.
+- Faker: Генерация тестовых данных.
+- python-dotenv: Обработка переменных окружения.
+- Allure: Инструмент для создания отчетов о тестировании.
+
+## Установка и настройка
+
+1. Клонируйте репозиторий:
+   
+    git clone https://melston@dev.azure.com/melston/HubEx/_git/HubEx.Test.Api.Cl
+    cd HubEx.Test.Api.Cl
+    
+2. Создайте виртуальное окружение и активируйте его:
+   
+    python -m venv venv
+    venv/Scripts/activate
+    
+3. Установите зависимости:
+   
+    pip install -r requirements.txt
+    
+## Запуск тестов
+
+1. Для запуска всех тестов на DEV стенде используйте команду:
+   
+    $env:ENVIRON='qa'; pytest -s --alluredir=allure-results
+    
+2. Для генерации отчета Allure(локально):
+   
+    allure serve allure-results
+    
+3. Для создания истории запусков в Allure-report (ТОЛЬКО ЛОКАЛЬНО) запускать тесты с параметром --report="true":
+   
+    pytest --report="true"
+    
+## Использование
+
+1. Отправка запросов и проверка ответов:
+    - Тесты находятся в tests/
+    - Каждый запрос отправляется к API, а ответ валидируется с помощью моделей.
+
+2. Создание тестовых данных:
+    - Тестовые данные создаются перед выполнением тестов с Faker
+
+3. Конфигурация тестов:
+    - Общие фикстуры и настройки для тестов находятся в conftest.py.
+    - Конфигурация pytest указана в pytest.ini.
+
+## Зависимости
+
+Список основных зависимостей:
+- python==3.12
+- pytest
+- requests
+- pydantic
+- Faker
+- allure-pytest
+
+Полный список зависимостей можно найти в requirements.txt.
