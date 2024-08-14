@@ -19,31 +19,31 @@
 
 1. Клонируйте репозиторий:
    
-    git clone https://melston@dev.azure.com/melston/HubEx/_git/HubEx.Test.Api.Cl
-    cd HubEx.Test.Api.Cl
+ - git clone https://melston@dev.azure.com/melston/HubEx/_git/HubEx.Test.Api.Cl
+ - cd HubEx.Test.Api.Cl
     
 2. Создайте виртуальное окружение и активируйте его:
    
-    python -m venv venv
-    venv/Scripts/activate
+ - python -m venv venv
+ - venv/Scripts/activate
     
 3. Установите зависимости:
    
-    pip install -r requirements.txt
+ - pip install -r requirements.txt
     
 ## Запуск тестов
 
 1. Для запуска всех тестов на DEV стенде используйте команду:
    
-    $env:ENVIRON='qa'; pytest -s --alluredir=allure-results
+ - $env:ENVIRON='qa'; pytest -s --alluredir=allure-results
     
 2. Для генерации отчета Allure(локально):
    
-    allure serve allure-results
+ - allure serve allure-results
     
 3. Для создания истории запусков в Allure-report (ТОЛЬКО ЛОКАЛЬНО) запускать тесты с параметром --report="true":
    
-    pytest --report="true"
+ - pytest --report="true"
     
 ## Использование
 
