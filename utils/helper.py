@@ -7,7 +7,7 @@ class Helper:
 
     @classmethod
     def attach_response(cls, response):
-        response = json.dumps(response, indent=4)
+        response = json.dumps(response, indent=4, ensure_ascii=False)
         allure.attach(body=response, name='API Response', attachment_type=AttachmentType.JSON)
 
     @classmethod

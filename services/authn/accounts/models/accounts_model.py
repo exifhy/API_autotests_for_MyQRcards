@@ -49,14 +49,25 @@ class TenantCreationRequestEntityModel(BaseModel):
     rejectionReason: Optional[str] = None
 
 
-class SuccessUserAccountAuthorizationModel(BaseModel):
+class SuccessUserAccountAuthenticationModel(BaseModel):
     tenantEntities: List[TenantAuthorizationProjectionModel]
     requests: List[TenantCreationRequestEntityModel]
-    accountHasUserProfile: bool
-    isCrossTenantAdmin: bool
-    isAnonymous: bool
+    accountHasUserProfile: Optional[bool] = None
+    isCrossTenantAdmin: Optional[bool] = None
+    isAnonymous: Optional[bool] = None
     jwtValidTill: Optional[str] = None
     accountUserTypeID: Optional[int] = None
     access_token: str
     refresh_token: Optional[str] = None
-    expires_in: int
+    expires_in: Optional[int] = None
+
+
+class CodeMessageModel(BaseModel):
+    traceIdentifier: str
+    code: str
+    message: str
+
+
+class ErrorModel(BaseModel):
+    list_model: List[CodeMessageModel]
+

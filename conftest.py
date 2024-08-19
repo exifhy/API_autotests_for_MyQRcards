@@ -8,11 +8,61 @@ from allure_commons.types import AttachmentType
 import base64
 import urllib.parse
 from loguru import logger
+from config.headers import Headers
+from services.authz.accounts.payloads import Payloads
+from dotenv import load_dotenv, set_key, unset_key
+import requests
+
+
+load_dotenv()
+
 
 # Определение HOST на основе переменной окружения ENVIRON
 ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, используем "prod" по умолчанию
 HOST = "https://dev-api.hubex.ru/fsm" if ENVIRON == 'qa' else "https://api.hubex.ru/fsm"
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+API_USER_TOKEN = os.getenv('API_USER_TOKEN')
+
+
+def get_api_user_access_token():
+    try:
+        response_authorisation = requests.post(
+            url=f"{HOST}/AUTHZ/AccessTokens/",
+            headers=Headers.basic_content_type,
+            json={
+                "serviceToken": API_USER_TOKEN
+            }
+        )
+        response_authorisation_data = response_authorisation.json()
+        # logger.info(response_authorisation_data)
+        bearer_token = response_authorisation_data['access_token']
+        # logger.info(bearer_token)
+        return bearer_token
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+def pytest_sessionstart(session):
+    """Вызывается перед выполнением тестов."""
+    logger.info("pytest_session start called")
+    token = get_api_user_access_token()
+    if token is None:
+        logger.error("Не удалось получить токен доступа.")
+        return
+    cache = session.config.cache
+    cache.set("api_token", token)
+    logger.info("Cache set for api_token")
+    set_key('.env', 'API_TOKEN', token)
+    logger.info('Token set in .env file')
+    os.environ["API_TOKEN"] = token
+    print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Вызывается после выполнения тестов."""
+    logger.info("pytest_sessionfinish called")
+    unset_key('.env', 'API_TOKEN')
+    logger.info("API_TOKEN unset in .env file")
 
 
 @allure.step("Attach host information")

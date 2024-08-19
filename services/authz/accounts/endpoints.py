@@ -7,3 +7,4 @@ HOST = "https://dev-api.hubex.ru/fsm" if os.environ["ENVIRON"] == 'qa' else "htt
 class Endpoints:
 
     authorisation_endpoint = f'{HOST}/AUTHZ/accounts/authorize'
+    authorisation_api_user_token_endpoint = f'{HOST}/AUTHZ/AccessTokens'
