@@ -4,7 +4,11 @@ import pytest
 
 class Params(Enum):
 
-    params_user = [
-        pytest.param('', id=""),
-        pytest.param('', id="")
+    params_assets_list = [
+        pytest.param(
+            {
+                "isDeleted": "false",
+                "includePath": "false",
+                "includeTaskActuality": "false"
+            }, id="isDeleted=false, includePath=false, includeTaskActuality=false")
     ]

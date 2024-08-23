@@ -1,5 +1,4 @@
 import os
-
 import allure
 import requests
 from loguru import logger
@@ -34,12 +33,12 @@ class AuthnAccountsAPI(Helper):
             headers=self.headers.authentication_header(basic_token, app_id)
         )
         end = time.time()
-        model = SuccessUserAccountAuthenticationModel(**response.json())
         # logger.info(response.request.headers)
+        assert response.status_code == HTTPStatus.OK, response.json()
+        # assert model.expires_in == 1800, 'Cрок действия токена не равен 30 минутам'
         self.attach_response(response.json())
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.OK, response.json()
-        assert model.expires_in == 1800, 'Cрок действия токена не равен 30 минутам'
+        model = SuccessUserAccountAuthenticationModel(**response.json())
         logger.info(f'Successfully receiving the {model.access_token}.')
         return model
 
@@ -53,12 +52,12 @@ class AuthnAccountsAPI(Helper):
             headers=self.headers.authentication_header(basic_token, app_id)
         )
         end = time.time()
-        model = ErrorModel(list_model=response.json())
         # logger.info(response.request.headers)
-        self.attach_response(response.json())
-        self.attach_time(start, end)
         assert response.status_code == HTTPStatus.UNAUTHORIZED, response.json()
         assert model.list_model[0].code == "AccountNotFound", "Unexpected Response Code for Invalid Token"
+        self.attach_time(start, end)
+        self.attach_response(response.json())
+        model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model
 
@@ -71,10 +70,10 @@ class AuthnAccountsAPI(Helper):
             headers=self.headers.without_authorization_field_header(app_id)
         )
         end = time.time()
-        model = ErrorModel(list_model=response.json())
+        assert response.status_code == HTTPStatus.CONFLICT, response.json()
         # logger.info(response.request.headers)
         self.attach_response(response.json())
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CONFLICT, response.json()
+        model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model

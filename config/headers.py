@@ -1,7 +1,10 @@
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
+
+APP_ID = os.getenv('APP_ID')
 
 
 class Headers:
@@ -10,9 +13,29 @@ class Headers:
         "Content-Type": "application/json"
     }
 
+    @staticmethod
+    def basic_header(token: str) -> dict:
+        basic = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            "Accept-Language": "ru - RU",
+            "X-Application-ID": f"{APP_ID}",
+            "Range": "Items=1-25",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Content-Type": "application/json"
+        }
+        return basic
+
     basic = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {os.getenv('API_TOKEN')}"
+        "Accept": "application/json",
+        "Authorization": f"Bearer",
+        "Accept-Language": "ru - RU",
+        "X-Application-ID": f"{APP_ID}",
+        "Range": "Items=1-25",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json"
     }
 
     @staticmethod

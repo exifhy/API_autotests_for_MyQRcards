@@ -3,10 +3,24 @@
 class Payloads:
 
     @staticmethod
-    def authorization_payloads(tenant_id: int, member_id: int) -> dict:
+    def authorization_payloads(tenant_id: str, member_id: str) -> dict:
         payloads = {
-            "tenantID": tenant_id,
-            "tenantMemberID": member_id
+            "tenantID": int(tenant_id),
+            "tenantMemberID": int(member_id)
+        }
+        return payloads
+
+    @staticmethod
+    def authorization_without_tenant_id_payloads(tenant_id: str) -> dict:
+        payloads = {
+            "tenantMemberID": int(tenant_id)
+        }
+        return payloads
+
+    @staticmethod
+    def authorization_without_tenant_member_id_payloads(tenant_id: str) -> dict:
+        payloads = {
+            "tenantID": int(tenant_id)
         }
         return payloads
 

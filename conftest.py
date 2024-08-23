@@ -1,15 +1,14 @@
 import os
+import time
+
 import allure
 import pytest
 import json
 import shutil
 import subprocess
 from allure_commons.types import AttachmentType
-import base64
-import urllib.parse
 from loguru import logger
 from config.headers import Headers
-from services.authz.accounts.payloads import Payloads
 from dotenv import load_dotenv, set_key, unset_key
 import requests
 
@@ -46,9 +45,6 @@ def pytest_sessionstart(session):
     """Вызывается перед выполнением тестов."""
     logger.info("pytest_session start called")
     token = get_api_user_access_token()
-    if token is None:
-        logger.error("Не удалось получить токен доступа.")
-        return
     cache = session.config.cache
     cache.set("api_token", token)
     logger.info("Cache set for api_token")
@@ -73,20 +69,6 @@ def attach_host_info():
         "HOST": HOST
     }
     allure.attach(body=json.dumps(info, indent=4), name='Host Info', attachment_type=AttachmentType.JSON)
-
-
-def basic_token_generation(login: str, password: str) -> str:
-    # Используем аналог encodeURIComponent для кодирования логина и пароля
-    encoded_login = urllib.parse.quote(login, safe='')
-    encoded_password = urllib.parse.quote(password, safe='')
-
-    # Формируем строку логин:пароль
-    credentials = f"{encoded_login}:{encoded_password}"
-
-    # Кодируем строку в base64
-    encoded_credentials = base64.b64encode(credentials.encode("utf-8")).decode("utf-8")
-
-    return encoded_credentials
 
 
 def pytest_addoption(parser):
