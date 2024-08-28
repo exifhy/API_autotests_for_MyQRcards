@@ -11,9 +11,13 @@ class Endpoints:
 
     @staticmethod
     def marks_object_as_remote_endpoint(asset_id: int) -> str:
-        return f'{HOST}/ES/assets{asset_id}'
+        return f'{HOST}/ES/assets/{asset_id}'
 
     @staticmethod
     def detailed_information_on_object_endpoint(asset_id: int) -> str:
-        return f'{HOST}/ES/assets{asset_id}'
+        return f'{HOST}/ES/assets/{asset_id}'
+
+    @staticmethod
+    def method_of_publishing_an_object_endpoint(asset_id: int) -> str:
+        return f'{HOST}/ES/assets/{asset_id}/publish'
 

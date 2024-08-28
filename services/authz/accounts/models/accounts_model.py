@@ -11,14 +11,14 @@ class IdNameResultModel(BaseModel):
 class UserProfileResultModel(BaseModel):
     userID: int
     firstName: str
-    lastName: str
-    middleName: str
-    email: str
-    mobilePhone: str
-    workPhone: str
-    otherPhone: str
-    avatarUrl: str
-    geoTrackingMode: IdNameResultModel
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    email: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    workPhone: Optional[str] = None
+    otherPhone: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    geoTrackingMode: Optional[IdNameResultModel] = None
 
 
 class RefreshTokenModel(BaseModel):

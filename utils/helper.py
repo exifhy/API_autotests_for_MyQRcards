@@ -14,6 +14,8 @@ class Helper:
 
     @classmethod
     def attach_request(cls, request):
+        if isinstance(request, bytes):
+            request = request.decode('utf-8')
         allure.attach(body=request, name='API Request body', attachment_type=AttachmentType.JSON)
 
     @classmethod

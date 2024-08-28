@@ -78,7 +78,6 @@ class EsAssetsAPI(Helper):
         end = time.time()
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(response.headers)
-        self.attach_response(response.json())
         self.attach_time(start, end)
         logger.info(f'Successfully marks the object with id{asset_id} as remote.')
 
@@ -90,10 +89,23 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
         logger.info(response.headers)
         self.attach_response(response.json())
         self.attach_time(start, end)
         model = AssetDetailedInfoResult(**response.json())
         logger.info(f'Successfully receiving the assets detailed info.')
         return model
+
+    @allure.step("Method of publishing an object.")
+    def put_method_of_publishing_an_object_by_id(self, asset_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.method_of_publishing_an_object_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        logger.info(f'Successful publication of the object.')
