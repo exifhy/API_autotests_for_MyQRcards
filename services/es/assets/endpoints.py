@@ -21,3 +21,7 @@ class Endpoints:
     def method_of_publishing_an_object_endpoint(asset_id: int) -> str:
         return f'{HOST}/ES/assets/{asset_id}/publish'
 
+    @staticmethod
+    def update_object_endpoint(asset_id: int) -> str:
+        return f'{HOST}/ES/assets/{asset_id}'
+

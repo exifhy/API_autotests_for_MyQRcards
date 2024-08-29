@@ -54,10 +54,10 @@ class AuthnAccountsAPI(Helper):
         end = time.time()
         # logger.info(response.request.headers)
         assert response.status_code == HTTPStatus.UNAUTHORIZED, response.json()
+        model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "AccountNotFound", "Unexpected Response Code for Invalid Token"
         self.attach_time(start, end)
         self.attach_response(response.json())
-        model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model
 
@@ -70,8 +70,8 @@ class AuthnAccountsAPI(Helper):
             headers=self.headers.without_authorization_field_header(app_id)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.CONFLICT, response.json()
         # logger.info(response.request.headers)
+        assert response.status_code == HTTPStatus.CONFLICT, response.json()
         self.attach_response(response.json())
         self.attach_time(start, end)
         model = ErrorModel(list_model=response.json())

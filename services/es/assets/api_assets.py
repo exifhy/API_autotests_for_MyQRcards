@@ -1,6 +1,8 @@
+import random
 import allure
 import requests
 from loguru import logger
+from requests import JSONDecodeError
 from utils.helper import Helper
 from services.es.assets.payloads import Payloads
 from services.es.assets.endpoints import Endpoints
@@ -45,17 +47,18 @@ class EsAssetsAPI(Helper):
     @allure.step("Object creation.")
     def post_add_object(self):
         name = fake_ru.company()
+        notes_text = 'Объект создан авто-тестом'
         start = time.time()
         response = requests.post(
             url=self.endpoints.create_object_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.object_creation_payload(
-                parent_id=17,
+                parent_id=None,
                 name=name,
                 company_id=1,
                 asset_type_id=2,
                 asset_class_is=1,
-                schedule_rule_id=2
+                notes=notes_text
             )
         )
         end = time.time()
@@ -65,7 +68,7 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         model = IdNameResultModel(**response.json())
-        logger.info(f'Successfully add object.')
+        logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
 
     @allure.step("Marks the object as remote.")
@@ -105,7 +108,58 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(response.headers)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}'
         self.attach_time(start, end)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         logger.info(f'Successful publication of the object.')
+
+    @allure.step("Method of publishing an object without bind location.")
+    def put_method_of_publishing_an_object_by_id_without_location(self, asset_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.method_of_publishing_an_object_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        assert response.status_code == HTTPStatus.CONFLICT, f'{response.json()}, status code: {response.status_code}'
+        self.attach_time(start, end)
+        try:
+            self.attach_response(response.json())
+            model = ErrorModel(list_model=response.json())
+            assert model.list_model[0].code == 'InvalidOperation'
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+
+    @allure.step("Update the object by ID.")
+    def put_update_object_by_id(self, asset_id: int):
+        new_name = f'Изменение имени авто-тестом-{random.randint(1, 999)}'
+        new_notes = f'Изменение описания авто-тестом-{random.randint(1, 999)}'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.update_object_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.object_creation_payload(
+                parent_id=None,
+                name=new_name,
+                company_id=1,
+                asset_type_id=2,
+                asset_class_is=1,
+                notes=new_notes
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        assert response.status_code == HTTPStatus.ACCEPTED, response.json()
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+
+        logger.info(f'Successful update the object, new name object: {new_name}')

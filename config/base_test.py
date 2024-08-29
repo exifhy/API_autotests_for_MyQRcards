@@ -3,6 +3,8 @@ from services.authz.accounts.api_accounts import AuthzAccountsAPI
 from services.es.assets.api_assets import EsAssetsAPI
 from services.es.companies.api_companies import EsCompaniesAPI
 from services.es.locations.api_locations import EsLocationsAPI
+from services.es.assetlocations.api_assetlocations import EsAssetLocationsAPI
+from services.es.districts.api_districts import EsDistrictsAPI
 
 
 class BaseTest:
@@ -13,3 +15,5 @@ class BaseTest:
         self.api_es_assets = EsAssetsAPI()
         self.api_es_companies = EsCompaniesAPI()
         self.api_es_locations = EsLocationsAPI()
+        self.api_es_assetlocations = EsAssetLocationsAPI()
+        self.api_es_districts = EsDistrictsAPI()

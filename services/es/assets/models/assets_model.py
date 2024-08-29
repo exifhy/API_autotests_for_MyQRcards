@@ -137,7 +137,7 @@ class AssetDetailedInfoResult(BaseModel):
     isMobileAsset: bool
     assetType: AssetTypeResult
     assetClass: IdNameResult
-    scheduleRule: IdNameResult
+    scheduleRule: Optional[IdNameResult] = None
     parent: Optional[ParentAssetResult] = None
     notes: Optional[str] = None
     publishedBy: Optional[int] = None
@@ -147,7 +147,7 @@ class AssetDetailedInfoResult(BaseModel):
     hostAsset: Optional[IdNameDeletedResult] = None
     host: Optional[AssetResultWithLocation] = None
     location: Optional[LocationResult] = None
-    isHostLocation: bool
+    isHostLocation: Optional[bool] = None
     published: Optional[datetime] = None
     company: IdNameResult
     warrantyTill: Optional[datetime] = None

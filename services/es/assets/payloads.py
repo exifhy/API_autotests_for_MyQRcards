@@ -3,13 +3,13 @@ class Payloads:
 
     @staticmethod
     def object_creation_payload(
-            parent_id: int,
+            parent_id: int or None,
             name: str,
             company_id: int,
             asset_type_id: int,
             asset_class_is: int,
-            schedule_rule_id: int,
-    ):
+            notes: str
+    ) -> dict:
         payload = {
             "parentID": parent_id,
             "name": name,
@@ -18,9 +18,9 @@ class Payloads:
             "assetClassID": asset_class_is,
             "checkListID": None,
             "responsiblePerson": None,
-            "scheduleRuleID": schedule_rule_id,
+            "scheduleRuleID": None,
             "warrantyTill": None,
-            "notes": "Объект",
+            "notes": notes,
             "isMobileAsset": False,
             "isInheritParentDistricts": True,
             "isSkipForEscalation": False,

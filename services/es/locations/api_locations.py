@@ -31,7 +31,10 @@ class EsLocationsAPI(Helper):
             url=self.endpoints.add_locations_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.add_location_payload(
-                address=f"Невский проспект, {randint(1, 300)}, Санкт-Петербург, Россия"
+                address=f"Невский проспект, {randint(1, 300)}, Санкт-Петербург, Россия",
+                coordinate="59.932741:30.349137",
+                timezoneUtcOffsetMinutes=180,
+                countryTwoSymbolCode="RU"
             )
         )
         end = time.time()

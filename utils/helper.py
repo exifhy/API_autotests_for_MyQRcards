@@ -16,7 +16,9 @@ class Helper:
     def attach_request(cls, request):
         if isinstance(request, bytes):
             request = request.decode('utf-8')
-        allure.attach(body=request, name='API Request body', attachment_type=AttachmentType.JSON)
+        request_obj = json.loads(request)
+        readable_request = json.dumps(request_obj, ensure_ascii=False, indent=2)
+        allure.attach(body=readable_request, name='API Request body', attachment_type=AttachmentType.JSON)
 
     @classmethod
     def attach_time(cls, start_time, end_time):
