@@ -6,6 +6,7 @@ from config.base_test import BaseTest
 @allure.feature("Actions with the companies")
 class TestEsCompanies(BaseTest):
 
+    @pytest.mark.skip(reason='Company is created in test - test_delete_company_by_id.')
     @allure.title('Test add our company.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23050")
     def test_add_our_company(self):

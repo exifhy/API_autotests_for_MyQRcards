@@ -1,6 +1,4 @@
 import os
-import time
-
 import allure
 import pytest
 import json
@@ -18,7 +16,7 @@ load_dotenv()
 
 # Определение HOST на основе переменной окружения ENVIRON
 ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, используем "prod" по умолчанию
-HOST = "https://dev-api.hubex.ru/fsm" if ENVIRON == 'qa' else "https://api.hubex.ru/fsm"
+HOST = os.getenv('URL_DEV_HUBEX') if ENVIRON == 'qa' else os.getenv('URL_PROD_HUBEX')
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_USER_TOKEN = os.getenv('API_USER_TOKEN')
 

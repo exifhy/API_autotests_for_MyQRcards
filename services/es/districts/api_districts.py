@@ -48,7 +48,7 @@ class EsDistrictsAPI(Helper):
         self.attach_response(response.json())
         self.attach_time(start, end)
         self.attach_request(response.request.body)
-        model = SuccessAddDistrictsModel(**response.json())
+        model = SuccessAddDistrictsModel(districts=response.json())
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model
 

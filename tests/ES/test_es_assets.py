@@ -15,9 +15,9 @@ class TestEsAssets(BaseTest):
     def test_get_directory_of_objects_available_to_user(self, param):
         self.api_es_assets.get_directory_of_objects_available_to_user(param)
 
+    @pytest.mark.skip(reason='Object is created in test - test_delete_object_by_id.')
     @allure.title('Test object creation.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23026")
-    @pytest.mark.skip(reason='Object is created in test - test_delete_object_by_id.')
     def test_post_add_object(self):
         self.api_es_assets.post_add_object()
 

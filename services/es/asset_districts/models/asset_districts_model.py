@@ -2,10 +2,6 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict
 
 
-class SuccessAddDistrictsModel(BaseModel):
-    districts: List[int]
-
-
 class CodeMessageModel(BaseModel):
     traceIdentifier: str
     code: str

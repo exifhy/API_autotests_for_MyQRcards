@@ -6,6 +6,7 @@ from config.base_test import BaseTest
 @allure.feature("Actions with the locations")
 class TestLocations(BaseTest):
 
+    @pytest.mark.skip(reason='Location is created in test - test_remove_location_by_id.')
     @allure.title('Test add location.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23060")
     def test_post_add_location(self):
