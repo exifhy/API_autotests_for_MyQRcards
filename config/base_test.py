@@ -6,6 +6,8 @@ from services.es.locations.api_locations import EsLocationsAPI
 from services.es.assetlocations.api_assetlocations import EsAssetLocationsAPI
 from services.es.districts.api_districts import EsDistrictsAPI
 from services.es.asset_districts.api_asset_districts import EsAssetDistrictsAPI
+from services.es.asset_work_types.api_asset_work_types import EsAssetWorkTypesAPI
+from services.work.work_types.api_work_types import WorkWorkTypesAPI
 
 
 class BaseTest:
@@ -19,3 +21,5 @@ class BaseTest:
         self.api_es_assetlocations = EsAssetLocationsAPI()
         self.api_es_districts = EsDistrictsAPI()
         self.api_es_asset_districts = EsAssetDistrictsAPI()
+        self.api_es_asset_work_types = EsAssetWorkTypesAPI()
+        self.api_work_work_types = WorkWorkTypesAPI()

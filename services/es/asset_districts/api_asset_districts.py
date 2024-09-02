@@ -31,7 +31,7 @@ class EsAssetDistrictsAPI(Helper):
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.asset_districts_payload(asset_id, district_id)
+            json=self.payloads.add_districts_payload(asset_id, district_id)
         )
         end = time.time()
         logger.info(response.headers)
@@ -49,7 +49,7 @@ class EsAssetDistrictsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_districts_from_object_endpoint,
-            json=self.payloads.asset_districts_payload(asset_id, district_id),
+            json=self.payloads.delete_districts_payload(asset_id, district_id),
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()

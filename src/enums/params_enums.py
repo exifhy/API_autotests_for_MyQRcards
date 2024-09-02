@@ -12,3 +12,7 @@ class Params(Enum):
                 "includeTaskActuality": "false"
             }, id="isDeleted=false, includePath=false, includeTaskActuality=false")
     ]
+
+    params_work_types = [
+        pytest.param({"relatedToAnyTaskType": "true"}, id="relatedToAnyTaskType=true")
+    ]

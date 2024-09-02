@@ -36,10 +36,16 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, f'Status code {response.status_code}'
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            f'Code:{response.status_code}.Message:{response.json()}'
         self.attach_response(response.json())
         self.attach_time(start, end)
+
         model = AssetExtResults(results=response.json())
         logger.info(f'Successfully receiving the assets list.')
         return model

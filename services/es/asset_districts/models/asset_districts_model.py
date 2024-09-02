@@ -11,3 +11,4 @@ class CodeMessageModel(BaseModel):
 
 class ErrorModel(BaseModel):
     list_model: List[CodeMessageModel]
+
