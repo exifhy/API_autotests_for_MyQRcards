@@ -89,3 +89,77 @@ class WorkWorkTypesAPI(Helper):
         model = SuccessResultWorkTypeModel(**response.json())
         logger.info(f'Successfully receiving the data work type by id.')
         return model
+
+    @allure.step("Publishes completed works.")
+    def put_publish_complete_work_types(self, work_type_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_work_types_publish_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.publish_work_types_payload(
+                work_type_id=work_type_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        logger.info(f'Successfully publish work type, id type: {work_type_id}')
+
+    @allure.step("Publishes completed works by id.")
+    def put_publish_complete_work_types_by_id(self, work_type_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_work_types_publish_by_id_endpoint(worktype_id=work_type_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        logger.info(f'Successfully publish work type by id, type id: {work_type_id}')
+
+    @allure.step("Cancels publication of completed work by id.")
+    def put_unpublish_complete_work_types_by_id(self, work_type_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_work_types_unpublish_by_id_endpoint(worktype_id=work_type_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        logger.info(f'Successfully unpublish work type by id, type id: {work_type_id}')
+
+    @allure.step("Cancels publication of completed work.")
+    def put_unpublish_complete_work_types(self, work_type_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_work_types_unpublish_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.unpublish_work_types_payload(work_type_id=work_type_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        logger.info(f'Successfully unpublish work type, type id: {work_type_id}')

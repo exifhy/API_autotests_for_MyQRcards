@@ -68,6 +68,6 @@ class EsAssetWorkTypesAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         logger.info(f'Successfully remove from asset: {asset_id} work type by ID: {work_type_id}.')
