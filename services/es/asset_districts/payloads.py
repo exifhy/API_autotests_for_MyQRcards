@@ -18,6 +18,18 @@ class Payloads:
         return payload
 
     @staticmethod
+    def add_default_districts_payload(asset_id: int) -> dict:
+        payload = {
+            "assetID": asset_id,
+            "data": [
+                {
+                    "id": 1
+                }
+            ]
+        }
+        return payload
+
+    @staticmethod
     def delete_districts_payload(asset_id: int, district_id: int) -> dict:
         payload = {
             "assetID": asset_id,

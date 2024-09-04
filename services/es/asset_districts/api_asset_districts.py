@@ -44,6 +44,25 @@ class EsAssetDistrictsAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         logger.info(f'Successfully adds a districts to an object.')
 
+    @allure.step("Adds a default districts to an object.")
+    def add_default_district_to_object(self, asset_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_district_to_object_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.add_default_districts_payload(asset_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        logger.info(f'Successfully adds a default districts to an object.')
+
     @allure.step("Delete districts from the object.")
     def delete_district_from_object(self, asset_id: int, district_id: int):
         start = time.time()

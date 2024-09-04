@@ -68,9 +68,12 @@ class EsAssetsAPI(Helper):
             )
         )
         end = time.time()
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         logger.info(response.headers)
-        self.attach_response(response.json())
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         model = IdNameResultModel(**response.json())
@@ -160,12 +163,11 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.ACCEPTED, response.json()
-        self.attach_time(start, end)
-        self.attach_request(response.request.body)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-
+        assert response.status_code == HTTPStatus.ACCEPTED, response.json()
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
         logger.info(f'Successful update the object, new name object: {new_name}')

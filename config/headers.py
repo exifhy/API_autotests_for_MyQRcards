@@ -18,12 +18,24 @@ class Headers:
         basic = {
             "Accept": "application/json",
             "Authorization": f"Bearer {token}",
-            "Accept-Language": "ru - RU",
+            "Accept-Language": "ru-RU",
             "X-Application-ID": f"{APP_ID}",
             "Range": "Items=1-25",
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
             "Content-Type": "application/json"
+        }
+        return basic
+
+    @staticmethod
+    def export_header(token: str) -> dict:
+        basic = {
+            "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "Authorization": f"Bearer {token}",
+            "Accept-Language": "ru-RU",
+            "X-Application-ID": f"{APP_ID}",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Connection": "keep-alive"
         }
         return basic
 
