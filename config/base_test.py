@@ -9,6 +9,8 @@ from services.es.asset_districts.api_asset_districts import EsAssetDistrictsAPI
 from services.es.asset_work_types.api_asset_work_types import EsAssetWorkTypesAPI
 from services.work.work_types.api_work_types import WorkWorkTypesAPI
 from services.export.assets.api_assets import ExportAssetsAPI
+from services.export.users.api_users import ExportUsersAPI
+from services.adm.users.api_adm_users import AdmUsersAPI
 
 
 class BaseTest:
@@ -25,3 +27,5 @@ class BaseTest:
         self.api_es_asset_work_types = EsAssetWorkTypesAPI()
         self.api_work_work_types = WorkWorkTypesAPI()
         self.api_export_assets = ExportAssetsAPI()
+        self.api_export_users = ExportUsersAPI()
+        self.api_adm_users = AdmUsersAPI()

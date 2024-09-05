@@ -44,8 +44,11 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
-        self.attach_response(response.json())
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         model = SuccessAddDistrictsModel(districts=response.json())
