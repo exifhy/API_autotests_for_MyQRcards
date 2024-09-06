@@ -12,3 +12,7 @@ class Endpoints:
     @staticmethod
     def delete_company_by_id_endpoint(company_id: int) -> str:
         return f'{HOST}/ES/Companies/{company_id}'
+
+    @staticmethod
+    def get_company_by_id_endpoint(company_id: int) -> str:
+        return f'{HOST}/ES/Companies/{company_id}'

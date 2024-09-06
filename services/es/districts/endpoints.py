@@ -12,7 +12,7 @@ class Endpoints:
     update_districts_endpoint = f'{HOST}/ES/Districts'
 
     @staticmethod
-    def get_list_districts_available_to_user_by_id_endpoint(district_id: int) -> str:
+    def get_info_district_available_to_user_by_id_endpoint(district_id: int) -> str:
         return f'{HOST}/ES/Districts/{district_id}'
 
     @staticmethod

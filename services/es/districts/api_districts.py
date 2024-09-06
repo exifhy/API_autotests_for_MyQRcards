@@ -71,3 +71,22 @@ class EsDistrictsAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         logger.info(f'Successfully marks the district with id: {district_id} as remote.')
+
+    @allure.step('Get detail district info by ID.')
+    def get_detail_district_info_by_id(self, district_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_info_district_available_to_user_by_id_endpoint(district_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        model = SuccessGetInfoDistrictModel(**response.json())
+        logger.info(f'Successfully received detail district info.')
+        return model

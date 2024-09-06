@@ -11,6 +11,9 @@ from services.work.work_types.api_work_types import WorkWorkTypesAPI
 from services.export.assets.api_assets import ExportAssetsAPI
 from services.export.users.api_users import ExportUsersAPI
 from services.adm.users.api_adm_users import AdmUsersAPI
+from services.pa.employment.api_employment import PaEmploymentAPI
+from services.adm.user_districts.api_user_districts import AdmUserDistrictsAPI
+from services.adm.user_roles.api_user_roles import AdmUserRolesAPI
 
 
 class BaseTest:
@@ -29,3 +32,6 @@ class BaseTest:
         self.api_export_assets = ExportAssetsAPI()
         self.api_export_users = ExportUsersAPI()
         self.api_adm_users = AdmUsersAPI()
+        self.api_pa_employment = PaEmploymentAPI()
+        self.api_adm_user_districts = AdmUserDistrictsAPI()
+        self.api_adm_user_roles = AdmUserRolesAPI()

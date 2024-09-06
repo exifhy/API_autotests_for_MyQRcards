@@ -63,7 +63,7 @@ class AdmUsersAPI(Helper):
         return model
 
     @allure.step("Add user employee.")
-    def post_add_user_employee(self):
+    def post_add_user_staff(self):
         params = {
             "skipAccountVerification": True
         }
@@ -75,7 +75,7 @@ class AdmUsersAPI(Helper):
         response = requests.post(
             url=self.endpoints.add_users_endpoint, params=params,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.add_user_employee_payload(
+            json=self.payloads.add_user_staff_payload(
                 name=user_name,
                 surname=user_surname,
                 email=user_email,
@@ -93,5 +93,41 @@ class AdmUsersAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         model = SuccessUserModel(**response.json())
-        logger.info(f'Successfully add a user employee name {user_name}')
+        logger.info(f'Successfully add a user staff name {user_name}')
+        return model
+
+    @allure.step("Marks the user as remote.")
+    def delete_user_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        logger.info(f'Successfully marks the user with id: {user_id} as remote.')
+
+    @allure.step('Get detail user info.')
+    def get_user_info_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_user_info_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        model = SuccessGetDetailedInfoUserModel(**response.json())
+        logger.info(f'Successfully received detail user info.')
         return model

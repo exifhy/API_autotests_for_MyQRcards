@@ -29,7 +29,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def add_user_employee_payload(
+    def add_user_staff_payload(
             name: str,
             surname: str,
             email: str,

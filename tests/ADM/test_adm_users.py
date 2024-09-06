@@ -13,8 +13,8 @@ class TestAdmUsers(BaseTest):
     def test_post_add_user_customer(self):
         self.api_adm_users.post_add_user_customer()
 
-    @allure.title('Test add new user employee.')
+    @allure.title('Test add new user staff.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23169")
     @pytest.mark.smoke
-    def test_post_add_user_employee(self):
-        self.api_adm_users.post_add_user_employee()
+    def test_post_add_user_staff(self):
+        self.api_adm_users.post_add_user_staff()
