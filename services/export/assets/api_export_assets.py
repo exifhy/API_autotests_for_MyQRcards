@@ -7,7 +7,7 @@ from utils.helper import Helper
 from services.export.assets.payloads import Payloads
 from services.export.assets.endpoints import Endpoints
 from config.headers import Headers
-from services.export.assets.models.assets_model import *
+from services.export.assets.models.export_assets_model import *
 import time
 from http import HTTPStatus
 from dotenv import load_dotenv
