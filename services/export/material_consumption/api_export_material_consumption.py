@@ -59,19 +59,19 @@ class ExportMaterialConsumptionAPI(Helper):
         sheet = workbook.active
         sheet_name = workbook.sheetnames
 
-        # assert 'Расходы материалов' in sheet_name
-        # assert sheet['B3'].value == 'Название*', f'Expected Название*, but got {sheet['B3'].value}'
-        # assert sheet['C3'].value == 'Полное наименование', f'Expected Полное наименование, but got {sheet['C3'].value}'
-        # assert sheet['D3'].value == 'Код', f'Expected Код, but got {sheet['D3'].value}'
-        # assert sheet['E3'].value == 'ERP ID', f'Expected ERP ID, but got {sheet['E3'].value}'
-        # assert sheet['F3'].value == 'Адрес сайта', f'Expected Адрес сайта, but got {sheet['F3'].value}'
-        # assert sheet['G3'].value == 'Телефон', f'Expected Телефон, but got {sheet['G3'].value}'
-        # assert sheet['H3'].value == 'Электронная почта', f'Expected Электронная почта, but got {sheet['H3'].value}'
-        # assert sheet['J3'].value == 'Тип контрагента*', f'Expected Тип контрагента*, but got {sheet['J3'].value}'
-        # assert sheet['K3'].value == 'ИНН', f'Expected ИНН, but got {sheet['K3'].value}'
-        # assert sheet['M3'].value == 'Заказчик', f'Expected Заказчик, but got {sheet['M3'].value}'
-        # assert sheet['O3'].value == 'Подрядчик', f'Expected Подрядчик, but got {sheet['O3'].value}'
-        # assert sheet['Q3'].value == 'Наша компания', f'Expected Наша компания, but got {sheet['Q3'].value}'
+        assert 'Расходы материалов' in sheet_name
+        assert sheet['B3'].value == 'Номенклатура материала', f'Expected Номенклатура материала, but got {sheet['B3'].value}'
+        assert sheet['C3'].value == 'Код номенклатуры материала', f'Expected Код номенклатуры материала, but got {sheet['C3'].value}'
+        assert sheet['D3'].value == 'Стоимость (руб)', f'Expected Стоимость (руб), but got {sheet['D3'].value}'
+        assert sheet['E3'].value == 'Расходы', f'Expected Расходы, but got {sheet['E3'].value}'
+        assert sheet['F3'].value == 'Итоговая стоимость', f'Expected Итоговая стоимость, but got {sheet['F3'].value}'
+        assert sheet['H3'].value == 'Название склада', f'Expected Название склада, but got {sheet['H3'].value}'
+        assert sheet['I3'].value == 'Код склада', f'Expected Код склада, but got {sheet['I3'].value}'
+        assert sheet['K3'].value == 'Единица измерения', f'Expected Единица измерения, but got {sheet['K3'].value}'
+        assert sheet['M3'].value == 'Номер заявки', f'Expected Номер заявки, but got {sheet['M3'].value}'
+        assert sheet['O3'].value == 'Оборудование', f'Expected Оборудование, but got {sheet['O3'].value}'
+        assert sheet['P3'].value == 'Дата расхода', f'Expected Дата расхода, but got {sheet['P3'].value}'
+        assert sheet['Q3'].value == 'ФИО сотрудника, чей расход', f'Expected ФИО сотрудника, чей расход, but got {sheet['Q3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Расходы+материалов.xlsx"

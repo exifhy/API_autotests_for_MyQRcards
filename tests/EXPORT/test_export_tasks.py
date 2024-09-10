@@ -10,5 +10,21 @@ class TestExportTasks(BaseTest):
     @allure.title('Test returns a list of data available for advanced exports.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23209")
     @pytest.mark.smoke
-    def test_get_extended_tasks(self):
-        self.api_export_tasks.get_extended_tasks()
+    def test_get_list_data_tasks(self):
+        self.api_export_tasks.get_list_data_tasks()
+
+    @allure.title('Test exports the list of requests taking into account the specified filters by task id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23232")
+    @pytest.mark.smoke
+    def test_get_normal_export_task_by_task_id(self):
+        model_task = self.api_work_tasks.post_add_task()
+        self.api_export_tasks.get_normal_export_task_by_task_id(model_task.id, model_task.number)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+
+    @allure.title('Test exports the extended list of requests taking into account the specified filters by task id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23233")
+    @pytest.mark.smoke
+    def test_get_extended_export_task_by_task_id(self):
+        model_task = self.api_work_tasks.post_add_task()
+        self.api_export_tasks.get_extended_export_task_by_task_id(model_task.id, model_task.number)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
