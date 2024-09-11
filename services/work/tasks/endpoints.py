@@ -7,7 +7,16 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 class Endpoints:
 
     post_add_task_endpoint = f'{HOST}/WORK/tasks'
+    get_list_task_endpoint = f'{HOST}/WORK/tasks'
 
     @staticmethod
     def delete_task_by_id_endpoint(task_id: int) -> str:
+        return f'{HOST}/WORK/tasks/{task_id}'
+
+    @staticmethod
+    def get_detailed_info_task_by_id_endpoint(task_id: int) -> str:
+        return f'{HOST}/WORK/tasks/{task_id}'
+
+    @staticmethod
+    def put_update_task_by_id_endpoint(task_id: int) -> str:
         return f'{HOST}/WORK/tasks/{task_id}'
