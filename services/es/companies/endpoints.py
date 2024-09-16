@@ -8,6 +8,8 @@ class Endpoints:
 
     add_company_endpoint = f'{HOST}/ES/Companies/'
     delete_companies_endpoint = f'{HOST}/ES/Companies/'
+    get_list_companies_endpoint = f'{HOST}/ES/Companies/'
+    put_update_company_endpoint = f'{HOST}/ES/Companies/'
 
     @staticmethod
     def delete_company_by_id_endpoint(company_id: int) -> str:

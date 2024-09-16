@@ -16,5 +16,5 @@ class Endpoints:
         return f'{HOST}/ES/Districts/{district_id}'
 
     @staticmethod
-    def marks_districts_as_remote_by_id_endpoint(district_id: int) -> str:
+    def marks_districts_as_remove_by_id_endpoint(district_id: int) -> str:
         return f'{HOST}/ES/Districts/{district_id}'

@@ -16,7 +16,7 @@ class Payloads:
 		return payload
 
 	@staticmethod
-	def marks_work_types_as_remote_payload(work_type_id: int) -> list:
+	def marks_work_types_as_remove_payload(work_type_id: int) -> list:
 		return [work_type_id]
 
 	@staticmethod

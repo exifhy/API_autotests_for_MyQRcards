@@ -1,3 +1,4 @@
+import random
 from urllib import parse
 import allure
 import requests
@@ -96,7 +97,7 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully add a user staff name {user_name}')
         return model
 
-    @allure.step("Marks the user as remote.")
+    @allure.step("Marks the user as remove.")
     def delete_user_by_id(self, user_id: int):
         start = time.time()
         response = requests.delete(
@@ -111,7 +112,7 @@ class AdmUsersAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
-        logger.info(f'Successfully marks the user with id: {user_id} as remote.')
+        logger.info(f'Successfully marks the user with id: {user_id} as remove.')
 
     @allure.step('Get detail user info.')
     def get_user_info_by_id(self, user_id: int):
@@ -131,3 +132,67 @@ class AdmUsersAPI(Helper):
         model = SuccessGetDetailedInfoUserModel(**response.json())
         logger.info(f'Successfully received detail user info.')
         return model
+
+    @allure.step('Get list users info.')
+    def get_list_users_info(self):
+        # params = {
+        #     "searchText": str,
+        #     "includeTaskActuality": bool,
+        #     "includeDistricts": bool,
+        #     "needForAllowedTasks": bool
+        # }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_users_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        model = SuccessGetUsersListModel(**response.json())
+        logger.info(f'Successfully received list users info.')
+        return model
+
+    @allure.step("Put update user.")
+    def put_update_user_by_id(self, user_id: int, user_email: str, user_phone: str):
+        sex = random.randint(1, 3)
+        new_user_name = self.user.name
+        new_user_surname = self.user.surname
+        new_user_email = self.user.email
+        new_user_phone = self.user.phone
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_info_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_user_payload(
+                name=new_user_name,
+                surname=new_user_surname,
+                email=new_user_email,
+                phone=new_user_phone,
+                sex=sex,
+                old_phone=user_phone,
+                old_mail=user_email
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        logger.warning(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        model = self.get_user_info_by_id(user_id)
+        assert model.firstName == new_user_name, f'Expected {model.firstName}, but got {new_user_name}.'
+        assert model.lastName == new_user_surname, f'Expected {model.lastName}, but got {new_user_surname}.'
+        assert model.email == new_user_email, f'Expected {model.email}, but got {new_user_email}.'
+        assert model.mobilePhone == new_user_phone, f'Expected {model.mobilePhone}, but got {new_user_phone}.'
+        assert model.sex.id == sex, f'Expected {model.sex.id}, but got {sex}.'
+        logger.info(f'Successfully update a user by userID: {user_id}')

@@ -11,7 +11,7 @@ class Endpoints:
     put_work_types_unpublish_endpoint = f'{HOST}/WORK/WorkTypes/unpublish'
 
     @staticmethod
-    def marks_work_types_as_remote_endpoint(worktype_id: int) -> str:
+    def marks_work_types_as_remove_endpoint(worktype_id: int) -> str:
         return f'{HOST}/WORK/WorkTypes/{worktype_id}'
 
     @staticmethod

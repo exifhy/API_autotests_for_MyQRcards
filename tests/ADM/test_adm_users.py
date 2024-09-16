@@ -18,3 +18,30 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.smoke
     def test_post_add_user_staff(self):
         self.api_adm_users.post_add_user_staff()
+
+    @allure.title('Test get list users info.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23272")
+    @pytest.mark.smoke
+    def test_get_list_users_info(self):
+        self.api_adm_users.get_list_users_info()
+
+    @allure.title('Test get detail user info by id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/232185")
+    @pytest.mark.smoke
+    def test_get_user_info_by_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.get_user_info_by_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test update user by id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23286")
+    @pytest.mark.smoke
+    def test_put_update_user_by_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_info_user = self.api_adm_users.get_user_info_by_id(model_user.userID)
+        self.api_adm_users.put_update_user_by_id(
+            user_id=model_user.userID,
+            user_email=model_info_user.email,
+            user_phone=model_info_user.mobilePhone
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)

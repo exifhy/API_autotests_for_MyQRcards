@@ -7,6 +7,7 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 class Endpoints:
 
     add_users_endpoint = f'{HOST}/ADM/Users'
+    get_list_users_endpoint = f'{HOST}/ADM/Users'
 
     @staticmethod
     def delete_user_by_id_endpoint(user_id: int) -> str:
@@ -14,4 +15,8 @@ class Endpoints:
 
     @staticmethod
     def get_user_info_by_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM/Users/{user_id}'
+
+    @staticmethod
+    def put_update_user_info_by_id_endpoint(user_id: int) -> str:
         return f'{HOST}/ADM/Users/{user_id}'

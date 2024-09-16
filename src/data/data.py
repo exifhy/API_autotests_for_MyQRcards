@@ -7,3 +7,10 @@ class User:
     surname: str = None
     email: str = None
     phone: str = None
+
+
+@dataclass
+class Company:
+    name: str = None
+    email: str = None
+    phone: str = None

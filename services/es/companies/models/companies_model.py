@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import List, Optional, Dict
 
 
@@ -81,3 +81,28 @@ class SuccessCompaniesGetResult(BaseModel):
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
+
+
+class CompaniesListResult(BaseModel):
+    sortOrder: Optional[int] = None
+    erpID: Optional[str] = None
+    code: Optional[str] = None
+    registrationTypeID: Optional[int] = None
+    registrationTypeShortNameRu: Optional[str] = None
+    registrationTypeNameRu: Optional[str] = None
+    tin: Optional[str] = None
+    iec: Optional[str] = None
+    isEmployer: Optional[bool] = None
+    isContractorHolder: Optional[bool] = None
+    isOurCompany: Optional[bool] = None
+    isVATTaxpayer: Optional[bool] = None
+    customerOrgUnit: Optional[IdNameDeletedResult] = None
+    staffOrgUnit: Optional[IdNameDeletedResult] = None
+    counters: Optional[CountersResult] = None
+    deleted: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class SuccessGetCompaniesListResultModel(RootModel):
+    root: Optional[Dict[str, CompaniesListResult]] = None

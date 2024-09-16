@@ -27,3 +27,22 @@ class TestEsCompanies(BaseTest):
     def test_get_company_by_id(self):
         created_company_id = self.api_es_companies.post_add_our_company()
         self.api_es_companies.get_detailed_information_on_company_by_id(company_id=created_company_id)
+
+    @allure.title('Test returns a list of companies available to the user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23287")
+    @pytest.mark.smoke
+    def test_get_list_companies(self):
+        self.api_es_companies.get_list_companies()
+
+    @allure.title('Test update company.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23288")
+    @pytest.mark.smoke
+    def test_put_update_company(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        model_company = self.api_es_companies.get_detailed_information_on_company_by_id(company_id)
+        self.api_es_companies.put_update_company_by_id(
+            company_id=company_id,
+            customer_id=model_company.customerOrgUnit.id,
+            staff_id=model_company.staffOrgUnit.id
+        )
+        self.api_es_companies.delete_company_by_id(company_id)

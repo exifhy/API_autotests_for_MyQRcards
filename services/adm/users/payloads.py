@@ -48,3 +48,29 @@ class Payloads:
             "rateCurrencyID": 1
         }
         return payload
+
+    @staticmethod
+    def put_update_user_payload(
+            name: str,
+            surname: str,
+            old_mail: str,
+            old_phone: str,
+            sex: str,
+            email: str,
+            phone: str
+    ) -> dict:
+        payload = {
+            "firstName": name,
+            "lastName": surname,
+            "sexID": sex,
+            "oldEmail": old_mail,
+            "oldMobilePhone": old_phone,
+            "email": email,
+            "mobilePhone": phone,
+            "geotrackingModeID": "3",
+            "isTechnician": False,
+            "mobilityID": 1,
+            "rate": None,
+            "rateCurrencyID": 1
+        }
+        return payload

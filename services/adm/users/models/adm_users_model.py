@@ -1,5 +1,5 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from datetime import datetime
 
 
@@ -114,3 +114,78 @@ class SuccessGetDetailedInfoUserModel(BaseModel):
     isCustomer: Optional[bool] = None
     avatarUrl: Optional[str] = None
 
+
+class OrgUnitResult(BaseModel):
+    parentID: Optional[int] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class CompanyResult(BaseModel):
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class EmploymentResult(BaseModel):
+    orgUnit: Optional[OrgUnitResult] = None
+    company: Optional[CompanyResult] = None
+    position: Optional[str] = None
+    scheduleRuleID: Optional[int] = None
+
+
+class DistrictResult(BaseModel):
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class UserTaskActualityResult(BaseModel):
+    requested: Optional[int] = None
+    assigned: Optional[int] = None
+
+
+class UserRelevance(BaseModel):
+    workType: Optional[int] = None
+    onShift: Optional[int] = None
+    responsibility: Optional[int] = None
+    district: Optional[int] = None
+    skill: Optional[int] = None
+
+
+class CurrencyResult(BaseModel):
+    id: Optional[int] = None
+    shortName: Optional[str] = None
+    asciiCode: Optional[str] = None
+
+
+class UserResult(BaseModel):
+    banTill: Optional[str] = None
+    coordinate: Optional[str] = None
+    locationActuality: Optional[str] = None
+    employments: Optional[List[EmploymentResult]] = None
+    districts: Optional[List[DistrictResult]] = None
+    taskActualities: Optional[Dict[str, UserTaskActualityResult]] = None
+    totalRating: Optional[float] = None
+    relevance: Optional[UserRelevance] = None
+    userID: Optional[int] = None
+    deleted: Optional[str] = None
+    sortOrder: Optional[int] = None
+    lastSeen: Optional[str] = None
+    rate: Optional[float] = None
+    rateCurrency: Optional[CurrencyResult] = None
+    firstName: Optional[str] = None
+    middleName: Optional[str] = None
+    lastName: Optional[str] = None
+    email: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    workPhone: Optional[str] = None
+    otherPhone: Optional[str] = None
+    isEmailVerified: Optional[bool] = None
+    isMobilePhoneVerified: Optional[bool] = None
+    isTechnician: Optional[bool] = None
+    isTeam: Optional[bool] = None
+    isCustomer: Optional[bool] = None
+    avatarUrl: Optional[str] = None
+
+
+class SuccessGetUsersListModel(RootModel):
+    root: Optional[Dict[str, UserResult]] = None

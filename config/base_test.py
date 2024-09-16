@@ -19,6 +19,8 @@ from services.export.materials.api_export_materials import ExportMaterialsAPI
 from services.export.material_consumption.api_export_material_consumption import ExportMaterialConsumptionAPI
 from services.export.tasks.api_export_tasks import ExportTasksAPI
 from services.work.tasks.api_work_tasks import WorkTasksAPI
+from services.pmp.schedules.api_pmp_schedules import PmpSchedulesAPI
+from services.work.work_task_templates.api_work_task_templates import WorkTaskTemplatesAPI
 
 
 class BaseTest:
@@ -45,3 +47,5 @@ class BaseTest:
         self.api_export_material_consumption = ExportMaterialConsumptionAPI()
         self.api_export_tasks = ExportTasksAPI()
         self.api_work_tasks = WorkTasksAPI()
+        self.api_pmp_schedules = PmpSchedulesAPI()
+        self.api_work_task_templates = WorkTaskTemplatesAPI()

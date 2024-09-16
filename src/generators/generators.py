@@ -1,5 +1,5 @@
 from faker import Faker
-from src.data.data import User
+from src.data.data import User, Company
 from random import randint
 
 
@@ -15,3 +15,13 @@ def generated_user():
         email=fake_en.email(domain='autotest.org'),
         phone=f'+7{randint(1000000000, 7999999999)}'
     )
+
+
+def generator_company():
+
+    yield Company(
+        name=fake_ru.company(),
+        email=fake_en.email(domain='autotest.org'),
+        phone=f'+7{randint(1000000000, 7999999999)}'
+    )
+

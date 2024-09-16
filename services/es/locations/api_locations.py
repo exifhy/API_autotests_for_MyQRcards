@@ -1,3 +1,5 @@
+from requests import JSONDecodeError
+
 import allure
 import requests
 from loguru import logger
@@ -38,11 +40,14 @@ class EsLocationsAPI(Helper):
             )
         )
         end = time.time()
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
-        self.attach_response(response.json())
         self.attach_request(response.request.body)
         self.attach_time(start, end)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         model = SuccessAddLocationModel(location=response.json())
         logger.info(f'Successfully add location. id: {model.location[0]}')
         return model.location[0]
@@ -56,6 +61,6 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(f'Successfully remove location by ID.')

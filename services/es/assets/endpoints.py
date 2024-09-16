@@ -10,7 +10,7 @@ class Endpoints:
     create_object_endpoint = f'{HOST}/ES/assets'
 
     @staticmethod
-    def marks_object_as_remote_endpoint(asset_id: int) -> str:
+    def marks_object_as_remove_endpoint(asset_id: int) -> str:
         return f'{HOST}/ES/assets/{asset_id}'
 
     @staticmethod
