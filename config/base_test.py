@@ -21,6 +21,8 @@ from services.export.tasks.api_export_tasks import ExportTasksAPI
 from services.work.tasks.api_work_tasks import WorkTasksAPI
 from services.pmp.schedules.api_pmp_schedules import PmpSchedulesAPI
 from services.work.work_task_templates.api_work_task_templates import WorkTaskTemplatesAPI
+from services.work.work_task_assignment_history.api_work_task_assignment_history import WorkTaskAssignmentHistoryAPI
+from services.work.work_task_staging_history.api_work_task_staging_history import WorkTaskStagingHistoryAPI
 
 
 class BaseTest:
@@ -49,3 +51,5 @@ class BaseTest:
         self.api_work_tasks = WorkTasksAPI()
         self.api_pmp_schedules = PmpSchedulesAPI()
         self.api_work_task_templates = WorkTaskTemplatesAPI()
+        self.api_work_task_assignment_history = WorkTaskAssignmentHistoryAPI()
+        self.api_work_task_staging_history = WorkTaskStagingHistoryAPI()
