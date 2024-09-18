@@ -30,7 +30,6 @@ def get_api_user_access_token():
             headers=Headers.basic_content_type,
             json={
                 "serviceToken": API_USER_TOKEN,
-                "tenantID": 66
             }
         )
         if response_authorisation.status_code != 200:

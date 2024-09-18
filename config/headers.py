@@ -10,7 +10,8 @@ APP_ID = os.getenv('APP_ID')
 class Headers:
 
     basic_content_type = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-APPLICATION-ID": "3"
     }
 
     @staticmethod

@@ -28,7 +28,12 @@ class WorkTasksAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add task.")
-    def post_add_task(self):
+    def post_add_task(self, asset_id: int):
+        additional_data = {
+            "AssetID": asset_id,
+            "WorkTypeID": "3",
+            "companyID": 1
+        }
         date = datetime.now(timezone.utc).isoformat(timespec='milliseconds')
         current_time_iso = date.replace('+00:00', 'Z')
         task_number = str(random.randint(999, 99999))
@@ -40,7 +45,8 @@ class WorkTasksAPI(Helper):
             json=self.payloads.add_task_payload(
                 number=task_number,
                 note=note_task,
-                date=current_time_iso
+                date=current_time_iso,
+                **additional_data
             )
         )
         end = time.time()

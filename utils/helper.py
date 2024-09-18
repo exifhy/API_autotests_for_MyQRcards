@@ -24,9 +24,7 @@ class Helper:
     def attach_url(cls, request):
         if isinstance(request, bytes):
             request = request.decode('utf-8')
-        request_obj = json.loads(request)
-        readable_request = json.dumps(request_obj, ensure_ascii=False, indent=2)
-        allure.attach(body=readable_request, name='Service API url', attachment_type=AttachmentType.JSON)
+        allure.attach(body=request, name='Service API url', attachment_type=AttachmentType.TEXT)
 
     @classmethod
     def attach_time(cls, start_time, end_time):

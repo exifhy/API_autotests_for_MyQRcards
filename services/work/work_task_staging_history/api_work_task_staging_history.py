@@ -40,12 +40,12 @@ class WorkTaskStagingHistoryAPI(Helper):
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+            logger.error("Received response is not a valid JSON")
         self.attach_request(response.request.body)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
-        logger.info(f'Successfully add task staging history.')
+        logger.warning(f'Successfully add task staging history, stage id: {stage_id}.')
 
     @allure.step("Mass movement of task by stages.")
     def post_multiple_add_task_staging_history(self, stage_id: str, task_id: int):
@@ -63,11 +63,11 @@ class WorkTaskStagingHistoryAPI(Helper):
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+            logger.error("Received response is not a valid JSON")
         self.attach_request(response.request.body)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         model = SuccessTaskStagingHistoryModel(history=response.json())
-        logger.info(f'Successfully mass movement of task by stages.')
+        logger.warning(f'Successfully mass movement of task by stages.')
         return model

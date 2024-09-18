@@ -85,16 +85,16 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.warning(response.request.url)
+        # logger.warning(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+            logger.error("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         model = SuccessUserModel(**response.json())
-        logger.info(f'Successfully add a user staff name {user_name}')
+        logger.warning(f'Successfully add a user staff name {user_name}')
         return model
 
     @allure.step("Marks the user as remove.")

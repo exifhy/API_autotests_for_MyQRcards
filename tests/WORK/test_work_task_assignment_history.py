@@ -17,5 +17,5 @@ class TestWorkTaskAssignmentHistory(BaseTest):
             user_id=model_user.userID,
             task_id=model_task.id
         )
-        self.api_adm_users.delete_user_by_id(model_user.userID)
         self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
