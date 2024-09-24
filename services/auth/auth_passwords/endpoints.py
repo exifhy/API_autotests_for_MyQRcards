@@ -6,4 +6,4 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 
 class Endpoints:
 
-    account_authentication_by_basic_authorisation_endpoint = f'{HOST}/AUTHN/accounts/login'
+    post_change_passwords_endpoint = f'{HOST}/AUTH/Passwords/change'

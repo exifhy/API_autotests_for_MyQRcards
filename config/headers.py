@@ -11,7 +11,7 @@ class Headers:
 
     basic_content_type = {
         "Content-Type": "application/json",
-        "X-APPLICATION-ID": "3"
+        # "X-APPLICATION-ID": "3"
     }
 
     @staticmethod
@@ -70,6 +70,17 @@ class Headers:
             'Accept': 'application/json',
             'Authorization': f'Bearer {bearer_token}',
             'Accept-Language': 'ru-RU',
+        }
+        return header
+
+    @staticmethod
+    def auth_header(bearer_token: str, app_id: str, **kwargs) -> dict:
+        header = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {bearer_token}',
+            'X-APPLICATION-ID': app_id,
+            **kwargs
         }
         return header
 

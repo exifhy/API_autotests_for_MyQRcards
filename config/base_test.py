@@ -23,6 +23,10 @@ from services.pmp.schedules.api_pmp_schedules import PmpSchedulesAPI
 from services.work.work_task_templates.api_work_task_templates import WorkTaskTemplatesAPI
 from services.work.work_task_assignment_history.api_work_task_assignment_history import WorkTaskAssignmentHistoryAPI
 from services.work.work_task_staging_history.api_work_task_staging_history import WorkTaskStagingHistoryAPI
+from services.auth.auth_accounts.api_auth_accounts import AuthAccountsAPI
+from services.common.common_applications.api_common_applications import CommonApplicationsAPI
+from services.auth.auth_passwords.api_auth_passwords import AuthPasswordsAPI
+from services.auth.auth_verification_codes.api_auth_verification_codes import AuthVerificationCodesAPI
 
 
 class BaseTest:
@@ -53,3 +57,7 @@ class BaseTest:
         self.api_work_task_templates = WorkTaskTemplatesAPI()
         self.api_work_task_assignment_history = WorkTaskAssignmentHistoryAPI()
         self.api_work_task_staging_history = WorkTaskStagingHistoryAPI()
+        self.api_auth_accounts = AuthAccountsAPI()
+        self.api_common_applications = CommonApplicationsAPI()
+        self.api_auth_passwords = AuthPasswordsAPI()
+        self.api_auth_verifications_codes = AuthVerificationCodesAPI()

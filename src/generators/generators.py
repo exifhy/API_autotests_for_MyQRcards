@@ -13,7 +13,8 @@ def generated_user():
         name=fake_ru.first_name_male(),
         surname=fake_ru.last_name_male(),
         email=fake_en.email(domain='autotest.org'),
-        phone=f'+7{randint(1000000000, 7999999999)}'
+        phone=f'+7{randint(1000000000, 7999999999)}',
+        username=fake_en.user_name()
     )
 
 

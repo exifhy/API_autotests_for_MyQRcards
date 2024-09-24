@@ -65,3 +65,28 @@ class Params(Enum):
     params_task_staging_third_status = [
         pytest.param("33", "28", "29", "30", id="Contractor assigned -> In progress -> Done -> Closed")
     ]
+
+    params_auth_accounts = [
+        pytest.param("5", "10", id="offset=5, fetch=10"),
+        pytest.param("0", "50", id="offset=0, fetch=50"),
+        pytest.param("20", "20", id="offset=20, fetch=20")
+    ]
+
+    params_auth_accounts_negative = [
+        pytest.param("offset", "-5", id="offset=-5"),
+        pytest.param("fetch", "abc", id="fetch=abc"),
+        pytest.param("fetch", "1000000000", id="fetch=1000000000")
+    ]
+
+    params_auth_accounts_negative_range = [
+        pytest.param("Range", "items=10-0", id="Range=items=10-0"),
+        pytest.param("Range", "items=0-abc", id="Range=items=0-abc")
+    ]
+
+    params_auth_change_passwords = [
+        pytest.param({}, id=""),
+    ]
+
+    params_auth_verification_codes = [
+        pytest.param({}, id=""),
+    ]

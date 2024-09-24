@@ -7,6 +7,7 @@ class User:
     surname: str = None
     email: str = None
     phone: str = None
+    username: str = None
 
 
 @dataclass
