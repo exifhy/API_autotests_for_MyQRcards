@@ -6,8 +6,6 @@ import shutil
 import subprocess
 from allure_commons.types import AttachmentType
 from loguru import logger
-from requests import JSONDecodeError
-
 from config.headers import Headers
 from dotenv import load_dotenv, set_key, unset_key
 import requests
@@ -25,21 +23,21 @@ API_USER_TOKEN = os.getenv('API_USER_TOKEN')
 
 def get_api_user_access_token():
     try:
-        response_authorisation = requests.post(
+        response_authorization = requests.post(
             url=f"{HOST}/AUTHZ/AccessTokens/",
             headers=Headers.basic_content_type,
             json={
                 "serviceToken": API_USER_TOKEN,
             }
         )
-        if response_authorisation.status_code != 200:
-            logger.error(response_authorisation.status_code)
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
         # try:
-        #     logger.warning(response_authorisation.json())
+        #     logger.warning(response_authorization.json())
         # except JSONDecodeError:
         #     logger.warning("Received response is not a valid JSON")
-        response_authorisation_data = response_authorisation.json()
-        bearer_token = response_authorisation_data['access_token']
+        response_authorization_data = response_authorization.json()
+        bearer_token = response_authorization_data['access_token']
         return bearer_token
     except (requests.exceptions.RequestException, TypeError) as er:
         logger.error(er)

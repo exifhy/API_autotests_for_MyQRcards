@@ -275,6 +275,7 @@ class AuthAccountsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        logger.info(response.json())
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
@@ -282,10 +283,10 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         model = SuccessAccountAddResultEntityModel(**response.json())
         logger.warning(f'Successfully creates an account with email (if not already created).')
-        return model
+        return model, value
 
     @allure.step("Returns account data by credentials.")
     def get_accounts_by_credentials(self):

@@ -84,9 +84,28 @@ class Params(Enum):
     ]
 
     params_auth_change_passwords = [
-        pytest.param({}, id=""),
+        pytest.param({
+            "Password": "02022014",
+            "CodeHash": "6dae72cdce875817968eacf0093ce9548f60243c3e46f1d632352d1a22a8893e"
+        }, id="Change password with codeHash"),
+        pytest.param({
+            "password": "string",
+            "currentPassword": "string"
+        }, id="Change password with currentPassword"),
+        pytest.param({
+            "code": "code",
+            "MobilePhone": "+7number",
+            "Password" : "password"
+        }, id="Change password with code, mobilePhone")
     ]
 
     params_auth_verification_codes = [
         pytest.param({}, id=""),
+    ]
+
+    params_authn_set_passwords = [
+        pytest.param({
+            "Password": "02022014",
+            "CodeHash": "6dae72cdce875817968eacf0093ce9548f60243c3e46f1d632352d1a22a8893e"
+        }, id="Change password with codeHash")
     ]

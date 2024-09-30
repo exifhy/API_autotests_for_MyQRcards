@@ -25,7 +25,7 @@ class Payloads:
         return payloads
 
     @staticmethod
-    def authorisation_api_user_token_payloads(api_user_token: str) -> dict:
+    def authorization_api_user_token_payloads(api_user_token: str) -> dict:
         payloads = {
             "serviceToken": api_user_token
         }

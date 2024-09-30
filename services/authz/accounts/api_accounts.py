@@ -23,14 +23,14 @@ class AuthzAccountsAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Authorisation of a tenant account.")
-    def account_authorisation_of_tenant_account(self, bearer_token):
+    @allure.step("Authorization of a tenant account.")
+    def account_authorization_of_tenant_account(self, bearer_token):
         app_id = os.getenv('APP_ID')
         tenant_id = os.getenv('TENANT_ID')
         member_id = os.getenv('TENANT_MEMBER_ID')
         start = time.time()
         response = requests.post(
-            url=self.endpoints.authorisation_endpoint,
+            url=self.endpoints.authorization_endpoint,
             headers=self.headers.authorization_header(bearer_token, app_id),
             json=self.payloads.authorization_payloads(tenant_id, member_id)
         )
@@ -44,13 +44,13 @@ class AuthzAccountsAPI(Helper):
         logger.info(f'Successfully receiving the Bearer token.')
         return model
 
-    @allure.step("Authorisation of a tenant account without tenantMemberID field in the payload.")
-    def account_authorisation_of_tenant_account_without_member_id_in_body(self, bearer_token):
+    @allure.step("Authorization of a tenant account without tenantMemberID field in the payload.")
+    def account_authorization_of_tenant_account_without_member_id_in_body(self, bearer_token):
         app_id = os.getenv('APP_ID')
         tenant_id = os.getenv('TENANT_ID')
         start = time.time()
         response = requests.post(
-            url=self.endpoints.authorisation_endpoint,
+            url=self.endpoints.authorization_endpoint,
             headers=self.headers.authorization_header(bearer_token, app_id),
             json=self.payloads.authorization_without_tenant_member_id_payloads(tenant_id)
         )
@@ -66,13 +66,13 @@ class AuthzAccountsAPI(Helper):
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model
 
-    @allure.step("Authorisation of a tenant account without tenantID field in the payload.")
-    def account_authorisation_of_tenant_account_without_tenant_id_in_body(self, bearer_token):
+    @allure.step("Authorization of a tenant account without tenantID field in the payload.")
+    def account_authorization_of_tenant_account_without_tenant_id_in_body(self, bearer_token):
         app_id = os.getenv('APP_ID')
         member_id = os.getenv('TENANT_MEMBER_ID')
         start = time.time()
         response = requests.post(
-            url=self.endpoints.authorisation_endpoint,
+            url=self.endpoints.authorization_endpoint,
             headers=self.headers.authorization_header(bearer_token, app_id),
             json=self.payloads.authorization_without_tenant_id_payloads(member_id)
         )

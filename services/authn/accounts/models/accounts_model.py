@@ -63,12 +63,23 @@ class SuccessUserAccountAuthenticationModel(BaseModel):
 
 
 class CodeMessageModel(BaseModel):
-    traceIdentifier: str
-    code: str
-    message: str
+    traceIdentifier: Optional[str] = None
+    code: Optional[str] = None
+    message: Optional[str] = None
     arguments: Optional[Dict[str, str]] = None
 
 
 class ErrorModel(BaseModel):
     list_model: List[CodeMessageModel]
 
+
+class SuccessAccountOtpGenerateResultModel(BaseModel):
+    phone: str
+
+
+class ErrorsMvcObjectResult(BaseModel):
+    value: Optional[dict] = None
+    formatters: Optional[List[str]] = None
+    contentTypes: Optional[List[str]] = None
+    declaredType: Optional[str] = None
+    statusCode: Optional[int] = None

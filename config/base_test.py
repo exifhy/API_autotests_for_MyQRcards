@@ -27,6 +27,8 @@ from services.auth.auth_accounts.api_auth_accounts import AuthAccountsAPI
 from services.common.common_applications.api_common_applications import CommonApplicationsAPI
 from services.auth.auth_passwords.api_auth_passwords import AuthPasswordsAPI
 from services.auth.auth_verification_codes.api_auth_verification_codes import AuthVerificationCodesAPI
+from services.auth.auth_messages.api_auth_messages import AuthMessagesAPI
+from services.authn.authn_passwords.api_authn_passwords import AuthnPasswordsAPI
 
 
 class BaseTest:
@@ -61,3 +63,5 @@ class BaseTest:
         self.api_common_applications = CommonApplicationsAPI()
         self.api_auth_passwords = AuthPasswordsAPI()
         self.api_auth_verifications_codes = AuthVerificationCodesAPI()
+        self.api_auth_messages = AuthMessagesAPI()
+        self.api_authn_passwords = AuthnPasswordsAPI()

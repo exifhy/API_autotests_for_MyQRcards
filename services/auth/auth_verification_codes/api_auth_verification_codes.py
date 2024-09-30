@@ -27,11 +27,11 @@ class AuthVerificationCodesAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Checks the verification code.")
-    def post_checks_verification_code(self, params):
+    def post_checks_verification_code(self, params, token: str):
         start = time.time()
         response = requests.post(
             url=self.endpoints.check_verification_codes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=token, app_id=APP_ID),
             json=self.payloads.check_verification_codes_payload(**params)
         )
         end = time.time()

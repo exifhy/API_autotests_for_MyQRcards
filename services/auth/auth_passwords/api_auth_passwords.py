@@ -27,11 +27,11 @@ class AuthPasswordsAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Changes the account password.")
-    def post_change_password(self, params):
+    def post_change_password(self, params, token: str):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_change_passwords_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=token, app_id=APP_ID),
             json=self.payloads.change_password_payload(**params)
         )
         end = time.time()
