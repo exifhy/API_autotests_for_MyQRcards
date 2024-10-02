@@ -29,6 +29,11 @@ from services.auth.auth_passwords.api_auth_passwords import AuthPasswordsAPI
 from services.auth.auth_verification_codes.api_auth_verification_codes import AuthVerificationCodesAPI
 from services.auth.auth_messages.api_auth_messages import AuthMessagesAPI
 from services.authn.authn_passwords.api_authn_passwords import AuthnPasswordsAPI
+from services.authz.access_tokens.api_authz_access_tokens import AuthzAccessTokensAPI
+from services.authz.refresh_tokens.api_authz_refresh_tokens import AuthzRefreshTokensAPI
+from services.authz.service_tokens.api_authz_service_tokens import AuthzServiceTokensAPI
+from services.adm.adm_tenant_members.api_adm_tenant_members import AdmTenantMembersAPI
+from services.authz.authz_tokens.api_authz_tokens import AuthzTokensAPI
 
 
 class BaseTest:
@@ -65,3 +70,8 @@ class BaseTest:
         self.api_auth_verifications_codes = AuthVerificationCodesAPI()
         self.api_auth_messages = AuthMessagesAPI()
         self.api_authn_passwords = AuthnPasswordsAPI()
+        self.api_authz_access_tokens = AuthzAccessTokensAPI()
+        self.api_authz_refresh_tokens = AuthzRefreshTokensAPI()
+        self.api_authz_service_tokens = AuthzServiceTokensAPI()
+        self.api_adm_tenant_members = AdmTenantMembersAPI()
+        self.api_authz_tokens = AuthzTokensAPI()

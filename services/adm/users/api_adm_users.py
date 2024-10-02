@@ -1,5 +1,4 @@
 import random
-from urllib import parse
 import allure
 import requests
 from loguru import logger
@@ -18,6 +17,7 @@ import os
 
 load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
+APP_ID = os.getenv('APP_ID')
 
 
 class AdmUsersAPI(Helper):
@@ -196,3 +196,23 @@ class AdmUsersAPI(Helper):
         assert model.mobilePhone == new_user_phone, f'Expected {model.mobilePhone}, but got {new_user_phone}.'
         assert model.sex.id == sex, f'Expected {model.sex.id}, but got {sex}.'
         logger.info(f'Successfully update a user by userID: {user_id}')
+
+    @allure.step("Creates an API user in the tenant.")
+    def post_add_api_user_in_tenant(self, access_token: str):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_api_user_in_tenant_endpoint,
+            headers=self.headers.authorization_header(access_token, APP_ID)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, response.status_code
+        model = SuccessCreatedApiUserModel(**response.json())
+        logger.info(f'Successfully add an API user in the tenant.')
+        return model

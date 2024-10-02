@@ -189,3 +189,8 @@ class UserResult(BaseModel):
 
 class SuccessGetUsersListModel(RootModel):
     root: Optional[Dict[str, UserResult]] = None
+
+
+class SuccessCreatedApiUserModel(BaseModel):
+    userID: int
+    tenantMemberID: int
