@@ -10,6 +10,7 @@ class TestAuthMessages(BaseTest):
     @allure.title('Test sends a mail verification e-mail to the specified e-mail address.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23427")
     @pytest.mark.regress
+    @pytest.mark.test_case_id(23427)
     def test_post_message_verify_email(self):
         model = self.api_authn_accounts.account_authentication_by_basic_authorization()
         self.api_auth_messages.post_message_verify_email(
@@ -21,6 +22,7 @@ class TestAuthMessages(BaseTest):
     @allure.title('Test sends SMS of mail phone number verification to the specified phone number.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23428")
     @pytest.mark.regress
+    @pytest.mark.test_case_id(23428)
     def test_post_message_verify_phone(self):
         """Для теста у пользователя должен быть номер телефона."""
         model = self.api_authn_accounts.account_authentication_by_basic_authorization()
@@ -34,6 +36,7 @@ class TestAuthMessages(BaseTest):
     @allure.title('Test sends a password change request to the specified e-mail address.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23429")
     @pytest.mark.regress
+    @pytest.mark.test_case_id(23429)
     def test_post_message_request_password_change(self):
         model = self.api_authn_accounts.account_authentication_by_basic_authorization()
         self.api_auth_messages.post_message_request_password_change(

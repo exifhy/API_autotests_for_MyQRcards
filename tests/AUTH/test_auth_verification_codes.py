@@ -12,6 +12,7 @@ class TestAuthVerificationCodes(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23413")
     @pytest.mark.skip(reason="Need a generated hash code from an email")
     @pytest.mark.regress
+    @pytest.mark.test_case_id(23413)
     @pytest.mark.parametrize('params_codes', Params.params_auth_verification_codes.value)
     def test_post_checks_verification_code(self, params_codes):
         model = self.api_authn_accounts.account_authentication_by_basic_authorization()

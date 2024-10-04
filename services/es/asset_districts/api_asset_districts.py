@@ -35,14 +35,35 @@ class EsAssetDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         logger.info(f'Successfully adds a districts to an object.')
+
+    @allure.step("Adds a districts to an object without default district.")
+    def add_only_new_district_to_object(self, asset_id: int, district_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_district_to_object_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.add_new_districts_payload(asset_id, district_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code, response.json()}'
+        logger.info(f'Successfully adds a new districts to an object.')
 
     @allure.step("Adds a default districts to an object.")
     def add_default_district_to_object(self, asset_id: int):
@@ -58,9 +79,10 @@ class EsAssetDistrictsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         logger.info(f'Successfully adds a default districts to an object.')
 
     @allure.step("Delete districts from the object.")

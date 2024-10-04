@@ -10,6 +10,7 @@ class TestAdmUserDistricts(BaseTest):
     @allure.title('Test add districts to user.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23177")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23177)
     def test_post_add_districts_to_user_customer(self):
         user_model = self.api_adm_users.post_add_user_customer()
         district_model = self.api_es_districts.post_add_district()

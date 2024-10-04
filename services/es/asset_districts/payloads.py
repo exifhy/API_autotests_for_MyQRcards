@@ -38,3 +38,15 @@ class Payloads:
             ]
         }
         return payload
+
+    @staticmethod
+    def add_new_districts_payload(asset_id: int, district_id: int) -> dict:
+        payload = {
+            "assetID": asset_id,
+            "data": [
+                {
+                    "id": district_id
+                }
+            ]
+        }
+        return payload

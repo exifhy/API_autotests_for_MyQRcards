@@ -51,7 +51,7 @@ class EsAssetsAPI(Helper):
         return model
 
     @allure.step("Object creation.")
-    def post_add_object(self):
+    def post_add_object(self, company_id):
         name = fake_ru.company()
         notes_text = 'Объект создан авто-тестом'
         start = time.time()
@@ -61,7 +61,7 @@ class EsAssetsAPI(Helper):
             json=self.payloads.object_creation_payload(
                 parent_id=None,
                 name=name,
-                company_id=1,
+                company_id=company_id,
                 asset_type_id=2,
                 asset_class_is=1,
                 notes=notes_text
@@ -76,6 +76,7 @@ class EsAssetsAPI(Helper):
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
@@ -88,9 +89,10 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(response.headers)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(f'Successfully marks the object with id{asset_id} as remove.')
 
     @allure.step("Detailed information on the object by id.")
@@ -101,10 +103,14 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
         logger.info(response.headers)
-        self.attach_response(response.json())
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
         model = AssetDetailedInfoResult(**response.json())
         logger.info(f'Successfully receiving the assets detailed info.')
         return model
@@ -138,6 +144,7 @@ class EsAssetsAPI(Helper):
         logger.info(response.headers)
         self.attach_url(response.request.url)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
             model = ErrorModel(list_model=response.json())

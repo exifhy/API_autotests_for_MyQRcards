@@ -10,6 +10,7 @@ class TestPaEmployment(BaseTest):
     @allure.title('Test Add employment to user by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23178")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23178)
     def test_post_add_user_employment_by_id(self):
         user_model = self.api_adm_users.post_add_user_customer()
         created_company_id = self.api_es_companies.post_add_our_company()

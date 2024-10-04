@@ -1,4 +1,3 @@
-import random
 import allure
 import requests
 from loguru import logger
@@ -51,6 +50,7 @@ class EsDistrictsAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         model = SuccessAddDistrictsModel(districts=response.json())
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model

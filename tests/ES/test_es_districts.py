@@ -10,6 +10,7 @@ import time
 class TestEsDistricts(BaseTest):
 
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23087)
     @pytest.mark.skip(reason='District is created in test - test_delete_district_by_id.')
     @allure.title('Test add district.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23087")
@@ -19,6 +20,7 @@ class TestEsDistricts(BaseTest):
     @allure.title('Test marks the district as remote.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23088")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23088)
     def test_delete_district_by_id(self):
         district_id = self.api_es_districts.post_add_district()
         self.api_es_districts.delete_district_by_id(district_id=district_id.districts[0])

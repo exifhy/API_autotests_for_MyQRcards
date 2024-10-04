@@ -28,11 +28,11 @@ class WorkTasksAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add task.")
-    def post_add_task(self, asset_id: int):
+    def post_add_task(self, asset_id: int, company_id: int):
         additional_data = {
             "AssetID": asset_id,
             "WorkTypeID": "3",
-            "companyID": 1
+            "companyID": company_id
         }
         date = datetime.now(timezone.utc).isoformat(timespec='milliseconds')
         current_time_iso = date.replace('+00:00', 'Z')
@@ -57,6 +57,7 @@ class WorkTasksAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_request(response.request.body)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         model = SuccessAddTasksModel(**response.json())
         logger.info(f'Successfully add a task, number task: {task_number}')

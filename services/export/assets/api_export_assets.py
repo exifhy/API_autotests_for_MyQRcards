@@ -103,7 +103,13 @@ class ExportAssetsAPI(Helper):
         logger.info(f'Successfully receiving the normal export of list object.')
 
     @allure.step("Exports a list of objects with a set of filters by assetID(filter set in test case 23132).")
-    def get_export_list_with_set_filter_by_asset_id(self, name_asset: str, asset_id: int):
+    def get_export_list_with_set_filter_by_asset_id(
+            self,
+            name_asset: str,
+            asset_id: int,
+            company_name: str,
+            district_name: str
+    ):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_all_filters_by_asset_id_endpoint(asset_id),
@@ -143,13 +149,13 @@ class ExportAssetsAPI(Helper):
         assert sheet['A3'].value == 'Название'
         assert sheet['A4'].value == name_asset
         assert sheet['B3'].value == 'Компания'
-        assert sheet['B4'].value == 'Первая компания'
+        assert sheet['B4'].value == company_name
         assert sheet['C3'].value == 'Тип объекта'
         assert sheet['C4'].value == 'Объект'
         assert sheet['D3'].value == 'Класс объекта'
         assert sheet['D4'].value == 'По умолчанию'
         assert sheet['E3'].value == 'Участок'
-        assert sheet['E4'].value == 'Основной'
+        assert sheet['E4'].value == district_name
         assert sheet['F3'].value == 'Вид работ'
         assert sheet['F4'].value == 'Ремонт'
 

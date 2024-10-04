@@ -11,12 +11,14 @@ class TestEsCompanies(BaseTest):
     @allure.title('Test add our company.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23050")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23050)
     def test_add_our_company(self):
         self.api_es_companies.post_add_our_company()
 
     @allure.title('Test mark company remote by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23058")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23058)
     def test_delete_company_by_id(self):
         created_company_id = self.api_es_companies.post_add_our_company()
         self.api_es_companies.delete_company_by_id(company_id=created_company_id)
@@ -24,6 +26,7 @@ class TestEsCompanies(BaseTest):
     @allure.title('Test returns the company available to the user by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23182")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23182)
     def test_get_company_by_id(self):
         created_company_id = self.api_es_companies.post_add_our_company()
         self.api_es_companies.get_detailed_information_on_company_by_id(company_id=created_company_id)
@@ -31,12 +34,14 @@ class TestEsCompanies(BaseTest):
     @allure.title('Test returns a list of companies available to the user.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23287")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23287)
     def test_get_list_companies(self):
         self.api_es_companies.get_list_companies()
 
     @allure.title('Test update company.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23288")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23288)
     def test_put_update_company(self):
         company_id = self.api_es_companies.post_add_our_company()
         model_company = self.api_es_companies.get_detailed_information_on_company_by_id(company_id)

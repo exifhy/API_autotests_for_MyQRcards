@@ -10,6 +10,7 @@ class TestExportUsers(BaseTest):
     @allure.title('Test exports the list of users taking into account the specified filters by userID(Customers).')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23172")
     @pytest.mark.smoke
+    @pytest.mark.test_case_id(23172)
     def test_get_export_list_customers_by_user_id(self):
         customer_model = self.api_adm_users.post_add_user_customer()
         user_info = self.api_adm_users.get_user_info_by_id(customer_model.userID)

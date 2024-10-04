@@ -48,7 +48,8 @@ class AuthMessagesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, (f'Status code {response.status_code}, '
+                                                             f'error: {response.json()}')
         model = AccountsVerificationResult(**response.json())
         logger.warning(f'Successfully sends a mail verification email to the specified email address.')
         return model
@@ -74,10 +75,15 @@ class AuthMessagesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        model = AccountsVerificationResult(**response.json())
-        logger.warning(f'Successfully sends SMS of mail phone number verification to the specified phone number.')
-        return model
+        if response.status_code == HTTPStatus.CONFLICT:
+            model_error = ErrorModel(list_model=response.json())
+            logger.error(f"Status code: {response.status_code}, {model_error.list_model[0].message}")
+        else:
+            assert response.status_code == HTTPStatus.ACCEPTED, (f'Status code {response.status_code}, '
+                                                                 f'error: {response.json()}')
+            model = AccountsVerificationResult(**response.json())
+            logger.warning(f'Successfully sends SMS of mail phone number verification to the specified phone number.')
+            return model
 
     @allure.step("Sends a password change request to the specified e-mail address, "
                  "for authenticated user - to the account e-mail address.")
@@ -97,7 +103,12 @@ class AuthMessagesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        model = AccountsVerificationResult(**response.json())
-        logger.warning(f'Successfully sends a password change request to the specified e-mail address.')
-        return model
+        if response.status_code == HTTPStatus.CONFLICT:
+            model_error = ErrorModel(list_model=response.json())
+            logger.error(f"Status code: {response.status_code}, {model_error.list_model[0].message}")
+        else:
+            assert response.status_code == HTTPStatus.ACCEPTED, (f'Status code {response.status_code}, '
+                                                                 f'error: {response.json()}')
+            model = AccountsVerificationResult(**response.json())
+            logger.warning(f'Successfully sends a password change request to the specified e-mail address.')
+            return model

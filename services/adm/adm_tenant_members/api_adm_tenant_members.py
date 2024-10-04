@@ -43,3 +43,23 @@ class AdmTenantMembersAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, response.status_code
         logger.info(f'Successfully marks the tenant member as deleted.')
+
+    @allure.step("Returns the API user in the current tenant.")
+    def get_returns_api_user_in_current_tenant(self, access_token: str):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_returns_api_user_in_current_tenant_endpoint,
+            headers=self.headers.authorization_header(access_token, APP_ID)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, response.status_code
+        model = SuccessTenantMembersListResultModel(**response.json())
+        logger.info(f'Successfully returns the API user in the current tenant.')
+        return model

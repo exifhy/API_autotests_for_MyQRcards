@@ -30,7 +30,11 @@
 3. Установите зависимости:
    
  - pip install -r requirements.txt
+
+4. Установите Allure:
     
+ - https://allurereport.org/docs/install/
+
 ## Запуск тестов
 
 1. Для запуска всех тестов на DEV стенде используйте команду:

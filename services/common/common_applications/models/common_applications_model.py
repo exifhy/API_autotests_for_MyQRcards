@@ -20,3 +20,7 @@ class CodeMessageModel(BaseModel):
 
 class ErrorModel(BaseModel):
     list_model: List[CodeMessageModel]
+
+
+class SuccessAddAttributeModel(BaseModel):
+    values: List[int]
