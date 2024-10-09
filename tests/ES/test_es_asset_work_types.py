@@ -16,7 +16,7 @@ class TestEsAssetWorkTypes(BaseTest):
     @pytest.mark.parametrize('param', Params.params_work_types.value)
     def test_post_add_work_type_to_asset(self, param):
         company_id = self.api_es_companies.post_add_our_company()
-        location_id = self.api_es_locations.post_add_location(company_id)
+        location_id = self.api_es_locations.post_add_location()
         self.api_es_company_locations.post_add_company_locations(
             company_id=company_id,
             location_id=location_id
@@ -37,7 +37,7 @@ class TestEsAssetWorkTypes(BaseTest):
     @pytest.mark.parametrize('param', Params.params_work_types.value)
     def test_delete_work_type_from_asset_by_id(self, param):
         company_id = self.api_es_companies.post_add_our_company()
-        location_id = self.api_es_locations.post_add_location(company_id)
+        location_id = self.api_es_locations.post_add_location()
         self.api_es_company_locations.post_add_company_locations(
             company_id=company_id,
             location_id=location_id
