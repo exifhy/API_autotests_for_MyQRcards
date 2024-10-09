@@ -21,6 +21,11 @@ class TestExportTasks(BaseTest):
     def test_get_normal_export_task_by_task_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         object_model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assetlocations.add_location_to_object(
             asset_id=object_model.id,
@@ -44,6 +49,11 @@ class TestExportTasks(BaseTest):
     def test_get_extended_export_task_by_task_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         object_model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assetlocations.add_location_to_object(
             asset_id=object_model.id,

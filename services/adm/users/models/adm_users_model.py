@@ -194,3 +194,13 @@ class SuccessGetUsersListModel(RootModel):
 class SuccessCreatedApiUserModel(BaseModel):
     userID: int
     tenantMemberID: int
+
+
+class IdNameResult(BaseModel):
+    name: str
+    id: int
+
+
+class SuccessGetUsersRolesModel(RootModel):
+    root: Optional[Dict[str, List[IdNameResult]]] = None
+

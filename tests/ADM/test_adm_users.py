@@ -50,3 +50,13 @@ class TestAdmUsers(BaseTest):
             user_phone=model_info_user.mobilePhone
         )
         self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test get users roles by id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23554")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23554)
+    def test_get_users_roles_by_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_user_roles.post_add_roles_to_user(model_user.userID, [1])
+        self.api_adm_users.get_users_roles_by_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)

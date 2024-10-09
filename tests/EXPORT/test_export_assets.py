@@ -20,6 +20,11 @@ class TestExportAssets(BaseTest):
     @pytest.mark.test_case_id(23132)
     def test_get_export_list_with_set_filter(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         district_id = self.api_es_districts.post_add_district()
         model_company = self.api_es_companies.get_detailed_information_on_company_by_id(company_id)
         model_district = self.api_es_districts.get_detail_district_info_by_id(district_id.districts[0])

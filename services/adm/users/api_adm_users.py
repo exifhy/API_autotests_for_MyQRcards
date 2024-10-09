@@ -216,3 +216,24 @@ class AdmUsersAPI(Helper):
         model = SuccessCreatedApiUserModel(**response.json())
         logger.info(f'Successfully add an API user in the tenant.')
         return model
+
+    @allure.step('Get users roles by ID.')
+    def get_users_roles_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_users_roles_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        model = SuccessGetUsersRolesModel(**response.json())
+        logger.info(f'Successfully received users roles by ID.{response.json()}, {response.status_code}')
+        return model

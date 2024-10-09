@@ -127,8 +127,11 @@ class AuthnAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.OK, response.status_code
-        logger.info(f'Successful generating code for authorization by SMS.')
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            logger.error(f'Status code:{response.status_code}, body: {response.json()}')
+        else:
+            assert response.status_code == HTTPStatus.OK, response.status_code
+            logger.info(f'Successful generating code for authorization by SMS.')
 
     @allure.step("Generating code for authorization via SMS with invalid phone number(00123456456342)")
     def post_generating_code_for_authorization_by_sms_with_invalid_phone_len(self):

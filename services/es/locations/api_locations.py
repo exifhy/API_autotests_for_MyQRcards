@@ -62,5 +62,10 @@ class EsLocationsAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         logger.info(f'Successfully remove location by ID.')

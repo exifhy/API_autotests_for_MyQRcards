@@ -13,6 +13,11 @@ class TestWorkTaskTemplates(BaseTest):
     @pytest.mark.test_case_id(23296)
     def test_schedule_activation_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model_asset = self.api_es_assets.post_add_object(company_id)
         model_user = self.api_adm_users.post_add_user_staff()
         model_task_templates = self.api_work_task_templates.post_add_task_templates(model_asset.id)
@@ -41,6 +46,11 @@ class TestWorkTaskTemplates(BaseTest):
     @pytest.mark.test_case_id(23297)
     def test_get_list_of_task_templates_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model_asset = self.api_es_assets.post_add_object(company_id)
         model_user = self.api_adm_users.post_add_user_staff()
         model_task_templates = self.api_work_task_templates.post_add_task_templates(model_asset.id)

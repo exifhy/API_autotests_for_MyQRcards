@@ -68,15 +68,15 @@ class EsAssetsAPI(Helper):
             )
         )
         end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
-        logger.info(response.headers)
-        self.attach_time(start, end)
-        self.attach_request(response.request.body)
-        self.attach_url(response.request.url)
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model

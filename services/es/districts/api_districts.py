@@ -81,6 +81,7 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        logger.warning(response.json())
         try:
             self.attach_response(response.json())
         except JSONDecodeError:

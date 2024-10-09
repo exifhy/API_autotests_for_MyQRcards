@@ -23,6 +23,11 @@ class TestEsAssets(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23026")
     def test_post_add_object(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         self.api_es_assets.post_add_object(company_id)
 
     @allure.title('Test marks the object as remote.')
@@ -31,6 +36,11 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23027)
     def test_delete_object_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assets.delete_object_by_id(model.id)
         self.api_es_companies.delete_company_by_id(company_id)
@@ -41,6 +51,11 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23031)
     def test_get_detailed_information_on_object_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assets.get_detailed_information_on_object_by_id(model.id)
         self.api_es_assets.delete_object_by_id(model.id)
@@ -53,6 +68,10 @@ class TestEsAssets(BaseTest):
     def test_put_method_of_publishing_an_object_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
         created_location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
         object_model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assetlocations.add_location_to_object(
             asset_id=object_model.id,
@@ -68,6 +87,11 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23084)
     def test_put_method_of_publishing_an_object_by_id_without_location(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         object_model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assets.put_method_of_publishing_an_object_by_id_without_location(object_model.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
@@ -79,6 +103,11 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23080)
     def test_put_update_object_by_id(self):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         object_model = self.api_es_assets.post_add_object(company_id)
         self.api_es_assets.put_update_object_by_id(object_model.id)
         self.api_es_assets.delete_object_by_id(object_model.id)

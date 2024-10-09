@@ -16,6 +16,11 @@ class TestEsAssetWorkTypes(BaseTest):
     @pytest.mark.parametrize('param', Params.params_work_types.value)
     def test_post_add_work_type_to_asset(self, param):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location(company_id)
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         asset_id = self.api_es_assets.post_add_object(company_id)
         work_type_id = self.api_work_work_types.post_add_work_type(param)
         self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
@@ -32,6 +37,11 @@ class TestEsAssetWorkTypes(BaseTest):
     @pytest.mark.parametrize('param', Params.params_work_types.value)
     def test_delete_work_type_from_asset_by_id(self, param):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location(company_id)
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         asset_id = self.api_es_assets.post_add_object(company_id)
         work_type_id = self.api_work_work_types.post_add_work_type(param)
         self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])

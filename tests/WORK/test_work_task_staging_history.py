@@ -15,12 +15,16 @@ class TestWorkTaskStagingHistory(BaseTest):
     @pytest.mark.parametrize('first_stage, second_stage', Params.params_task_staging_first_status.value)
     def test_post_add_task_staging_history_first(self, first_stage, second_stage):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model_asset = self.api_es_assets.post_add_object(company_id)
         self.api_es_asset_districts.add_default_district_to_object(model_asset.id)
-        created_location_id = self.api_es_locations.post_add_location()
         self.api_es_assetlocations.add_location_to_object(
             asset_id=model_asset.id,
-            location_id=created_location_id
+            location_id=location_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
         model_task = self.api_work_tasks.post_add_task(asset_id=model_asset.id, company_id=company_id)
@@ -49,12 +53,16 @@ class TestWorkTaskStagingHistory(BaseTest):
     @pytest.mark.parametrize('first_stage, second_stage, third_stage', Params.params_task_staging_second_status.value)
     def test_post_add_task_staging_history_second(self, first_stage, second_stage, third_stage):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model_asset = self.api_es_assets.post_add_object(company_id)
         self.api_es_asset_districts.add_default_district_to_object(model_asset.id)
-        created_location_id = self.api_es_locations.post_add_location()
         self.api_es_assetlocations.add_location_to_object(
             asset_id=model_asset.id,
-            location_id=created_location_id
+            location_id=location_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
         model_task = self.api_work_tasks.post_add_task(asset_id=model_asset.id, company_id=company_id)
@@ -90,12 +98,16 @@ class TestWorkTaskStagingHistory(BaseTest):
     )
     def test_post_add_task_staging_history_third(self, first_stage, second_stage, third_stage, fourth_stage):
         company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
         model_asset = self.api_es_assets.post_add_object(company_id)
         self.api_es_asset_districts.add_default_district_to_object(model_asset.id)
-        created_location_id = self.api_es_locations.post_add_location()
         self.api_es_assetlocations.add_location_to_object(
             asset_id=model_asset.id,
-            location_id=created_location_id
+            location_id=location_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
         model_task = self.api_work_tasks.post_add_task(asset_id=model_asset.id, company_id=company_id)

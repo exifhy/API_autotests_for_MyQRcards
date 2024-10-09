@@ -34,6 +34,7 @@ from services.authz.refresh_tokens.api_authz_refresh_tokens import AuthzRefreshT
 from services.authz.service_tokens.api_authz_service_tokens import AuthzServiceTokensAPI
 from services.adm.adm_tenant_members.api_adm_tenant_members import AdmTenantMembersAPI
 from services.authz.authz_tokens.api_authz_tokens import AuthzTokensAPI
+from services.es.company_locations.api_companies_locations import EsCompanyLocationsAPI
 
 
 class BaseTest:
@@ -75,3 +76,4 @@ class BaseTest:
         self.api_authz_service_tokens = AuthzServiceTokensAPI()
         self.api_adm_tenant_members = AdmTenantMembersAPI()
         self.api_authz_tokens = AuthzTokensAPI()
+        self.api_es_company_locations = EsCompanyLocationsAPI()
