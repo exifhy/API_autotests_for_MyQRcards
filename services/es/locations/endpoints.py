@@ -7,11 +7,13 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 class Endpoints:
 
     add_locations_endpoint = f'{HOST}/ES/Locations'
+    delete_locations_endpoint = f'{HOST}/ES/Locations'
+    remove_locations_endpoint = f'{HOST}/ES/Locations/remove'
 
     @staticmethod
     def delete_location_by_id(loc_id: int) -> str:
-        return f'{HOST}/ES/Locations/{loc_id}/remove'
+        return f'{HOST}/ES/Locations/{loc_id}'
 
     @staticmethod
-    def delete_locations() -> str:
-        return f'{HOST}/ES/Locations/remove'
+    def remove_location_by_id(loc_id: int) -> str:
+        return f'{HOST}/ES/Locations/{loc_id}/remove'

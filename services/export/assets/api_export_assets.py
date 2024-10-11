@@ -31,8 +31,8 @@ class ExportAssetsAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Returns a list of data available for advanced exports.")
-    def get_list_of_data_available_for_advanced_exports(self):
+    @allure.step("Returns a list of data available for extended exports.")
+    def get_list_of_data_available_for_extended_exports(self):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_object_extended_includes_endpoint,
@@ -44,10 +44,11 @@ class ExportAssetsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'{response.status_code}, {response.json()}'
         model = SuccessExportDataListModel(result=response.json())
-        logger.info(f'Successfully receiving the list of data available for advanced exports.')
+        logger.info(f'Successfully receiving the list of data available for extended exports.')
         return model
 
     @allure.step("Normal export a list of objects.")
@@ -60,6 +61,7 @@ class ExportAssetsAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
             logger.warning(response.json())
         except JSONDecodeError:
@@ -117,8 +119,8 @@ class ExportAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        # logger.warning(response.request.url)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
             logger.warning(response.json())

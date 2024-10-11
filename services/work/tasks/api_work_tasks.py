@@ -63,7 +63,7 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully add a task, number task: {task_number}')
         return model
 
-    @allure.step("Marks the task as remove.")
+    @allure.step("Delete the task.")
     def delete_task_by_id(self, task_id: int):
         start = time.time()
         response = requests.delete(
@@ -79,7 +79,7 @@ class WorkTasksAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         model = SuccessDeleteTaskModel(list=response.json())
-        logger.info(f'Successfully marks the task with id: {model.list[0].taskID} as remove.')
+        logger.info(f'Successfully delete the task with id: {model.list[0].taskID}.')
         return model
 
     @allure.step("Returns a list of tasks available to the user.")

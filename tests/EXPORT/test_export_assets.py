@@ -7,12 +7,12 @@ from config.base_test import BaseTest
 @allure.feature("Export objects data")
 class TestExportAssets(BaseTest):
 
-    @allure.title('Test returns a list of data available for advanced exports.')
+    @allure.title('Test returns a list of data available for extended exports.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23139")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23139)
-    def test_get_list_of_data_available_for_advanced_exports(self):
-        self.api_export_assets.get_list_of_data_available_for_advanced_exports()
+    def test_get_list_of_data_available_for_extended_exports(self):
+        self.api_export_assets.get_list_of_data_available_for_extended_exports()
 
     @allure.title('Test Exports a list of objects with a set of filters (filter set in test case).')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23132")

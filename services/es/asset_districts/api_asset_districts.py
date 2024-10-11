@@ -101,4 +101,4 @@ class EsAssetDistrictsAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        logger.info(f'Successfully remove the district from object, id object: {district_id}.')
+        logger.info(f'Successfully delete the district from object, id object: {district_id}.')

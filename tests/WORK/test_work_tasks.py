@@ -7,7 +7,7 @@ from config.base_test import BaseTest
 @allure.feature("Actions with the tasks and attributes")
 class TestWorkTasks(BaseTest):
 
-    @pytest.mark.skip(reason='Тест на добавление заявки есть в test_delete_marks_task_as_remove_by_id')
+    @pytest.mark.skip(reason='Тест на добавление заявки есть в test_delete_task_by_id')
     @allure.title('Test add task.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23230")
     @pytest.mark.test_case_id(23230)
@@ -34,11 +34,11 @@ class TestWorkTasks(BaseTest):
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
 
-    @allure.title('Test marks the task as remove.')
+    @allure.title('Test delete task.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23231")
     @pytest.mark.test_case_id(23231)
     @pytest.mark.smoke
-    def test_delete_marks_task_as_remove_by_id(self):
+    def test_delete_task_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()

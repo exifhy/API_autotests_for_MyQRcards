@@ -55,7 +55,7 @@ class EsCompaniesAPI(Helper):
         logger.info(f'Successfully created Our company, name: {name_new_company}.')
         return model.companies[0]
 
-    @allure.step("Marks company as remove.")
+    @allure.step("Delete company by ID.")
     def delete_company_by_id(self, company_id: int):
         start = time.time()
         response = requests.delete(
@@ -67,7 +67,7 @@ class EsCompaniesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        logger.info(f'Successfully mark company remote, id: {company_id}.')
+        logger.info(f'Successfully deleted company, id: {company_id}.')
 
     @allure.step("Returns the company available to the user by id.")
     def get_detailed_information_on_company_by_id(self, company_id: int):

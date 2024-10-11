@@ -15,7 +15,7 @@ class TestEsCompanies(BaseTest):
     def test_add_our_company(self):
         self.api_es_companies.post_add_our_company()
 
-    @allure.title('Test mark company remote by ID.')
+    @allure.title('Test delete company by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23058")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23058)

@@ -56,14 +56,15 @@ class AdmUsersAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessUserModel(**response.json())
         logger.info(f'Successfully add a user customer name: {user_name}')
         return model
 
-    @allure.step("Add user employee.")
+    @allure.step("Add user staff.")
     def post_add_user_staff(self):
         params = {
             "skipAccountVerification": True
@@ -85,19 +86,19 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        # logger.warning(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.error("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessUserModel(**response.json())
         logger.warning(f'Successfully add a user staff name {user_name}')
         return model
 
-    @allure.step("Marks the user as remove.")
+    @allure.step("Delete user by ID.")
     def delete_user_by_id(self, user_id: int):
         start = time.time()
         response = requests.delete(
@@ -106,13 +107,14 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        self.attach_time(start, end)
-        logger.info(f'Successfully marks the user with id: {user_id} as remove.')
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully delete user with id: {user_id}.')
 
     @allure.step('Get detail user info.')
     def get_user_info_by_id(self, user_id: int):
@@ -127,8 +129,9 @@ class AdmUsersAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
         model = SuccessGetDetailedInfoUserModel(**response.json())
         logger.info(f'Successfully received detail user info.')
         return model
@@ -152,8 +155,9 @@ class AdmUsersAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         model = SuccessGetUsersListModel(**response.json())
         logger.info(f'Successfully received list users info.')
         return model
@@ -186,9 +190,10 @@ class AdmUsersAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         model = self.get_user_info_by_id(user_id)
         assert model.firstName == new_user_name, f'Expected {model.firstName}, but got {new_user_name}.'
         assert model.lastName == new_user_surname, f'Expected {model.lastName}, but got {new_user_surname}.'
@@ -212,7 +217,7 @@ class AdmUsersAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, response.status_code
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}'
         model = SuccessCreatedApiUserModel(**response.json())
         logger.info(f'Successfully add an API user in the tenant.')
         return model

@@ -25,11 +25,11 @@ class TestEsAssetDistricts(BaseTest):
         self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
         self.api_es_companies.delete_company_by_id(company_id)
 
-    @allure.title('Test remove a districts from the object.')
+    @allure.title('Test delete a districts from the object.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23097")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23097)
-    def test_remove_district_from_object(self):
+    def test_delete_district_from_object(self):
         district_id = self.api_es_districts.post_add_district()
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()

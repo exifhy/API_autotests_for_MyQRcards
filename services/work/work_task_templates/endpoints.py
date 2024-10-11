@@ -8,7 +8,7 @@ class Endpoints:
 
     add_task_templates_endpoint = f'{HOST}/WORK/TaskTemplates'
     get_list_task_templates_endpoint = f'{HOST}/WORK/TaskTemplates'
-    marks_task_templates_as_removed_endpoint = f'{HOST}/WORK/TaskTemplates'
+    delete_task_templates_endpoint = f'{HOST}/WORK/TaskTemplates'
 
     @staticmethod
     def assignment_task_templates_endpoint(task_templates_id: str) -> str:

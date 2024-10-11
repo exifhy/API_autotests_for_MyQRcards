@@ -30,7 +30,7 @@ class TestEsAssetWorkTypes(BaseTest):
         )
         self.api_es_companies.delete_company_by_id(company_id)
 
-    @allure.title('Test remove from asset work type by ID.')
+    @allure.title('Test delete from asset work type by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23108")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23108)

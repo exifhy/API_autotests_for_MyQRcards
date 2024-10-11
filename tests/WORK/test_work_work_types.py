@@ -18,7 +18,7 @@ class TestWorkWorkTypes(BaseTest):
     def test_post_add_work_type(self, param):
         self.api_work_work_types.post_add_work_type(param)
 
-    @allure.title('Test add work types.')
+    @allure.title('Test delete work types.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23105")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23105)

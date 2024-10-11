@@ -19,7 +19,8 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23169)
     def test_post_add_user_staff(self):
-        self.api_adm_users.post_add_user_staff()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
 
     @allure.title('Test get list users info.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23272")

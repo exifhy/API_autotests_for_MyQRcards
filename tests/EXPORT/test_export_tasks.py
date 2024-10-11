@@ -7,14 +7,14 @@ from config.base_test import BaseTest
 @allure.feature("Export tasks data")
 class TestExportTasks(BaseTest):
 
-    @allure.title('Test returns a list of data available for advanced exports.')
+    @allure.title('Test returns a list of data available for extended exports.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23209")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23209)
     def test_get_list_data_tasks(self):
         self.api_export_tasks.get_list_data_tasks()
 
-    @allure.title('Test exports the list of requests taking into account the specified filters by task id.')
+    @allure.title('Test exports the task list into account the specified filters by task id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23232")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23232)
@@ -42,7 +42,7 @@ class TestExportTasks(BaseTest):
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
 
-    @allure.title('Test exports the extended list of requests taking into account the specified filters by task id.')
+    @allure.title('Test exports the extended task list into account the specified filters by task id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23233")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23233)

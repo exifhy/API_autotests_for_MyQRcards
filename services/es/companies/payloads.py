@@ -22,7 +22,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def marks_company_as_removed_payload(company_id: int) -> list:
+    def delete_company_payload(company_id: int) -> list:
         return [company_id]
 
     @staticmethod

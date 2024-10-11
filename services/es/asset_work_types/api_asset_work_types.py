@@ -44,18 +44,19 @@ class EsAssetWorkTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         model = SuccessAssetWorkTypeModel(asset=response.json())
         logger.info(f'Successfully add a non-default work type: {work_type_id} to asset: {asset_id}')
         return model
 
-    @allure.step("Remove from asset work type by ID.")
+    @allure.step("Delete from asset work type by ID.")
     def delete_work_type_from_asset_by_id(self, asset_id: int, work_type_id: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.remove_work_type_from_asset_endpoint,
+            url=self.endpoints.delete_work_type_from_asset_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.asset_work_types_payload(
                 asset_id=asset_id,
@@ -63,11 +64,13 @@ class EsAssetWorkTypesAPI(Helper):
             )
         )
         end = time.time()
+        logger.info(response.headers)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        logger.info(response.headers)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
-        logger.info(f'Successfully remove from asset: {asset_id} work type by ID: {work_type_id}.')
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully delete from asset: {asset_id} work type by ID: {work_type_id}.')

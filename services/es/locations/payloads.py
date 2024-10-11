@@ -8,6 +8,6 @@ class Payloads:
         return payload
 
     @staticmethod
-    def remove_locations_payload(*locations_ids: int) -> list:
+    def delete_locations_payload(*locations_ids: int) -> list:
         return list(locations_ids)
 

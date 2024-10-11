@@ -79,11 +79,11 @@ class WorkTaskTemplatesAPI(Helper):
         logger.info(f'Successfully received list task templates with notes: {model.root[task_templates_id].notes}')
         return model
 
-    @allure.step("Marks task templates as removed by ID.")
+    @allure.step("Delete task templates by ID.")
     def delete_task_templates_by_id(self, task_templates_id: str):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.marks_task_templates_as_removed_endpoint,
+            url=self.endpoints.delete_task_templates_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.delete_task_templates_payloads(task_templates_id)
         )
@@ -96,7 +96,7 @@ class WorkTaskTemplatesAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_time(start, end)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        logger.info(f'Successfully marks task templates as removed by ID')
+        logger.info(f'Successfully delete task templates by ID')
 
     @allure.step("Binds employee to the template by ID.")
     def post_bind_employee_to_template_by_id(self, task_templates_id: str, user_id: int):

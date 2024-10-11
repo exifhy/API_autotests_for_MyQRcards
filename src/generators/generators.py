@@ -1,6 +1,7 @@
 from faker import Faker
-from src.data.data import User, Company
+from src.data.data import User, Company, Contract
 from random import randint
+from datetime import datetime, timedelta
 
 
 fake_ru = Faker('ru_Ru')
@@ -26,3 +27,15 @@ def generator_company():
         phone=f'+7{randint(1000000000, 7999999999)}'
     )
 
+
+def generator_contract():
+
+    current_date = datetime.now()
+    yesterday = current_date - timedelta(1)
+
+    yield Contract(
+        name=f'Договор номер: {randint(1, 999)}',
+        date_from=current_date.strftime("%Y-%m-%dT00:00:00"),
+        date_yesterday=yesterday.strftime("%Y-%m-%dT00:00:00"),
+        conditions=fake_ru.text(max_nb_chars=80)
+    )

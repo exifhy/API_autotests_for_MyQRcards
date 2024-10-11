@@ -30,7 +30,7 @@ class TestEsAssets(BaseTest):
         )
         self.api_es_assets.post_add_object(company_id)
 
-    @allure.title('Test marks the object as remote.')
+    @allure.title('Test marks the object as deleted.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23027")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23027)

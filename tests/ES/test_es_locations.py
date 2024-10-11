@@ -7,7 +7,7 @@ from config.base_test import BaseTest
 @allure.feature("Actions with the locations")
 class TestLocations(BaseTest):
 
-    @pytest.mark.skip(reason='Location is created in test - test_remove_location_by_id.')
+    @pytest.mark.skip(reason='Location is created in test - test_delete_location_by_id.')
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23060)
     @allure.title('Test add location.')
@@ -15,11 +15,11 @@ class TestLocations(BaseTest):
     def test_post_add_location(self):
         self.api_es_locations.post_add_location()
 
-    @allure.title('Test remove location by ID.')
+    @allure.title('Test delete location by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23063")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23063)
-    def test_remove_location_by_id(self):
+    def test_delete_location_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         self.api_es_locations.delete_location(location_id=created_location_id)
 

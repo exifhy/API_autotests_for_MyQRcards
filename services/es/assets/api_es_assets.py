@@ -81,11 +81,11 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
 
-    @allure.step("Marks the object as remove.")
+    @allure.step("Delete object by ID.")
     def delete_object_by_id(self, asset_id: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.marks_object_as_remove_endpoint(asset_id),
+            url=self.endpoints.delete_object_by_id_endpoint(asset_id),
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
@@ -93,7 +93,7 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        logger.info(f'Successfully marks the object with id{asset_id} as remove.')
+        logger.info(f'Successfully delete the object with id{asset_id}.')
 
     @allure.step("Detailed information on the object by id.")
     def get_detailed_information_on_object_by_id(self, asset_id: int):

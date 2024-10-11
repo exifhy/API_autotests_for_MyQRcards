@@ -28,7 +28,7 @@ class ExportTasksAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Returns a list of data available for advanced exports.")
+    @allure.step("Returns a list of data available for extended exports.")
     def get_list_data_tasks(self):
         # params = {
         #     "Range": "",
@@ -49,10 +49,10 @@ class ExportTasksAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         model = SuccessTasksResultModel(list=response.json())
-        logger.info(f'Successfully get a list of data available for advanced exports.')
+        logger.info(f'Successfully get a list of data available for extended exports.')
         return model
 
-    @allure.step("Exports the list of requests taking into account the specified filters by task id.")
+    @allure.step("Exports the task list into account the specified filters by task id.")
     def get_normal_export_task_by_task_id(self, task_id: int, number_task: str):
         params = {
             "taskID": task_id,
@@ -102,7 +102,7 @@ class ExportTasksAPI(Helper):
         assert expected_content in decoded_content, f'Expected {expected_content}, but got {decoded_content}'
         logger.info(f'Successfully export of list task by task id.')
 
-    @allure.step("Exports the extended list of requests taking into account the specified filters by task id.")
+    @allure.step("Exports the extended task list taking into account the specified filters by task id.")
     def get_extended_export_task_by_task_id(self, task_id: int, number_task: str):
         start = time.time()
         response = requests.get(

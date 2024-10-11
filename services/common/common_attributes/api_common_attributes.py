@@ -26,8 +26,8 @@ class CommonAttributesAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Attribute creation method.")
-    def post_add_method_attributes(self):
+    @allure.step("Attribute creation method for contract only.")
+    def post_add_method_attributes_only_for_contract(self):
         attribute_name = f'Доп поле - {randint(1, 999)}'
         start = time.time()
         response = requests.post(
@@ -54,7 +54,7 @@ class CommonAttributesAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.warning(f'Successfully attribute creation method.')
+        logger.warning(f'Successfully attribute creation method only for contract with name: {attribute_name}.')
         return model
 
     @allure.step("Attribute deletion method by ID.")

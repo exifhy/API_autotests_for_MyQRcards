@@ -52,7 +52,7 @@ class EsLocationsAPI(Helper):
         logger.info(f'Successfully add location. id: {model.location[0]}')
         return model.location[0]
 
-    @allure.step("Remove location by ID.")
+    @allure.step("Delete location by ID.")
     def delete_location(self, location_id: int):
         start = time.time()
         response = requests.delete(
@@ -68,4 +68,4 @@ class EsLocationsAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
-        logger.info(f'Successfully remove location by ID.')
+        logger.info(f'Successfully delete location by ID.')

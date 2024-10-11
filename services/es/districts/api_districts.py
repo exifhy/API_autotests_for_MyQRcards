@@ -55,11 +55,11 @@ class EsDistrictsAPI(Helper):
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model
 
-    @allure.step("Marks the district as remove.")
+    @allure.step("Marks the district as deleted.")
     def delete_district_by_id(self, district_id: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.marks_districts_as_remove_by_id_endpoint(district_id),
+            url=self.endpoints.delete_districts_by_id_endpoint(district_id),
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
@@ -70,7 +70,7 @@ class EsDistrictsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        logger.info(f'Successfully marks the district with id: {district_id} as remove.')
+        logger.info(f'Successfully delete district with id: {district_id}.')
 
     @allure.step('Get detail district info by ID.')
     def get_detail_district_info_by_id(self, district_id: int):

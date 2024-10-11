@@ -54,11 +54,11 @@ class WorkWorkTypesAPI(Helper):
         logger.info(f'Successfully add a non-default work type, name type: {work_type_name}')
         return model
 
-    @allure.step("Marks the work type as remove.")
+    @allure.step("Delete the work type.")
     def delete_marks_work_type_by_id(self, work_type_id: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.marks_work_types_as_remove_endpoint(work_type_id),
+            url=self.endpoints.delete_work_types_endpoint(work_type_id),
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
@@ -69,7 +69,7 @@ class WorkWorkTypesAPI(Helper):
         logger.info(response.headers)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
-        logger.info(f'Successfully marks the work type with id: {work_type_id} as remove.')
+        logger.info(f'Successfully delete the work type with id: {work_type_id}.')
 
     @allure.step("Returns the data for the type of work by id.")
     def get_data_work_type_by_id(self, work_type_id: int):
