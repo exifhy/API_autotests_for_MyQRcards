@@ -7,7 +7,7 @@ class Payloads:
             name: str,
             company_id: int,
             asset_type_id: int,
-            asset_class_is: int,
+            asset_class_id: int,
             notes: str
     ) -> dict:
         payload = {
@@ -15,7 +15,7 @@ class Payloads:
             "name": name,
             "companyID": company_id,
             "assetTypeID": asset_type_id,
-            "assetClassID": asset_class_is,
+            "assetClassID": asset_class_id,
             "checkListID": None,
             "responsiblePerson": None,
             "scheduleRuleID": None,

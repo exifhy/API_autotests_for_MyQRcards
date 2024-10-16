@@ -45,9 +45,10 @@ class EsLocationsAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAddLocationModel(location=response.json())
         logger.info(f'Successfully add location. id: {model.location[0]}')
         return model.location[0]
@@ -67,5 +68,6 @@ class EsLocationsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
-        logger.info(f'Successfully delete location by ID.')
+        assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                           f'{response.json()}')
+        logger.info(f'Successfully delete location by ID: {location_id}.')

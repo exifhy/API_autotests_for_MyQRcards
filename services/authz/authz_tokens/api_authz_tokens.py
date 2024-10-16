@@ -40,7 +40,7 @@ class AuthzTokensAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessUpdateJwtResultModel(**response.json())
         logger.info(f'Successfully update JWT.')
         return model

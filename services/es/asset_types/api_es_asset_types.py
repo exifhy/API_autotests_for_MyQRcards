@@ -49,8 +49,8 @@ class EsAssetTypesAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
-        model = SuccessAddAssetTypesModel(id=response.json())
-        logger.info(f'Successfully add a asset type by id: {model.id[0]}')
+        model = SuccessAddAssetTypesModel(list=response.json())
+        logger.info(f'Successfully add a asset type by id: {model.list[0].id}')
         return model
 
     @allure.step("Update asset types.")
@@ -100,7 +100,11 @@ class EsAssetTypesAPI(Helper):
 
     @allure.step("Get list a asset types and return first isHostable=True.")
     def get_list_asset_types_return_is_hostable_true(self):
-        """Возвращает модель списка, ключ(int) и имя(str) первого в списке isHostable=True"""
+        """
+        Получает список типов оборудования. Ищет первый в списке тип с isHostable=True.
+        Если такого нет создает тип оборудования с isHostable=True.
+        Возвращает ID тип оборудования первого в списке или созданного типа c isHostable=True.
+        """
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
@@ -114,15 +118,57 @@ class EsAssetTypesAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        if response.status_code == HTTPStatus.PARTIAL_CONTENT:
-            logger.info(f'Status code: {response.status_code}. Partial content.')
-            return None
-        else:
-            assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
-            model = SuccessGetAssetTypeModel(root=response.json())
-            # Поиск первого элемента, где isHostable = True
-            for key, asset_type in model.root.items():
-                if asset_type.isHostable is True:
-                    logger.info(f'First asset with isHostable=True found: {asset_type.name}, Asset Type id: {key}')
-                    logger.info(f'Successfully get a list asset type.')
-                    return model, int(key), asset_type.name
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                     f'{response.json()}')
+        model = SuccessGetAssetTypeModel(root=response.json())
+        # Поиск первого элемента, где isHostable = True
+        for key, asset_type in model.root.items():
+            if asset_type.isHostable is True:
+                logger.info(f'Successfully get a list asset type.')
+                logger.warning(f'First asset type with isHostable=True found: {asset_type.name}, Asset Type id: {key}')
+                return int(key)
+
+        logger.warning('No asset type with isHostable=True not found. Creating a asset type with a isHostable=True.')
+        model_hostable = self.post_add_hostable_asset_types()
+        return model_hostable.list[0].id
+
+    @allure.step("Get list asset types.")
+    def get_list_asset_types(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_types_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                     f'{response.json()}')
+        model = SuccessGetAssetTypeModel(root=response.json())
+        logger.info(f'Successfully get list a asset type by id: {response.json()}')
+        return model
+
+    @allure.step("Geе asset type by ID.")
+    def get_asset_type_by_id(self, asset_type_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_type_by_id_endpoint(asset_type_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+        model = AssetTypeListResult(**response.json())
+        logger.info(f'Successfully get a asset type by id: {asset_type_id}')
+        return model

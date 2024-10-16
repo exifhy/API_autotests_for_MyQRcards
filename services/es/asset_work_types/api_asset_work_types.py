@@ -44,10 +44,10 @@ class EsAssetWorkTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAssetWorkTypeModel(asset=response.json())
         logger.info(f'Successfully add a non-default work type: {work_type_id} to asset: {asset_id}')
         return model

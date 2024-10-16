@@ -47,10 +47,10 @@ class EsCompaniesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAddCompaniesModel(companies=response.json())
         logger.info(f'Successfully created Our company, name: {name_new_company}.')
         return model.companies[0]
@@ -66,8 +66,8 @@ class EsCompaniesAPI(Helper):
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
-        logger.info(f'Successfully deleted company, id: {company_id}.')
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully delete company, id: {company_id}.')
 
     @allure.step("Returns the company available to the user by id.")
     def get_detailed_information_on_company_by_id(self, company_id: int):
@@ -84,7 +84,7 @@ class EsCompaniesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessCompaniesGetResult(**response.json())
         logger.info(f'Successfully receiving the company detailed info by id.')
         return model
@@ -119,7 +119,7 @@ class EsCompaniesAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
         assert response.status_code in {HTTPStatus.OK,
-                                        HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+                                        HTTPStatus.PARTIAL_CONTENT}, f'{response.status_code}, {response.json()}'
         model = SuccessGetCompaniesListResultModel(**response.json())
         logger.info(f'Successfully receiving a list of companies available to the user.')
         return model
@@ -161,7 +161,7 @@ class EsCompaniesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         model = self.get_detailed_information_on_company_by_id(company_id)
         assert model.name == new_name_company, f'Expected -> {new_name_company}, but got -> {model.name}'
         assert model.email == new_email_company, f'Expected -> {new_email_company}, but got -> {model.email}'

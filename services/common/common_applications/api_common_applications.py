@@ -40,7 +40,8 @@ class CommonApplicationsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.status_code}, {response.json()}'
         model = SuccessGetApplicationResultModel(root=response.json())
         logger.warning(f'Successfully received list of branches (applications).')
         return model

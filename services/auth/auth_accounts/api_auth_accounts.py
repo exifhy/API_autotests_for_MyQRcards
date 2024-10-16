@@ -45,7 +45,8 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.status_code}, {response.json()}'
         model = SuccessGetApplicationListResultModel(result=response.json())
         logger.warning(f'Successfully received account applications without additional parameters.')
         return model
@@ -62,14 +63,14 @@ class AuthAccountsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.info(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetApplicationListResultModel(result=response.json())
         logger.warning(f'Successfully received account applications with range parameters.')
         return model
@@ -93,7 +94,8 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetApplicationListResultModel(result=response.json())
         logger.warning(f'Successfully received account applications with range parameters.')
         return model
@@ -113,7 +115,7 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.UNAUTHORIZED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.UNAUTHORIZED, f'Status code {response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.warning(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -133,7 +135,7 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.UNAUTHORIZED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.UNAUTHORIZED, f'Status code {response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.warning(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -156,7 +158,7 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.warning(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -179,7 +181,7 @@ class AuthAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.warning(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -208,7 +210,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully updating the current accounts application data.')
         return uniq_client_id, app_id
 
@@ -232,7 +234,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete the app and device from your current account.')
 
     @allure.step("Logout. Method can be invoked with an expired token.")
@@ -255,7 +257,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully logout from your current account.')
 
     @allure.step("Creates an account with email (if not already created), "
@@ -283,7 +285,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessAccountAddResultEntityModel(**response.json())
         logger.warning(f'Successfully creates an account with email (if not already created).')
         return model, value
@@ -307,7 +309,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}, {response.json()}'
             logger.warning(f'No data with such credentials, status code: {response.status_code}.')
         else:
             assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
@@ -334,7 +336,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.NOT_FOUND, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.NOT_FOUND, f'Status code {response.status_code}, {response.json()}'
             logger.warning(f'No data with such credentials, status code: {response.status_code}.')
         else:
             assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
@@ -360,7 +362,7 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.NO_CONTENT, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.NO_CONTENT, f'Status code {response.status_code}, {response.json()}'
             logger.warning(f'No data of notifications from the log, status code: {response.status_code}.')
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'

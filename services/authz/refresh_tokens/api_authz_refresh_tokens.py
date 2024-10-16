@@ -40,7 +40,7 @@ class AuthzRefreshTokensAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessUpdateRefreshJwtResultBaseModel(**response.json())
         logger.info(f'Successfully returns the refresh token with default parameters.')
         return model
@@ -61,7 +61,8 @@ class AuthzRefreshTokensAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessUpdateRefreshJwtResultBaseModel(**response.json())
         logger.info(f'Successfully generates an refresh token and returns it.')
         return model

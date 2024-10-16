@@ -38,6 +38,7 @@ from services.es.company_locations.api_companies_locations import EsCompanyLocat
 from services.sc.sc_contract_attributes.api_sc_contract_attributes import ScContractAttributesAPI
 from services.sc.sc_service_contract.api_sc_service_contract import ScServiceContractAPI
 from services.es.asset_types.api_es_asset_types import EsAssetTypesAPI
+from services.es.asset_classes.api_es_asset_classes import EsAssetClassesAPI
 
 
 class BaseTest:
@@ -83,3 +84,4 @@ class BaseTest:
         self.api_sc_contract_attributes = ScContractAttributesAPI()
         self.api_sc_service_contract = ScServiceContractAPI()
         self.api_es_asset_types = EsAssetTypesAPI()
+        self.api_es_asset_classes = EsAssetClassesAPI()

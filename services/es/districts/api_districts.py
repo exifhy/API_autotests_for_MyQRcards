@@ -47,10 +47,10 @@ class EsDistrictsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAddDistrictsModel(districts=response.json())
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model
@@ -63,13 +63,14 @@ class EsDistrictsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         logger.info(response.headers)
-        self.attach_time(start, end)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully delete district with id: {district_id}.')
 
     @allure.step('Get detail district info by ID.')
@@ -81,13 +82,14 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.warning(response.json())
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.status_code}, {response.json()}'
         model = SuccessGetInfoDistrictModel(**response.json())
         logger.info(f'Successfully received detail district info.')
         return model

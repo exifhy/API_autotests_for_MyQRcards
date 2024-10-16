@@ -42,7 +42,9 @@ class AuthnPasswordsAPI(Helper):
         except JSONDecodeError:
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, response.status_code
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         model = SuccessAccountJwtResultBase(**response.json())
         logger.info(f'Successfully sets the password for the newly created account.')
         return model

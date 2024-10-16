@@ -46,5 +46,6 @@ class AdmUserRolesAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully add a roles to user.')

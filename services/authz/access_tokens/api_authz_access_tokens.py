@@ -42,7 +42,7 @@ class AuthzAccessTokensAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessUpdateJwtResultBaseModel(**response.json())
         assert refresh_token != model.refresh_token, f"Token has not been updated."
         logger.info(f'Successfully updates the resource access token.')

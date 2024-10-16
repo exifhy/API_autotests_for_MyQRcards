@@ -7,6 +7,7 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 class Endpoints:
 
     add_work_types_endpoint = f'{HOST}/WORK/WorkTypes'
+    get_list_work_types_endpoint = f'{HOST}/WORK/WorkTypes'
     put_work_types_publish_endpoint = f'{HOST}/WORK/WorkTypes/publish'
     put_work_types_unpublish_endpoint = f'{HOST}/WORK/WorkTypes/unpublish'
 

@@ -50,10 +50,10 @@ class WorkTaskAssignmentHistoryAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessAddTaskAssignmentHistoryModel(history=response.json())
         assert model.history[0].taskID == task_id, f'Expected {task_id}, but got {model.history[0].taskID}'
         assert model.history[0].assignments[0].userID == user_id, f'Expected {user_id}, but got {model.history[0].assignments[0].userID}'

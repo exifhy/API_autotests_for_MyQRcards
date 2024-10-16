@@ -44,9 +44,10 @@ class PmpSchedulesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessAddSchedulesModel(schedules=response.json())
         logger.info(f'Successfully created schedules. {model.schedules[0]}')
         return model
@@ -65,6 +66,7 @@ class PmpSchedulesAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully deleting a schedule for a tenant by id.')
 

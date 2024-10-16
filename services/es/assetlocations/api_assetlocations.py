@@ -34,9 +34,10 @@ class EsAssetLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code},{response.json()}'
         logger.info(f'Successfully add a location to an object.')
 
     @allure.step("Deleting location binding to an object.")
@@ -49,7 +50,8 @@ class EsAssetLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
         self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully unbind of location from object.')

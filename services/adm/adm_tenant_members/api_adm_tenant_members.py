@@ -41,7 +41,7 @@ class AdmTenantMembersAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, response.status_code
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully marks the tenant member as deleted.')
 
     @allure.step("Returns the API user in the current tenant.")
@@ -59,7 +59,7 @@ class AdmTenantMembersAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessTenantMembersListResultModel(**response.json())
         logger.info(f'Successfully returns the API user in the current tenant.')
         return model

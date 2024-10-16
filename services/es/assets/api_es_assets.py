@@ -32,7 +32,7 @@ class EsAssetsAPI(Helper):
     def get_directory_of_objects_available_to_user(self, param: dict):
         start = time.time()
         response = requests.get(
-            url=self.build_url(self.endpoints.get_directory_of_objects_available_to_user_endpoint, param),
+            url=self.endpoints.get_directory_of_objects_available_to_user_endpoint, params=param,
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
@@ -41,17 +41,16 @@ class EsAssetsAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
-        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        self.attach_response(response.json())
         self.attach_time(start, end)
-
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Code:{response.status_code}.Message:{response.json()}'
         model = AssetExtResults(results=response.json())
         logger.info(f'Successfully receiving the assets list.')
         return model
 
     @allure.step("Object creation.")
-    def post_add_object(self, company_id):
+    def post_add_object(self, company_id: int, asset_type_id: int, asset_class_id: int):
         name = fake_ru.company()
         notes_text = 'Объект создан авто-тестом'
         start = time.time()
@@ -62,8 +61,8 @@ class EsAssetsAPI(Helper):
                 parent_id=None,
                 name=name,
                 company_id=company_id,
-                asset_type_id=2,
-                asset_class_is=1,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
                 notes=notes_text
             )
         )
@@ -76,7 +75,7 @@ class EsAssetsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
@@ -92,7 +91,7 @@ class EsAssetsAPI(Helper):
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully delete the object with id{asset_id}.')
 
     @allure.step("Detailed information on the object by id.")
@@ -110,7 +109,7 @@ class EsAssetsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = AssetDetailedInfoResult(**response.json())
         logger.info(f'Successfully receiving the assets detailed info.')
         return model
@@ -130,7 +129,7 @@ class EsAssetsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}, {response.json()}'
         logger.info(f'Successful publication of the object.')
 
     @allure.step("Method of publishing an object without bind location.")
@@ -142,7 +141,6 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        self.attach_url(response.request.url)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         try:
@@ -154,7 +152,7 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.CONFLICT, f'{response.json()}, status code: {response.status_code}'
 
     @allure.step("Update the object by ID.")
-    def put_update_object_by_id(self, asset_id: int):
+    def put_update_object_by_id(self, asset_id: int, company_id: int, asset_type_id: int, asset_class_id: int):
         new_name = f'Изменение имени авто-тестом-{random.randint(1, 999)}'
         new_notes = f'Изменение описания авто-тестом-{random.randint(1, 999)}'
         start = time.time()
@@ -164,9 +162,9 @@ class EsAssetsAPI(Helper):
             json=self.payloads.object_creation_payload(
                 parent_id=None,
                 name=new_name,
-                company_id=1,
-                asset_type_id=2,
-                asset_class_is=1,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
                 notes=new_notes
             )
         )
@@ -179,5 +177,5 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, response.json()
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successful update the object, new name object: {new_name}')

@@ -42,7 +42,7 @@ class EsAssetDistrictsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully adds a districts to an object.')
 
     @allure.step("Adds a districts to an object without default district.")
@@ -62,7 +62,7 @@ class EsAssetDistrictsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code, response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully adds a new districts to an object.')
 
     @allure.step("Adds a default districts to an object.")
@@ -82,7 +82,7 @@ class EsAssetDistrictsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully adds a default districts to an object.')
 
     @allure.step("Delete districts from the object.")
@@ -96,9 +96,11 @@ class EsAssetDistrictsAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully delete the district from object, id object: {district_id}.')

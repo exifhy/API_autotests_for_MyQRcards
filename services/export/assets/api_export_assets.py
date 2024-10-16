@@ -66,7 +66,7 @@ class ExportAssetsAPI(Helper):
             logger.warning(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         assert response.headers['Content-Type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         file_stream = BytesIO(response.content)
@@ -110,7 +110,10 @@ class ExportAssetsAPI(Helper):
             name_asset: str,
             asset_id: int,
             company_name: str,
-            district_name: str
+            district_name: str,
+            asset_type_name: str,
+            asset_class_name: str,
+            work_type_name: str
     ):
         start = time.time()
         response = requests.get(
@@ -123,11 +126,10 @@ class ExportAssetsAPI(Helper):
         self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
-            logger.warning(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
 
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         assert response.headers['Content-Type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         file_stream = BytesIO(response.content)
@@ -153,13 +155,13 @@ class ExportAssetsAPI(Helper):
         assert sheet['B3'].value == 'Компания'
         assert sheet['B4'].value == company_name
         assert sheet['C3'].value == 'Тип объекта'
-        assert sheet['C4'].value == 'Объект'
+        assert sheet['C4'].value == asset_type_name
         assert sheet['D3'].value == 'Класс объекта'
-        assert sheet['D4'].value == 'По умолчанию'
+        assert sheet['D4'].value == asset_class_name
         assert sheet['E3'].value == 'Участок'
         assert sheet['E4'].value == district_name
         assert sheet['F3'].value == 'Вид работ'
-        assert sheet['F4'].value == 'Ремонт'
+        assert sheet['F4'].value == work_type_name
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Объекты+и+оборудование.xlsx"

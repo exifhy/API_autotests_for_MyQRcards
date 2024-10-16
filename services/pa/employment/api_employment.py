@@ -44,9 +44,10 @@ class PaEmploymentAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessEmploymentAdd(list=response.json())
         logger.info(f'Successfully add employment to user.')
         return model

@@ -131,7 +131,7 @@ class AdmUsersAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessGetDetailedInfoUserModel(**response.json())
         logger.info(f'Successfully received detail user info.')
         return model
@@ -157,7 +157,8 @@ class AdmUsersAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.status_code}, {response.json()}'
         model = SuccessGetUsersListModel(**response.json())
         logger.info(f'Successfully received list users info.')
         return model
@@ -193,7 +194,7 @@ class AdmUsersAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         model = self.get_user_info_by_id(user_id)
         assert model.firstName == new_user_name, f'Expected {model.firstName}, but got {new_user_name}.'
         assert model.lastName == new_user_surname, f'Expected {model.lastName}, but got {new_user_surname}.'
@@ -217,7 +218,7 @@ class AdmUsersAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessCreatedApiUserModel(**response.json())
         logger.info(f'Successfully add an API user in the tenant.')
         return model

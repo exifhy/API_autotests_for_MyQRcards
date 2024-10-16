@@ -36,7 +36,6 @@ class AuthzAccountsAPI(Helper):
             json=self.payloads.authorization_payloads(TENANT_ID, TENANT_MEMBER_ID)
         )
         end = time.time()
-        assert response.status_code == HTTPStatus.OK, response.json()
         logger.info(response.headers)
         try:
             self.attach_response(response.json())
@@ -45,6 +44,7 @@ class AuthzAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessAuthorizationModel(**response.json())
         logger.info(f'Successfully receiving the Bearer token.')
         return model
@@ -66,7 +66,7 @@ class AuthzAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CONFLICT, response.json()
+        assert response.status_code == HTTPStatus.CONFLICT, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model
@@ -88,7 +88,7 @@ class AuthzAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CONFLICT, response.json()
+        assert response.status_code == HTTPStatus.CONFLICT, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model

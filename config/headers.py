@@ -21,7 +21,7 @@ class Headers:
             "Authorization": f"Bearer {token}",
             "Accept-Language": "ru-RU",
             "X-Application-ID": f"{APP_ID}",
-            "Range": "Items=1-25",
+            # "Range": "Items=1-25",
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
             "Content-Type": "application/json"

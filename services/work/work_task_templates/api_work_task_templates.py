@@ -48,9 +48,10 @@ class WorkTaskTemplatesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessAddTaskTemplatesModel(templates=response.json())
         logger.info(f'Successfully created task templates with id: {model.templates[0]} ')
         return model
@@ -72,7 +73,9 @@ class WorkTaskTemplatesAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetTaskTemplatesModel(**response.json())
         logger.info(f'Successfully received list task templates with id: {model.root[task_templates_id].id}')
         logger.info(f'Successfully received list task templates with name: {model.root[task_templates_id].name}')
@@ -93,9 +96,10 @@ class WorkTaskTemplatesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully delete task templates by ID')
 
     @allure.step("Binds employee to the template by ID.")
@@ -112,9 +116,10 @@ class WorkTaskTemplatesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessTaskTemplateAssignmentMergeModel(task=response.json())
         logger.info(f'Successfully binds employee to the template by ID.')
         return model
@@ -133,9 +138,10 @@ class WorkTaskTemplatesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        self.attach_request(response.request.body)
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully add template requests for the schedule by ID.')
 
     @allure.step("Schedule activation by ID.")
@@ -152,7 +158,8 @@ class WorkTaskTemplatesAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessActivateTaskTemplatesSchedulesModel(**response.json())
         assert model.isActive is True, f'Expected True, but got {model.isActive}'
         logger.info(f'Successfully schedule activation by ID.')
@@ -172,6 +179,7 @@ class WorkTaskTemplatesAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully schedule deactivation by ID.')
 

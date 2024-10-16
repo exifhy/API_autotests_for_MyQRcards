@@ -19,6 +19,7 @@ class TestAuthMessages(BaseTest):
             token=model.access_token
         )
 
+    @pytest.mark.skip(reason='Need a registered phone number for the test.')
     @allure.title('Test sends SMS of mail phone number verification to the specified phone number.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23428")
     @pytest.mark.regress

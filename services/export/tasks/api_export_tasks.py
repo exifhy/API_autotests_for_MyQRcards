@@ -41,13 +41,14 @@ class ExportTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.warning(response.request.url)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.status_code}, {response.json()}'
         model = SuccessTasksResultModel(list=response.json())
         logger.info(f'Successfully get a list of data available for extended exports.')
         return model
@@ -68,13 +69,13 @@ class ExportTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.warning(response.request.url)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
-            logger.warning(response.json())
+            self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         assert response.headers['Content-Type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         file_stream = BytesIO(response.content)
@@ -111,13 +112,13 @@ class ExportTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        logger.warning(response.request.url)
         self.attach_time(start, end)
+        self.attach_url(response.request.url)
         try:
-            logger.warning(response.json())
+            self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         assert response.headers['Content-Type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         file_stream = BytesIO(response.content)

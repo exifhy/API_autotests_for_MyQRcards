@@ -42,7 +42,7 @@ class AuthzServiceTokensAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, response.status_code
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessGenerateServiceTokenModel(result=response.json())
         logger.info(f'Successfully generates a new api user access token and returns it.')
         return model
@@ -64,5 +64,5 @@ class AuthzServiceTokensAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, response.status_code
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully deletes the api user access token.')

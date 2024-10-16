@@ -1,23 +1,25 @@
 from pydantic import BaseModel, RootModel
 from typing import List, Optional, Dict
+from datetime import datetime
 
 
-class AssetTypeListResult(BaseModel):
+class AssetClassesResult(BaseModel):
     name: Optional[str] = None
-    isHostable: Optional[bool] = None
+    id: Optional[int] = None
     isDefault: Optional[bool] = None
+    deleted: Optional[datetime] = None
 
 
-class SuccessGetAssetTypeModel(RootModel):
-    root: Dict[str, AssetTypeListResult]
+class SuccessGetAssetClassesModel(RootModel):
+    root: Dict[str, AssetClassesResult]
 
 
-class AddAssetTypesModel(BaseModel):
+class AddAssetClassesModel(BaseModel):
     id: int
 
 
-class SuccessAddAssetTypesModel(BaseModel):
-    list: List[AddAssetTypesModel]
+class SuccessAddAssetClassesModel(BaseModel):
+    list: List[AddAssetClassesModel]
 
 
 class CodeMessageModel(BaseModel):

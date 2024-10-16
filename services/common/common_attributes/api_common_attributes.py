@@ -52,7 +52,7 @@ class CommonAttributesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.warning(f'Successfully attribute creation method only for contract with name: {attribute_name}.')
         return model
@@ -72,5 +72,5 @@ class CommonAttributesAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.warning(f'Successfully attribute deletion method by ID.')

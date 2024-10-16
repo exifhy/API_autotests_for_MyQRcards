@@ -43,5 +43,5 @@ class AuthVerificationCodesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_url(response.request.body)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         logger.warning(f'Successfully checks the verification code.')

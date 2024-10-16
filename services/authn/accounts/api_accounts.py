@@ -42,7 +42,7 @@ class AuthnAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         # assert model.expires_in == 1800, 'Cрок действия токена не равен 30 минутам'
         model = SuccessUserAccountAuthenticationModel(**response.json())
         logger.info(f'Successfully receiving the {model.access_token}.')
@@ -64,7 +64,7 @@ class AuthnAccountsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.error("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.UNAUTHORIZED, response.status_code
+        assert response.status_code == HTTPStatus.UNAUTHORIZED, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "AccountNotFound", "Unexpected Response Code for Invalid Token"
         logger.info(f'Expected error: {model.list_model[0].code}.')
@@ -85,7 +85,7 @@ class AuthnAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CONFLICT, response.status_code
+        assert response.status_code == HTTPStatus.CONFLICT, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].code}.')
         return model
@@ -105,7 +105,7 @@ class AuthnAccountsAPI(Helper):
             logger.error("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessUserAccountAuthenticationModel(**response.json())
         logger.info(f'Successful account authentication by sso.')
         return model
@@ -130,7 +130,7 @@ class AuthnAccountsAPI(Helper):
         if response.status_code == HTTPStatus.UNAUTHORIZED:
             logger.error(f'Status code:{response.status_code}, body: {response.json()}')
         else:
-            assert response.status_code == HTTPStatus.OK, response.status_code
+            assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
             logger.info(f'Successful generating code for authorization by SMS.')
 
     @allure.step("Generating code for authorization via SMS with invalid phone number(00123456456342)")
@@ -150,7 +150,7 @@ class AuthnAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.NOT_FOUND, response.status_code
+        assert response.status_code == HTTPStatus.NOT_FOUND, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -172,7 +172,7 @@ class AuthnAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.BAD_REQUEST, response.status_code
+        assert response.status_code == HTTPStatus.BAD_REQUEST, f'{response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
         logger.info(f'Expected error: {model.list_model[0].message}.')
         return model
@@ -197,7 +197,7 @@ class AuthnAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.OK, response.status_code
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = SuccessUserAccountAuthenticationModel(**response.json())
         logger.info(f'Successful SMS code verification.')
         return model

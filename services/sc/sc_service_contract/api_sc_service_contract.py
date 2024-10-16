@@ -163,7 +163,7 @@ class ScServiceContractAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetContractResultModel(**response.json())
         logger.info(f'Successfully add a list of objects to the contract.')
@@ -183,9 +183,9 @@ class ScServiceContractAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, \
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetMassContractDictModel(root=response.json())
         logger.info(f'Successfully get mass service contract by ID.')
         return model
@@ -205,7 +205,8 @@ class ScServiceContractAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, \
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetListContractObjectsModel(root=response.json())
         logger.info(f'Successfully get the list of service contract objects.')
         return model
