@@ -45,7 +45,7 @@ class TestWorkTaskTemplates(BaseTest):
         self.api_adm_users.delete_user_by_id(user_id=model_user.userID)
         self.api_es_assets.delete_object_by_id(model_asset.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test get a list of task templates by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23297")
@@ -82,4 +82,4 @@ class TestWorkTaskTemplates(BaseTest):
         self.api_adm_users.delete_user_by_id(user_id=model_user.userID)
         self.api_es_assets.delete_object_by_id(model_asset.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)

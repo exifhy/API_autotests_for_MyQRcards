@@ -21,6 +21,6 @@ class TestLocations(BaseTest):
     @pytest.mark.test_case_id(23063)
     def test_delete_location_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
-        self.api_es_locations.delete_location(location_id=created_location_id)
+        self.api_es_locations.delete_location_by_id(location_id=created_location_id)
 
 

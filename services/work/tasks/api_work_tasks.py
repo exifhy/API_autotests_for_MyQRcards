@@ -28,7 +28,7 @@ class WorkTasksAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add task.")
-    def post_add_task(self, asset_id: int, company_id: int, work_type_id: str):
+    def post_add_task(self, asset_id: int, company_id: int, work_type_id: str, criticality_id: str, task_type_id: str):
         additional_data = {
             "AssetID": asset_id,
             "WorkTypeID": work_type_id,
@@ -43,6 +43,8 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.post_add_task_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.add_task_payload(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id,
                 number=task_number,
                 note=note_task,
                 date=current_time_iso,
@@ -146,7 +148,7 @@ class WorkTasksAPI(Helper):
         response = requests.put(
             url=self.endpoints.put_update_task_by_id_endpoint(task_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.add_task_payload(
+            json=self.payloads.put_update_task_payload(
                 number=task_number,
                 note=note_task,
                 date=current_time_iso

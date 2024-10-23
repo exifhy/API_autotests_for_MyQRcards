@@ -27,7 +27,7 @@ class ScServiceContractAPI(Helper):
         self.contract = next(generator_contract())
 
     @allure.step("Method for creating or updating service contract(s).")
-    def post_updates_info_about_custom_object_attributes(self, company_id: int):
+    def post_method_for_add_contract(self, company_id: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_method_for_add_contract_endpoint,
@@ -54,6 +54,38 @@ class ScServiceContractAPI(Helper):
         logger.info(f'Successfully creating or updating service contract(s).')
         return model
 
+    @allure.step("Method for creating service contract, return description contract.")
+    def post_add_contract_return_data_contract(self, company_id: int):
+        """Return data created contract."""
+        contract_name = self.contract.name
+        description_contract = self.contract.description
+        conditions_contract = self.contract.conditions
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_method_for_add_contract_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_method_for_add_contract_payload(
+                company_id=company_id,
+                contract_name=contract_name,
+                date_from=self.contract.date_from,
+                desc=description_contract,
+                conditions=conditions_contract
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessAddServiceContractModel(contract=response.json())
+        logger.info(f'Successfully creating or updating service contract(s).')
+        return model.contract[0], contract_name, description_contract, conditions_contract
+
     @allure.step("Method for deleting a contract by ID.")
     def delete_contract_by_id(self, contract_id: int):
         start = time.time()
@@ -70,7 +102,7 @@ class ScServiceContractAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully deleting a contract by ID.')
+        logger.warning(f'Successfully deleting a contract by ID: {contract_id}.')
 
     @allure.step("Method for mass deletion of contracts.")
     def delete_mass_of_contract(self, *args):
@@ -90,7 +122,7 @@ class ScServiceContractAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully mass deleting a contract.')
+        logger.warning(f'Successfully mass deleting a contract with IDs: {args}')
 
     @allure.step("Add a list of objects to the contract.")
     def post_add_list_object_to_contract(self, contract_id: int, asset_id: int):
@@ -113,16 +145,16 @@ class ScServiceContractAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
-        model = SuccessContractAssetAddProjectionModel(**response.json())
+        model = SuccessAddListObjectsToContractModel(objects=response.json())
         logger.info(f'Successfully add a list of objects to the contract.')
         return model
 
     @allure.step("Method for updating service contract(s).")
     def put_update_method_for_exist_contract(self, contract_id: int, company_id: int):
-        new_contract_name = self.contract.name
-        new_date_yesterday = self.contract.date_from
-        new_desc = self.contract.description
-        new_conditions = self.contract.conditions
+        new_contract_name = self.contract.new_name
+        new_date_yesterday = self.contract.date_yesterday
+        new_desc = self.contract.new_description
+        new_conditions = self.contract.new_conditions
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_method_for_exist_contract_endpoint,
@@ -169,8 +201,8 @@ class ScServiceContractAPI(Helper):
         logger.info(f'Successfully add a list of objects to the contract.')
         return model
 
-    @allure.step("Method of get mass service contract by ID.")
-    def get_mass_contract_by_id(self):
+    @allure.step("Method of get list service contracts.")
+    def get_list_service_contracts(self):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_method_list_of_contract_endpoint,
@@ -187,7 +219,7 @@ class ScServiceContractAPI(Helper):
         assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, \
             f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetMassContractDictModel(root=response.json())
-        logger.info(f'Successfully get mass service contract by ID.')
+        logger.info(f'Successfully get list service contracts.')
         return model
 
     @allure.step("Method of get the list of service contract objects.")

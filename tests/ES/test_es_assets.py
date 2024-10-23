@@ -131,7 +131,7 @@ class TestEsAssets(BaseTest):
         self.api_es_assets.put_method_of_publishing_an_object_by_id_without_location(object_model.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test update the object by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23080")
@@ -167,4 +167,4 @@ class TestEsAssets(BaseTest):
                                                                      f'{model_new_object.notes}')
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)

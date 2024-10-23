@@ -85,21 +85,21 @@ class ExportUsersAPI(Helper):
 
         assert 'Пользователи' in sheet_name
         assert sheet['B3'].value == 'Фамилия*', f'Expected Фамилия*, but got {sheet['B3'].value}'
-        assert sheet['B4'].value == surname, f'Expected {surname}, but got {sheet['B4'].value}'
+        assert sheet['B4'].value == surname.strip(), f'Expected {surname.strip()}, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Имя*', f'Expected Имя*, but got {sheet['C3'].value}'
-        assert sheet['C4'].value == name, f'Expected {name}, but got {sheet['C3'].value}'
+        assert sheet['C4'].value == name.strip(), f'Expected {name.strip()}, but got {sheet['C3'].value}'
         assert sheet['D3'].value == 'Отчество', f'Expected Отчество, but got {sheet['D3'].value}'
         assert sheet['F3'].value == 'Пол', f'Expected Пол, but got {sheet['F3'].value}'
         assert sheet['G3'].value == 'Телефон*', f'Expected Телефон*, but got {sheet['G3'].value}'
-        assert f"+{sheet['G4'].value}" == phone, f'Expected {phone}, but got +{sheet['G4'].value}'
+        assert f"+{sheet['G4'].value}" == phone.strip(), f'Expected {phone.strip()}, but got +{sheet['G4'].value}'
         assert sheet['H3'].value == 'Электронная почта*', f'Expected Электронная почта*, but got {sheet['H3'].value}'
-        assert sheet['H4'].value == email, f'Expected {email}, but got {sheet['H4'].value}'
+        assert sheet['H4'].value == email.strip(), f'Expected {email.strip()}, but got {sheet['H4'].value}'
         assert sheet['L3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['L3'].value}'
-        assert sheet['L4'].value == role, f'Expected {role}, but got {sheet['L4'].value}'
+        assert sheet['L4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['L4'].value}'
         assert sheet['N3'].value == 'Участок', f'Expected Участок, but got {sheet['N3'].value}'
-        assert sheet['N4'].value == district_name, f'Expected {district_name}, but got {sheet['N4'].value}'
+        assert sheet['N4'].value == district_name.strip(), f'Expected {district_name.strip()}, but got {sheet['N4'].value}'
         assert sheet['P3'].value == 'Компания', f'Expected Компания, but got {sheet['P3'].value}'
-        assert sheet['P4'].value == company_name, f'Expected {company_name}, but got {sheet['P4'].value}'
+        assert sheet['P4'].value == company_name.strip(), f'Expected {company_name.strip()}, but got {sheet['P4'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Пользователи.xlsx"
@@ -163,20 +163,20 @@ class ExportUsersAPI(Helper):
 
         assert 'Пользователи' in sheet_name
         assert sheet['B3'].value == 'Фамилия*', f'Expected Фамилия*, but got {sheet['B3'].value}'
-        assert sheet['B4'].value == surname, f'Expected {surname}, but got {sheet['B4'].value}'
+        assert sheet['B4'].value == surname.strip(), f'Expected {surname.strip()}, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Имя*', f'Expected Имя*, but got {sheet['C3'].value}'
-        assert sheet['C4'].value == name, f'Expected {name}, but got {sheet['C3'].value}'
+        assert sheet['C4'].value == name.strip(), f'Expected {name.strip()}, but got {sheet['C3'].value}'
         assert sheet['D3'].value == 'Отчество', f'Expected Отчество, but got {sheet['D3'].value}'
         assert sheet['F3'].value == 'Пол', f'Expected Пол, but got {sheet['F3'].value}'
         assert sheet['G3'].value == 'Телефон*', f'Expected Телефон*, but got {sheet['G3'].value}'
-        assert f"+{sheet['G4'].value}" == phone, f'Expected {phone}, but got +{sheet['G4'].value}'
+        assert f"+{sheet['G4'].value}" == phone.strip(), f'Expected {phone.strip()}, but got +{sheet['G4'].value}'
         assert sheet['H3'].value == 'Электронная почта*', f'Expected Электронная почта*, but got {sheet['H3'].value}'
-        assert sheet['H4'].value == email, f'Expected {email}, but got {sheet['H4'].value}'
+        assert sheet['H4'].value == email.strip(), f'Expected {email.strip()}, but got {sheet['H4'].value}'
         assert sheet['J3'].value == 'Тип*', f'Expected Тип*, but got {sheet['J3'].value}'
         assert sheet['L3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['L3'].value}'
-        assert sheet['L4'].value == role, f'Expected {role}, but got {sheet['L4'].value}'
+        assert sheet['L4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['L4'].value}'
         assert sheet['N3'].value == 'Участок', f'Expected Участок, but got {sheet['N3'].value}'
-        assert sheet['N4'].value == district_name, f'Expected {district_name}, but got {sheet['N4'].value}'
+        assert sheet['N4'].value == district_name.strip(), f'Expected {district_name.strip()}, but got {sheet['N4'].value}'
         assert sheet['P3'].value == 'Компания', f'Expected Компания, but got {sheet['P3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))

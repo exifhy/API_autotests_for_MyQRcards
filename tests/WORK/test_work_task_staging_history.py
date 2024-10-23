@@ -38,7 +38,11 @@ class TestWorkTaskStagingHistory(BaseTest):
             work_type_id=work_type_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=model_asset.id,
             work_type_id=work_type_id,
             company_id=company_id
@@ -60,7 +64,7 @@ class TestWorkTaskStagingHistory(BaseTest):
         self.api_adm_users.delete_user_by_id(model_user.userID)
         self.api_es_assets.delete_object_by_id(model_asset.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test actual record to the history of the task progress by stage.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23331")
@@ -92,7 +96,11 @@ class TestWorkTaskStagingHistory(BaseTest):
             location_id=location_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=model_asset.id,
             work_type_id=work_type_id,
             company_id=company_id
@@ -118,7 +126,7 @@ class TestWorkTaskStagingHistory(BaseTest):
         self.api_adm_users.delete_user_by_id(model_user.userID)
         self.api_es_assets.delete_object_by_id(model_asset.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test actual record to the history of the task progress by stage.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23331")
@@ -153,7 +161,11 @@ class TestWorkTaskStagingHistory(BaseTest):
             location_id=location_id
         )
         self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=model_asset.id,
             work_type_id=work_type_id,
             company_id=company_id)

@@ -35,7 +35,11 @@ def generator_contract():
 
     yield Contract(
         name=f'Договор номер: {randint(1, 999)}',
+        new_name=f'Обновленный номер договора: {randint(1000, 9999)}',
         date_from=current_date.strftime("%Y-%m-%dT00:00:00"),
         date_yesterday=yesterday.strftime("%Y-%m-%dT00:00:00"),
-        conditions=fake_ru.text(max_nb_chars=80)
+        conditions=fake_ru.text(max_nb_chars=80),
+        new_conditions=fake_ru.text(max_nb_chars=60),
+        description=fake_ru.text(max_nb_chars=40),
+        new_description=fake_ru.text(max_nb_chars=50)
     )

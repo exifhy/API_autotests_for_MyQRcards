@@ -88,14 +88,29 @@ class ExportAssetsAPI(Helper):
         #         break
 
         assert 'Объекты и оборудование' in sheet_name
-        assert sheet['A3'].value == 'Название*'
-        assert sheet['B3'].value == 'ERP ID'
-        assert sheet['C3'].value == 'Компания*'
-        assert sheet['D3'].value == 'Тип*'
-        assert sheet['E3'].value == 'Класс*'
-        assert sheet['F3'].value == 'Участок*'
-        assert sheet['G3'].value == 'Вид работ*'
-        assert sheet['I3'].value == 'Адрес*'
+        assert sheet['A3'].value == 'Название*', \
+            f"Expected <Название*>, but got <{sheet['A3'].value}>"
+
+        assert sheet['B3'].value == 'ERP ID', \
+            f"Expected <ERP ID>, but got <{sheet['B3'].value}>"
+
+        assert sheet['C3'].value == 'Компания*', \
+            f"Expected <Компания*>, but got <{sheet['C3'].value}>"
+
+        assert sheet['D3'].value == 'Тип*', \
+            f"Expected <Тип*>, but got <{sheet['D3'].value}>"
+
+        assert sheet['E3'].value == 'Класс*', \
+            f"Expected <Класс*>, but got <{sheet['E3'].value}>"
+
+        assert sheet['F3'].value == 'Участок*', \
+            f"Expected <Участок*>, but got <{sheet['F3'].value}>"
+
+        assert sheet['G3'].value == 'Вид работ*', \
+            f"Expected <Вид работ*>, but got <{sheet['G3'].value}>"
+
+        assert sheet['I3'].value == 'Адрес*', \
+            f"Expected <Адрес*>, but got <{sheet['I3'].value}>"
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Объекты+и+оборудование.xlsx"
@@ -150,18 +165,42 @@ class ExportAssetsAPI(Helper):
 
         # logger.info(sheet_name)
         assert 'Объекты и оборудование' in sheet_name
-        assert sheet['A3'].value == 'Название'
-        assert sheet['A4'].value == name_asset
-        assert sheet['B3'].value == 'Компания'
-        assert sheet['B4'].value == company_name
-        assert sheet['C3'].value == 'Тип объекта'
-        assert sheet['C4'].value == asset_type_name
-        assert sheet['D3'].value == 'Класс объекта'
-        assert sheet['D4'].value == asset_class_name
-        assert sheet['E3'].value == 'Участок'
-        assert sheet['E4'].value == district_name
-        assert sheet['F3'].value == 'Вид работ'
-        assert sheet['F4'].value == work_type_name
+
+        assert sheet['A3'].value == 'Название', \
+            f'Expected <Название>, but got <{sheet['A3'].value}>'
+
+        assert sheet['A4'].value == name_asset.strip(), \
+            f'Expected <{name_asset.strip()}>, but got <{sheet['A4'].value}>'
+
+        assert sheet['B3'].value == 'Компания', \
+            f'Expected <Компания>, but got <{sheet['B3'].value}>'
+
+        assert sheet['B4'].value == company_name.strip(), \
+            f'Expected <{company_name.strip()}>, but got <{sheet['B4'].value}>'
+
+        assert sheet['C3'].value == 'Тип объекта', \
+            f'Expected <Тип объекта>, but got <{sheet['C3'].value}>'
+
+        assert sheet['C4'].value == asset_type_name.strip(), \
+            f'Expected <{sheet['C4'].value}>, but got <{sheet['C4'].value}>'
+
+        assert sheet['D3'].value == 'Класс объекта', \
+            f'Expected <Класс объекта>, but got <{sheet['D3'].value}>'
+
+        assert sheet['D4'].value == asset_class_name.strip(), \
+            f'Expected <{sheet['D4'].value}>, but got <{sheet['D4'].value}>'
+
+        assert sheet['E3'].value == 'Участок', \
+            f'Expected <Участок>, but got <{sheet['E3'].value}>'
+
+        assert sheet['E4'].value == district_name.strip(), \
+            f'Expected <{district_name.strip()}>, but got <{sheet['E4'].value}>'
+
+        assert sheet['F3'].value == 'Вид работ', \
+            f'Expected <Вид работ>, but got <{sheet['F3'].value}>'
+
+        assert sheet['F4'].value == work_type_name.strip(), \
+            f'Expected <{work_type_name.strip()}>, but got <{sheet['F4'].value}>'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Объекты+и+оборудование.xlsx"

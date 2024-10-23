@@ -18,11 +18,15 @@ class SuccessAddServiceContractModel(BaseModel):
     contract: List[int]
 
 
-class SuccessContractAssetAddProjectionModel(BaseModel):
+class AddListObjectsToContractModel(BaseModel):
     tenantID: Optional[int] = None
     contractID: Optional[int] = None
     assetID: Optional[int] = None
     isNew: Optional[bool] = None
+
+
+class SuccessAddListObjectsToContractModel(BaseModel):
+    objects: List[AddListObjectsToContractModel]
 
 
 class SuccessGetContractResultModel(BaseModel):

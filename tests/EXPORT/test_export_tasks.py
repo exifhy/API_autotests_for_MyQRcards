@@ -44,7 +44,11 @@ class TestExportTasks(BaseTest):
         )
         self.api_es_asset_districts.add_default_district_to_object(object_model.id)
         self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id
@@ -53,7 +57,7 @@ class TestExportTasks(BaseTest):
         self.api_work_tasks.delete_task_by_id(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test exports the extended task list into account the specified filters by task id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23233")
@@ -86,7 +90,11 @@ class TestExportTasks(BaseTest):
         )
         self.api_es_asset_districts.add_default_district_to_object(object_model.id)
         self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id
@@ -95,4 +103,4 @@ class TestExportTasks(BaseTest):
         self.api_work_tasks.delete_task_by_id(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)

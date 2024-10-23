@@ -39,6 +39,10 @@ from services.sc.sc_contract_attributes.api_sc_contract_attributes import ScCont
 from services.sc.sc_service_contract.api_sc_service_contract import ScServiceContractAPI
 from services.es.asset_types.api_es_asset_types import EsAssetTypesAPI
 from services.es.asset_classes.api_es_asset_classes import EsAssetClassesAPI
+from services.common.common_attributes.api_common_attributes import CommonAttributesAPI
+from services.common.common_attribute_list_of_values.api_common_attribute_list_of_values import CommonAttributeListOfValuesAPI
+from services.work.work_task_types.api_work_task_types import WorkTaskTypesAPI
+from services.sla.sla_criticalities.api_sla_criticalities import SlaCriticalitiesAPI
 
 
 class BaseTest:
@@ -85,3 +89,7 @@ class BaseTest:
         self.api_sc_service_contract = ScServiceContractAPI()
         self.api_es_asset_types = EsAssetTypesAPI()
         self.api_es_asset_classes = EsAssetClassesAPI()
+        self.api_common_attributes = CommonAttributesAPI()
+        self.api_common_attribute_list_of_values = CommonAttributeListOfValuesAPI()
+        self.api_work_task_types = WorkTaskTypesAPI()
+        self.api_sla_criticalities = SlaCriticalitiesAPI()

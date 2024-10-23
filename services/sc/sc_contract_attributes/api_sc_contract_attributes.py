@@ -25,8 +25,8 @@ class ScContractAttributesAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Updates information about custom object attributes.")
-    def post_updates_info_about_custom_object_attributes(self, contract_id: int, attribute_id: str):
+    @allure.step("Updates information about custom asset attributes.")
+    def post_updates_info_about_custom_asset_attributes(self, contract_id: int, attribute_id: str):
         value = f"Attribute-{randint(1, 999)}"
         start = time.time()
         response = requests.post(
@@ -48,4 +48,4 @@ class ScContractAttributesAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully updates information about custom object attributes.')
+        logger.info(f'Successfully updates information about custom asset attributes.')

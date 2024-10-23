@@ -67,7 +67,7 @@ class EsCompaniesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete company, id: {company_id}.')
+        logger.warning(f'Successfully delete company, id: {company_id}.')
 
     @allure.step("Returns the company available to the user by id.")
     def get_detailed_information_on_company_by_id(self, company_id: int):

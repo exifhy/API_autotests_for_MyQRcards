@@ -36,7 +36,11 @@ class TestWorkTaskAssignmentHistory(BaseTest):
         )
         self.api_es_asset_districts.add_default_district_to_object(object_model.id)
         self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id,
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id
@@ -50,4 +54,4 @@ class TestWorkTaskAssignmentHistory(BaseTest):
         self.api_adm_users.delete_user_by_id(model_user.userID)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(created_location_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)

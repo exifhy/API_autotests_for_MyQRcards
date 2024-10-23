@@ -90,7 +90,7 @@ class ExportTasksAPI(Helper):
 
         assert 'Заявки' in sheet_name
         assert sheet['A3'].value == 'Номер', f'Expected Номер, but got {sheet['A3'].value}'
-        assert sheet['A4'].value == number_task, f'Expected {number_task}, but got {sheet['A4'].value}'
+        assert sheet['A4'].value == number_task.strip(), f'Expected {number_task.strip()}, but got {sheet['A4'].value}'
         assert sheet['B3'].value == 'Тип заявки*', f'Expected Тип заявки*, but got {sheet['B3'].value}'
         assert sheet['B4'].value == 'Заявка', f'Expected Заявка, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C3'].value}'
@@ -133,7 +133,7 @@ class ExportTasksAPI(Helper):
 
         assert 'Заявки' in sheet_name
         assert sheet['A2'].value == 'Номер', f'Expected Номер, but got {sheet['A2'].value}'
-        assert sheet['A3'].value == number_task, f'Expected {number_task}, but got {sheet['A3'].value}'
+        assert sheet['A3'].value == number_task.strip(), f'Expected {number_task.strip()}, but got {sheet['A3'].value}'
         assert sheet['B2'].value == 'Тип заявки', f'Expected Тип заявки*, but got {sheet['B2'].value}'
         assert sheet['B3'].value == 'Заявка', f'Expected Заявка, but got {sheet['B3'].value}'
         assert sheet['C2'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C2'].value}'

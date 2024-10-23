@@ -54,7 +54,7 @@ class EsLocationsAPI(Helper):
         return model.location[0]
 
     @allure.step("Delete location by ID.")
-    def delete_location(self, location_id: int):
+    def delete_location_by_id(self, location_id: int):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_location_by_id(location_id),

@@ -59,7 +59,7 @@ class TestExportAssets(BaseTest):
         self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_districts.delete_district_by_id(district_id.districts[0])
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test normal export a list of objects.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23145")

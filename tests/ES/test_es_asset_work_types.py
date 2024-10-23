@@ -36,7 +36,7 @@ class TestEsAssetWorkTypes(BaseTest):
         )
         self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test delete from asset work type by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23108")
@@ -70,5 +70,5 @@ class TestEsAssetWorkTypes(BaseTest):
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_es_assets.delete_object_by_id(asset_id.id)
         self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location(location_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
