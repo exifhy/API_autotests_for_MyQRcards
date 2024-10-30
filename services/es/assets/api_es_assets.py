@@ -92,7 +92,7 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete the object with id{asset_id}.')
+        logger.warning(f'Successfully delete the object with ID: {asset_id}.')
 
     @allure.step("Detailed information on the object by id.")
     def get_detailed_information_on_object_by_id(self, asset_id: int):

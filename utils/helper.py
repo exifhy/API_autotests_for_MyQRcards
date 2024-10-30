@@ -27,6 +27,12 @@ class Helper:
         allure.attach(body=request, name='Service API url', attachment_type=AttachmentType.TEXT)
 
     @classmethod
+    def attach_request_txt(cls, request):
+        if isinstance(request, bytes):
+            request = request.decode('utf-8')
+        allure.attach(body=request, name='API Request body', attachment_type=AttachmentType.TEXT)
+
+    @classmethod
     def attach_time(cls, start_time, end_time):
         response_time_ms = (end_time - start_time) * 1000
         allure.attach(f'API Response time: {response_time_ms:.2f}ms', name="Response Time",

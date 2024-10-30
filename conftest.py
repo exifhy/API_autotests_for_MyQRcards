@@ -19,6 +19,45 @@ ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, �
 HOST = os.getenv('URL_DEV_HUBEX') if ENVIRON == 'qa' else os.getenv('URL_PROD_HUBEX')
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_USER_TOKEN = os.getenv('API_USER_TOKEN')
+BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
+TENANT_ID = os.getenv('TENANT_ID')
+TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
+APP_ID = os.getenv('APP_ID')
+
+
+@allure.step("Authorization via API by Email | Password.")
+@pytest.fixture(scope='module')
+def bearer_token():
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=BASIC_TOKEN, app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        bearer_token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(bearer_token, APP_ID),
+            json={
+                "tenantID": TENANT_ID,
+                "tenantMemberID": TENANT_MEMBER_ID
+            }
+        )
+        logger.info("Tenant authorization by user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token}")
+        return token
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
 
 
 def get_api_user_access_token():

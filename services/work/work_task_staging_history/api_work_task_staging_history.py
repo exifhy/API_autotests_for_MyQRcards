@@ -45,7 +45,7 @@ class WorkTaskStagingHistoryAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully add task staging history, stage id: {stage_id}.')
+        logger.info(f'Successfully add task staging history, stage id: {stage_id}.')
 
     @allure.step("Mass movement of task by stages.")
     def post_multiple_add_task_staging_history(self, stage_id: str, task_id: int):

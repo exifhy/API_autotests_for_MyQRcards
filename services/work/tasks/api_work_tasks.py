@@ -1,7 +1,7 @@
 import random
 import allure
 import requests
-from datetime import timezone, datetime
+from datetime import timezone
 from loguru import logger
 from requests import JSONDecodeError
 from utils.helper import Helper
@@ -166,3 +166,32 @@ class WorkTasksAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully update information on the task by id.')
         return task_number, note_task
+
+    @allure.step("Returns the list of available stages to which the task can be transferred.")
+    def get_list_of_available_stages_to_task_can_transferred(self, task_id: int, stage_name: str, token: str) -> str:
+        # params = {
+        #     "Range": "items=0-10",
+        #     "offset": '10',
+        #     "fetch": '50',
+        # }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_of_available_stages_to_task_can_transferred_endpoint(task_id),
+            headers=self.headers.basic_header(token),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListStagesModel(root=response.json())
+        for key, value in model.root.items():
+            if value.name == stage_name:
+                logger.info(f'Successfully get the list of available stages to which the task can be transferred.')
+                logger.info(f"Stage ID: {key}, Name: {value.name}")
+                return key

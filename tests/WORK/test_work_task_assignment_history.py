@@ -40,7 +40,7 @@ class TestWorkTaskAssignmentHistory(BaseTest):
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
             criticality_id=criticality_id,
-            task_type_id=task_type_id,
+            task_type_id=task_type_id[0],
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id

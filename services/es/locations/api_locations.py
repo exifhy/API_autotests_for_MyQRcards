@@ -70,4 +70,4 @@ class EsLocationsAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
                                                                                            f'{response.json()}')
-        logger.info(f'Successfully delete location by ID: {location_id}.')
+        logger.warning(f'Successfully delete location by ID: {location_id}.')

@@ -20,3 +20,8 @@ class Endpoints:
     @staticmethod
     def put_update_task_by_id_endpoint(task_id: int) -> str:
         return f'{HOST}/WORK/tasks/{task_id}'
+
+    @staticmethod
+    def get_list_of_available_stages_to_task_can_transferred_endpoint(task_id: int) -> str:
+        return f'{HOST}/WORK/tasks/{task_id}/stages/next'
+

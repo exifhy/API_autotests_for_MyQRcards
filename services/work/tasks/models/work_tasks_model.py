@@ -300,3 +300,129 @@ class SuccessDetailedInfoModel(BaseModel):
     listCategory: Optional[IdNameResult] = None
     parent: Optional[IdNameResult] = None
     childCount: Optional[int] = None
+
+
+class TaskStageRequirementResult(BaseModel):
+    code: Optional[str] = None
+    name: Optional[str] = None
+    arguments: Optional[str] = None
+
+
+class ListStagesResult(BaseModel):
+    name: Optional[str] = None
+    verbName: Optional[str] = None
+    taskViewTemplateID: Optional[int] = None
+    stageDescription: Optional[str] = None
+    permissionUiCode: Optional[str] = None
+    taskStatus: Optional[IdNameResult] = None
+    branch: Optional[IdNameResult] = None
+    linkDescription: Optional[str] = None
+    linkName: Optional[str] = None
+    isPositiveResult: Optional[bool] = None
+    isFinishStage: Optional[bool] = None
+    sortOrder: Optional[int] = None
+    requirements: Optional[Dict[str, TaskStageRequirementResult]] = None
+
+
+class SuccessGetListStagesModel(RootModel):
+    root: Dict[str, ListStagesResult]
+
+
+data = {
+    "28": {
+        "name": "В работе",
+        "verbName": "В работе",
+        "taskViewTemplateID": 1,
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "В работе",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 1
+    },
+    "29": {
+        "name": "Выполнена",
+        "verbName": "Выполнена",
+        "taskViewTemplateID": 1,
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "Выполнена",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 2
+    },
+    "30": {
+        "name": "Закрыта",
+        "verbName": "Закрыта",
+        "taskViewTemplateID": 1,
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "Закрыта",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 3
+    },
+    "31": {
+        "name": "Отказ исполнителя",
+        "verbName": "Отказаться от заявки",
+        "taskViewTemplateID": 1,
+        "permissionUiCode": "taskStageTransition@0000700027@00031",
+        "taskStatus": {
+            "name": "Приостановлена",
+            "id": 12
+        },
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "Отказаться от заявки",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 2
+    },
+    "32": {
+        "name": "Не выполнена",
+        "verbName": "Не выполнена",
+        "taskViewTemplateID": 1,
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "Не выполнена",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 5
+    },
+    "33": {
+        "name": "Исполнитель назначен",
+        "verbName": "Назначение исполнителя",
+        "taskViewTemplateID": 1,
+        "permissionUiCode": "taskStageTransition@00007@00027@00033",
+        "taskStatus": {
+            "name": "В работе",
+            "id": 11
+        },
+        "branch": {
+            "name": "Основная ветка",
+            "id": 1
+        },
+        "linkName": "Назначение исполнителя",
+        "isPositiveResult": True,
+        "isFinishStage": False,
+        "sortOrder": 1
+    }
+}
+
+
+model_ = SuccessGetListStagesModel(root=data)
+
+for key_, value_ in model_.root.items():
+    if value_.name == "Выполнена":
+        print(key_)
+

@@ -45,7 +45,7 @@ class Endpoints:
         return f'{HOST}/SC/ServiceContract/{contract_id}/attachments'
 
     @staticmethod
-    def post_bind_contract_and_attachment_by_id_endpoint(contract_id: int) -> str:
+    def post_bind_contract_and_attachment_by_list_id_endpoint(contract_id: int) -> str:
         return f'{HOST}/SC/ServiceContract/{contract_id}/attachments'
 
     @staticmethod
@@ -53,7 +53,7 @@ class Endpoints:
         return f'{HOST}/SC/ServiceContract/{contract_id}/attachments'
 
     @staticmethod
-    def get_attachment_by_contract_by_attachment_id_endpoint(contract_id: int, attachment_id: int) -> str:
+    def get_attachment_binds_contract_by_id_endpoint(contract_id: int, attachment_id: int) -> str:
         return f'{HOST}/SC/ServiceContract/{contract_id}/attachment/{attachment_id}'
 
     @staticmethod
@@ -62,11 +62,11 @@ class Endpoints:
 
     @staticmethod
     def post_upload_file_to_server_and_bind_contract_data_from_form_endpoint(contract_id: int) -> str:
-        return f'{HOST}/SC/ServiceContract/{contract_id}/attachments/upload/fromform'
+        return f'{HOST}/SC/ServiceContract/{contract_id}/attachments/upload/fromForm'
 
     @staticmethod
     def post_upload_file_to_server_and_bind_contract_data_from_form_v2_endpoint(contract_id: int) -> str:
-        return f'{HOST}/SC/ServiceContract/{contract_id}/v2/attachments/upload/fromform'
+        return f'{HOST}/SC/ServiceContract/{contract_id}/v2/attachments/upload/fromForm'
 
     @staticmethod
     def post_upload_file_to_server_and_bind_contract_data_from_body_endpoint(contract_id: int) -> str:
@@ -89,7 +89,7 @@ class Endpoints:
         return f'{HOST}/SC/ServiceContract/{contract_id}/contacts'
 
     @staticmethod
-    def delete_contact_by_contract_by_id_endpoint(contract_id: int, contact_id: int) -> str:
+    def delete_contact_from_contract_by_id_endpoint(contract_id: int, contact_id: int) -> str:
         return f'{HOST}/SC/ServiceContract/{contract_id}/contacts/{contact_id}'
 
     @staticmethod

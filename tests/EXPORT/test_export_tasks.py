@@ -48,12 +48,12 @@ class TestExportTasks(BaseTest):
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
             criticality_id=criticality_id,
-            task_type_id=task_type_id,
+            task_type_id=task_type_id[0],
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id
         )
-        self.api_export_tasks.get_normal_export_task_by_task_id(model_task.id, model_task.number)
+        self.api_export_tasks.get_normal_export_task_by_task_id(model_task.id, model_task.number, task_type_id[1])
         self.api_work_tasks.delete_task_by_id(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
@@ -94,7 +94,7 @@ class TestExportTasks(BaseTest):
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_task = self.api_work_tasks.post_add_task(
             criticality_id=criticality_id,
-            task_type_id=task_type_id,
+            task_type_id=task_type_id[0],
             asset_id=object_model.id,
             work_type_id=work_type_id,
             company_id=company_id

@@ -43,6 +43,7 @@ from services.common.common_attributes.api_common_attributes import CommonAttrib
 from services.common.common_attribute_list_of_values.api_common_attribute_list_of_values import CommonAttributeListOfValuesAPI
 from services.work.work_task_types.api_work_task_types import WorkTaskTypesAPI
 from services.sla.sla_criticalities.api_sla_criticalities import SlaCriticalitiesAPI
+from services.common.common_contacts.api_common_contacts import CommonContactsAPI
 
 
 class BaseTest:
@@ -93,3 +94,5 @@ class BaseTest:
         self.api_common_attribute_list_of_values = CommonAttributeListOfValuesAPI()
         self.api_work_task_types = WorkTaskTypesAPI()
         self.api_sla_criticalities = SlaCriticalitiesAPI()
+        self.api_common_contacts = CommonContactsAPI()
+

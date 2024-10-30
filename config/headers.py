@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 APP_ID = os.getenv('APP_ID')
+BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
 
 
 class Headers:
@@ -12,6 +13,14 @@ class Headers:
     basic_content_type = {
         "Content-Type": "application/json",
         # "X-APPLICATION-ID": "3"
+    }
+
+    authentication_fixture_header = {
+        'Content-Type': 'application/json',
+        'X-APPLICATION-ID': APP_ID,
+        'Accept': 'application/json',
+        'Authorization': f'Basic {BASIC_TOKEN}',
+        'Accept-Language': 'ru-RU'
     }
 
     @staticmethod
@@ -25,6 +34,18 @@ class Headers:
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
             "Content-Type": "application/json"
+        }
+        return basic
+
+    @staticmethod
+    def upload_file_header(token: str, cont_type: str) -> dict:
+        basic = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            'Origin': 'http://localhost:8080',
+            "Accept-Language": "en-US",
+            "X-Application-ID": f"{APP_ID}",
+            'Content-Type': cont_type
         }
         return basic
 

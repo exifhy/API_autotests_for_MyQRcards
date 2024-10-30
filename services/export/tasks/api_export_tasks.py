@@ -54,7 +54,7 @@ class ExportTasksAPI(Helper):
         return model
 
     @allure.step("Exports the task list into account the specified filters by task id.")
-    def get_normal_export_task_by_task_id(self, task_id: int, number_task: str):
+    def get_normal_export_task_by_task_id(self, task_id: int, number_task: str, name_task_type: str):
         params = {
             "taskID": task_id,
             "isClosed": False,
@@ -92,9 +92,9 @@ class ExportTasksAPI(Helper):
         assert sheet['A3'].value == 'Номер', f'Expected Номер, but got {sheet['A3'].value}'
         assert sheet['A4'].value == number_task.strip(), f'Expected {number_task.strip()}, but got {sheet['A4'].value}'
         assert sheet['B3'].value == 'Тип заявки*', f'Expected Тип заявки*, but got {sheet['B3'].value}'
-        assert sheet['B4'].value == 'Заявка', f'Expected Заявка, but got {sheet['B4'].value}'
+        assert sheet['B4'].value == name_task_type, f'Expected <{name_task_type}>, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C3'].value}'
-        assert sheet['C4'].value == 'Заявка создана авто-тестом', f'Expected Заявка создана авто-тестом, but got {sheet['C4'].value}'
+        assert sheet['C4'].value == 'Заявка создана авто-тестом', f'Expected <Заявка создана авто-тестом>, but got {sheet['C4'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Заявки.xlsx"

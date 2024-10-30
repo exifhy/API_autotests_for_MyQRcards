@@ -32,6 +32,10 @@ class Payloads:
         return [*args]
 
     @staticmethod
+    def delete_objects_related_to_contracts_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
     def post_add_list_object_to_contract_payload(asset_id: int, child: bool, **kwargs) -> list:
         payload = [
             {
@@ -41,6 +45,28 @@ class Payloads:
         ]
         if kwargs:
             payload.append(kwargs)
+        return payload
+
+    @staticmethod
+    def post_add_list_with_three_objects_to_contract_payload(
+            asset1_id: int,
+            asset2_id: int,
+            asset3_id: int,
+    ) -> list:
+        payload = [
+            {
+                "assetID": asset1_id,
+                "includeChildren": True
+            },
+            {
+                "assetID": asset2_id,
+                "includeChildren": True
+            },
+            {
+                "assetID": asset3_id,
+                "includeChildren": True
+            }
+        ]
         return payload
 
     @staticmethod
@@ -69,3 +95,28 @@ class Payloads:
         if kwargs:
             payload.append(kwargs)
         return payload
+
+    @staticmethod
+    def post_upload_file_payload(contract_id) -> dict:
+        payload = {
+            "contractID": contract_id,
+            "IsPublic": False,
+            'IsIgnorePossibleDuplication': True
+        }
+        return payload
+
+    @staticmethod
+    def post_attachment_bind_to_contract_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def delete_attachment_from_contract_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def post_add_contacts_to_contract_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def delete_contacts_from_contract_payload(*args) -> list:
+        return [*args]

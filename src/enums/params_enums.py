@@ -52,20 +52,6 @@ class Params(Enum):
         pytest.param({"warrantyTill": "9999-12-31T23:59:59"}, id="warrantyTill: 9999-12-31T23:59:59")
     ]
 
-    params_task_staging_first_status = [
-        pytest.param("31", "27", id="Contractor reject -> New"),
-        pytest.param("33", "28", id="Contractor assigned -> In progress"),
-    ]
-
-    params_task_staging_second_status = [
-        pytest.param("33", "28", "29", id="Contractor assigned -> In progress -> Done"),
-        pytest.param("33", "28", "32", id="Contractor assigned -> In progress -> Not done"),
-    ]
-
-    params_task_staging_third_status = [
-        pytest.param("33", "28", "29", "30", id="Contractor assigned -> In progress -> Done -> Closed")
-    ]
-
     params_auth_accounts = [
         pytest.param("5", "10", id="offset=5, fetch=10"),
         pytest.param("0", "50", id="offset=0, fetch=50"),

@@ -47,7 +47,7 @@ class WorkTaskTypesAPI(Helper):
         for key, value in model.root.items():
             logger.info(f'Successfully get list task types.')
             logger.info(f'Task type ID: {key}, name: {value.name}')
-            return key
+            return key, value.name
 
     @allure.step("Get list task types.")
     def get_list_task_types(self):
