@@ -4,12 +4,12 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Common service offers various methods for managing common and auxiliary dictionaries")
+@allure.feature("Common service offers various methods for managing common and auxiliary dictionaries.")
 class TestCommonAttributes(BaseTest):
 
     @allure.title('Test attribute creation method for contract only.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23548")
-    @pytest.mark.skip(reason='Тест на создание атрибута для договора есть в тесте ')
+    @pytest.mark.skip(reason='Тест на создание атрибута для договора есть в тесте - test_delete_attribute_by_id')
     @pytest.mark.regress
     @pytest.mark.test_case_id(23548)
     def test_post_add_method_attributes_only_for_contract(self):

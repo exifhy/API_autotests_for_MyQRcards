@@ -320,7 +320,9 @@ class TestScServiceContract(BaseTest):
         def test_post_upload_file_to_server_and_bind_contract_data_from_form(self):
             company_id = self.api_es_companies.post_add_our_company()
             contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
-            self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(contract_id)
+            self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(
+                contract_id=contract_id.contract[0]
+            )
             self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
             self.api_es_companies.delete_company_by_id(company_id)
 
@@ -348,7 +350,218 @@ class TestScServiceContract(BaseTest):
         def test_post_upload_file_to_server_and_bind_contract_data_from_body(self):
             company_id = self.api_es_companies.post_add_our_company()
             contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
-            self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_body(contract_id)
+            self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_body(
+                contract_id.contract[0]
+            )
             self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
             self.api_es_companies.delete_company_by_id(company_id)
 
+        @allure.title('Test method of get the list of attachments bind to contract.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23725")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23725)
+        def test_get_list_of_attachments_contract(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(
+                contract_id.contract[0]
+            )
+            self.api_sc_service_contract.get_list_of_attachments_contract(contract_id.contract[0])
+            self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+            self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test method of mass attachment bind to a contract.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23726")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23726)
+        def test_post_bind_contract_and_attachment_by_list_id(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contract_id_second = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            attachment_id = self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(
+                contract_id.contract[0]
+            )
+            try:
+                self.api_sc_service_contract.post_bind_contract_and_attachment_by_list_id(
+                    contract_id_second.contract[0],
+                    attachment_id.attachmentID
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id_second.contract[0])
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test method of get of attachment binds to contract by id.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23752")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23752)
+        def test_get_attachment_bind_contract_by_id(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            attachment_id = self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(
+                contract_id.contract[0]
+            )
+            try:
+                self.api_sc_service_contract.get_attachment_bind_contract_by_id(
+                    contract_id=contract_id.contract[0],
+                    attachment_id=attachment_id.attachmentID
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test delete attachment from contract.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23754")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23754)
+        def test_delete_attachment_from_contract(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            attachment_id = self.api_sc_service_contract.post_upload_file_to_server_and_bind_contract_data_from_form(
+                contract_id.contract[0]
+            )
+            try:
+                self.api_sc_service_contract.delete_attachment_from_contract(
+                    contract_id.contract[0],
+                    attachment_id.attachmentID
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_es_companies.delete_company_by_id(company_id)
+
+    @allure.story('Story: Contracts and contacts')
+    class TestContractContacts(BaseTest):
+
+        @allure.title('Test method of adding contacts to contracts.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23757")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23757)
+        def test_post_add_contacts_to_contract(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contact_id = self.api_common_contacts.post_add_contacts()
+            contact_id_second = self.api_common_contacts.post_add_contacts()
+            try:
+                self.api_sc_service_contract.post_add_contacts_to_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_common_contacts.delete_mass_contacts(
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test method get the list of contacts of those responsible for the contract.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23755")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23755)
+        def test_get_list_of_contacts_by_contract(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contact_id = self.api_common_contacts.post_add_contacts()
+            contact_id_second = self.api_common_contacts.post_add_contacts()
+            try:
+                self.api_sc_service_contract.post_add_contacts_to_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_sc_service_contract.get_list_of_contacts_by_contract(
+                    contract_id=contract_id.contract[0]
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_common_contacts.delete_mass_contacts(
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test delete contacts from contract.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23756")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23756)
+        def test_delete_contracts_from_contract(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contact_id = self.api_common_contacts.post_add_contacts()
+            contact_id_second = self.api_common_contacts.post_add_contacts()
+            try:
+                self.api_sc_service_contract.post_add_contacts_to_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_sc_service_contract.delete_contracts_from_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_common_contacts.delete_mass_contacts(
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test delete contacts from contract by ID.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23758")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23758)
+        def test_delete_contract_from_contract_by_id(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contact_id = self.api_common_contacts.post_add_contacts()
+            try:
+                self.api_sc_service_contract.post_add_contacts_to_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                )
+                self.api_sc_service_contract.delete_contract_from_contract_by_id(
+                    contract_id.contract[0],
+                    contact_id.contact[0],
+                )
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_common_contacts.delete_mass_contacts(
+                    contact_id.contact[0],
+                )
+                self.api_es_companies.delete_company_by_id(company_id)
+
+        @allure.title('Test method of adding contact to contract by ID.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23759")
+        @pytest.mark.regress
+        @pytest.mark.test_case_id(23759)
+        def test_put_add_contact_to_contract_by_id(self):
+            company_id = self.api_es_companies.post_add_our_company()
+            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id)
+            contact_id = self.api_common_contacts.post_add_contacts()
+            contact_id_second = self.api_common_contacts.post_add_contacts()
+            try:
+                self.api_sc_service_contract.post_add_contacts_to_contract(
+                    contract_id.contract[0],
+                    contact_id.contact[0]
+                )
+                self.api_sc_service_contract.put_add_contact_to_contract_by_id(
+                    contract_id.contract[0],
+                    contact_id_second.contact[0]
+                )
+                model_contacts = self.api_sc_service_contract.get_list_of_contacts_by_contract(
+                    contract_id=contract_id.contract[0]
+                )
+                assert model_contacts.root[str(contact_id.contact[0])].contractID == contract_id.contract[0], \
+                    f'The contact with ID {contact_id.contact[0]} did not add to the contract ID{contract_id.contract[0]}'
+                assert model_contacts.root[str(contact_id_second.contact[0])].contractID == contract_id.contract[0], \
+                    f'The contact with ID {contact_id_second.contact[0]} did not add to the contract ID{contract_id.contract[0]}'
+            finally:
+                self.api_sc_service_contract.delete_contract_by_id(contract_id=contract_id.contract[0])
+                self.api_common_contacts.delete_mass_contacts(
+                    contact_id.contact[0],
+                    contact_id_second.contact[0]
+                )
+                self.api_es_companies.delete_company_by_id(company_id)

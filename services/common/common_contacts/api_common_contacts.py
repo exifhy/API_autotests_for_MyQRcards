@@ -62,7 +62,7 @@ class CommonContactsAPI(Helper):
         response = requests.put(
             url=self.endpoints.put_update_contacts_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_add_contacts(
+            json=self.payloads.put_update_contacts(
                 contact_id=contact_id,
                 full_name=new_name,
                 email=self.contact.email,
@@ -101,13 +101,13 @@ class CommonContactsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully delete contact by ID: {contact_id}.')
 
-    @allure.step("Delete contacts mass.")
+    @allure.step("Delete list of contacts.")
     def delete_mass_contacts(self, *args):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contacts_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.delete_mass_of_contact_payload(args)
+            json=self.payloads.delete_mass_of_contact_payload(*args)
         )
         end = time.time()
         logger.info(response.headers)
@@ -119,7 +119,7 @@ class CommonContactsAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete contacts.')
+        logger.warning(f'Successfully delete contacts with ID: {args}.')
 
     @allure.step("Get list data contacts.")
     def get_list_contacts(self):

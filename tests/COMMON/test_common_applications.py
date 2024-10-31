@@ -4,7 +4,7 @@ import pytest
 
 
 @allure.epic("Administration")
-@allure.feature("Managing common dictionaries")
+@allure.feature("Common service offers various methods for managing common and auxiliary dictionaries.")
 class TestCommonApplications(BaseTest):
 
     @allure.title('Test returns a list of branches.')

@@ -502,13 +502,13 @@ class ScServiceContractAPI(Helper):
         logger.info(f'Successfully get the list of attachments bind to contract.')
         return model
 
-    @allure.step("method of mass attachment bind to a contract.")
+    @allure.step("Method of mass attachment bind to a contract.")
     def post_bind_contract_and_attachment_by_list_id(self, contract_id: int, *args):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_contract_and_attachment_by_list_id_endpoint(contract_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_attachment_bind_to_contract_payload(args)
+            json=self.payloads.post_attachment_bind_to_contract_payload(*args)
         )
         end = time.time()
         logger.info(response.headers)
@@ -519,9 +519,9 @@ class ScServiceContractAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+        assert response.status_code == HTTPStatus.CREATED, \
             f'Status code {response.status_code}, {response.json()}'
-        model = SuccessBindAttachmentToContractModel(**response.json())
+        model = SuccessBindAttachmentToContractModel(attachments=response.json())
         logger.info(f'Successfully bind attachment to contract ID: {contract_id}.')
         return model
 
@@ -531,7 +531,7 @@ class ScServiceContractAPI(Helper):
         response = requests.delete(
             url=self.endpoints.delete_unbind_contract_and_attachment_by_id_endpoint(contract_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.delete_attachment_from_contract_payload(args)
+            json=self.payloads.delete_attachment_from_contract_payload(*args)
         )
         end = time.time()
         logger.info(response.headers)
@@ -562,7 +562,7 @@ class ScServiceContractAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = AttachmentListResult(**response.json())
-        logger.info(f'Successfully get attachment bind to contract by ID.')
+        logger.info(f'Successfully get attachment by ID: {attachment_id} bind to contract by ID: {contract_id}.')
         return model
 
     @allure.step("Method to get TemporaryRedirect to a temporary link to download a file.")
@@ -595,7 +595,7 @@ class ScServiceContractAPI(Helper):
         response = requests.post(
             url=self.endpoints.post_add_contacts_by_contract_endpoint(contract_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_add_contacts_to_contract_payload(args)
+            json=self.payloads.post_add_contacts_to_contract_payload(*args)
         )
         end = time.time()
         logger.info(response.headers)
@@ -607,7 +607,7 @@ class ScServiceContractAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
-        model = SuccessAddContactsToContractModel(**response.json())
+        model = SuccessAddContactsToContractModel(objects=response.json())
         logger.info(f'Successfully adding contacts to contracts.')
         return model
 
@@ -638,7 +638,7 @@ class ScServiceContractAPI(Helper):
         response = requests.delete(
             url=self.endpoints.delete_contacts_by_contract_endpoint(contract_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.delete_contacts_from_contract_payload(args)
+            json=self.payloads.delete_contacts_from_contract_payload(*args)
         )
         end = time.time()
         logger.info(response.headers)
@@ -650,7 +650,7 @@ class ScServiceContractAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully deleting contacts from contract ID: {contract_id}')
+        logger.warning(f'Successfully deleting contacts from contract ID: {args}')
 
     @allure.step("Delete contact from contract by ID.")
     def delete_contract_from_contract_by_id(self, contract_id: int, contact_id):
