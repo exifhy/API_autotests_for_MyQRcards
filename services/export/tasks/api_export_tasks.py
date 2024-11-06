@@ -92,7 +92,7 @@ class ExportTasksAPI(Helper):
         assert sheet['A3'].value == 'Номер', f'Expected Номер, but got {sheet['A3'].value}'
         assert sheet['A4'].value == number_task.strip(), f'Expected {number_task.strip()}, but got {sheet['A4'].value}'
         assert sheet['B3'].value == 'Тип заявки*', f'Expected Тип заявки*, but got {sheet['B3'].value}'
-        assert sheet['B4'].value == name_task_type, f'Expected <{name_task_type}>, but got {sheet['B4'].value}'
+        assert sheet['B4'].value == name_task_type.strip(), f'Expected <{name_task_type.strip()}>, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C3'].value}'
         assert sheet['C4'].value == 'Заявка создана авто-тестом', f'Expected <Заявка создана авто-тестом>, but got {sheet['C4'].value}'
 

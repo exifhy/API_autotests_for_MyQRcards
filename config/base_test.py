@@ -44,6 +44,12 @@ from services.common.common_attribute_list_of_values.api_common_attribute_list_o
 from services.work.work_task_types.api_work_task_types import WorkTaskTypesAPI
 from services.sla.sla_criticalities.api_sla_criticalities import SlaCriticalitiesAPI
 from services.common.common_contacts.api_common_contacts import CommonContactsAPI
+from services.tstg.tstg_task_stages.api_tstg_task_stages import TstgTaskStagesAPI
+from services.tstg.tstg_task_stage_links.api_tstg_task_stage_links import TstgTaskStageLinksAPI
+from services.es.asset_attachments.api_es_asset_attachments import EsAssetAttachmentsAPI
+from services.common.common_attachments.api_common_attachments import CommonAttachmentsAPI
+from services.es.es_asset_attributes.api_es_asset_attributes import EsAssetAttributesAPI
+from services.es.es_asset_list_queries.api_es_asset_list_queries import EsAssetListQueriesAPI
 
 
 class BaseTest:
@@ -95,4 +101,9 @@ class BaseTest:
         self.api_work_task_types = WorkTaskTypesAPI()
         self.api_sla_criticalities = SlaCriticalitiesAPI()
         self.api_common_contacts = CommonContactsAPI()
-
+        self.api_tstg_task_stages = TstgTaskStagesAPI()
+        self.api_tstg_task_stage_links = TstgTaskStageLinksAPI()
+        self.api_es_asset_attachments = EsAssetAttachmentsAPI()
+        self.api_common_attachments = CommonAttachmentsAPI()
+        self.api_es_asset_attributes = EsAssetAttributesAPI()
+        self.api_es_asset_list_queries = EsAssetListQueriesAPI()

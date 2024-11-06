@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, Dict, List
 from pydantic import BaseModel, RootModel
 
@@ -21,3 +22,15 @@ class ListTaskTypesModel(BaseModel):
 
 class SuccessGetListTaskTypesModel(RootModel):
     root: Dict[str, ListTaskTypesModel]
+
+
+class IdNameDeletedResult(BaseModel):
+    deleted: Optional[datetime] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class SuccessGetRouteResultModel(BaseModel):
+    startTaskStage: Optional[IdNameDeletedResult] = None
+    finish_task_stage: Optional[IdNameDeletedResult] = None
+    start_task_status: Optional[IdNameDeletedResult] = None

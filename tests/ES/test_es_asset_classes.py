@@ -4,7 +4,9 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Managing enterprise structure")
+@allure.feature(
+    "Enterprise structure service offers various methods for managing assets and their corresponding attributes."
+)
 class TestEsAssetClasses(BaseTest):
 
     @allure.title('Test add asset class.')

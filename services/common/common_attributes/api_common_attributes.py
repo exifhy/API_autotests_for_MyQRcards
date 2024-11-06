@@ -71,6 +71,38 @@ class CommonAttributesAPI(Helper):
         logger.warning(f'Successfully attribute creation method only for contract with name: {attribute_name}.')
         return model
 
+    @allure.step("Attribute creation method for asset only type string.")
+    def post_add_method_attributes_only_for_asset_str(self):
+        attribute_name = f'Доп поле - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            json=self.payloads.post_add_method_attributes_type_str_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=1,
+                for_task=False,
+                for_asset=True,
+                for_check_list=False,
+                fro_complete_work=False,
+                for_contract=False,
+                for_company=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.warning(f'Successfully attribute type str creation method only for asset with name: {attribute_name}.')
+        return model
+
     @allure.step("Attribute creation method for all relevant essence with type -Value from list-.")
     def post_add_method_attributes_only_for_all_relevant_essence_with_type_6(self):
         """

@@ -1,7 +1,5 @@
-import random
 import allure
 import requests
-from datetime import timezone, datetime
 from loguru import logger
 from requests import JSONDecodeError
 from utils.helper import Helper
@@ -67,4 +65,24 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetListTaskTypesModel(root=response.json())
         logger.info(f'Successfully get list a task types.')
+        return model
+
+    @allure.step("Get route a task type.")
+    def get_route_task_type(self, task_type_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_route_for_task_types_by_id_endpoint(task_type_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetRouteResultModel(**response.json())
+        logger.info(f'Successfully get route a task type.')
         return model
