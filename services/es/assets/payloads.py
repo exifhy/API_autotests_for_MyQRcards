@@ -29,3 +29,15 @@ class Payloads:
             "positionOnSchema": None
         }
         return payload
+
+    @staticmethod
+    def delete_avatar_from_assets_payloads(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def post_checklist_to_asset_payloads(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def delete_checklists_from_asset_payloads(*args) -> list:
+        return [*args]

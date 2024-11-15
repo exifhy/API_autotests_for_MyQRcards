@@ -1,8 +1,13 @@
+import base64
+import hashlib
+from PIL import Image
+import io
 import random
 import allure
 import requests
 from loguru import logger
 from requests import JSONDecodeError
+from requests_toolbelt import MultipartEncoder
 from utils.helper import Helper
 from services.es.assets.payloads import Payloads
 from services.es.assets.endpoints import Endpoints
@@ -13,6 +18,7 @@ from http import HTTPStatus
 from dotenv import load_dotenv
 import os
 from faker import Faker
+from random import randint
 
 fake_ru = Faker('ru_RU')
 
@@ -179,3 +185,297 @@ class EsAssetsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successful update the object, new name object: {new_name}')
+
+    @allure.step("Get the list of assignments of the specified asset to users.")
+    def get_list_assignment_of_asset_to_user(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_assignments_asset_to_user_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f'Status code: {response.status_code}')
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT, HTTPStatus.NO_CONTENT}, \
+                f'Status code {response.status_code}, {response.json()}'
+            model = SuccessGetListAttachmentResultModel(**response.json())
+            logger.info(f'Successfully get the list of assignments of the specified asset to users.')
+            return model
+
+    @allure.step("Get the list asset attachments.")
+    def get_list_asset_attachments(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attachments_bind_to_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT, HTTPStatus.NO_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListAttachmentResultModel(root=response.json())
+        logger.info(f'Successfully get the list asset attachments.')
+        return model
+
+    @allure.step("Get asset attachment by id.")
+    def get_list_asset_attachment_by_id(self, asset_id: int, attach_id):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attachment_bind_to_asset_by_id_endpoint(asset_id, attach_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        assert response.content, "Response content is empty, expected file data"
+        assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
+        assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
+            "Content-Type"], \
+            f"Unexpected Content-Type: {response.headers['Content-Type']}"
+        expected_min_size = 1  # Минимальный размер файла (в байтах)
+        assert len(response.content) >= expected_min_size, "Downloaded file size is smaller than expected"
+        logger.info(f'Successfully get asset attachment by iD: {attach_id}.')
+
+    @allure.step("Get the list asset attributes.")
+    def get_list_asset_attributes(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_of_user_attributes_by_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListAssetAttributeResultModel(result=response.json())
+        logger.info(f'Successfully get the list asset attributes.')
+        return model
+
+    @allure.step(
+        "Upload a JPG image of at least 128x128 to be used as an avatar for asset, data from the form."
+    )
+    def put_upload_avatar_for_asset_data_from_form(self, asset_id: int):
+        file_name = f'generated_image{randint(800, 899)}.png'
+        with io.BytesIO() as image_bytes:
+            # Генерация изображения (например, 200x100 пикселей, синий фон)
+            with Image.new("RGB", (128, 128), color="black") as img:
+                img.save(image_bytes, format="PNG")
+                image_bytes.seek(0)  # Перемещаем указатель в начало
+
+            payload = MultipartEncoder(
+                fields={
+                    'File': (file_name, image_bytes, 'image/png')
+                }
+            )
+            start = time.time()
+            response = requests.put(
+                url=self.endpoints.put_upload_avatar_attachment_from_form_endpoint(asset_id),
+                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                data=payload
+            )
+            end = time.time()
+            logger.info(response.headers)
+            try:
+                self.attach_response(response.json())
+            except JSONDecodeError:
+                logger.warning("Received response is not a valid JSON")
+            self.attach_time(start, end)
+            self.attach_url(response.request.url)
+            assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+            model = SuccessPutUploadFileModel(**response.json())
+            logger.info(f'Successfully upload file - {file_name} to asset with ID: {asset_id} data from form.')
+            return model
+
+    @allure.step(
+        "Upload a JPG image of at least 128x128 to be used as an avatar for asset, data from the body."
+    )
+    def put_upload_avatar_for_asset_data_from_body(self, asset_id: int):
+        file_name = f'generated_image{randint(900, 999)}.png'
+        with io.BytesIO() as image_bytes:
+            # Генерация изображения (например, 200x100 пикселей, синий фон)
+            with Image.new("RGB", (128, 128), color="red") as img:
+                img.save(image_bytes, format="PNG")
+                image_bytes.seek(0)  # Перемещаем указатель в начало
+                # Преобразование изображения в строку Base64
+                image_base64 = base64.b64encode(image_bytes.read()).decode('utf-8')
+
+            payload = {
+                "FileName": file_name,
+                "ContentType": "image/png",
+                "File": image_base64
+            }
+            start = time.time()
+            response = requests.put(
+                url=self.endpoints.put_upload_avatar_attachment_from_body_endpoint(asset_id),
+                headers=self.headers.basic_header(API_TOKEN),
+                json=payload
+            )
+            end = time.time()
+            logger.info(response.headers)
+            try:
+                self.attach_response(response.json())
+            except JSONDecodeError:
+                logger.warning("Received response is not a valid JSON")
+            self.attach_time(start, end)
+            self.attach_url(response.request.url)
+            assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
+            model = SuccessPutUploadFileModel(**response.json())
+            logger.info(f'Successfully upload file - {file_name} to asset with ID: {asset_id} data form body.')
+            return model
+
+    @allure.step("Delete avatar from asset by ID.")
+    def delete_avatar_from_asset_by_id(self, asset_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_avatar_asset_by_id_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the avatar from asset with ID: {asset_id}.')
+
+    @allure.step("Delete avatar from asset by list.")
+    def delete_avatar_from_asset_by_list(self, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_assets_avatar_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_avatar_from_assets_payloads(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the avatar from asset with ID: {args}.')
+
+    @allure.step("Get the list asset checklists.")
+    def get_list_asset_checklists(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_checklist_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetAssetChecklistsModel(root=response.json())
+        logger.info(f'Successfully get the list asset checklists.')
+        return model
+
+    @allure.step("Add checklists to asset by list.")
+    def post_add_checklists_to_asset_by_list(self, asset_id: int, *args):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_checklists_to_asset_by_list_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_checklist_to_asset_payloads(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully add checklists to asset by list with iD {args}.')
+
+    @allure.step("Delete checklists from asset by list.")
+    def delete_checklists_from_asset_by_list(self, asset_id: int, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_checklist_from_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_checklists_from_asset_payloads(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete checklists from asset by list with iD {args}.')
+
+    @allure.step("Add checklists to asset by ID.")
+    def post_add_checklists_to_asset_by_id(self, asset_id: int, checklist_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_checklist_to_asset_by_id_endpoint(asset_id, checklist_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully add checklist to asset with iD {checklist_id}.')
+
+    @allure.step("Delete checklists from asset by ID.")
+    def delete_checklist_from_asset_by_id(self, asset_id: int, checklist_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_checklist_from_asset_by_id_endpoint(asset_id, checklist_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete checklist from asset with iD {checklist_id}.')

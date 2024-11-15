@@ -50,6 +50,9 @@ from services.es.asset_attachments.api_es_asset_attachments import EsAssetAttach
 from services.common.common_attachments.api_common_attachments import CommonAttachmentsAPI
 from services.es.es_asset_attributes.api_es_asset_attributes import EsAssetAttributesAPI
 from services.es.es_asset_list_queries.api_es_asset_list_queries import EsAssetListQueriesAPI
+from services.adm.adm_tenants.api_adm_tenants import AdmTenantsAPI
+from services.work.work_checklists.api_work_checklists import WorkChecklistsAPI
+from services.work.work_checklist_items.api_work_checklist_items import WorkChecklistItemsAPI
 
 
 class BaseTest:
@@ -107,3 +110,6 @@ class BaseTest:
         self.api_common_attachments = CommonAttachmentsAPI()
         self.api_es_asset_attributes = EsAssetAttributesAPI()
         self.api_es_asset_list_queries = EsAssetListQueriesAPI()
+        self.api_adm_tenants = AdmTenantsAPI()
+        self.api_work_checklists = WorkChecklistsAPI()
+        self.api_work_checklist_items = WorkChecklistItemsAPI()

@@ -4,7 +4,7 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Actions with the tasks and attributes")
+@allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkTaskTemplates(BaseTest):
 
     @allure.title('Test schedule activation by ID.')

@@ -1,5 +1,5 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, RootModel
 from datetime import datetime
 
 
@@ -160,3 +160,92 @@ class AssetDetailedInfoResult(BaseModel):
     parentID: Optional[int] = None
     name: str
     id: int
+
+
+class UserResult(BaseModel):
+    id: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[str] = None
+
+
+class PeriodResult(BaseModel):
+    from_: Optional[str] = Field(None, alias="from")
+    till: Optional[str] = None
+
+
+class GetAssetAssignmentResultModel(BaseModel):
+    user: Optional[UserResult] = None
+    validityPeriod: Optional[PeriodResult] = None
+    notes: Optional[str] = None
+
+
+class SuccessGetAssetAssignmentResultModel(BaseModel):
+    result: List[GetAssetAssignmentResultModel]
+
+
+class ListAttachmentResult(BaseModel):
+    fileName: Optional[str] = None
+    description: Optional[str] = None
+    isUploaded: Optional[bool] = None
+    publicUrl: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    isProtected: Optional[bool] = None
+    size: Optional[int] = None
+    created: Optional[str] = None
+
+
+class SuccessGetListAttachmentResultModel(RootModel):
+    root: Dict[str, ListAttachmentResult]
+
+
+class AttributeTypeResult(BaseModel):
+    code: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class MeasurementUnitResult(BaseModel):
+    abbreviation: Optional[str] = None
+    designation: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class DomainResult(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    code: Optional[str] = None
+
+
+class AssetAttributeResult(BaseModel):
+    attribute: Optional[IdNameDeletedResult] = None
+    value: Optional[str] = None
+    isPublic: Optional[bool] = None
+    sortOrder: Optional[int] = None
+    attributeType: Optional[AttributeTypeResult] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    domain: Optional[DomainResult] = None
+
+
+class SuccessGetListAssetAttributeResultModel(BaseModel):
+    result: List[AssetAttributeResult]
+
+
+class SuccessPutUploadFileModel(BaseModel):
+    attachmentID: int
+    publicUrl: str
+    size: int
+
+
+class GetAssetChecklistsModel(BaseModel):
+    description: str
+    name: str
+    id: int
+
+
+class SuccessGetAssetChecklistsModel(RootModel):
+    root: Dict[str, List[GetAssetChecklistsModel]]

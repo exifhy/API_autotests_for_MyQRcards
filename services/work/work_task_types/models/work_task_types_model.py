@@ -32,5 +32,5 @@ class IdNameDeletedResult(BaseModel):
 
 class SuccessGetRouteResultModel(BaseModel):
     startTaskStage: Optional[IdNameDeletedResult] = None
-    finish_task_stage: Optional[IdNameDeletedResult] = None
-    start_task_status: Optional[IdNameDeletedResult] = None
+    finishTaskStage: Optional[IdNameDeletedResult] = None
+    startTaskStatus: Optional[IdNameDeletedResult] = None

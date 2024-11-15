@@ -119,9 +119,5 @@ class AssetListQueryResult(BaseModel):
     queryString: Optional[str] = None
 
 
-class AssetListQueryResultModel(RootModel):
-    root: Optional[Dict[str, AssetListQueryResult]] = None
-
-
-class SuccessGetAssetListQueryResultModel(BaseModel):
-    result: Optional[List[AssetListQueryResultModel]] = None
+class SuccessGetAssetListQueryResultModel(RootModel):
+    root: Dict[str, AssetListQueryResult]

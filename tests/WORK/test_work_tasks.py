@@ -4,7 +4,7 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Actions with the tasks and attributes")
+@allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkTasks(BaseTest):
 
     @pytest.mark.skip(reason='Тест на добавление заявки есть в test_delete_task_by_id')

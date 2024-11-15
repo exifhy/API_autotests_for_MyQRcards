@@ -243,3 +243,23 @@ class AdmUsersAPI(Helper):
         model = SuccessGetUsersRolesModel(**response.json())
         logger.info(f'Successfully received users roles by ID.{response.json()}, {response.status_code}')
         return model
+
+    @allure.step('Get a list asset queries to the current user.')
+    def get_list_asset_queries_to_current_user(self, token):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_queries_to_current_user_endpoint,
+            headers=self.headers.basic_header(token)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        model = AssetListQueryResultModel(**response.json())
+        logger.info(f'Successfully get a list asset queries to the current user.')
+        return model

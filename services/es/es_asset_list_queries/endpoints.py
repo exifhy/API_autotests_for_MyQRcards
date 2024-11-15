@@ -6,23 +6,20 @@ HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.geten
 
 class Endpoints:
 
-    post_add_queri_endpoint = f'{HOST}/ES/AssetListQueries'
+    post_add_query_endpoint = f'{HOST}/ES/AssetListQueries'
     get_list_queries_available_in_tenant_endpoint = f'{HOST}/ES/AssetListQueries'
-    put_update_queri_endpoint = f'{HOST}/ES/AssetListQueries'
-    delete_queri_endpoint = f'{HOST}/ES/AssetListQueries'
+    put_update_query_endpoint = f'{HOST}/ES/AssetListQueries'
+    delete_queries_endpoint = f'{HOST}/ES/AssetListQueries'
+    delete_remove_query_endpoint = f'{HOST}/ES/AssetListQueries/remove'
 
     @staticmethod
-    def get_queri_by_id(queri_id: int) -> str:
+    def get_query_by_id(queri_id: int) -> str:
         return f'{HOST}/ES/AssetListQueries/{queri_id}'
 
     @staticmethod
-    def delete_queri_by_id(queri_id: int) -> str:
+    def delete_query_by_id(queri_id: int) -> str:
         return f'{HOST}/ES/AssetListQueries/{queri_id}'
 
     @staticmethod
-    def delete_remove_queri() -> str:
-        return f'{HOST}/ES/AssetListQueries/remove'
-
-    @staticmethod
-    def delete_remove_queri_by_id(queri_id: int) -> str:
+    def delete_remove_query_by_id(queri_id: int) -> str:
         return f'{HOST}/ES/AssetListQueries/{queri_id}/remove'

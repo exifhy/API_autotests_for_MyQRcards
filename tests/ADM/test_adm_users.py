@@ -61,3 +61,11 @@ class TestAdmUsers(BaseTest):
         self.api_adm_user_roles.post_add_roles_to_user(model_user.userID, [1])
         self.api_adm_users.get_users_roles_by_id(model_user.userID)
         self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test get a list asset queries to the current user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23883")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23883)
+    def test_get_list_asset_queries_to_current_user(self, bearer_token):
+        self.api_adm_users.get_list_asset_queries_to_current_user(bearer_token)
+

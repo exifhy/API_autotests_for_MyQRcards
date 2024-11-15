@@ -6,7 +6,7 @@ import time
 
 
 @allure.epic("Administration")
-@allure.feature("Actions with the tasks and attributes")
+@allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkWorkTypes(BaseTest):
 
     @pytest.mark.skip(reason='Тест на добавление типа работ есть в test_delete_marks_work_type_by_id')
