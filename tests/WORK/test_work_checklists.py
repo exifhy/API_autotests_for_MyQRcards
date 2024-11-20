@@ -22,3 +22,14 @@ class TestWorkChecklists(BaseTest):
     def test_delete_checklist_by_id(self):
         model_checklist = self.api_work_checklists.post_add_checklists()
         self.api_work_checklists.delete_checklist_by_id(model_checklist.result[0])
+
+    @allure.title('Test get checklist by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23942")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23942)
+    def test_get_checklist_by_id(self):
+        model_checklist = self.api_work_checklists.post_add_checklists()
+        try:
+            self.api_work_checklists.get_checklist_by_id(model_checklist.result[0])
+        finally:
+            self.api_work_checklists.delete_checklist_by_id(model_checklist.result[0])

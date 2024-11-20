@@ -249,3 +249,45 @@ class GetAssetChecklistsModel(BaseModel):
 
 class SuccessGetAssetChecklistsModel(RootModel):
     root: Dict[str, List[GetAssetChecklistsModel]]
+
+
+class GetAssetContactsResultModel(BaseModel):
+    fullName: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    position: Optional[str] = None
+    description: Optional[str] = None
+    archived: Optional[str] = None
+    assetID: Optional[int] = None
+    contactID: Optional[int] = None
+    id: Optional[int] = None
+
+
+class SuccessGetAssetContactsResultModel(RootModel):
+    root: Dict[str, GetAssetContactsResultModel]
+
+
+class SuccessGetAssetContactByIdResult(BaseModel):
+    email: Optional[str] = None
+    phone01: Optional[str] = None
+    phone02: Optional[str] = None
+    phone03: Optional[str] = None
+    description: Optional[str] = None
+    fullName: Optional[str] = None
+    phone: Optional[str] = None
+    position: Optional[str] = None
+    deleted: Optional[str] = None
+    archived: Optional[str] = None
+    assetID: Optional[int] = None
+    contactID: Optional[int] = None
+    id: Optional[int] = None
+
+
+class SuccessAddContactAssetResultModel(BaseModel):
+    assetID: int
+    contactID: int
+    id: int
+
+
+class SuccessListContactAssetResultModel(BaseModel):
+    result: List[SuccessAddContactAssetResultModel]

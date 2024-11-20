@@ -86,6 +86,33 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
 
+    @allure.step("Update assets by list.")
+    def put_update_assets_by_list(self, *args):
+        name = fake_ru.company()
+        notes_text = 'Объект изменен авто-тестом'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_asset_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_assets_payload(
+                *args,
+                parent_id=None,
+                name=name,
+                notes=notes_text
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully update asset with name: {name}')
+
     @allure.step("Delete object by ID.")
     def delete_object_by_id(self, asset_id: int):
         start = time.time()
@@ -99,6 +126,27 @@ class EsAssetsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete the object with ID: {asset_id}.')
+
+    @allure.step("Returns the header of a user query with the amount of data that satisfies the filter.")
+    def head_assets(self, asset_id: int, checklist_id: int, district_id: int, work_type_id: int, company_id: int):
+        params = {
+            "assetID": asset_id,
+            "checkListID": checklist_id,
+            "districtID": district_id,
+            "workTypeID": work_type_id,
+            "companyID": company_id
+        }
+        start = time.time()
+        response = requests.head(
+            url=self.endpoints.head_asset_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully get header asset with ID: {asset_id}.')
 
     @allure.step("Detailed information on the object by id.")
     def get_detailed_information_on_object_by_id(self, asset_id: int):
@@ -442,8 +490,8 @@ class EsAssetsAPI(Helper):
             f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete checklists from asset by list with iD {args}.')
 
-    @allure.step("Add checklists to asset by ID.")
-    def post_add_checklists_to_asset_by_id(self, asset_id: int, checklist_id: int):
+    @allure.step("Add checklist to asset by ID.")
+    def post_add_checklist_to_asset_by_id(self, asset_id: int, checklist_id: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_checklist_to_asset_by_id_endpoint(asset_id, checklist_id),
@@ -479,3 +527,129 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete checklist from asset with iD {checklist_id}.')
+
+    @allure.step("Get a list of valid contacts for the asset.")
+    def get_list_valid_contacts_for_asset(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_valid_contacts_for_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetAssetContactsResultModel(**response.json())
+        logger.info(f'Successfully get a list of valid contacts for the asset with ID: {asset_id}.')
+        return model
+
+    @allure.step("Get valid contact for the asset by ID.")
+    def get_valid_contact_for_asset_by_id(self, asset_id: int, contact_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_contact_by_id_endpoint(asset_id, contact_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.OK, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetAssetContactByIdResult(**response.json())
+        logger.info(f'Successfully get valid contact for the asset with ID: {contact_id}.')
+        return model
+
+    @allure.step("Add a contact person for the asset.")
+    def post_add_contact_person_for_asset(self, asset_id: int, contact_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_contact_to_asset_endpoint(asset_id, contact_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessListContactAssetResultModel(result=response.json())
+        logger.info(f'Successfully add a contact person for the asset with ID: {contact_id}.')
+        return model
+
+    @allure.step("Delete contact person from asset by ID.")
+    def delete_contact_person_from_asset_by_id(self, asset_id: int, contact_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_contact_from_asset_by_id_endpoint(asset_id, contact_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete contact person from the asset with ID: {contact_id}.')
+
+    @allure.step("Add a contact persons for asset by list.")
+    def post_add_contact_persons_for_asset(self, asset_id: int, *args):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_contacts_to_asset_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.contact_persons_for_asset_payload(asset_id, *args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessListContactAssetResultModel(result=response.json())
+        logger.warning(f'Successfully add contact personas for the asset with ID: {args}.')
+        return model
+
+    @allure.step("Delete contact persons from asset by list.")
+    def delete_contact_persons_from_asset_by_list(self, asset_id: int, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_contacts_from_asset_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.contact_persons_for_asset_payload(asset_id, *args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete contact persons from the asset with ID: {args}.')

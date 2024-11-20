@@ -1,9 +1,17 @@
 from typing import Optional, Dict, List
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class SuccessAddChecklistsToAssetModel(BaseModel):
     result: List[int]
+
+
+class SuccessGetChecklistByIdResultModel(BaseModel):
+    deleted: Optional[datetime] = None
+    description: Optional[str] = None
+    name: str
+    id: int
 
 
 class CodeMessageModel(BaseModel):

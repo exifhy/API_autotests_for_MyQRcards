@@ -70,3 +70,43 @@ class WorkChecklistsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete checklist with ID: {checklist_id}.')
 
+    @allure.step("Get checklist by ID.")
+    def get_checklist_by_id(self, checklist_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_checklist_by_id_endpoint(checklist_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetChecklistByIdResultModel(**response.json())
+        logger.warning(f'Successfully get checklist by ID: {checklist_id}.')
+        return model
+
+    @allure.step("Delete checklist by list.")
+    def delete_checklist_by_list(self, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_checklists_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_checklists_payloads(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete checklists with ID: {args}.')
+
