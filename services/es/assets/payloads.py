@@ -34,27 +34,18 @@ class Payloads:
     def put_update_assets_payload(
             *args,
             parent_id: int or None,
-            name: str,
-            notes: str
+            company_id: int
     ) -> dict:
         payload = {
             "assets": [*args],
             "parentID": parent_id,
-            "name": name,
-            "companyID": None,
+            "companyID": company_id,
             "assetTypeID": None,
             "assetClassID": None,
-            "checkListID": None,
-            "responsiblePerson": None,
-            "scheduleRuleID": None,
-            "warrantyTill": None,
-            "notes": notes,
-            "isMobileAsset": False,
-            "isInheritParentDistricts": True,
-            "isSkipForEscalation": False,
-            "isStopEscalation": False,
-            "isAutoPublish": True,
-            "positionOnSchema": None
+            "addedCheckLists": None,
+            "responsiblePersonID": None,
+            "addedDistricts": None,
+            "isMobileAsset": True
         }
         return payload
 
@@ -63,7 +54,19 @@ class Payloads:
         return [*args]
 
     @staticmethod
+    def delete_assets_by_list_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def delete_assets_and_all_child_assets_by_list_payload(*args) -> list:
+        return [*args]
+
+    @staticmethod
     def post_checklist_to_asset_payloads(*args) -> list:
+        return [*args]
+
+    @staticmethod
+    def put_restores_deleted_assets_by_list_payload(*args) -> list:
         return [*args]
 
     @staticmethod

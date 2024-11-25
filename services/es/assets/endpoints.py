@@ -10,12 +10,12 @@ class Endpoints:
     create_object_endpoint = f'{HOST}/ES/assets'
     head_asset_endpoint = f'{HOST}/ES/assets'
     put_update_asset_endpoint = f'{HOST}/ES/assets'
-    delete_asset_by_list_endpoint = f'{HOST}/ES/assets'
+    delete_assets_by_list_endpoint = f'{HOST}/ES/assets'
     delete_assets_avatar_by_list_endpoint = f'{HOST}/ES/assets/avatar'
     post_add_contacts_to_asset_by_list_endpoint = f'{HOST}/ES/assets/contacts'
     delete_contacts_from_asset_by_list_endpoint = f'{HOST}/ES/assets/contacts'
-    delete_asset_and_all_child_assets_by_list_endpoint = f'{HOST}/ES/assets/full'
-    put_restore_asset_endpoint = f'{HOST}/ES/assets/restore'
+    delete_assets_and_all_child_assets_by_list_endpoint = f'{HOST}/ES/assets/full'
+    put_restore_assets_endpoint = f'{HOST}/ES/assets/restore'
 
     @staticmethod
     def get_list_assignments_asset_to_user_endpoint(asset_id: int) -> str:

@@ -12,6 +12,7 @@ from http import HTTPStatus
 from dotenv import load_dotenv
 import os
 from faker import Faker
+from random import randint
 
 fake_ru = Faker('ru_RU')
 
@@ -55,6 +56,32 @@ class EsDistrictsAPI(Helper):
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model
 
+    @allure.step("Add three districts.")
+    def post_add_three_districts(self):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_districts_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.add_districts_args_payload(
+                ("Участок-1", f"Описание-1", False),
+                ("Участок-2", f"Описание-2", False),
+                ("Участок-3", f"Описание-3", False),
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        model = SuccessAddDistrictsModel(districts=response.json())
+        logger.info(f'Successfully add districts with ID: {model.districts}')
+        return model
+
     @allure.step("Marks the district as deleted.")
     def delete_district_by_id(self, district_id: int):
         start = time.time()
@@ -93,3 +120,23 @@ class EsDistrictsAPI(Helper):
         model = SuccessGetInfoDistrictModel(**response.json())
         logger.info(f'Successfully received detail district info.')
         return model
+
+    @allure.step("Delete districts by list.")
+    def delete_districts_by_list(self, *district_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_districts_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_districts_by_list_payload(*district_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete districts with id: {district_id}.')

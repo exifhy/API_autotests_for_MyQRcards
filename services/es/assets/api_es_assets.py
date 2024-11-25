@@ -1,5 +1,4 @@
 import base64
-import hashlib
 from PIL import Image
 import io
 import random
@@ -39,7 +38,7 @@ class EsAssetsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_directory_of_objects_available_to_user_endpoint, params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header_with_range(API_TOKEN)
         )
         end = time.time()
         try:
@@ -86,10 +85,39 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
 
-    @allure.step("Update assets by list.")
-    def put_update_assets_by_list(self, *args):
+    @allure.step("Add asset with parent.")
+    def post_add_asset_with_parent(self, parent_id: int, company_id: int, asset_type_id: int, asset_class_id: int):
         name = fake_ru.company()
-        notes_text = 'Объект изменен авто-тестом'
+        notes_text = 'Объект с родительским объектом создан авто-тестом '
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.create_object_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.object_creation_payload(
+                parent_id=parent_id,
+                name=name,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
+                notes=notes_text
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        model = IdNameResultModel(**response.json())
+        logger.info(f'Successfully add object without parent object, name object: {name}')
+        return model
+
+    @allure.step("Update assets by list.")
+    def put_update_assets_by_list(self, *args, company_id: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_asset_endpoint,
@@ -97,8 +125,7 @@ class EsAssetsAPI(Helper):
             json=self.payloads.put_update_assets_payload(
                 *args,
                 parent_id=None,
-                name=name,
-                notes=notes_text
+                company_id=company_id
             )
         )
         end = time.time()
@@ -111,7 +138,7 @@ class EsAssetsAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully update asset with name: {name}')
+        logger.info(f'Successfully update assets with name: {args}')
 
     @allure.step("Delete object by ID.")
     def delete_object_by_id(self, asset_id: int):
@@ -127,13 +154,27 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete the object with ID: {asset_id}.')
 
+    @allure.step("Delete assets by list.")
+    def delete_assets_by_list(self, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_assets_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_assets_by_list_payload(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the assets with ID: {args}.')
+
     @allure.step("Returns the header of a user query with the amount of data that satisfies the filter.")
-    def head_assets(self, asset_id: int, checklist_id: int, district_id: int, work_type_id: int, company_id: int):
+    def head_assets(self, asset_id: int, checklist_id: int, district_id: int, company_id: int):
         params = {
             "assetID": asset_id,
             "checkListID": checklist_id,
             "districtID": district_id,
-            "workTypeID": work_type_id,
             "companyID": company_id
         }
         start = time.time()
@@ -185,6 +226,24 @@ class EsAssetsAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}, {response.json()}'
         logger.info(f'Successful publication of the object.')
+
+    @allure.step("Method of unpublishing of an asset.")
+    def put_method_of_unpublishing_asset_by_id(self, asset_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_of_unpublishing_an_object_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}, {response.json()}'
+        logger.info(f'Successful unpublish of an asset with ID: {asset_id}.')
 
     @allure.step("Method of publishing an object without bind location.")
     def put_method_of_publishing_an_object_by_id_without_location(self, asset_id: int):
@@ -653,3 +712,172 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete contact persons from the asset with ID: {args}.')
+
+    @allure.step("Delete the asset and all child assets by ID.")
+    def delete_asset_and_child_assets_by_id(self, asset_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_asset_and_all_child_assets_by_id_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the asset and all child assets with ID: {asset_id}.')
+
+    @allure.step("Delete the assets and all child assets by list.")
+    def delete_assets_and_child_assets_by_list(self, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_assets_and_all_child_assets_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_assets_and_all_child_assets_by_list_payload(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the assets and all child assets with ID: {args}.')
+
+    @allure.step("Restores deleted assets by list.")
+    def put_restores_deleted_assets_by_list(self, *args):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_assets_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_restores_deleted_assets_by_list_payload(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully restore the assets with ID: {args}.')
+
+    @allure.step("Get the list of districts for the asset.")
+    def get_list_districts_for_asset(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_districts_for_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessAssetDistrictResultModel(root=response.json())
+        logger.info(f'Successfully get the list of districts for the asset with ID: {asset_id}.')
+        return model
+
+    @allure.step("Get the current location of the asset.")
+    def get_actual_locations_of_asset(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_actual_locations_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = LocationResult(**response.json())
+        logger.info(f'Successfully get the current location of the asset with ID: {asset_id}.')
+        return model
+
+    @allure.step("Get a list of the asset skills.")
+    def get_list_skill_of_asset(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_skills_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessAssetSkillResultModel(root=response.json())
+        logger.info(f'Successfully get a list of the asset skills with ID: {asset_id}.')
+        return model
+
+    @allure.step("Get a list of active (not deleted) tags by asset.")
+    def get_list_active_tags_by_asset(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_active_tags_by_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Status code - NO CONTENT(204)")
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                f'Status code {response.status_code}, {response.json()}'
+            model = SuccessGetTagsAssetsModel(result=response.json())
+            logger.info(f'Successfully get a list of active (not deleted) tags by asset with ID: {asset_id}.')
+            return model
+
+    @allure.step("Get a list of work types available for the asset.")
+    def get_list_asset_work_types(self, asset_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_work_types_by_asset_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+        f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetAssetWorkTypesResult(root=response.json())
+        logger.info(f'Successfully get a list of work types available for the asset with ID: {asset_id}.')
+        return model

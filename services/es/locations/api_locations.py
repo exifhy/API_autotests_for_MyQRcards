@@ -71,3 +71,24 @@ class EsLocationsAPI(Helper):
         assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
                                                                                            f'{response.json()}')
         logger.warning(f'Successfully delete location by ID: {location_id}.')
+
+    @allure.step("Delete the locations by list (23991).")
+    def delete_locations_by_list(self, *args):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_locations_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_locations_payload(*args)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete the locations by list with ID: {args}.')

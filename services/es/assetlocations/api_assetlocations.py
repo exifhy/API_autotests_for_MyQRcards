@@ -38,7 +38,7 @@ class EsAssetLocationsAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code},{response.json()}'
-        logger.info(f'Successfully add a location to an object.')
+        logger.info(f'Successfully add a location with ID: {location_id} to asset with ID: {asset_id}.')
 
     @allure.step("Deleting location binding to an asset.")
     def delete_location_from_object(self, asset_id: int):

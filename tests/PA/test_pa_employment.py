@@ -4,10 +4,12 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Personnel administration")
+@allure.feature(
+    "Service offers application programming interface for manipulation personnel and all connected entities."
+)
 class TestPaEmployment(BaseTest):
 
-    @allure.title('Test Add employment to user by ID.')
+    @allure.title('Test add employment to user by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23178")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23178)

@@ -291,3 +291,32 @@ class SuccessAddContactAssetResultModel(BaseModel):
 
 class SuccessListContactAssetResultModel(BaseModel):
     result: List[SuccessAddContactAssetResultModel]
+
+
+class AssetDistrictResultModel(BaseModel):
+    parentID: Optional[int] = None
+    name: str
+
+
+class SuccessAssetDistrictResultModel(RootModel):
+    root: Dict[str, AssetDistrictResultModel]
+
+
+class SuccessAssetSkillResultModel(RootModel):
+    root: Dict[str, IdNameResult]
+
+
+class SuccessGetTagsAssetsModel(BaseModel):
+    result: List[str]
+
+
+class GetAssetWorkTypesResult(BaseModel):
+    workClassID: Optional[int] = None
+    name: str
+    description: Optional[str] = None
+    parentID: Optional[int] = None
+    hasChildren: Optional[bool] = None
+
+
+class SuccessGetAssetWorkTypesResult(RootModel):
+    root: Dict[str, GetAssetWorkTypesResult]

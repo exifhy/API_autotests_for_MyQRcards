@@ -5,7 +5,9 @@ from src.enums.params_enums import Params
 
 
 @allure.epic("Administration")
-@allure.feature("Actions with the object")
+@allure.feature(
+    "Enterprise structure service offers various methods for managing assets and their corresponding attributes."
+)
 class TestEsAssets(BaseTest):
 
     @allure.title('Test returns the directory of objects available to the user.')
@@ -820,3 +822,439 @@ class TestEsAssets(BaseTest):
                 contact_id_second.contact[0],
                 contact_id_third.contact[0]
             )
+
+    @allure.title('Test update assets by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23969")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23969)
+    def test_put_update_assets_by_list(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        company_id_second = self.api_es_companies.post_add_our_company()
+        location_id_second = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id_second,
+            location_id=location_id_second
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_asset_first = self.api_es_assets.get_detailed_information_on_object_by_id(model_asset.id)
+        try:
+            self.api_es_assets.put_update_assets_by_list(model_asset.id, company_id=company_id_second)
+            model_asset_updated = self.api_es_assets.get_detailed_information_on_object_by_id(model_asset.id)
+            assert model_asset_first.isMobileAsset != model_asset_updated.isMobileAsset, \
+                f'{model_asset_first.isMobileAsset} is equal {model_asset_updated.isMobileAsset}'
+            assert model_asset_first.company.id != model_asset_updated.company.id, \
+                f'{model_asset_first.company.id} is equal {model_asset_updated.company.id}'
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_companies.delete_company_by_id(company_id_second)
+            self.api_es_locations.delete_location_by_id(location_id)
+            self.api_es_locations.delete_location_by_id(location_id_second)
+
+    @allure.title('Test delete assets by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23971")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23971)
+    def test_delete_assets_by_list(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_asset_second = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_asset_third = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        try:
+            self.api_es_assets.delete_assets_by_list(
+                model_asset.id,
+                model_asset_second.id,
+                model_asset_third.id
+            )
+        finally:
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_location_by_id(location_id)
+
+    @allure.title('Test returns the header of a user query with the amount of data that satisfies the filter.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23973")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23973)
+    def test_head_assets(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_checklist = self.api_work_checklists.post_add_checklists()
+        self.api_es_assets.post_add_checklist_to_asset_by_id(model_asset.id, model_checklist.result[0])
+        district_id = self.api_es_districts.post_add_district()
+        self.api_es_asset_districts.add_district_to_object(
+            asset_id=model_asset.id,
+            district_id=district_id.districts[0]
+        )
+        try:
+            self.api_es_assets.head_assets(
+                asset_id=model_asset.id,
+                checklist_id=model_checklist.result[0],
+                district_id=district_id.districts[0],
+                company_id=company_id
+            )
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_location_by_id(location_id)
+            self.api_work_checklists.delete_checklist_by_id(model_checklist.result[0])
+            self.api_es_districts.delete_district_by_id(district_id.districts[0])
+
+    @allure.title('Test method of unpublishing of an asset.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23984")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23984)
+    def test_put_method_of_unpublishing_asset_by_id(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=model_asset.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=model_asset.id,
+            location_id=location_id
+        )
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(model_asset.id)
+        try:
+            self.api_es_assets.put_method_of_unpublishing_asset_by_id(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_location_by_id(location_id)
+
+    @allure.title('Test delete the asset and all child assets by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23988")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23988)
+    def test_delete_asset_and_child_assets_by_id(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset_parent = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        try:
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=model_asset_parent.id,
+                location_id=location_id
+            )
+            self.api_es_assets.post_add_asset_with_parent(
+                parent_id=model_asset_parent.id,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id
+            )
+            self.api_es_assets.delete_asset_and_child_assets_by_id(model_asset_parent.id)
+        finally:
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_location_by_id(location_id)
+
+    @allure.title('Test delete the assets and all child assets by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23989")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23989)
+    def test_delete_assets_and_child_assets_by_list(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        location_id_second = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset_parent = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_asset_parent_second = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        try:
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=model_asset_parent.id,
+                location_id=location_id
+            )
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=model_asset_parent_second.id,
+                location_id=location_id_second
+            )
+            self.api_es_assets.post_add_asset_with_parent(
+                parent_id=model_asset_parent.id,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id
+            )
+            self.api_es_assets.post_add_asset_with_parent(
+                parent_id=model_asset_parent_second.id,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id
+            )
+            self.api_es_assets.delete_assets_and_child_assets_by_list(
+                model_asset_parent.id,
+                model_asset_parent_second.id
+            )
+        finally:
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id, location_id_second)
+
+    @allure.title('Test restores deleted assets by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23992")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23992)
+    def test_put_restores_deleted_assets_by_list(self):
+        try:
+            model_deleted_assets = self.api_es_assets.get_directory_of_objects_available_to_user(
+                {"isDeleted": True}
+            )
+            list_assets_id = [int(key) for key in model_deleted_assets.results.keys()]
+            self.api_es_assets.put_restores_deleted_assets_by_list(*list_assets_id)
+            self.api_es_assets.delete_assets_by_list(*list_assets_id)
+        except (AssertionError, TypeError, Exception, ValueError):
+            company_id = self.api_es_companies.post_add_our_company()
+            location_id = self.api_es_locations.post_add_location()
+            self.api_es_company_locations.post_add_company_locations(
+                company_id=company_id,
+                location_id=location_id
+            )
+            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+            model_asset = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            model_asset_second = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            try:
+                self.api_es_assets.delete_assets_by_list(
+                    model_asset.id,
+                    model_asset_second.id
+                )
+                self.api_es_assets.put_restores_deleted_assets_by_list(model_asset.id, model_asset_second.id)
+            finally:
+                self.api_es_assets.delete_assets_by_list(
+                    model_asset.id,
+                    model_asset_second.id
+                )
+                self.api_es_companies.delete_company_by_id(company_id)
+                self.api_es_locations.delete_locations_by_list(location_id)
+
+    @allure.title('Test get the list of districts for the asset.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23997")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23997)
+    def test_get_list_districts_for_asset(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        model_districts = self.api_es_districts.post_add_three_districts()
+        try:
+            self.api_es_asset_districts.add_districts_to_asset(
+                model_asset.id,
+                *model_districts.districts
+            )
+            self.api_es_assets.get_list_districts_for_asset(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id)
+            self.api_es_districts.delete_districts_by_list(*model_districts.districts)
+
+    @allure.title('Test get a list of active (not deleted) tags by asset.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23999")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(23999)
+    def test_get_actual_locations_of_asset(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        try:
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=model_asset.id,
+                location_id=location_id
+            )
+            self.api_es_assets.get_actual_locations_of_asset(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id)
+
+    @allure.title('Test get a list of the asset skills.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24007")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24007)
+    def test_get_list_skill_of_asset(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_skills = self.api_pa_skills.post_add_three_skills_to_tenant()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+
+        try:
+            self.api_es_asset_skills.post_add_skills_to_one_asset(
+                model_asset.id,
+                model_skills.skills[0].skillID,
+                model_skills.skills[1].skillID,
+                model_skills.skills[2].skillID
+            )
+            self.api_es_assets.get_list_skill_of_asset(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id)
+            self.api_pa_skills.delete_skills_by_list(
+                model_skills.skills[0].skillID,
+                model_skills.skills[1].skillID,
+                model_skills.skills[2].skillID
+            )
+
+    @allure.title('Test get a list of active (not deleted) tags by asset.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24018")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24018)
+    def test_get_list_active_tags_by_asset(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        try:
+            self.api_es_assets.get_list_active_tags_by_asset(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id)
+
+    @allure.title('Test get a list of work types available for the asset.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24020")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24020)
+    def test_get_list_asset_work_types(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        model_asset = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=model_asset.id,
+            work_type_id=work_type_id
+        )
+        try:
+            self.api_es_assets.get_list_asset_work_types(model_asset.id)
+        finally:
+            self.api_es_assets.delete_object_by_id(model_asset.id)
+            self.api_es_companies.delete_company_by_id(company_id)
+            self.api_es_locations.delete_locations_by_list(location_id)

@@ -13,3 +13,14 @@ class Payloads:
         ]
         return payload
 
+    @staticmethod
+    def add_districts_args_payload(*districts: tuple[str, str, bool]) -> list:
+        payload = [
+            {"name": name, "description": notes, "isDefault": status}
+            for name, notes, status in districts
+        ]
+        return payload
+
+    @staticmethod
+    def delete_districts_by_list_payload(*districts_id: int) -> list:
+        return [*districts_id]
