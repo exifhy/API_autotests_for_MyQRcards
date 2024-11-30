@@ -55,6 +55,7 @@ from services.work.work_checklists.api_work_checklists import WorkChecklistsAPI
 from services.work.work_checklist_items.api_work_checklist_items import WorkChecklistItemsAPI
 from services.pa.pa_skills.api_pa_skills import PaSkillsAPI
 from services.es.es_asset_skills.api_es_asset_skills import EsAssetSkillsAPI
+from services.es.es_asset_schemas.api_es_asset_schemas import EsAssetSchemasAPI
 
 
 class BaseTest:
@@ -117,3 +118,4 @@ class BaseTest:
         self.api_work_checklist_items = WorkChecklistItemsAPI()
         self.api_pa_skills = PaSkillsAPI()
         self.api_es_asset_skills = EsAssetSkillsAPI()
+        self.api_es_asset_schemas = EsAssetSchemasAPI()

@@ -1,5 +1,3 @@
-import base64
-import hashlib
 from random import randint
 from requests_toolbelt import MultipartEncoder
 from PIL import Image
