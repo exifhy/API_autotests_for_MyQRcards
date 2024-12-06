@@ -68,20 +68,22 @@ class EsAssetClassesAPI(Helper):
         logger.info(response.headers)
         try:
             self.attach_response(response.json())
+            self.attach_response_headers(response.headers)
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
-        model = SuccessGetAssetClassesModel(root=response.json())
-        for key, asset_class in model.root.items():
-            logger.info(f'Successfully get a list asset classes.')
-            logger.info(f"Class ID: {key}, Name: {asset_class.name}")
-            return int(key)
-
-        logger.warning('No asset class found. Creating a asset class.')
-        model_asset_class = self.post_add_asset_class()
-        return model_asset_class[0].list[0].id
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning('No asset class found. Creating a asset class.')
+            model_asset_class = self.post_add_asset_class()
+            return model_asset_class[0].list[0].id
+        else:
+            assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+            model = SuccessGetAssetClassesModel(root=response.json())
+            for key, asset_class in model.root.items():
+                logger.info(f'Successfully get a list asset classes.')
+                logger.info(f"Class ID: {key}, Name: {asset_class.name}")
+                return int(key)
 
     @allure.step("Get list a asset classes.")
     def get_list_asset_classes(self):

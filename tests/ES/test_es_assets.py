@@ -1223,6 +1223,7 @@ class TestEsAssets(BaseTest):
             asset_type_id=asset_type_id
         )
         try:
+            self.api_es_asset_tags.post_add_tags_to_asset(model_asset.id)
             self.api_es_assets.get_list_active_tags_by_asset(model_asset.id)
         finally:
             self.api_es_assets.delete_object_by_id(model_asset.id)

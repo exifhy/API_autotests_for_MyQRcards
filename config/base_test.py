@@ -56,6 +56,13 @@ from services.work.work_checklist_items.api_work_checklist_items import WorkChec
 from services.pa.pa_skills.api_pa_skills import PaSkillsAPI
 from services.es.es_asset_skills.api_es_asset_skills import EsAssetSkillsAPI
 from services.es.es_asset_schemas.api_es_asset_schemas import EsAssetSchemasAPI
+from services.es.es_asset_tags.api_es_asset_tags import EsAssetTagsAPI
+from services.es.es_asset_templates.api_es_asset_templates import EsAssetTemplatesAPI
+from services.es.es_asset_template_attachments.api_es_asset_template_attachments import EsAssetTemplateAttachmentsAPI
+from services.es.es_asset_template_attributes.api_es_asset_template_attributes import EsAssetTemplateAttributesAPI
+from services.es.es_asset_template_districts.api_es_asset_template_districts import EsAssetTemplateDistrictsAPI
+from services.es.es_asset_template_skills.api_es_asset_template_skills import EsAssetTemplateSkillsAPI
+from services.es.es_asset_template_work_types.api_es_asset_template_work_types import EsAssetTemplateWorkTypesAPI
 
 
 class BaseTest:
@@ -119,3 +126,11 @@ class BaseTest:
         self.api_pa_skills = PaSkillsAPI()
         self.api_es_asset_skills = EsAssetSkillsAPI()
         self.api_es_asset_schemas = EsAssetSchemasAPI()
+        self.api_es_asset_tags = EsAssetTagsAPI()
+        self.api_es_asset_templates = EsAssetTemplatesAPI()
+        self.api_es_asset_template_attachments = EsAssetTemplateAttachmentsAPI()
+        self.api_es_asset_template_attributes = EsAssetTemplateAttributesAPI()
+        self.api_es_asset_template_districts = EsAssetTemplateDistrictsAPI()
+        self.api_es_asset_template_skills = EsAssetTemplateSkillsAPI()
+        self.api_es_asset_template_work_types = EsAssetTemplateWorkTypesAPI()
+

@@ -113,7 +113,41 @@ class PaSkillsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
             f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetSkillsListResultModel(root=response.json())
         logger.info(f'Successfully get the list of skills for the given tenant.')
+        return model
+
+    @allure.step("Get the list of skills for the given tenant and return first.")
+    def get_list_skills_tenant_return_first_skills(self):
+        params = {
+            "isDeleted": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_skills_for_tenant_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+            self.attach_response_headers(response.headers)
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning('No skills found. Creating a skill.')
+            model_skill = self.post_add_skills_to_tenant()
+            return model_skill.skills[0].skillID
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                f'Status code {response.status_code}, {response.json()}'
+            model = SuccessGetSkillsListResultModel(root=response.json())
+            for key, skill in model.root.items():
+                logger.info(f'Successfully get a list skills.')
+                logger.info(f"Skill ID: {key}, Name: {skill.name}")
+                return int(key)
 
     @allure.step("Update skills to this tenant.")
     def put_update_skills_to_tenant(self, skill_id: int):

@@ -45,6 +45,7 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
@@ -73,6 +74,7 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
@@ -93,6 +95,7 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
@@ -116,21 +119,24 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
-                                                                                     f'{response.json()}')
-        model = SuccessGetAssetTypeModel(root=response.json())
-        # Поиск первого элемента, где isHostable = True
-        for key, asset_type in model.root.items():
-            if asset_type.isHostable is True:
-                logger.info(f'Successfully get a list asset type.')
-                logger.warning(f'First asset type with isHostable=True found: {asset_type.name}, Asset Type id: {key}')
-                return int(key)
-
-        logger.warning('No asset type with isHostable=True not found. Creating a asset type with a isHostable=True.')
-        model_hostable = self.post_add_hostable_asset_types()
-        return model_hostable.list[0].id
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(
+                'No asset type with isHostable=True not found. Creating a asset type with a isHostable=True.')
+            model_hostable = self.post_add_hostable_asset_types()
+            return model_hostable.list[0].id
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                         f'{response.json()}')
+            model = SuccessGetAssetTypeModel(root=response.json())
+            # Поиск первого элемента, где isHostable = True
+            for key, asset_type in model.root.items():
+                if asset_type.isHostable is True:
+                    logger.info(f'Successfully get a list asset type.')
+                    logger.warning(f'First asset type with isHostable=True found: {asset_type.name}, Asset Type id: {key}')
+                    return int(key)
 
     @allure.step("Get list asset types.")
     def get_list_asset_types(self):
@@ -145,6 +151,7 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
@@ -166,6 +173,7 @@ class EsAssetTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'

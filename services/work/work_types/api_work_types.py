@@ -128,21 +128,25 @@ class WorkWorkTypesAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
-                                                                                     f'{response.json()}')
-        model = SuccessGetWorkTypesModel(root=response.json())
-        for key, value in model.root.items():
-            if value.published is not None:
-                logger.info(f'Successfully get list a work type.')
-                logger.warning(f'First published work type found: {value.name}, Work Type id: {key}')
-                return int(key)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning('Published type not found. Creating a published work type.')
+            model_work_type = self.post_add_work_type({"relatedToAnyTaskType": "true"})
+            self.put_publish_complete_work_types(model_work_type.type[0])
+            return model_work_type.type[0]
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                         f'{response.json()}')
+            model = SuccessGetWorkTypesModel(root=response.json())
+            for key, value in model.root.items():
+                if value.published is not None:
+                    logger.info(f'Successfully get list a work type.')
+                    logger.warning(f'First published work type found: {value.name}, Work Type id: {key}')
+                    return int(key)
 
-        logger.warning('Published type not found. Creating a published work type.')
-        model_work_type = self.post_add_work_type({"relatedToAnyTaskType": "true"})
-        self.put_publish_complete_work_types(model_work_type.type[0])
-        return model_work_type.type[0]
+
 
     @allure.step("Publishes completed works.")
     def put_publish_complete_work_types(self, work_type_id: int):

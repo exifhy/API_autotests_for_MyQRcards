@@ -3,6 +3,7 @@ import urllib.parse
 import allure
 import json
 from allure_commons.types import AttachmentType
+from requests.structures import CaseInsensitiveDict
 
 
 class Helper:
@@ -11,6 +12,13 @@ class Helper:
     def attach_response(cls, response):
         response = json.dumps(response, indent=4, ensure_ascii=False)
         allure.attach(body=response.encode('utf-8'), name='API Response', attachment_type=AttachmentType.JSON)
+
+    @classmethod
+    def attach_response_headers(cls, response):
+        if isinstance(response, CaseInsensitiveDict):
+            response = dict(response)
+        response = json.dumps(response, indent=4, ensure_ascii=False)
+        allure.attach(body=response.encode('utf-8'), name='API Response headers', attachment_type=AttachmentType.JSON)
 
     @classmethod
     def attach_request(cls, request):
