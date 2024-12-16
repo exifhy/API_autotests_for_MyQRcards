@@ -100,7 +100,7 @@ class CommonContactsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete contact by ID: {contact_id}.')
+        logger.warning(f'Successfully delete contact by ID: {contact_id}.')
 
     @allure.step("Delete list of contacts.")
     def delete_mass_contacts(self, *args):

@@ -115,6 +115,37 @@ class WorkWorkTypesAPI(Helper):
         logger.info(f'Successfully get list a work type.')
         return model
 
+    @allure.step("Get list a type of work from asset by ID and return name work types.")
+    def get_list_work_type_from_asset_by_id(self, asset_id: int):
+        """Get list a type of work from asset by ID and return name work types."""
+        params = {
+            "isPublished": True,
+            "assetID": asset_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_work_types_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
+                                                                                     f'{response.json()}')
+        model = SuccessGetWorkTypesModel(root=response.json())
+        logger.info(f'Successfully get list a work type from asset by iD: {asset_id}.')
+        if model.root:
+            int_keys_root = {int(key): value for key, value in model.root.items()}
+            min_key = min(int_keys_root.keys())
+            name = int_keys_root[min_key].name
+            logger.info(f'Smallest ID: {min_key} with name: {name}')
+            return name
+
     @allure.step("Get list a type of work and return ID first published type.")
     def get_list_work_type_return_id_first_published_type(self):
         start = time.time()
@@ -145,8 +176,6 @@ class WorkWorkTypesAPI(Helper):
                     logger.info(f'Successfully get list a work type.')
                     logger.warning(f'First published work type found: {value.name}, Work Type id: {key}')
                     return int(key)
-
-
 
     @allure.step("Publishes completed works.")
     def put_publish_complete_work_types(self, work_type_id: int):

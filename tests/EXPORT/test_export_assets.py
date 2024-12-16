@@ -46,7 +46,7 @@ class TestExportAssets(BaseTest):
         )
         model_asset_type = self.api_es_asset_types.get_asset_type_by_id(asset_type_id)
         model_asset_class = self.api_es_asset_classes.get_asset_classes_by_id(asset_class_id)
-        model_work_type = self.api_work_work_types.get_data_work_type_by_id(work_type_id)
+        name_work_type = self.api_work_work_types.get_list_work_type_from_asset_by_id(asset_id.id)
         self.api_export_assets.get_export_list_with_set_filter_by_asset_id(
             name_asset=asset_id.name,
             asset_id=asset_id.id,
@@ -54,7 +54,7 @@ class TestExportAssets(BaseTest):
             district_name=model_district.name,
             asset_type_name=model_asset_type.name,
             asset_class_name=model_asset_class.name,
-            work_type_name=model_work_type.name
+            work_type_name=name_work_type
         )
         self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
         self.api_es_companies.delete_company_by_id(company_id)

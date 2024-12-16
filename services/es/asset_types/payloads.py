@@ -39,3 +39,7 @@ class Payloads:
         if kwargs:
             payload.append(kwargs)
         return payload
+
+    @staticmethod
+    def delete_asset_types_by_list_payload(*asset_type_id: int) -> list:
+        return [*asset_type_id]

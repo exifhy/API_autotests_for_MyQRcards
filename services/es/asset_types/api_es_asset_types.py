@@ -26,8 +26,8 @@ class EsAssetTypesAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Add a hostable asset types.")
-    def post_add_hostable_asset_types(self):
+    @allure.step("Add asset types.")
+    def post_add_asset_types(self, host: bool):
         name_asset_type = f'Тип объекта: {randint(1, 999)}'
         start = time.time()
         response = requests.post(
@@ -35,7 +35,7 @@ class EsAssetTypesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.post_add_asset_type_payload(
                 name=name_asset_type,
-                host=True,
+                host=host,
                 default=False
             )
         )
@@ -55,7 +55,7 @@ class EsAssetTypesAPI(Helper):
         return model
 
     @allure.step("Update asset types.")
-    def put_update_asset_types(self, asset_type_id: int):
+    def put_update_asset_types(self, asset_type_id: int, host: bool):
         name_asset_type = f'Обновленный тип объекта: {randint(1, 999)}'
         start = time.time()
         response = requests.put(
@@ -64,7 +64,7 @@ class EsAssetTypesAPI(Helper):
             json=self.payloads.put_update_asset_type_payload(
                 asset_type_id=asset_type_id,
                 name=name_asset_type,
-                host=False,
+                host=host,
                 default=False
             )
         )
@@ -78,7 +78,7 @@ class EsAssetTypesAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully update a asset type by id: {asset_type_id}')
         return name_asset_type
 
@@ -99,7 +99,28 @@ class EsAssetTypesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete a asset type by id: {asset_type_id}')
+        logger.warning(f'Successfully delete a asset type by id: {asset_type_id}')
+
+    @allure.step("Delete asset types by list.")
+    def delete_asset_types_by_list(self, *asset_type_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_asset_types_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_asset_types_by_list_payload(*asset_type_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete a asset types by list id: {asset_type_ids}')
 
     @allure.step("Get list a asset types and return first isHostable=True.")
     def get_list_asset_types_return_is_hostable_true(self):
@@ -125,7 +146,7 @@ class EsAssetTypesAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning(
                 'No asset type with isHostable=True not found. Creating a asset type with a isHostable=True.')
-            model_hostable = self.post_add_hostable_asset_types()
+            model_hostable = self.post_add_asset_types(True)
             return model_hostable.list[0].id
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
@@ -160,7 +181,7 @@ class EsAssetTypesAPI(Helper):
         logger.info(f'Successfully get list a asset type by id: {response.json()}')
         return model
 
-    @allure.step("Geе asset type by ID.")
+    @allure.step("Get asset type by ID.")
     def get_asset_type_by_id(self, asset_type_id: int):
         start = time.time()
         response = requests.get(

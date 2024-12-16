@@ -43,8 +43,81 @@ class EsCompanyLocationsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.json()}, {response.status_code}'
-        logger.warning(f'Successfully adds a location to the company.')
+        logger.info(f'Successfully adds a location to the company.')
+
+    @allure.step("Get list locations from company.")
+    def get_list_locations_company(self, company_id: int):
+        params = {
+            "companyID": company_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_company_locations_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'{response.json()}, {response.status_code}'
+        model = SuccessGetListCompanyLocationsModel(root=response.json())
+        logger.info(f'Successfully get location from company.')
+        return model
+
+    @allure.step("Update location from company.")
+    def put_update_location_from_company(self, company_id: int, location_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_company_location_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_location_from_company_payload(
+                company_id=company_id,
+                location_id=location_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.json()}, {response.status_code}'
+        logger.info(f'Successfully update location from company.')
+
+    @allure.step("Delete location from company.")
+    def delete_location_from_company(self, company_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_locations_from_company_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_location_from_company_payload(
+                company_id=company_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.json()}, {response.status_code}'
+        logger.warning(f'Successfully delete location from company.')

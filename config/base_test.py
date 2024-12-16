@@ -63,6 +63,9 @@ from services.es.es_asset_template_attributes.api_es_asset_template_attributes i
 from services.es.es_asset_template_districts.api_es_asset_template_districts import EsAssetTemplateDistrictsAPI
 from services.es.es_asset_template_skills.api_es_asset_template_skills import EsAssetTemplateSkillsAPI
 from services.es.es_asset_template_work_types.api_es_asset_template_work_types import EsAssetTemplateWorkTypesAPI
+from services.es.company_attachments.api_company_attachments import EsCompanyAttachmentsAPI
+from services.common.common_banks.api_common_banks import CommonBanksAPI
+from services.es.es_company_registration_types.api_es_company_registration_types import EsCompanyRegistrationTypesAPI
 
 
 class BaseTest:
@@ -133,4 +136,6 @@ class BaseTest:
         self.api_es_asset_template_districts = EsAssetTemplateDistrictsAPI()
         self.api_es_asset_template_skills = EsAssetTemplateSkillsAPI()
         self.api_es_asset_template_work_types = EsAssetTemplateWorkTypesAPI()
-
+        self.api_es_company_attachments = EsCompanyAttachmentsAPI()
+        self.api_common_banks = CommonBanksAPI()
+        self.api_es_company_registration_types = EsCompanyRegistrationTypesAPI()

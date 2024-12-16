@@ -22,8 +22,8 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_company_payload(company_id: int) -> list:
-        return [company_id]
+    def delete_companies_by_list_payload(*company_ids: int) -> list:
+        return [*company_ids]
 
     @staticmethod
     def update_companies_payload(
@@ -53,3 +53,33 @@ class Payloads:
             }
         ]
         return payload
+
+    @staticmethod
+    def post_add_attributes_to_company_payload(*params: dict) -> list:
+        return [*params]
+
+    @staticmethod
+    def put_update_bank_accounts_by_company_payload(*params: dict) -> list:
+        return [*params]
+
+    @staticmethod
+    def post_add_bank_accounts_to_company_payload(*params: dict) -> list:
+        return [*params]
+
+    @staticmethod
+    def delete_bank_accounts_from_company_by_list_payload(*bank_account_company_id: int) -> list:
+        return [*bank_account_company_id]
+
+    @staticmethod
+    def post_add_contacts_to_company_payload(*params: dict) -> list:
+        return [*params]
+
+    @staticmethod
+    def delete_contacts_from_company_by_list_payload(*params: dict) -> list:
+        return [*params]
+
+    @staticmethod
+    def put_restore_companies_by_list_payload(*company_ids: int) -> list:
+        return [*company_ids]
+
+
