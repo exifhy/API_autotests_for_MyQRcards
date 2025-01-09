@@ -326,3 +326,13 @@ class ListStagesResult(BaseModel):
 
 class SuccessGetListStagesModel(RootModel):
     root: Dict[str, ListStagesResult]
+
+
+class ConversationTaskModel(BaseModel):
+    taskID: int
+    id: int
+
+
+class SuccessListConversationTaskModel(BaseModel):
+    result: List[ConversationTaskModel]
+

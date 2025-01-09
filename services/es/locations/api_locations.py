@@ -1,5 +1,4 @@
 from requests import JSONDecodeError
-
 import allure
 import requests
 from loguru import logger
@@ -72,7 +71,7 @@ class EsLocationsAPI(Helper):
                                                                                            f'{response.json()}')
         logger.warning(f'Successfully delete location by ID: {location_id}.')
 
-    @allure.step("Delete the locations by list (23991).")
+    @allure.step("Delete the locations by list.")
     def delete_locations_by_list(self, *args):
         start = time.time()
         response = requests.delete(
@@ -92,3 +91,135 @@ class EsLocationsAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete the locations by list with ID: {args}.')
+
+    @allure.step("Get list locations.")
+    def get_list_locations(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_locations_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListLocationsModel(root=response.json())
+        logger.info(f'Successfully get list locations.')
+        return model
+
+    @allure.step("Update location.")
+    def put_update_location(self, location_id: int):
+        params = {
+            "id": location_id,
+            "address": f"Невский проспект, {randint(301, 900)}, Санкт-Петербург, Россия",
+            "coordinate": "59.978309668788185:30.31483684679914",
+            "description": "Локация изменена авто тестом.",
+            "timezoneUtcOffsetMinutes": 180,
+            "countryTwoSymbolCode": "RU"
+        }
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_location_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_location_payload(params)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully update location with Id: {location_id}')
+
+    @allure.step("Get head locations.")
+    def head_locations(self):
+        start = time.time()
+        response = requests.head(
+            url=self.endpoints.head_return_quantity_locations,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully get head locations.')
+
+    @allure.step("Delete (remove) location by ID.")
+    def delete_location_by_id_remove(self, location_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.remove_location_by_id_endpoint(location_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully remove location by id with ID: {location_id}.')
+
+    @allure.step("Delete (remove) location by list.")
+    def delete_location_by_list_remove(self, *location_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.remove_locations_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_locations_by_list_remove_payload(*location_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.warning(f'Successfully remove location by list with IDs: {location_ids}.')
+
+    @allure.step("Get location by ID.")
+    def get_location_by_id(self, location_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_location_by_id_endpoint(location_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully get location with ID: {location_id}.')

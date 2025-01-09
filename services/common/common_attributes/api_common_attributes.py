@@ -103,6 +103,39 @@ class CommonAttributesAPI(Helper):
         logger.info(f'Successfully attribute type str creation method only for asset with name: {attribute_name}.')
         return model
 
+    @allure.step("Attribute creation method for task only type string.")
+    def post_add_method_attributes_only_for_task_str(self):
+        attribute_name = f'Доп поле строка для заявки - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            json=self.payloads.post_add_method_attributes_type_str_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=1,
+                for_task=True,
+                for_asset=False,
+                for_check_list=False,
+                fro_complete_work=False,
+                for_contract=False,
+                for_company=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully attribute type str creation method only for task with name: {attribute_name}.')
+        return model
+
     @allure.step("Attribute creation method for company only type string.")
     def post_add_method_attributes_only_for_company_str(self):
         attribute_name = f'Доп поле для компании - {randint(1, 999)}'

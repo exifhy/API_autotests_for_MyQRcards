@@ -1,4 +1,3 @@
-
 from requests import JSONDecodeError
 import allure
 import requests

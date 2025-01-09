@@ -42,3 +42,15 @@ class Payloads:
             **kwargs
         }
         return payload
+
+    @staticmethod
+    def post_add_conversation_to_task_payload(
+            external: bool,
+            value: str
+    ) -> dict:
+        payload = {
+            "message": value,
+            "isExternal": external,
+            "attachments": []
+        }
+        return payload

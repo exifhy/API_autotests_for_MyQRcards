@@ -66,6 +66,17 @@ from services.es.es_asset_template_work_types.api_es_asset_template_work_types i
 from services.es.company_attachments.api_company_attachments import EsCompanyAttachmentsAPI
 from services.common.common_banks.api_common_banks import CommonBanksAPI
 from services.es.es_company_registration_types.api_es_company_registration_types import EsCompanyRegistrationTypesAPI
+from services.es.es_preferred_technicians.api_es_preferred_technicians import EsPreferredTechniciansAPI
+from services.es.es_org_units.api_es_org_units import EsOrgUnitsAPI
+from services.work.work_request_methods.api_work_request_methods import WorkRequestMethodsAPI
+from services.work.work_completed_works.api_work_completed_works import WorkCompletedWorksAPI
+from services.work.work_completed_work_attachments.api_work_completed_work_attachments import WorkCompletedWorkAttachmentsAPI
+from services.work.work_task_actualities.api_work_task_actualities import WorkTaskActualitiesAPI
+from services.work.work_task_attachments.api_work_task_attachments import WorkTaskAttachmentsAPI
+from services.work.work_task_attributes.api_work_task_attributes import WorkTaskAttributesAPI
+from services.work.work_task_contacts.api_work_task_contacts import WorkTaskContactsAPI
+from services.work.work_task_filter.api_work_task_filter import WorkTaskFilterAPI
+from services.work.work_task_conversation_deliveries.api_work_task_conversation_deliveries import WorkTaskConversationDeliveriesAPI
 
 
 class BaseTest:
@@ -139,3 +150,14 @@ class BaseTest:
         self.api_es_company_attachments = EsCompanyAttachmentsAPI()
         self.api_common_banks = CommonBanksAPI()
         self.api_es_company_registration_types = EsCompanyRegistrationTypesAPI()
+        self.api_es_preferred_technicians = EsPreferredTechniciansAPI()
+        self.api_es_org_units = EsOrgUnitsAPI()
+        self.api_work_request_methods = WorkRequestMethodsAPI()
+        self.api_work_completed_works = WorkCompletedWorksAPI()
+        self.api_work_completed_work_attachments = WorkCompletedWorkAttachmentsAPI()
+        self.api_work_task_actualities = WorkTaskActualitiesAPI()
+        self.api_work_task_attachments = WorkTaskAttachmentsAPI()
+        self.api_work_task_attributes = WorkTaskAttributesAPI()
+        self.api_work_task_contacts = WorkTaskContactsAPI()
+        self.api_work_task_filter = WorkTaskFilterAPI()
+        self.api_work_task_conversation_deliveries = WorkTaskConversationDeliveriesAPI()

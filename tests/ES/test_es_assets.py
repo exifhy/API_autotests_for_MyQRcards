@@ -58,6 +58,7 @@ class TestEsAssets(BaseTest):
         )
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test detailed information on the object by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23031")
@@ -80,6 +81,7 @@ class TestEsAssets(BaseTest):
         self.api_es_assets.get_detailed_information_on_object_by_id(object_model.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test object publication.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23078")
@@ -111,6 +113,7 @@ class TestEsAssets(BaseTest):
         self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test object publication without location.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23084")

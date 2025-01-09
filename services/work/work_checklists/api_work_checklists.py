@@ -44,6 +44,7 @@ class WorkChecklistsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
@@ -65,6 +66,7 @@ class WorkChecklistsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
@@ -83,6 +85,7 @@ class WorkChecklistsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
@@ -104,9 +107,132 @@ class WorkChecklistsAPI(Helper):
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete checklists with ID: {args}.')
+
+    @allure.step("Get list checklists.")
+    def get_list_checklists(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_active_checklists_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListChecklistsModel(root=response.json())
+        logger.warning(f'Successfully get checklists by list.')
+        return model
+
+    @allure.step("Update checklists.")
+    def put_update_checklists(self, checklist_id: int):
+        name = f'Измененный-чек-лист-{randint(1, 999)}'
+        description = f'Чек лист изменен-{randint(1, 999)}'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_checklists_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_checklists_payload(
+                checklist_id=checklist_id,
+                name=name,
+                desc=description
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.info(f'Successfully update checklists with ID: {checklist_id}.')
+
+    @allure.step("Assign checklist identifiers in the tables of assets and work types.")
+    def post_checklists_assign(self, checklist_id: int, asset_id: int, work_type_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_checklist_identifiers_in_tables_of_asset_and_work_types_endpoint(checklist_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_checklists_assign_payload(
+                asset_id,
+                work_type_id=work_type_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.info(
+            f'Successfully assign checklist ID:{checklist_id} to assets ID:{asset_id} and work types ID:{work_type_id}.'
+        )
+
+    @allure.step("Delete assign checklist identifiers in the tables from assets and work types.")
+    def delete_checklists_assign(self, checklist_id: int, asset_id: int, work_type_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_checklist_identifiers_from_tables_of_asset_and_work_types_endpoint(checklist_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_checklists_assign_payload(
+                asset_id,
+                work_type_id=work_type_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        logger.warning(
+            f'Successfully delete assign checklist ID:{checklist_id} to assets ID:{asset_id} '
+            f'and work types ID:{work_type_id}.'
+        )
+
+    @allure.step("Get checklist items by ID.")
+    def get_checklist_items_by_id(self, checklist_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_items_checklist_endpoint(checklist_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessGetListChecklistsItemsModel(root=response.json())
+        logger.info(f'Successfully get checklist items with ID: {checklist_id}.')
+        return model
 

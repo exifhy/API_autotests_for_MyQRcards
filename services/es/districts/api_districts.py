@@ -12,7 +12,6 @@ from http import HTTPStatus
 from dotenv import load_dotenv
 import os
 from faker import Faker
-from random import randint
 
 fake_ru = Faker('ru_RU')
 
@@ -140,3 +139,99 @@ class EsDistrictsAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete districts with id: {district_id}.')
+
+    @allure.step("Get list districts.")
+    def get_list_districts(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_districts_available_to_user_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+        model = SuccessGetListInfoDistrictsModel(result=response.json())
+        logger.warning(f'Successfully Get list districts.')
+        return model
+
+    @allure.step("Update district.")
+    def put_update_district(self, district_id):
+        district_name = fake_ru.street_title()
+        notes_text = 'Участок изменен авто-тестом'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.update_districts_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_district_payload(
+                district_id=district_id,
+                district_name=district_name,
+                notes=notes_text,
+                status=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully update district')
+
+    @allure.step("Changes the parent district.")
+    def put_update_parent_district(self, district_id, parent_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_parent_and_district_sorting_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_parent_district_payload(
+                district_id=district_id,
+                parent_id=parent_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully changes the parent district.')
+
+    @allure.step("Changes district sorting.")
+    def put_update_district_sorting(self, district_id, sorted_order: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_parent_and_district_sorting_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_district_sorting_payload(
+                district_id=district_id,
+                sorted_id=sorted_order
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully changes district sorting')
