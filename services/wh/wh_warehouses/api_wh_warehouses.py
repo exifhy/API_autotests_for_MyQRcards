@@ -4,10 +4,10 @@ import requests
 from loguru import logger
 from requests import JSONDecodeError
 from utils.helper import Helper
-from services.wh.wh_materials.payloads import Payloads
-from services.wh.wh_materials.endpoints import Endpoints
+from services.wh.wh_warehouses.payloads import Payloads
+from services.wh.wh_warehouses.endpoints import Endpoints
 from config.headers import Headers
-from services.wh.wh_materials.models.wh_materials_model import *
+from services.wh.wh_warehouses.models.wh_warehouses_model import *
 import time
 from http import HTTPStatus
 from dotenv import load_dotenv
@@ -18,7 +18,7 @@ load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 
 
-class WhMaterialsAPI(Helper):
+class WhWarehousesAPI(Helper):
 
     def __init__(self):
         super().__init__()
@@ -26,18 +26,19 @@ class WhMaterialsAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Create materials.")
-    def post_add_materials(self, erp_name: str or None):
-        name = f"Материал-{random.randint(1, 99999)}"
+    @allure.step("Create warehouses.")
+    def post_add_warehouses(self):
+        """Return model and erp_name in tuple"""
+        name = f"Склад-{random.randint(1, 99999)}"
+        erp_name = f"Erp {random.randint(1, 99999)}"
         start = time.time()
         response = requests.post(
-            url=self.endpoints.post_add_materials_endpoint,
+            url=self.endpoints.post_add_warehouses_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_add_materials_payload(
+            json=self.payloads.post_add_warehouse_payload(
                 name,
-                currency_id=1,
-                unit_id=166,
-                erp_name=erp_name
+                erp_name,
+                False
             )
         )
         end = time.time()
@@ -50,18 +51,18 @@ class WhMaterialsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        model = SuccessAddMaterialsModel(result=response.json())
+        model = SuccessAddWarehousesModel(result=response.json())
         assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully created materials with ID:{model.result[0]}.')
-        return model
+        logger.info(f'Successfully created warehouse with ID:{model.result[0]}.')
+        return model, erp_name
 
-    @allure.step("Delete materials by list.")
-    def delete_materials_by_list(self, *materials_ids: int):
+    @allure.step("Delete warehouses by list.")
+    def delete_warehouses_by_list(self, *wh_ids: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.delete_materials_endpoint,
+            url=self.endpoints.delete_warehouses_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.delete_materials_by_list(*materials_ids)
+            json=self.payloads.delete_warehouses_by_list(*wh_ids)
         )
         end = time.time()
         logger.info(response.headers)
@@ -74,13 +75,13 @@ class WhMaterialsAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.warning(f'Successfully delete materials with ID:{materials_ids}.')
+        logger.warning(f'Successfully delete warehouse with ID:{wh_ids}.')
 
-    @allure.step("Get material by ID.")
-    def get_material_by_id(self, materials_id: int):
+    @allure.step("Get warehouses by ID.")
+    def get_warehouses_by_id(self, wh_id: int):
         start = time.time()
         response = requests.get(
-            url=self.endpoints.get_materials_by_id_endpoint(materials_id),
+            url=self.endpoints.get_warehouses_by_id_endpoint(wh_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
@@ -92,7 +93,7 @@ class WhMaterialsAPI(Helper):
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        model = MaterialModel(**response.json())
+        model = WarehousesModel(**response.json())
         assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
-        logger.warning(f'Successfully get material with Id: {materials_id}.')
+        logger.warning(f'Successfully get warehouse with ID: {wh_id}.')
         return model

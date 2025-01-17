@@ -97,7 +97,7 @@ class EsDistrictsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete district with id: {district_id}.')
+        logger.warning(f'Successfully delete district with id: {district_id}.')
 
     @allure.step('Get detail district info by ID.')
     def get_detail_district_info_by_id(self, district_id: int):
@@ -158,7 +158,7 @@ class EsDistrictsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
         model = SuccessGetListInfoDistrictsModel(result=response.json())
-        logger.warning(f'Successfully Get list districts.')
+        logger.info(f'Successfully get list districts.')
         return model
 
     @allure.step("Update district.")

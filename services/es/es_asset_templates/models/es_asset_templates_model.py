@@ -179,7 +179,7 @@ class SuccessGetListSkillsFromAssetTemplateModel(BaseModel):
 
 
 class DescriptionWorkTypesModel(BaseModel):
-    description: str
+    description: Optional[str] = None
     name: str
     id: int
 

@@ -77,6 +77,14 @@ from services.work.work_task_attributes.api_work_task_attributes import WorkTask
 from services.work.work_task_contacts.api_work_task_contacts import WorkTaskContactsAPI
 from services.work.work_task_filter.api_work_task_filter import WorkTaskFilterAPI
 from services.work.work_task_conversation_deliveries.api_work_task_conversation_deliveries import WorkTaskConversationDeliveriesAPI
+from services.work.work_task_conversations.api_work_task_conversations import WorkTaskConversationsAPI
+from services.work.work_task_list_queries.api_work_task_list_queries import WorkTaskListQueriesAPI
+from services.work.work_task_order_by.api_work_task_order_by import WorkTaskOrderByAPI
+from services.work.work_task_materials.api_work_task_materials import WorkTaskMaterialsAPI
+from services.work.work_task_ratings.api_work_task_ratings import WorkTaskRatingsAPI
+from services.wh.wh_materials.api_wh_materials import WhMaterialsAPI
+from services.wh.wh_warehouses.api_wh_warehouses import WhWarehousesAPI
+from services.wh.wh_receipts.api_wh_receipts import WhReceiptsAPI
 
 
 class BaseTest:
@@ -161,3 +169,11 @@ class BaseTest:
         self.api_work_task_contacts = WorkTaskContactsAPI()
         self.api_work_task_filter = WorkTaskFilterAPI()
         self.api_work_task_conversation_deliveries = WorkTaskConversationDeliveriesAPI()
+        self.api_work_task_conversations = WorkTaskConversationsAPI()
+        self.api_work_task_list_queries = WorkTaskListQueriesAPI()
+        self.api_work_task_materials = WorkTaskMaterialsAPI()
+        self.api_work_task_order_by = WorkTaskOrderByAPI()
+        self.api_work_task_ratings = WorkTaskRatingsAPI()
+        self.api_wh_materials = WhMaterialsAPI()
+        self.api_wh_warehouses = WhWarehousesAPI()
+        self.api_wh_receipts = WhReceiptsAPI()

@@ -42,7 +42,7 @@ class Payloads:
             "email": email,
             "mobilePhone": phone,
             "geotrackingModeID": "3",
-            "isTechnician": False,
+            "isTechnician": True,
             "mobilityID": 1,
             "rate": None,
             "rateCurrencyID": 1

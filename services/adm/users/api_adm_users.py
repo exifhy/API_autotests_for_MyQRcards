@@ -64,7 +64,7 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully add a user customer name: {user_name}')
         return model
 
-    @allure.step("Add user staff.")
+    @allure.step("Add user staff is technician.")
     def post_add_user_staff(self):
         params = {
             "skipAccountVerification": True
@@ -114,7 +114,7 @@ class AdmUsersAPI(Helper):
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete user with id: {user_id}.')
+        logger.warning(f'Successfully delete user with id: {user_id}.')
 
     @allure.step('Get detail user info.')
     def get_user_info_by_id(self, user_id: int):
