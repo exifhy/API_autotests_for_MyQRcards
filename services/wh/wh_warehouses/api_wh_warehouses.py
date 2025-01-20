@@ -28,17 +28,16 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("Create warehouses.")
     def post_add_warehouses(self):
-        """Return model and erp_name in tuple"""
-        name = f"Склад-{random.randint(1, 99999)}"
-        erp_name = f"Erp {random.randint(1, 99999)}"
+        number = random.randint(1, 99999)
+        name = f"Склад {number}"
+        erp_name = f"WHErpID {number}"
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_warehouses_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.post_add_warehouse_payload(
                 name,
-                erp_name,
-                False
+                erp_name
             )
         )
         end = time.time()

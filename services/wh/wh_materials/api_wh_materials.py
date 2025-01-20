@@ -27,8 +27,10 @@ class WhMaterialsAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Create materials.")
-    def post_add_materials(self, erp_name: str or None):
-        name = f"Материал-{random.randint(1, 99999)}"
+    def post_add_materials(self):
+        number = random.randint(1, 99999)
+        name = f"Материал {number}"
+        erp_name = f"MErpID {number}"
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_materials_endpoint,

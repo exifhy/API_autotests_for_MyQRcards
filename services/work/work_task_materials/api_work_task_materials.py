@@ -24,10 +24,10 @@ class WorkTaskMaterialsAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Update task materials.")
-    def put_task_materials(self, task_id: int, material_id: int, material_qty: int, warehouse_id: int):
+    def put_task_materials(self, task_id: int, task_material_id: int, warehouse_id: int):
         data = {
-            "id": material_id,
-            "quantity": material_qty,
+            "id": task_material_id,
+            "quantity": 5,
             "warehouseID": warehouse_id
         }
         start = time.time()
@@ -50,10 +50,12 @@ class WorkTaskMaterialsAPI(Helper):
         logger.info(f'Successfully update task materials.')
 
     @allure.step("Add task materials.")
-    def post_task_materials(self, task_id: int, material_id: int, material_qty: int, warehouse_id: int):
+    def post_task_materials(self, task_id: int, material_id: int, warehouse_id: int):
         data = {
-            "id": material_id,
-            "quantity": material_qty,
+            "materialID": material_id,
+            "takenByUserID": None,
+            "quantity": 10,
+            "measurementUnitID": 166,
             "warehouseID": warehouse_id
         }
         start = time.time()
@@ -72,7 +74,7 @@ class WorkTaskMaterialsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        model = SuccessAddTaskMaterialsModel(**response.json())
+        model = SuccessAddTaskMaterialsModel(result=response.json())
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully add task materials.')
         return model
@@ -99,10 +101,9 @@ class WorkTaskMaterialsAPI(Helper):
         logger.warning(f'Successfully delete task materials with IDs: {material_ids}.')
 
     @allure.step("Update task materials taken by user On.")
-    def put_task_materials_take_on(self, task_id: int, material_id: int, user_id: int):
+    def put_task_materials_take_on(self, task_id: int, task_material_id: int):
         data = {
-            "id": material_id,
-            "takenByUserID": user_id
+            "id": task_material_id,
         }
         start = time.time()
         response = requests.put(
@@ -124,12 +125,12 @@ class WorkTaskMaterialsAPI(Helper):
         logger.info(f'Successfully update task materials taken On.')
 
     @allure.step("Update task materials taken by user Off.")
-    def put_task_materials_take_on(self, task_id: int, *material_ids: int):
+    def put_task_materials_take_off(self, task_id: int, *task_material_ids: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_task_materials_take_off_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.put_task_materials_take_off_payload(task_id, *material_ids)
+            json=self.payloads.put_task_materials_take_off_payload(task_id, *task_material_ids)
         )
         end = time.time()
         logger.info(response.headers)

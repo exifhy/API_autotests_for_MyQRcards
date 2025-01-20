@@ -13,7 +13,7 @@ class TestWhMaterials(BaseTest):
     @pytest.mark.skip(reason="Тест на создание материала проходит в - test_delete_materials_by_list")
     @pytest.mark.test_case_id(24497)
     def test_post_add_materials(self):
-        self.api_wh_materials.post_add_materials(None)
+        self.api_wh_materials.post_add_materials()
 
     @allure.title('Test delete materials by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24498")
@@ -21,7 +21,7 @@ class TestWhMaterials(BaseTest):
     @pytest.mark.skip(reason="Тест на удаление материала проходит в - test_get_material_by_id")
     @pytest.mark.test_case_id(24498)
     def test_delete_materials_by_list(self):
-        model_materials = self.api_wh_materials.post_add_materials(None)
+        model_materials = self.api_wh_materials.post_add_materials()
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get material by id.')
@@ -29,6 +29,6 @@ class TestWhMaterials(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(24507)
     def test_get_material_by_id(self):
-        model_materials = self.api_wh_materials.post_add_materials(None)
+        model_materials = self.api_wh_materials.post_add_materials()
         self.api_wh_materials.get_material_by_id(model_materials.result[0])
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])

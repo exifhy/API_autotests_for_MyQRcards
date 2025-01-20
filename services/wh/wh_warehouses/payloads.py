@@ -3,12 +3,11 @@
 class Payloads:
 
     @staticmethod
-    def post_add_warehouse_payload(name: str, erp_name: str, default: bool) -> list:
+    def post_add_warehouse_payload(name: str, erp_name: str) -> list:
         payload = [
             {
                 "name": name,
-                "erpID": erp_name,
-                "isDefault": default
+                "erpID": erp_name
             }
         ]
         return payload

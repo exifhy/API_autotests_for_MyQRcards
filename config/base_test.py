@@ -85,6 +85,7 @@ from services.work.work_task_ratings.api_work_task_ratings import WorkTaskRating
 from services.wh.wh_materials.api_wh_materials import WhMaterialsAPI
 from services.wh.wh_warehouses.api_wh_warehouses import WhWarehousesAPI
 from services.wh.wh_receipts.api_wh_receipts import WhReceiptsAPI
+from services.wh.wh_inventories.api_wh_inventories import WhInventoriesAPI
 
 
 class BaseTest:
@@ -177,3 +178,4 @@ class BaseTest:
         self.api_wh_materials = WhMaterialsAPI()
         self.api_wh_warehouses = WhWarehousesAPI()
         self.api_wh_receipts = WhReceiptsAPI()
+        self.api_wh_inventories = WhInventoriesAPI()

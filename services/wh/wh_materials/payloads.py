@@ -9,9 +9,10 @@ class Payloads:
                 "name": name,
                 "erpID": erp_name,
                 "measurementUnitID": unit_id,
+                "Cost": 10.50,
                 "costCurrencyID": currency_id,
+                "PurchaseCost": 10.50,
                 "purchaseCostCurrencyID": currency_id,
-                "description": "Материал создан авто-тестом"
             }
         ]
         return payload

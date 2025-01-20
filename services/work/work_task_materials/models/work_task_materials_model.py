@@ -13,6 +13,10 @@ class ErrorModel(BaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddTaskMaterialsModel(BaseModel):
+class TaskMaterialsModel(BaseModel):
     taskID: int
     id: int
+
+
+class SuccessAddTaskMaterialsModel(BaseModel):
+    result: List[TaskMaterialsModel]

@@ -13,3 +13,7 @@ class Payloads:
             }
         ]
         return payload
+
+    @staticmethod
+    def delete_inventories_by_list_payload(*inventories_ids: tuple) -> list:
+        return [*inventories_ids]

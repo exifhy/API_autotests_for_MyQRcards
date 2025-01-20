@@ -11,7 +11,7 @@ import time
 from http import HTTPStatus
 from dotenv import load_dotenv
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 load_dotenv()
@@ -32,20 +32,21 @@ class WhInventoriesAPI(Helper):
         data = {
             "MaterialErpID": material_erp,
             "MaterialName": material_name,
-            "Quantity": 100.0,
+            "Quantity": 1000.0,
             "MeasurementUnitID": 166,
             "MaterialCurrencyID": 1,
-            "MaterialCost": 1.0,
+            "MaterialCost": 500.0,
             "WarehouseErpID": wh_erp,
             "WarehouseName": wh_name
         }
-        current_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        current_date = datetime.now() - timedelta(minutes=180)
+        formatted_date = current_date.strftime("%Y-%m-%dT%H:%M:%S")
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_inventories_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.post_add_inventories_payload(
-                current_date,
+                formatted_date,
                 data
             )
         )
@@ -63,3 +64,26 @@ class WhInventoriesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully created inventory with ID:{model.result[0].id}.')
         return model
+
+    @allure.step("Delete inventories by list.")
+    def delete_inventories_by_list(self, *inventory_ids: str):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_inventories_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_inventories_by_list_payload(
+                *inventory_ids
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.warning(f'Successfully delete inventory with IDs: {inventory_ids}.')

@@ -33,7 +33,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(24500)
     def test_post_add_items_receipts(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        materials = self.api_wh_materials.post_add_materials(model_wh[1])
+        materials = self.api_wh_materials.post_add_materials()
         model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
         try:
             self.api_wh_receipts.post_add_items_receipts(
@@ -51,7 +51,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(24503)
     def test_delete_items_receipts(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        materials = self.api_wh_materials.post_add_materials(model_wh[1])
+        materials = self.api_wh_materials.post_add_materials()
         model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
         try:
             self.api_wh_receipts.post_add_items_receipts(
