@@ -39,15 +39,14 @@ class EsLocationsAPI(Helper):
             )
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddLocationModel(location=response.json())
         logger.info(f'Successfully add location. id: {model.location[0]}')
         return model.location[0]

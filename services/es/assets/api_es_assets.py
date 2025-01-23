@@ -33,24 +33,26 @@ class EsAssetsAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Returns the directory of objects available to the user.")
-    def get_directory_of_objects_available_to_user(self, param: dict):
+    @allure.step("Get list assets available to the user.")
+    def get_asset_available_to_user(self, param: dict or None, *model_assets: int or None):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_directory_of_objects_available_to_user_endpoint, params=param,
-            headers=self.headers.basic_header_with_range(API_TOKEN)
+            headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Code:{response.status_code}.Message:{data_response}'
         model = AssetExtResults(results=response.json())
+        if model_assets is not None:
+            for item in model_assets:
+                assert str(item.id) in model.results, \
+                    f'Asset with ID {item.id} is not in the list assets'
         logger.info(f'Successfully receiving the assets list.')
         return model
 
@@ -83,6 +85,36 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
+        return model
+
+    @allure.step("Add child asset.")
+    def post_add_child_asset(self, company_id: int, asset_type_id: int, asset_class_id: int, parent_id: int):
+        name = fake_ru.company()
+        notes_text = 'Дочерний объект создан авто-тестом'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.create_object_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.object_creation_payload(
+                parent_id=parent_id,
+                name=name,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
+                notes=notes_text
+            )
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        self.attach_response(data_response)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = IdNameResultModel(**response.json())
+        logger.info(f'Successfully add child asset, name object: {name}')
         return model
 
     @allure.step("Add asset with parent.")
@@ -163,11 +195,13 @@ class EsAssetsAPI(Helper):
             json=self.payloads.delete_assets_by_list_payload(*args)
         )
         end = time.time()
+        data_response = self.response_content(response)
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully delete the assets with ID: {args}.')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, {data_response}'
+        logger.warning(f'Successfully delete the assets with IDs: {args}.')
 
     @allure.step("Returns the header of a user query with the amount of data that satisfies the filter.")
     def head_assets(self, asset_id: int, checklist_id: int, district_id: int, company_id: int):
@@ -183,10 +217,13 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
+        data_response = self.response_content(response)
         logger.info(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully get header asset with ID: {asset_id}.')
 
     @allure.step("Detailed information on the object by id.")
@@ -207,6 +244,33 @@ class EsAssetsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = AssetDetailedInfoResult(**response.json())
         logger.info(f'Successfully receiving the assets detailed info.')
+        return model
+
+    @allure.step("Get asset by id.")
+    def get_asset_by_id(self, model_asset, deleted_status: bool or None):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.detailed_information_on_object_endpoint(model_asset.id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = AssetDetailedInfoResult(**response.json())
+        assert model.name == model_asset.name, \
+            f'Asset with ID {model_asset.id} has not been created or created with wrong name'
+        if deleted_status is True:
+            assert 'deleted' in response.json(), \
+                f'Asset with ID {model_asset.id} has not been deleted'
+        elif deleted_status is False:
+            assert 'deleted' not in response.json(), \
+                f'Asset with ID {model_asset.id} has not been restore'
+        logger.info(f'Successfully get the asset with ID: {model_asset.id}.')
         return model
 
     @allure.step("Method of publishing an object.")
@@ -762,17 +826,15 @@ class EsAssetsAPI(Helper):
             json=self.payloads.put_restores_deleted_assets_by_list_payload(*args)
         )
         end = time.time()
+        data_response = self.response_content(response)
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully restore the assets with ID: {args}.')
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.info(f'Successfully restore the assets with ID: {args}.')
 
     @allure.step("Get the list of districts for the asset.")
     def get_list_districts_for_asset(self, asset_id: int):
@@ -877,7 +939,7 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-        f'Status code {response.status_code}, {response.json()}'
+            f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetAssetWorkTypesResult(root=response.json())
         logger.info(f'Successfully get a list of work types available for the asset with ID: {asset_id}.')
         return model

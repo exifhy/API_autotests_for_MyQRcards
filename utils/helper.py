@@ -65,3 +65,10 @@ class Helper:
         query_string = urllib.parse.urlencode(params)
         full_url = f"{base_url}/?{query_string}"
         return full_url
+
+    @staticmethod
+    def response_content(response) -> str:
+        if response.content:
+            return response.json()
+        else:
+            return "The response body is empty."

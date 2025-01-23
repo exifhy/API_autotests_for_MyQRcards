@@ -9,6 +9,8 @@ from loguru import logger
 from config.headers import Headers
 from dotenv import load_dotenv, set_key, unset_key
 import requests
+import re
+import traceback
 
 
 load_dotenv()
@@ -58,6 +60,22 @@ def bearer_token():
 
     except (requests.exceptions.RequestException, TypeError) as er:
         logger.error(er)
+
+
+@pytest.fixture
+def return_func_name():
+    return return_func_name_with_error
+
+
+def return_func_name_with_error() -> str:
+    # Получаем traceback в виде строки
+    tb = traceback.format_exc()
+
+    # Находим все функции в стеке вызовов
+    matches = re.findall(r'File .+?, line \d+, in (\w+)', tb)
+
+    # Возвращаем последнюю найденную функцию, так как ошибка произошла в ней
+    return matches[-1] if matches else "Unknown function"
 
 
 def get_api_user_access_token():
@@ -115,6 +133,12 @@ def attach_host_info():
 def pytest_addoption(parser):
     parser.addoption(
         "--report", action="store", default="false", help="Run fixture if --report=true"
+    )
+    parser.addoption(
+        "--runs",
+        action="store",
+        default=1,
+        help="Number of times to run the test scenario"
     )
 
 

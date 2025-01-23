@@ -138,16 +138,14 @@ class WorkTaskConversationsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
+        data_response = self.response_content(response)
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         logger.info('Successfully get head task conversations.')
 
     @allure.step("Delete (remove) task conversations.")

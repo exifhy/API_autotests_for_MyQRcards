@@ -38,16 +38,15 @@ class EsCompanyLocationsAPI(Helper):
             )
         )
         end = time.time()
+        data_response = self.response_content(response)
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.json()}, {response.status_code}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully adds a location to the company.')
 
     @allure.step("Get list locations from company.")

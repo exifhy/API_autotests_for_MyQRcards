@@ -94,13 +94,12 @@ class EsAssetClassesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         model = SuccessGetAssetClassesModel(root=response.json())
         logger.info(f'Successfully get list a asset class.')
         return model

@@ -1,7 +1,10 @@
+from json import JSONDecodeError
 import allure
 import pytest
+from allure_commons.types import Severity
 from config.base_test import BaseTest
 from src.enums.params_enums import Params
+from loguru import logger
 
 
 @allure.epic("Administration")
@@ -16,7 +19,7 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23025)
     @pytest.mark.parametrize('param', Params.params_assets_list.value)
     def test_get_directory_of_objects_available_to_user(self, param):
-        self.api_es_assets.get_directory_of_objects_available_to_user(param)
+        self.api_es_assets.get_asset_available_to_user(param, None)
 
     @pytest.mark.smoke
     @pytest.mark.skip(reason='Asset is created in test - test_delete_object_by_id.')
@@ -1070,8 +1073,9 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23992)
     def test_put_restores_deleted_assets_by_list(self):
         try:
-            model_deleted_assets = self.api_es_assets.get_directory_of_objects_available_to_user(
-                {"isDeleted": True}
+            model_deleted_assets = self.api_es_assets.get_asset_available_to_user(
+                {"isDeleted": True},
+                None
             )
             list_assets_id = [int(key) for key in model_deleted_assets.results.keys()]
             self.api_es_assets.put_restores_deleted_assets_by_list(*list_assets_id)
@@ -1262,3 +1266,393 @@ class TestEsAssets(BaseTest):
             self.api_es_assets.delete_object_by_id(model_asset.id)
             self.api_es_companies.delete_company_by_id(company_id)
             self.api_es_locations.delete_locations_by_list(location_id)
+
+
+@pytest.mark.test_scripts_suites_es_assets
+class TestEsAssetsScriptSuite(BaseTest):
+
+    @allure.title('Test api test scenario ES/assets (POST, GET, GET by id, DELETE by id, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24540")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24540)
+    def test_es_asset_add_get_delete_by_id_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    self.api_es_assets.get_asset_available_to_user({"isDeleted": "false"}, object_model)
+                    self.api_es_assets.get_asset_by_id(object_model, None)
+                    self.api_es_assets.delete_object_by_id(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user({"isDeleted": "true"}, object_model)
+                    self.api_es_assets.get_asset_by_id(object_model, True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (POST, GET, GET by id, DELETE by list, GET, GET by id) .')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24541")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24541)
+    def test_es_asset_add_get_delete_by_list_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    self.api_es_assets.get_asset_available_to_user({"isDeleted": "false"}, object_model)
+                    self.api_es_assets.get_asset_by_id(object_model, None)
+                    self.api_es_assets.delete_assets_by_list(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user({"isDeleted": "true"}, object_model)
+                    self.api_es_assets.get_asset_by_id(object_model, True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by id full, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24542")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24542)
+    def test_es_asset_delete_by_id_full_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    model_child_asset = self.api_es_assets.post_add_child_asset(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id,
+                        parent_id=object_model.id
+                    )
+                    self.api_es_assets.delete_asset_and_child_assets_by_id(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "true"},
+                        object_model,
+                        model_child_asset
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, True)
+                    self.api_es_assets.get_asset_by_id(model_child_asset, True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by list full, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24543")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24543)
+    def test_es_asset_delete_by_list_full_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    model_child_asset = self.api_es_assets.post_add_child_asset(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id,
+                        parent_id=object_model.id
+                    )
+                    self.api_es_assets.delete_assets_and_child_assets_by_list(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "true"},
+                        object_model,
+                        model_child_asset
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, True)
+                    self.api_es_assets.get_asset_by_id(model_child_asset, True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by id, PUT restore, GET by list, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24544")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24544)
+    def test_es_asset_delete_by_id_put_restore_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    self.api_es_assets.delete_object_by_id(object_model.id)
+                    self.api_es_assets.put_restores_deleted_assets_by_list(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "false"},
+                        object_model
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, False)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_es_assets.delete_object_by_id(object_model.id)
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by list, PUT restore, GET by list, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24545")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24545)
+    def test_es_asset_delete_by_list_put_restore_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    self.api_es_assets.delete_assets_by_list(object_model.id)
+                    self.api_es_assets.put_restores_deleted_assets_by_list(object_model.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "false"},
+                        object_model
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, False)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_es_assets.delete_object_by_id(object_model.id)
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by id full, PUT restore, GET by list, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24546")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24546)
+    def test_es_asset_delete_by_id_full_put_restore_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    model_child_asset = self.api_es_assets.post_add_child_asset(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id,
+                        parent_id=object_model.id
+                    )
+                    self.api_es_assets.delete_asset_and_child_assets_by_id(object_model.id)
+                    self.api_es_assets.put_restores_deleted_assets_by_list(object_model.id, model_child_asset.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "false"},
+                        object_model,
+                        model_child_asset
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, False)
+                    self.api_es_assets.get_asset_by_id(model_child_asset, False)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_es_assets.delete_assets_by_list(object_model.id, model_child_asset.id)
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test scenario ES/assets (DELETE by list full, PUT restore, GET by list, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24547")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24547)
+    def test_es_asset_delete_by_list_put_restore_get_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    object_model = self.api_es_assets.post_add_object(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id
+                    )
+                    model_child_asset = self.api_es_assets.post_add_child_asset(
+                        company_id=company_id,
+                        asset_class_id=asset_class_id,
+                        asset_type_id=asset_type_id,
+                        parent_id=object_model.id
+                    )
+                    self.api_es_assets.delete_assets_and_child_assets_by_list(object_model.id)
+                    self.api_es_assets.put_restores_deleted_assets_by_list(object_model.id, model_child_asset.id)
+                    self.api_es_assets.get_asset_available_to_user(
+                        {"isDeleted": "false"},
+                        object_model,
+                        model_child_asset
+                    )
+                    self.api_es_assets.get_asset_by_id(object_model, False)
+                    self.api_es_assets.get_asset_by_id(model_child_asset, False)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_es_assets.delete_assets_by_list(object_model.id, model_child_asset.id)
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
