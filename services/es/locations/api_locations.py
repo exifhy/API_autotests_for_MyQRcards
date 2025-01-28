@@ -59,15 +59,13 @@ class EsLocationsAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN),
         )
         end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.ACCEPTED, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
-                                                                                           f'{response.json()}')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete location by ID: {location_id}.')
 
     @allure.step("Delete the locations by list.")
@@ -80,15 +78,14 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the locations by list with ID: {args}.')
 
     @allure.step("Get list locations.")
@@ -100,16 +97,40 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListLocationsModel(root=response.json())
+        logger.info(f'Successfully get list locations.')
+        return model
+
+    @allure.step("Get list locations with asserts.")
+    def get_list_locations_with_asserts(self, location_id: int, deleted: bool):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_locations_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessGetListLocationsModel(root=response.json())
+        if deleted is True:
+            assert str(location_id) not in model.root, \
+                f'Location with ID {location_id} is not deleted.'
+        if deleted is False:
+            assert str(location_id) in model.root, \
+                f'Location with ID {location_id} is not in list locations'
         logger.info(f'Successfully get list locations.')
         return model
 
@@ -131,15 +152,14 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.info(f'Successfully update location with Id: {location_id}')
 
     @allure.step("Get head locations.")
@@ -151,15 +171,13 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully get head locations.')
 
     @allure.step("Delete (remove) location by ID.")
@@ -171,15 +189,13 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully remove location by id with ID: {location_id}.')
 
     @allure.step("Delete (remove) location by list.")
@@ -192,15 +208,13 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully remove location by list with IDs: {location_ids}.')
 
     @allure.step("Get location by ID.")
@@ -212,13 +226,31 @@ class EsLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = LocationResultModel(**response.json())
         logger.info(f'Successfully get location with ID: {location_id}.')
+        return model
+
+    @allure.step("Get deleted location by ID.")
+    def get_deleted_location_by_id(self, location_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_location_by_id_endpoint(location_id),
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully get deleted location with ID: {location_id}.')

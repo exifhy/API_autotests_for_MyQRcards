@@ -55,6 +55,31 @@ class Payloads:
         return payload
 
     @staticmethod
+    def put_update_company_payload(
+            company_id: int,
+            company_name: str,
+            company_email: str,
+            company_contractor: bool,
+            company_employer: bool,
+            company_our: bool,
+            company_phone: str,
+            company_type: str
+    ):
+        payload = [
+            {
+                "id": company_id,
+                "name": company_name,
+                "email": company_email,
+                "isContractorHolder": company_contractor,
+                "isEmployer": company_employer,
+                "isOurCompany": company_our,
+                "phone": company_phone,
+                "registrationTypeID": company_type
+            }
+        ]
+        return payload
+
+    @staticmethod
     def post_add_attributes_to_company_payload(*params: dict) -> list:
         return [*params]
 

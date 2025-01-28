@@ -74,6 +74,27 @@ class EsCompanyLocationsAPI(Helper):
         logger.info(f'Successfully get location from company.')
         return model
 
+    @allure.step("Get list deleted locations from company.")
+    def get_list_deleted_locations_company(self, company_id: int):
+        params = {
+            "companyID": company_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_company_locations_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully get list deleted locations from company.')
+
     @allure.step("Update location from company.")
     def put_update_location_from_company(self, company_id: int, location_id: int):
         start = time.time()
@@ -110,13 +131,12 @@ class EsCompanyLocationsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.json()}, {response.status_code}'
-        logger.warning(f'Successfully delete location from company.')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
+        logger.warning(f'Successfully delete location from company with ID {company_id}.')

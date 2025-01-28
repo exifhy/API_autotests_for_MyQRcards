@@ -1,5 +1,9 @@
 import allure
 import pytest
+from allure_commons.types import Severity
+from loguru import logger
+from requests import JSONDecodeError
+
 from config.base_test import BaseTest
 
 
@@ -64,3 +68,39 @@ class TestEsCompanyLocations(BaseTest):
         finally:
             self.api_es_companies.delete_company_by_id(company_id)
             self.api_es_locations.delete_location_by_id(location_id)
+
+
+@pytest.mark.test_scripts_suites_es_company_locations
+class TestEsCompanyLocationsScriptSuite(BaseTest):
+
+    @allure.title('Test script ES/companyLocations (POST, GET, DELETE by list, GET).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    def test_es_company_locations_add_get_delete_by_list_get(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    self.api_es_company_locations.post_add_company_locations(company_id, location_id)
+                    model_list_locations = self.api_es_company_locations.get_list_locations_company(company_id)
+                    assert str(location_id) in model_list_locations.root, \
+                        f'Location with ID {location_id} is not in list locations company with ID {company_id}'
+                    self.api_es_company_locations.delete_location_from_company(company_id)
+                    self.api_es_company_locations.get_list_deleted_locations_company(company_id)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)

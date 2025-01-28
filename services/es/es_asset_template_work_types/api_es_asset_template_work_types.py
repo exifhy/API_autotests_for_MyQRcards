@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.es.es_asset_template_work_types.payloads import Payloads
 from services.es.es_asset_template_work_types.endpoints import Endpoints
@@ -34,17 +33,15 @@ class EsAssetTemplateWorkTypesAPI(Helper):
             json=self.payloads.post_add_work_types_to_asset_templates_payload(asset_template_id, *work_types_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}.Message:{data_response}'
         model = SuccessAddWorkTypesToAssetTemplatesModel(result=response.json())
         logger.info(f'Successfully add work types with ID: {work_types_id} to templates with ID: {asset_template_id}.')
         return model
@@ -58,17 +55,15 @@ class EsAssetTemplateWorkTypesAPI(Helper):
             json=self.payloads.delete_work_types_from_asset_templates_payload(asset_template_id, *work_types_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
         logger.warning(f'Successfully delete work types ID: {work_types_id} to templates with ID: {asset_template_id}.')
 
     @allure.step("Delete work types from asset template by ID.")
@@ -80,15 +75,13 @@ class EsAssetTemplateWorkTypesAPI(Helper):
             json=self.payloads.delete_work_types_from_asset_template_by_id(*work_types_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
         logger.warning(f'Successfully delete work types ID: {work_types_id} to template with ID: {asset_template_id}.')

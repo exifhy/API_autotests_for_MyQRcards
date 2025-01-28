@@ -14,3 +14,15 @@ class Payloads:
             }
         ]
         return payload
+
+    @staticmethod
+    def post_delete_attributes_from_asset_template_payload(
+            template_id: int,
+    ) -> list:
+        payload = [
+            {
+                "assetTemplateID": template_id,
+                "data": []
+            }
+        ]
+        return payload

@@ -29,7 +29,7 @@ class TestEsAssetWorkTypes(BaseTest):
             asset_type_id=asset_type_id
         )
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_es_asset_work_types.post_add_work_type_to_asset(
             asset_id=asset_id.id,
             work_type_id=work_type_id.type[0]
@@ -58,7 +58,7 @@ class TestEsAssetWorkTypes(BaseTest):
             asset_type_id=asset_type_id
         )
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_es_asset_work_types.post_add_work_type_to_asset(
             asset_id=asset_id.id,
             work_type_id=work_type_id.type[0]

@@ -44,14 +44,14 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
         model = SuccessAddCompaniesModel(companies=response.json())
         logger.info(f'Successfully created Our company, name: {name_new_company}.')
         return model.companies[0]
@@ -80,11 +80,14 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
         logger.warning(f'Successfully delete companies by list IDs: {company_ids}.')
 
     @allure.step("Head companies.")
@@ -111,16 +114,40 @@ class EsCompaniesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
         model = SuccessCompaniesGetResult(**response.json())
-        logger.info(f'Successfully receiving the company detailed info by id.')
+        logger.info(f'Successfully receiving the company detailed info with id {company_id}.')
+        return model
+
+    @allure.step("Get deleted company by id.")
+    def get_deleted_company_by_id(self, company_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_company_by_id_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
+        model = SuccessCompaniesGetResult(**response.json())
+        assert company_id == model.id, \
+            f'Company with id {company_id} is not deleted.'
+        assert 'deleted' in response.json(), \
+            f'Company with id {company_id} is not deleted.'
+        logger.info(f'Successfully receiving the company detailed info with id {company_id}.')
         return model
 
     @allure.step("Returns a list of companies available to the user.")
@@ -145,17 +172,47 @@ class EsCompaniesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        logger.info(response.headers)
-        assert response.status_code in {HTTPStatus.OK,
-                                        HTTPStatus.PARTIAL_CONTENT}, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
         model = SuccessGetCompaniesListResultModel(**response.json())
         logger.info(f'Successfully receiving a list of companies available to the user not deleted.')
+        return model
+
+    @allure.step("Get list of companies with asserts.")
+    def get_list_companies_with_asserts(self, company_id:int, deleted: bool):
+        param = {
+            "isDeleted": deleted
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_companies_endpoint, params=param,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
+        model = SuccessGetCompaniesListResultModel(**response.json())
+        if deleted is True:
+            assert str(company_id) in model.root, \
+                f'Company with ID {company_id} is not in list companies.'
+            assert 'deleted' in response.json()[str(company_id)], \
+                f'Company with ID {company_id} has not been deleted'
+        elif deleted is False:
+            assert str(company_id) in model.root, \
+                f'Company with ID {company_id} is deleted'
+        logger.info(f'Successfully get a list of companies available to the user.')
         return model
 
     @allure.step("Update company by id.")
@@ -188,14 +245,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {data_response}'
         model = self.get_detailed_information_on_company_by_id(company_id)
         assert model.name == new_name_company, f'Expected -> {new_name_company}, but got -> {model.name}'
         assert model.email == new_email_company, f'Expected -> {new_email_company}, but got -> {model.email}'
@@ -208,26 +264,31 @@ class EsCompaniesAPI(Helper):
         logger.info(f'Successfully update company, name: {new_name_company}.')
 
     @allure.step("Returns list company attachments.")
-    def get_list_attachments_from_company(self, company_id: int):
+    def get_list_attachments_from_company(self, company_id: int, deleted: bool):
+        param = {
+            "thumbnailSize": 128
+        }
         start = time.time()
         response = requests.get(
-            url=self.endpoints.get_list_attachments_from_company_endpoint(company_id),
+            url=self.endpoints.get_list_attachments_from_company_endpoint(company_id), params=param,
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
-        model = SuccessGetListAttachmentResultModel(root=response.json())
-        logger.info(f'Successfully get attachments from company with iD: {company_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Attachments is not deleted from company with iD: {company_id}.'
+        elif deleted is False:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                f'Expected {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.{data_response}'
+            model = SuccessGetListAttachmentResultModel(root=response.json())
+            logger.info(f'Successfully get attachments from company with iD: {company_id}.')
+            return model
 
     @allure.step("Download attachment from company by ID.")
     def get_download_attachment_from_company(self, company_id: int, attachment_id: int):
@@ -237,16 +298,14 @@ class EsCompaniesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
@@ -263,15 +322,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.OK, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         model = SuccessGetAttachmentResultModel(**response.json())
         logger.info(f'Successfully get info attachment file from company by ID: {company_id}.')
         return model
@@ -285,18 +342,43 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.OK, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         model = SuccessGetListCompanyAttributeResultModel(result=response.json())
         logger.info(f'Successfully get info attributes from company by ID: {company_id}.')
         return model
+
+    @allure.step("Get list attributes from company with asserts.")
+    def get_list_attributes_from_company_with_asserts(self, company_id: int, attribute_id: int, deleted: bool):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_company_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
+        model = SuccessGetListCompanyAttributeResultModel(result=response.json())
+        for item in model.result:
+            if deleted is True:
+                if item.attribute.id == attribute_id:
+                    assert item.values == [], \
+                        f'Values attribute with ID {attribute_id} not deleted from company{company_id}'
+            elif deleted is False:
+                if item.attribute.id == attribute_id:
+                    logger.info(f'Successfully get info attributes from company by ID: {company_id}.')
+                    return model
 
     @allure.step("Update company attributes by ID.")
     def post_update_company_attributes(self, company_id: int, attribute_id: int):
@@ -311,21 +393,39 @@ class EsCompaniesAPI(Helper):
         response = requests.post(
             url=self.endpoints.post_add_attributes_to_company_endpoint(company_id),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_add_attributes_to_company_payload(*params)
+            json=self.payloads.post_add_attributes_to_company_payload(params)
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.info(f'Successfully bind attributes to company by ID: {company_id}.')
+
+    @allure.step("Update company attributes by ID delete values.")
+    def post_delete_values_company_attributes(self, company_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_company_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=[]
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully delete value  attributes to company by ID: {company_id}.')
 
     @allure.step("Get company bank accounts by ID.")
     def get_bank_accounts_from_company(self, company_id: int):
@@ -336,18 +436,34 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         model = SuccessGetCompanyBankAccountListResultModel(root=response.json())
         logger.info(f'Successfully get company bank accounts by ID: {company_id}.')
         return model
+
+    @allure.step("Get deleted company bank accounts.")
+    def get_deleted_bank_accounts_from_company(self, company_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_bank_accounts_from_company_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully delete company bank accounts by ID: {company_id}.')
 
     @allure.step("Update company bank accounts by ID.")
     def put_update_company_bank_accounts(
@@ -369,16 +485,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        self.attach_request(response.request.body)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.info(f'Successfully update company bank accounts by ID: {company_id}.')
 
     @allure.step("Add bank accounts to company by ID.")
@@ -399,16 +512,14 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}. Message {data_response}'
         model = SuccessAddBakAccountsToCompanyModel(result=response.json())
         logger.info(f'Successfully add bank accounts to company by ID: {company_id}.')
         return model
@@ -423,16 +534,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        self.attach_request(response.request.body)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.warning(f'Successfully delete bank accounts from company by list: {bank_account_company_ids}.')
 
     @allure.step("Delete bank account from company by ID.")
@@ -444,15 +552,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'{response.status_code}, {response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.warning(f'Successfully delete bank accounts from company by ID: {bank_account_company_id}.')
 
     @allure.step("Get list company contacts.")
@@ -464,18 +570,34 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         model = SuccessGetListCompanyContactsResultModel(root=response.json())
         logger.info(f'Successfully get list company contacts by ID: {company_id}.')
         return model
+
+    @allure.step("Get list deleted company contacts.")
+    def get_list_deleted_contacts_from_company(self, company_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_contacts_from_company_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully get deleted list company contacts by ID: {company_id}.')
 
     @allure.step("Get company contact by ID.")
     def get_contact_from_company_by_id(self, company_id: int, contact_id: int):
@@ -587,17 +709,15 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'{response.status_code}, {response.json()}'
-        logger.warning(f'Successfully delete contacts from company by list: {contact_ids}.')
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
+        logger.warning(f'Successfully delete contacts with ID {contact_ids} from company by list: {contact_ids}.')
 
     @allure.step("Restore companies by list.")
     def put_restore_companies_by_list(self, *company_ids: int):

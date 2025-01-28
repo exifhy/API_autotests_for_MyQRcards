@@ -1,5 +1,9 @@
 import allure
 import pytest
+from allure_commons.types import Severity
+from loguru import logger
+from requests import JSONDecodeError
+
 from config.base_test import BaseTest
 
 
@@ -87,3 +91,38 @@ class TestLocations(BaseTest):
         location_id = self.api_es_locations.post_add_location()
         self.api_es_locations.get_location_by_id(location_id)
         self.api_es_locations.delete_location_by_id_remove(location_id)
+
+
+@pytest.mark.test_scripts_suites_es_locations
+class TestEsLocationsScriptSuite(BaseTest):
+
+    @allure.title('Test script ES/Locations (POST, GET, GET(ID), PUT, GET, GET(ID) DELETE(list), GET(ID)).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    def test_es_locations_add_get_get_id_put_get_get_id_delete_list_get_id(self, request, return_func_name):
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    location_id = self.api_es_locations.post_add_location()
+                    self.api_es_locations.get_list_locations_with_asserts(location_id, False)
+                    model_before = self.api_es_locations.get_location_by_id(location_id)
+                    self.api_es_locations.put_update_location(location_id)
+                    model_after = self.api_es_locations.get_location_by_id(location_id)
+                    assert model_after != model_before, f'{model_after} is equal {model_before}'
+                    self.api_es_locations.get_list_locations_with_asserts(location_id, False)
+                    self.api_es_locations.delete_location_by_id(location_id)
+                    self.api_es_locations.get_list_locations_with_asserts(location_id, True)
+                    self.api_es_locations.get_deleted_location_by_id(location_id)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)

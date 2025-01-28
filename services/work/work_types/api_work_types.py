@@ -165,7 +165,7 @@ class WorkWorkTypesAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning('Published type not found. Creating a published work type.')
             model_work_type = self.post_add_work_type({"relatedToAnyTaskType": "true"})
-            self.put_publish_complete_work_types(model_work_type.type[0])
+            self.put_publish_work_types(model_work_type.type[0])
             return model_work_type.type[0]
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, (f'{response.status_code}, '
@@ -177,8 +177,8 @@ class WorkWorkTypesAPI(Helper):
                     logger.warning(f'First published work type found: {value.name}, Work Type id: {key}')
                     return int(key)
 
-    @allure.step("Publishes completed works.")
-    def put_publish_complete_work_types(self, work_type_id: int):
+    @allure.step("Publishes work types.")
+    def put_publish_work_types(self, work_type_id: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_work_types_publish_endpoint,
@@ -199,8 +199,8 @@ class WorkWorkTypesAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully publish work type, id type: {work_type_id}')
 
-    @allure.step("Publishes completed works by id.")
-    def put_publish_complete_work_types_by_id(self, work_type_id: int):
+    @allure.step("Publishes work type by id.")
+    def put_publish_work_type_by_id(self, work_type_id: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_work_types_publish_by_id_endpoint(worktype_id=work_type_id),
@@ -217,8 +217,8 @@ class WorkWorkTypesAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully publish work type by id, type id: {work_type_id}')
 
-    @allure.step("Cancels publication of completed work by id.")
-    def put_unpublish_complete_work_types_by_id(self, work_type_id: int):
+    @allure.step("Cancels publication of work type by id.")
+    def put_unpublish_work_type_by_id(self, work_type_id: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_work_types_unpublish_by_id_endpoint(worktype_id=work_type_id),
@@ -235,8 +235,8 @@ class WorkWorkTypesAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully unpublish work type by id, type id: {work_type_id}')
 
-    @allure.step("Cancels publication of completed work.")
-    def put_unpublish_complete_work_types(self, work_type_id: int):
+    @allure.step("Cancels publication of work types.")
+    def put_unpublish_work_types(self, work_type_id: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_work_types_unpublish_endpoint,

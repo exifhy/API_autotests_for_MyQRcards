@@ -71,16 +71,15 @@ class EsAssetTemplateAttachmentsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message:{data_response}'
         logger.warning(
             f'Successfully delete attachments from template with ID: {asset_template_id}, '
             f'attachment ID: {attachment_ids}'
@@ -89,7 +88,7 @@ class EsAssetTemplateAttachmentsAPI(Helper):
     @allure.step("Upload and bind attachment to asset template data from form.")
     def post_upload_and_bind_to_asset_template_data_from_form(self, asset_template_id: int):
         file_name = f'attachment_from_form{randint(1, 999)}.jpg'
-        with io.BytesIO() as image_bytes:
+        with (io.BytesIO() as image_bytes):
             # Генерация изображения (например, 200x200 пикселей, зеленый фон)
             with Image.new("RGB", (200, 200), color="green") as img:
                 img.save(image_bytes, format="JPEG")
@@ -110,15 +109,14 @@ class EsAssetTemplateAttachmentsAPI(Helper):
                 data=payload
             )
             end = time.time()
+            data_response = self.response_content(response)
             logger.info(response.headers)
-            try:
-                self.attach_response(response.json())
-            except JSONDecodeError:
-                logger.warning("Received response is not a valid JSON")
+            self.attach_response(data_response)
             self.attach_response_headers(response.headers)
             self.attach_time(start, end)
             self.attach_url(response.request.url)
-            assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.CREATED, \
+                f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
             model = SuccessUploadBindAttachmentToTemplateModel(**response.json())
             logger.info(f'Successfully upload {file_name} to asset template with ID: {asset_template_id}.')
             return model

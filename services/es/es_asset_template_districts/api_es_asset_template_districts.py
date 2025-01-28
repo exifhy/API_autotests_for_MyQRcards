@@ -34,17 +34,15 @@ class EsAssetTemplateDistrictsAPI(Helper):
             json=self.payloads.post_districts_to_asset_templates_payload(asset_template_id, *districts_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
         self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}. Message:{data_response}'
         model = SuccessAddDistrictsToAssetTemplatesModel(result=response.json())
         logger.info(f'Successfully add districts with ID: {districts_id} to templates with ID: {asset_template_id}.')
         return model
@@ -58,17 +56,15 @@ class EsAssetTemplateDistrictsAPI(Helper):
             json=self.payloads.delete_districts_from_asset_templates_payload(asset_template_id, *districts_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
         self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message:{data_response}'
         logger.warning(f'Successfully delete districts with ID: {districts_id} from templates ID: {asset_template_id}.')
 
     @allure.step("Delete districts from asset template by ID.")
@@ -80,15 +76,13 @@ class EsAssetTemplateDistrictsAPI(Helper):
             json=self.payloads.delete_districts_from_asset_template_by_id_payload(*districts_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
         self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message:{data_response}'
         logger.warning(f'Successfully delete districts with ID: {districts_id} from template by ID: {asset_template_id}.')

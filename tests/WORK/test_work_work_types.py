@@ -37,44 +37,44 @@ class TestWorkWorkTypes(BaseTest):
         self.api_work_work_types.get_data_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
 
-    @allure.title('Test publishes completed works.')
+    @allure.title('Test publishes work types.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23119")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23119)
     @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_put_publish_complete_work_types(self, param):
+    def test_put_publish_work_types(self, param):
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_types(work_type_id=work_type_id.type[0])
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
 
-    @allure.title('Test publishes completed works.')
+    @allure.title('Test publishes work type by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23120")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23120)
     @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_put_publish_complete_work_types_by_id(self, param):
+    def test_put_publish_work_type_by_id(self, param):
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
 
-    @allure.title('Test cancels publication of completed work by id.')
+    @allure.title('Test cancels publication of work type by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23122")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23122)
     @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_put_unpublish_complete_work_types_by_id(self, param):
+    def test_put_unpublish_work_type_by_id(self, param):
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
-        self.api_work_work_types.put_unpublish_complete_work_types_by_id(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_type_by_id(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_unpublish_work_type_by_id(work_type_id=work_type_id.type[0])
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
 
-    @allure.title('Test cancels publication of completed work.')
+    @allure.title('Test cancels publication of work types.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23121")
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23121)
     @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_put_unpublish_complete_work_types(self, param):
+    def test_put_unpublish_work_types(self, param):
         work_type_id = self.api_work_work_types.post_add_work_type(param)
-        self.api_work_work_types.put_publish_complete_work_types(work_type_id=work_type_id.type[0])
-        self.api_work_work_types.put_unpublish_complete_work_types(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_publish_work_types(work_type_id=work_type_id.type[0])
+        self.api_work_work_types.put_unpublish_work_types(work_type_id=work_type_id.type[0])
         self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])

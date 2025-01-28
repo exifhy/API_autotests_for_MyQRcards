@@ -1271,11 +1271,12 @@ class TestEsAssets(BaseTest):
 @pytest.mark.test_scripts_suites_es_assets
 class TestEsAssetsScriptSuite(BaseTest):
 
-    @allure.title('Test api test scenario ES/assets (POST, GET, GET by id, DELETE by id, GET, GET by id).')
+    @allure.title('Test api test script ES/assets (POST, GET, GET by id, DELETE by id, GET, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24540")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24540)
+    @pytest.mark.test_script_runs
     def test_es_asset_add_get_delete_by_id_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1313,11 +1314,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (POST, GET, GET by id, DELETE by list, GET, GET by id) .')
+    @allure.title('Test api test script ES/assets (POST, GET, GET by id, DELETE by list, GET, GET by id) .')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24541")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24541)
+    @pytest.mark.test_script_runs
     def test_es_asset_add_get_delete_by_list_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1355,11 +1357,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by id full, GET, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by id full, GET, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24542")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24542)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_id_full_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1406,11 +1409,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by list full, GET, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by list full, GET, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24543")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24543)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_list_full_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1457,11 +1461,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by id, PUT restore, GET by list, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by id, PUT restore, GET by list, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24544")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24544)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_id_put_restore_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1503,11 +1508,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by list, PUT restore, GET by list, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by list, PUT restore, GET by list, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24545")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24545)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_list_put_restore_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1549,11 +1555,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by id full, PUT restore, GET by list, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by id full, PUT restore, GET by list, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24546")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24546)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_id_full_put_restore_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -1603,11 +1610,12 @@ class TestEsAssetsScriptSuite(BaseTest):
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
 
-    @allure.title('Test api test scenario ES/assets (DELETE by list full, PUT restore, GET by list, GET by id).')
+    @allure.title('Test api test script ES/assets (DELETE by list full, PUT restore, GET by list, GET by id).')
     @allure.severity(Severity.CRITICAL)
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24547")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24547)
+    @pytest.mark.test_script_runs
     def test_es_asset_delete_by_list_put_restore_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()

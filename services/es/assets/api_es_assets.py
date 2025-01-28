@@ -47,7 +47,8 @@ class EsAssetsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{data_response}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
+             f'Message:{data_response}')
         model = AssetExtResults(results=response.json())
         if model_assets is not None:
             for item in model_assets:

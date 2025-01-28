@@ -8,7 +8,7 @@ class Endpoints:
 
     @staticmethod
     def get_list_attachments_from_company_endpoint(company_id: int) -> str:
-        return f'{HOST}/ES/Companies/{company_id}/attachments'
+        return f'{HOST}/ES/Companies/{company_id}/attachments/'
 
     @staticmethod
     def get_download_attachment_from_company_endpoint(company_id: int, attachment_id: int) -> str:
@@ -64,7 +64,7 @@ class Endpoints:
 
     post_add_contacts_to_company_endpoint = f'{HOST}/ES/Companies/contacts'
     delete_contacts_from_company_endpoint = f'{HOST}/ES/Companies/contacts'
-    get_list_companies_endpoint = f'{HOST}/ES/Companies'
+    get_list_companies_endpoint = f'{HOST}/ES/Companies/'
     put_update_company_endpoint = f'{HOST}/ES/Companies'
     post_add_company_endpoint = f'{HOST}/ES/Companies'
     delete_companies_endpoint = f'{HOST}/ES/Companies'

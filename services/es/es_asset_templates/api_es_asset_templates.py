@@ -141,17 +141,15 @@ class EsAssetTemplatesAPI(Helper):
             json=self.payloads.put_update_asset_templates_endpoint(params)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
         logger.info(f'Successfully update asset templates with ID: {asset_template_id}.')
 
     @allure.step("Delete asset templates by list.")
@@ -163,17 +161,15 @@ class EsAssetTemplatesAPI(Helper):
             json=self.payloads.delete_asset_templates_by_lyst_endpoint(*asset_templates_id)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message:{data_response}'
         logger.warning(f'Successfully delete asset templates with IDs: {asset_templates_id}.')
 
     @allure.step("Delete asset template by ID.")
@@ -184,39 +180,39 @@ class EsAssetTemplatesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message:{data_response}'
         logger.warning(f'Successfully delete asset template with ID: {asset_template_id}.')
 
     @allure.step("Get list attachments from asset template.")
-    def get_list_attachments_from_asset_template(self, asset_template_id: int):
+    def get_list_attachments_from_asset_template(self, asset_template_id: int, deleted: bool):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attachments_from_asset_template_endpoint(asset_template_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        model = SuccessGetListAttachmentsFromAssetTemplate(root=response.json())
-        logger.info(f'Successfully get list attachments from asset template with ID: {asset_template_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+        elif deleted is False:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+            model = SuccessGetListAttachmentsFromAssetTemplate(root=response.json())
+            logger.info(f'Successfully get list attachments from asset template with ID: {asset_template_id}.')
+            return model
 
     @allure.step("Method to get TemporaryRedirect to a temporary link for downloading the attachment file.")
     def get_downloading_attachment_file_asset_template(self, asset_template_id: int, attachment_id: int, file_name: str):
@@ -226,16 +222,14 @@ class EsAssetTemplatesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
@@ -245,27 +239,47 @@ class EsAssetTemplatesAPI(Helper):
             f"Unexpected Content-Disposition: {response.headers['Content-Disposition']}"
         logger.info(f'Successfully get TemporaryRedirect to a temporary link to download a file.')
 
+    @allure.step("Get deleted attachment file by ID.")
+    def get_deleted_attachment_file_asset_template_by_id(self, asset_template_id: int, attachment_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attachment_from_asset_template_by_id_endpoint(asset_template_id, attachment_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info(f'Successfully get deleted attachment file with ID {attachment_id}.')
+
     @allure.step("Get list attributes from asset template.")
-    def get_list_attributes_from_asset_template(self, asset_template_id: int):
+    def get_list_attributes_from_asset_template(self, asset_template_id: int, deleted: bool):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attributes_asset_template_endpoint(asset_template_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        model = SuccessAssetTemplateAttributeResultModel(result=response.json())
-        logger.info(f'Successfully get list attachments from asset template with ID: {asset_template_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}. {data_response}'
+        elif deleted is False:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+            model = SuccessAssetTemplateAttributeResultModel(result=response.json())
+            logger.info(f'Successfully get list attachments from asset template with ID: {asset_template_id}.')
+            return model
 
     @allure.step("Upload avatar(jpeg > 512x512) to asset template, data from form.")
     def put_upload_avatar_to_asset_template_data_from_form(self, asset_template_id: int):
@@ -381,18 +395,16 @@ class EsAssetTemplatesAPI(Helper):
         logger.warning(f'Successfully delete avatar by list from the asset template with ID: {asset_template_ids}.')
 
     @allure.step("Get list asset templates.")
-    def get_list_asset_templates(self):
+    def get_list_asset_templates(self, *asset_templates_ids: int or None):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_templates_endpoint,
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
         logger.info(response.headers)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
@@ -400,10 +412,68 @@ class EsAssetTemplatesAPI(Helper):
             logger.warning("Asset templates not found")
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-                f'Code:{response.status_code}.Message:{response.json()}'
+                (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
+                 f'Message:{data_response}')
             model = SuccessGetListAssetTemplatesModel(root=response.json())
+            if asset_templates_ids is not None:
+                for item in asset_templates_ids:
+                    assert str(item) in model.root, \
+                        f'Asset template with ID {item} is not in the list asset templates'
             logger.info(f'Successfully get list asset templates.')
             return model
+
+    @allure.step("Get list asset templates check data.")
+    def get_list_asset_templates_check_data(self, model_template, *asset_templates_ids: int or None):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_templates_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+        model = SuccessGetListAssetTemplatesModel(root=response.json())
+        if asset_templates_ids is not None:
+            for item in asset_templates_ids:
+                assert str(item) in model.root, \
+                    f'Asset template with ID {item} is not in the list asset templates'
+                assert model.root[str(item)].name != model_template.name, \
+                    f'{model.root[str(item)].name} is equal {model_template.name}'
+                assert model.root[str(item)].description != model_template.description, \
+                    f'{model.root[str(item)].description} is equal {model_template.description}'
+        logger.info(f'Successfully get list asset templates.')
+        return model
+
+    @allure.step("Get list asset templates check is deleted.")
+    def get_list_asset_templates_check_is_deleted(self, *asset_templates_ids: int or None):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_templates_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
+             f'Message:{data_response}')
+        model = SuccessGetListAssetTemplatesModel(root=response.json())
+        if asset_templates_ids is not None:
+            for item in asset_templates_ids:
+                assert str(item) not in model.root, \
+                    f'Asset template with ID {item} is not deleted'
+        logger.info(f'Successfully get list asset templates.')
+        return model
 
     @allure.step("Get asset template by ID.")
     def get_asset_template_by_id(self, asset_template_id: int):
@@ -413,85 +483,104 @@ class EsAssetTemplatesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.warning(f"Asset template with ID: {asset_template_id} not found")
-        else:
-            assert response.status_code == HTTPStatus.OK, \
-                f'Code:{response.status_code}.Message:{response.json()}'
-            model = SuccessGetAssetTemplateResult(**response.json())
-            logger.info(f'Successfully get asset template with ID: {asset_template_id}.')
-            return model
+        assert response.status_code == HTTPStatus.OK, \
+            f'Code:{response.status_code}.Message:{response.json()}'
+        model = SuccessGetAssetTemplateResult(**response.json())
+        logger.info(f'Successfully get asset template with ID: {asset_template_id}.')
+        return model
+
+    @allure.step("Get deleted asset template by ID.")
+    def get_deleted_asset_template_by_id(self, asset_template_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_template_by_id_endpoint(asset_template_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}.Message:{data_response}'
+        logger.info(f'Successfully get deleted asset template with ID: {asset_template_id}.')
 
     @allure.step("Get list districts from asset template.")
-    def get_list_districts_from_asset_templates(self, asset_template_id: int):
+    def get_list_districts_from_asset_templates(self, asset_template_id: int, deleted: bool):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_districts_from_asset_template_endpoint(asset_template_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        model = SuccessGetListDistrictsFromAssetTemplateModel(root=response.json())
-        logger.info(f'Successfully get list districts from asset template with ID: {asset_template_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}. {data_response}.'
+        elif deleted is False:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+            model = SuccessGetListDistrictsFromAssetTemplateModel(root=response.json())
+            logger.info(f'Successfully get list districts from asset template with ID: {asset_template_id}.')
+            return model
 
     @allure.step("Get list skills from asset template.")
-    def get_list_skills_from_asset_templates(self, asset_template_id: int):
+    def get_list_skills_from_asset_templates(self, asset_template_id: int, deleted: bool):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_skills_from_asset_template_endpoint(asset_template_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        model = SuccessGetListSkillsFromAssetTemplateModel(result=response.json())
-        logger.info(f'Successfully get list skills from asset template with ID: {asset_template_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}. Message:{data_response}'
+        elif deleted is False:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+            model = SuccessGetListSkillsFromAssetTemplateModel(result=response.json())
+            logger.info(f'Successfully get list skills from asset template with ID: {asset_template_id}.')
+            return model
 
     @allure.step("Get list work types from asset template.")
-    def get_list_work_types_from_asset_templates(self, asset_template_id: int):
+    def get_list_work_types_from_asset_templates(self, asset_template_id: int, deleted: bool):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_work_types_from_asset_template_endpoint(asset_template_id),
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Code:{response.status_code}.Message:{response.json()}'
-        model = SuccessGetListWorkTypesFromAssetTemplateModel(result=response.json())
-        logger.info(f'Successfully get list work types from asset template with ID: {asset_template_id}.')
-        return model
+        if deleted is True:
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected {HTTPStatus.NO_CONTENT}, but got {response.status_code}.Message:{data_response}'
+        elif deleted is False:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
+            model = SuccessGetListWorkTypesFromAssetTemplateModel(result=response.json())
+            logger.info(f'Successfully get list work types from asset template with ID: {asset_template_id}.')
+            return model

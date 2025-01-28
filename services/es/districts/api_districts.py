@@ -43,14 +43,14 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddDistrictsModel(districts=response.json())
         logger.info(f'Successfully add a non-default district, name district: {district_name}')
         return model
@@ -90,13 +90,13 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete district with id: {district_id}.')
 
     @allure.step('Get detail district info by ID.')
@@ -108,16 +108,15 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK,  \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetInfoDistrictModel(**response.json())
-        logger.info(f'Successfully received detail district info.')
+        logger.info(f'Successfully received detail district info with ID {district_id}.')
         return model
 
     @allure.step("Delete districts by list.")
@@ -130,10 +129,9 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
@@ -161,6 +159,35 @@ class EsDistrictsAPI(Helper):
         logger.info(f'Successfully get list districts.')
         return model
 
+    @allure.step("Get list districts with asserts.")
+    def get_list_districts_with_asserts(self, district_id: int, deleted: bool):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_districts_available_to_user_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning('No content')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
+        model = SuccessGetListInfoDistrictsModel(result=response.json())
+        for item in model.result:
+            if deleted is True:
+                if item.id == district_id:
+                    raise AssertionError(f'District with ID {district_id} is not deleted.')
+            elif deleted is False:
+                if item.id == district_id:
+                    logger.info(f'Successfully get list districts.')
+                    return model
+
     @allure.step("Update district.")
     def put_update_district(self, district_id):
         district_name = fake_ru.street_title()
@@ -178,15 +205,15 @@ class EsDistrictsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully update district')
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
+        logger.info(f'Successfully update district with ID {district_id}')
 
     @allure.step("Changes the parent district.")
     def put_update_parent_district(self, district_id, parent_id: int):

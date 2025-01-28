@@ -1,5 +1,9 @@
 import allure
 import pytest
+from allure_commons.types import Severity
+from loguru import logger
+from requests import JSONDecodeError
+
 from config.base_test import BaseTest
 
 
@@ -74,7 +78,8 @@ class TestEsAssetTemplates(BaseTest):
         )
         try:
             self.api_es_asset_templates.get_list_attachments_from_asset_template(
-                model_template.result[0]
+                model_template.result[0],
+                False
             )
         finally:
             self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
@@ -98,7 +103,7 @@ class TestEsAssetTemplates(BaseTest):
             attribute_id.values[0]
         )
         try:
-            self.api_es_asset_templates.get_list_attributes_from_asset_template(model_template.result[0])
+            self.api_es_asset_templates.get_list_attributes_from_asset_template(model_template.result[0], False)
         finally:
             self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
             self.api_es_locations.delete_location_by_id(location_id)
@@ -212,7 +217,7 @@ class TestEsAssetTemplates(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(24150)
     def test_get_list_asset_templates(self):
-        self.api_es_asset_templates.get_list_asset_templates()
+        self.api_es_asset_templates.get_list_asset_templates(None)
 
     @allure.title('Test update asset templates.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24151")
@@ -276,7 +281,7 @@ class TestEsAssetTemplates(BaseTest):
             district_id.districts[0]
         )
         try:
-            self.api_es_asset_templates.get_list_districts_from_asset_templates(model_template.result[0])
+            self.api_es_asset_templates.get_list_districts_from_asset_templates(model_template.result[0], False)
         finally:
             self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
             self.api_es_districts.delete_district_by_id(district_id.districts[0])
@@ -310,6 +315,119 @@ class TestEsAssetTemplates(BaseTest):
             work_type_id
         )
         try:
-            self.api_es_asset_templates.get_list_work_types_from_asset_templates(model_template.result[0])
+            self.api_es_asset_templates.get_list_work_types_from_asset_templates(model_template.result[0], False)
         finally:
             self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
+
+
+@pytest.mark.test_scripts_suites_es_asset_templates
+class TestEsAssetTemplatesScriptSuite(BaseTest):
+
+    @allure.title('Test api test script ES/assetTemplates (POST, GET, GET by id, DELETE by list, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24570")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24570)
+    @pytest.mark.test_script_runs
+    def test_es_asset_templates_add_get_get_by_id_delete_by_list_get_get_by_id(self, request, return_func_name):
+        location_id = self.api_es_locations.post_add_location()
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    model_template = self.api_es_asset_templates.post_add_asset_templates(
+                        asset_type_id, asset_class_id, location_id
+                    )
+                    self.api_es_asset_templates.get_list_asset_templates(model_template.result[0])
+                    self.api_es_asset_templates.get_asset_template_by_id(model_template.result[0])
+                    self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
+                    self.api_es_asset_templates.get_list_asset_templates_check_is_deleted(model_template.result[0])
+                    self.api_es_asset_templates.get_deleted_asset_template_by_id(model_template.result[0])
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test script ES/assetTemplates (POST, GET, GET by id, DELETE by id, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24571")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24571)
+    @pytest.mark.test_script_runs
+    def test_es_asset_templates_add_get_get_by_id_delete_by_id_get_get_by_id(self, request, return_func_name):
+        location_id = self.api_es_locations.post_add_location()
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    model_template = self.api_es_asset_templates.post_add_asset_templates(
+                        asset_type_id, asset_class_id, location_id
+                    )
+                    self.api_es_asset_templates.get_list_asset_templates(model_template.result[0])
+                    self.api_es_asset_templates.get_asset_template_by_id(model_template.result[0])
+                    self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
+                    self.api_es_asset_templates.get_list_asset_templates_check_is_deleted(model_template.result[0])
+                    self.api_es_asset_templates.get_deleted_asset_template_by_id(model_template.result[0])
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test script ES/assetTemplates (PUT, GET, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24572")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id(24572)
+    @pytest.mark.test_script_runs
+    def test_es_asset_templates_put_get_get_by_id(self, request, return_func_name):
+        location_id = self.api_es_locations.post_add_location()
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        model_template = self.api_es_asset_templates.post_add_asset_templates(
+            asset_type_id, asset_class_id, location_id
+        )
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    model_before = self.api_es_asset_templates.get_asset_template_by_id(model_template.result[0])
+                    self.api_es_asset_templates.put_update_asset_templates(
+                        model_template.result[0], asset_type_id, asset_class_id, location_id
+                    )
+                    self.api_es_asset_templates.get_list_asset_templates_check_data(
+                        model_before,
+                        model_template.result[0]
+                    )
+                    model_after = self.api_es_asset_templates.get_asset_template_by_id(model_template.result[0])
+                    assert model_before != model_after, \
+                        f'{model_before} is equal {model_after}, template ID {model_template.result[0]} is not updated'
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)

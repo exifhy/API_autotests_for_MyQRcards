@@ -1,5 +1,9 @@
 import allure
 import pytest
+from allure_commons.types import Severity
+from loguru import logger
+from requests import JSONDecodeError
+
 from config.base_test import BaseTest
 
 
@@ -81,3 +85,35 @@ class TestEsDistricts(BaseTest):
     @pytest.mark.test_case_id(24292)
     def test_put_update_district_sorted(self):
         pass
+
+
+@pytest.mark.test_scripts_suites_es_districts
+class TestEsDistrictsScriptSuite(BaseTest):
+
+    @allure.title('Test script ES/districts (POST, GET, PUT, GET, DELETE by id, GET).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    def test_es_districts_add_get_put_get_delete_by_id_get(self, request, return_func_name):
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    district_id = self.api_es_districts.post_add_district()
+                    model_before = self.api_es_districts.get_list_districts_with_asserts(district_id.districts[0], False)
+                    self.api_es_districts.put_update_district(district_id.districts[0])
+                    model_after = self.api_es_districts.get_list_districts()
+                    assert model_before != model_after, f'{model_before} is equal {model_after}'
+                    self.api_es_districts.delete_district_by_id(district_id.districts[0])
+                    self.api_es_districts.get_list_districts_with_asserts(district_id.districts[0], True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)

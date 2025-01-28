@@ -71,16 +71,14 @@ class EsCompanyAttachmentsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
         logger.warning(
             f'Successfully unbind attachments ID: {attachment_ids} and company with ID: {company_id}.')
 
@@ -109,14 +107,13 @@ class EsCompanyAttachmentsAPI(Helper):
             )
             end = time.time()
             logger.info(response.headers)
-            try:
-                self.attach_response(response.json())
-            except JSONDecodeError:
-                logger.warning("Received response is not a valid JSON")
+            data_response = self.response_content(response)
+            self.attach_response(data_response)
             self.attach_response_headers(response.headers)
             self.attach_time(start, end)
             self.attach_url(response.request.url)
-            assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.CREATED, \
+                f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
             model = SuccessUploadCompanyAttachmentsModel(**response.json())
             logger.info(f'Successfully upload {file_name} to company with ID: {company_id}, data from form.')
             return model
