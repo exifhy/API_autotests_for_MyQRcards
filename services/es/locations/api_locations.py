@@ -39,11 +39,12 @@ class EsLocationsAPI(Helper):
             )
         )
         end = time.time()
+        logger.info(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        logger.info(response.headers)
-        self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'

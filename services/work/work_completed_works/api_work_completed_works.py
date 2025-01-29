@@ -96,22 +96,21 @@ class WorkCompletedWorksAPI(Helper):
         logger.info(f'Successfully update completed work on task with ID: {completed_work_id}.')
 
     @allure.step("Delete completed work from task by list.")
-    def delete_completed_works_by_list(self, *completed_work_ids: int, task_id: int):
+    def delete_completed_works_by_list(self, task_id: int, *completed_work_ids: int):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_completed_works_by_list_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.delete_completed_works_by_list_payload(*completed_work_ids, task_id=task_id)
+            json=self.payloads.delete_completed_works_by_list_payload(task_id, *completed_work_ids)
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully delete completed works from task with ID: {completed_work_ids}.')

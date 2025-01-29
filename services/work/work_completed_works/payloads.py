@@ -27,7 +27,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_completed_works_by_list_payload(*completed_works_ids: int, task_id: int) -> list:
+    def delete_completed_works_by_list_payload(task_id: int, *completed_works_ids: int) -> list:
         payload = [
             {
                 "taskID": task_id,

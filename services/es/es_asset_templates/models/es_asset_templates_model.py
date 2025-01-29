@@ -191,3 +191,10 @@ class ListWorkTypesFromAssetTemplateModel(BaseModel):
 
 class SuccessGetListWorkTypesFromAssetTemplateModel(BaseModel):
     result: List[ListWorkTypesFromAssetTemplateModel]
+
+
+class SuccessGetAssetTemplatesAttachmentsByIdNoRedirectModel(BaseModel):
+    fileName: str
+    url: str
+    size: int
+    created: datetime

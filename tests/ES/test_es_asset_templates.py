@@ -2,6 +2,7 @@ import allure
 import pytest
 from allure_commons.types import Severity
 from loguru import logger
+from pydantic_core import ValidationError
 from requests import JSONDecodeError
 
 from config.base_test import BaseTest
@@ -347,7 +348,7 @@ class TestEsAssetTemplatesScriptSuite(BaseTest):
                     self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
                     self.api_es_asset_templates.get_list_asset_templates_check_is_deleted(model_template.result[0])
                     self.api_es_asset_templates.get_deleted_asset_template_by_id(model_template.result[0])
-                except (AssertionError, JSONDecodeError) as e:
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()
                     errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
@@ -381,7 +382,7 @@ class TestEsAssetTemplatesScriptSuite(BaseTest):
                     self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
                     self.api_es_asset_templates.get_list_asset_templates_check_is_deleted(model_template.result[0])
                     self.api_es_asset_templates.get_deleted_asset_template_by_id(model_template.result[0])
-                except (AssertionError, JSONDecodeError) as e:
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()
                     errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
@@ -421,7 +422,7 @@ class TestEsAssetTemplatesScriptSuite(BaseTest):
                     model_after = self.api_es_asset_templates.get_asset_template_by_id(model_template.result[0])
                     assert model_before != model_after, \
                         f'{model_before} is equal {model_after}, template ID {model_template.result[0]} is not updated'
-                except (AssertionError, JSONDecodeError) as e:
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()
                     errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")

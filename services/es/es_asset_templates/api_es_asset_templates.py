@@ -222,14 +222,16 @@ class EsAssetTemplatesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        data_response = self.response_content(response)
-        self.attach_response(data_response)
         logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.'
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
@@ -238,6 +240,31 @@ class EsAssetTemplatesAPI(Helper):
         assert f'filename="{file_name}"' in response.headers["Content-Disposition"], \
             f"Unexpected Content-Disposition: {response.headers['Content-Disposition']}"
         logger.info(f'Successfully get TemporaryRedirect to a temporary link to download a file.')
+
+    @allure.step("Get temporary link for downloading the attachment file. No Redirect.")
+    def get_link_attachment_asset_template_no_redirect(self, asset_template_id: int, attachment_id: int, name: str):
+        param = {
+            "noRedirect": True
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attachment_from_asset_template_by_id_endpoint(asset_template_id, attachment_id),
+            params=param,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetAssetTemplatesAttachmentsByIdNoRedirectModel(**response.json())
+        assert model.fileName == name, f'Expected fie name {name}, but got {model.filename}'
+        logger.info(f'Successfully get temporary link to download a file with ID {attachment_id}.')
+        return model
 
     @allure.step("Get deleted attachment file by ID.")
     def get_deleted_attachment_file_asset_template_by_id(self, asset_template_id: int, attachment_id: int):

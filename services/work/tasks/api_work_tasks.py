@@ -183,17 +183,68 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_response_headers(response.headers)
-        self.attach_time(start, end)
         self.attach_request(response.request.body)
+        self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessListConversationTaskModel(result=response.json())
         logger.info(f'Successfully add conversation to task with ID: {task_id}.')
+        return model
+
+    @allure.step("Add conversation to task from not api user.")
+    def post_add_conversation_to_task_from_not_api_user(self, task_id: int, external: bool, token: str):
+        value = f"Сообщение-{randint(1, 999)} от Администратора."
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_conversation_to_task_endpoint(task_id),
+            headers=self.headers.basic_header(token),
+            json=self.payloads.post_add_conversation_to_task_payload(
+                external,
+                value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_request(response.request.body)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessListConversationTaskModel(result=response.json())
+        logger.info(f'Successfully add conversation to task with ID: {task_id}.')
+        return model
+
+    @allure.step("Get task conversation by ID.")
+    def get_task_conversation_by_id(self, task_id: int, conversation_id: int, token: str or None, read: bool):
+        if token is None:
+            token = API_TOKEN
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_conversation_by_id_from_task_endpoint(task_id, conversation_id),
+            headers=self.headers.basic_header(token)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = TaskMessageModel(**response.json())
+        if read is True:
+            assert model.read.byAnyone is True, \
+                f'Task conversation ID {conversation_id} is not read.'
+            logger.info(f'Task conversation ID {conversation_id} is read.')
+        logger.info(f'Successfully get task ID {task_id} conversation with ID: {conversation_id}.')
         return model
 
     @allure.step("Returns the list of available stages to which the task can be transferred.")

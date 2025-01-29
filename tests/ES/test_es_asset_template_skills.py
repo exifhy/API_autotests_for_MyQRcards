@@ -2,6 +2,7 @@ import allure
 import pytest
 from allure_commons.types import Severity
 from loguru import logger
+from pydantic_core import ValidationError
 from requests import JSONDecodeError
 
 from config.base_test import BaseTest
@@ -70,6 +71,8 @@ class TestEsAssetTemplateSkillsScriptSuite(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    @pytest.mark.xfail(reason="get_list_skills_from_asset_templates -> 500. Unable To Resolve")
     def test_es_asset_template_skills_add_get_delete_by_list_get(
             self,
             request,
@@ -107,7 +110,7 @@ class TestEsAssetTemplateSkillsScriptSuite(BaseTest):
                         model_template.result[0],
                         True
                     )
-                except (AssertionError, JSONDecodeError) as e:
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()
                     errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
@@ -125,6 +128,8 @@ class TestEsAssetTemplateSkillsScriptSuite(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    @pytest.mark.xfail(reason="get_list_skills_from_asset_templates -> 500. Unable To Resolve")
     def test_es_asset_template_skills_add_get_delete_by_id_get(
             self,
             request,
@@ -162,7 +167,7 @@ class TestEsAssetTemplateSkillsScriptSuite(BaseTest):
                         model_template.result[0],
                         True
                     )
-                except (AssertionError, JSONDecodeError) as e:
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()
                     errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")

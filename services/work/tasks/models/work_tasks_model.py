@@ -336,3 +336,33 @@ class ConversationTaskModel(BaseModel):
 class SuccessListConversationTaskModel(BaseModel):
     result: List[ConversationTaskModel]
 
+
+class AttachmentBaseResult(BaseModel):
+    id: Optional[int] = None
+    fileName: Optional[str] = None
+    publicUrl: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+
+
+class TaskConversationDeliveryResult(BaseModel):
+    toAnyone: Optional[bool] = None
+    toAll: Optional[bool] = None
+    toCurrentUser: Optional[datetime] = None
+
+
+class TaskConversationReadResult(BaseModel):
+    byAnyone: Optional[bool] = None
+    byAll: Optional[bool] = None
+    byCurrentUser: Optional[datetime] = None
+    isReadExpected: Optional[bool] = None
+
+
+class TaskMessageModel(BaseModel):
+    id: Optional[int] = None
+    created: Optional[datetime] = None
+    message: Optional[str] = None
+    isExternal: Optional[bool] = None
+    author: Optional[UserResult] = None
+    attachment: Optional[List[AttachmentBaseResult]] = None
+    delivery: Optional[TaskConversationDeliveryResult] = None
+    read: Optional[TaskConversationReadResult] = None

@@ -283,14 +283,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}, {response.json()}'
-        logger.info(f'Successful publication of the object.')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.info(f'Successful publication of the object with ID {asset_id}.')
 
     @allure.step("Method of unpublishing of an asset.")
     def put_method_of_unpublishing_asset_by_id(self, asset_id: int):

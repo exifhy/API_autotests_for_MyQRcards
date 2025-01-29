@@ -89,11 +89,27 @@ class TestEsCompanyLocationsScriptSuite(BaseTest):
             with (allure.step(f"Run #[{i + 1}]")):
                 try:
                     self.api_es_company_locations.post_add_company_locations(company_id, location_id)
-                    model_list_locations = self.api_es_company_locations.get_list_locations_company(company_id)
-                    assert str(location_id) in model_list_locations.root, \
-                        f'Location with ID {location_id} is not in list locations company with ID {company_id}'
+                    model_list_locations = self.api_es_company_locations.get_list_locations_company_with_asserts(
+                        company_id,
+                        location_id,
+                        False
+                    )
+                    self.api_es_companies.get_company_by_id_assert_location(
+                        company_id,
+                        model_list_locations.root[str(location_id)],
+                        False
+                    )
                     self.api_es_company_locations.delete_location_from_company(company_id)
-                    self.api_es_company_locations.get_list_deleted_locations_company(company_id)
+                    self.api_es_company_locations.get_list_locations_company_with_asserts(
+                        company_id,
+                        location_id,
+                        True
+                    )
+                    self.api_es_companies.get_company_by_id_assert_location(
+                        company_id,
+                        model_list_locations.root[str(location_id)],
+                        True
+                    )
                 except (AssertionError, JSONDecodeError) as e:
                     logger.error(f"Error in Run #[{i + 1}]: {e}")
                     name = return_func_name()

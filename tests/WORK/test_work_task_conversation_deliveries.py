@@ -11,7 +11,7 @@ class TestWorkTaskConversationDeliveries(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24411")
     @pytest.mark.regress
     @pytest.mark.test_case_id(24411)
-    def test_put_task_conversation_deliveries(self):
+    def test_put_task_conversation_deliveries(self, bearer_token):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
@@ -47,13 +47,20 @@ class TestWorkTaskConversationDeliveries(BaseTest):
             company_id=company_id
         )
         try:
-            model_conversation = self.api_work_tasks.post_add_conversation_to_task(
+            model_conversation = self.api_work_tasks.post_add_conversation_to_task_from_not_api_user(
                 model_task.id,
-                False
+                False,
+                bearer_token
             )
             self.api_work_task_conversation_deliveries.put_task_conversation_deliveries(
                 model_task.id,
                 model_conversation.result[0].id
+            )
+            self.api_work_tasks.get_task_conversation_by_id(
+                model_task.id,
+                model_conversation.result[0].id,
+                bearer_token,
+                True
             )
         finally:
             self.api_work_tasks.delete_task_by_id(model_task.id)

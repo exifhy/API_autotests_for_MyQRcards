@@ -114,9 +114,9 @@ class EsCompaniesAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
+        logger.info(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        logger.info(response.headers)
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
@@ -124,6 +124,34 @@ class EsCompaniesAPI(Helper):
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
         model = SuccessCompaniesGetResult(**response.json())
         logger.info(f'Successfully receiving the company detailed info with id {company_id}.')
+        return model
+
+    @allure.step("Get company by id with asserts location.")
+    def get_company_by_id_assert_location(self, company_id: int, model_location, deleted: bool):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_company_by_id_endpoint(company_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
+        model = SuccessCompaniesGetResult(**response.json())
+        if deleted is True:
+            assert 'location' not in response.json(), \
+                f'Location with ID {model.location.id} is not deleted from company ID {company_id}'
+        elif deleted is False:
+            assert model.location.address == model_location.location.address, \
+                f'Expected {model.location.address}, but got {model_location.location.address}'
+            assert model.location.id == model_location.location.id, \
+                f'Expected {model.location.id}, but got {model_location.location.id}'
+        logger.info(f'Successfully get company with id {company_id}.')
         return model
 
     @allure.step("Get deleted company by id.")

@@ -45,6 +45,7 @@ class TestEsAssetTemplateAttributesScriptSuite(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
     def test_es_asset_template_attributes_add_get_delete_by_list_get(
             self,
             request,
