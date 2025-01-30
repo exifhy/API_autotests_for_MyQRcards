@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, UTC
 import os
 import allure
 import pytest
@@ -25,6 +26,8 @@ BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
 TENANT_ID = os.getenv('TENANT_ID')
 TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
 APP_ID = os.getenv('APP_ID')
+TOKEN_EXPIRATION_TIME = datetime.min.replace(tzinfo=UTC)
+BEARER_TOKEN = None
 
 
 @allure.step("Authorization via API by Email | Password.")
@@ -79,6 +82,11 @@ def return_func_name_with_error() -> str:
 
 
 def get_api_user_access_token():
+    global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
+    now = datetime.now(UTC)
+    if BEARER_TOKEN and TOKEN_EXPIRATION_TIME and now < TOKEN_EXPIRATION_TIME:
+        return BEARER_TOKEN
+
     try:
         response_authorization = requests.post(
             url=f"{HOST}/AUTHZ/AccessTokens/",
@@ -88,29 +96,41 @@ def get_api_user_access_token():
             }
         )
         if response_authorization.status_code != 200:
-            logger.error(response_authorization.status_code)
-        # try:
-        #     logger.warning(response_authorization.json())
-        # except JSONDecodeError:
-        #     logger.warning("Received response is not a valid JSON")
+            logger.error(f'{response_authorization.status_code}: {response_authorization.text}')
+            return None
+
         response_authorization_data = response_authorization.json()
-        bearer_token = response_authorization_data['access_token']
-        return bearer_token
+        BEARER_TOKEN = response_authorization_data['access_token']
+        TOKEN_EXPIRATION_TIME = now + timedelta(minutes=20)
+        set_key('.env', 'API_TOKEN', BEARER_TOKEN)
+        os.environ["API_TOKEN"] = BEARER_TOKEN
+        return BEARER_TOKEN
     except (requests.exceptions.RequestException, TypeError) as er:
         logger.error(er)
+        return None
 
 
 def pytest_sessionstart(session):
     """Вызывается перед выполнением тестов."""
     logger.info("pytest_session start called")
     token = get_api_user_access_token()
-    cache = session.config.cache
-    cache.set("api_token", token)
-    logger.info("Cache set for api_token")
-    set_key('.env', 'API_TOKEN', token)
-    logger.info('Token set in .env file')
-    os.environ["API_TOKEN"] = token
-    print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
+    if token:
+        cache = session.config.cache
+        cache.set("api_token", token)
+        logger.info("Cache set for api_token")
+        set_key('.env', 'API_TOKEN', token)
+        logger.info('Token set in .env file')
+        os.environ["API_TOKEN"] = token
+        print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
+
+
+def pytest_runtest_setup():
+    """Проверка перед каждым тестом."""
+    global TOKEN_EXPIRATION_TIME
+    now = datetime.now(UTC)
+    if not TOKEN_EXPIRATION_TIME or now >= TOKEN_EXPIRATION_TIME:
+        logger.warning("Token expired, refreshing...")
+        get_api_user_access_token()
 
 
 def pytest_sessionfinish(session, exitstatus):

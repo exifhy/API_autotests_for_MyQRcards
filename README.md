@@ -42,6 +42,10 @@
  - $env:ENVIRON='qa'; pytest -s
 
  - параметр для записи allure-results прописан в pytest.ini. Запускается автоматически.
+
+ - параметр --clean-alluredir. Каталог, указанный в --alluredir, будет очищен перед генерацией новых результатов тестирования.
+
+ - $env:ENVIRON='qa'; pytest -s --clean-alluredir
     
 2. Для генерации отчета Allure(локально):
    
