@@ -432,3 +432,44 @@ class TestEsAssetTemplatesScriptSuite(BaseTest):
 
         if errors:
             pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test script ES/assetTemplates/avatar (PUT, GET by id, DELETE, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    def test_es_asset_templates_avatar_put_get_by_id_delete_get_by_id(self, request, return_func_name):
+        model_template = self.api_es_asset_templates.post_add_empty_asset_template()
+
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i + 1}]")):
+                try:
+                    model_avatar = self.api_es_asset_templates.put_upload_avatar_to_asset_template_data_from_form(
+                        model_template.result[0]
+                    )
+                    self.api_es_asset_templates.get_asset_template_by_id_check_avatar(
+                        model_template.result[0],
+                        model_avatar,
+                        False
+                    )
+                    self.api_es_asset_templates.delete_avatar_from_asset_template(model_template.result[0])
+                    self.api_es_asset_templates.get_asset_template_by_id_check_avatar(
+                        model_template.result[0],
+                        model_avatar,
+                        True
+                    )
+                except (AssertionError, JSONDecodeError, ValidationError) as e:
+                    logger.error(f"Error in Run #[{i + 1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_common_attachments.delete_attachment_by_id(model_avatar.attachmentID)
+
+        self.api_es_asset_templates.delete_asset_templates_by_id(model_template.result[0])
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)

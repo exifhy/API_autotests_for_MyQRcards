@@ -522,6 +522,34 @@ class EsAssetTemplatesAPI(Helper):
         logger.info(f'Successfully get asset template with ID: {asset_template_id}.')
         return model
 
+    @allure.step("Get asset template by ID, check avatar.")
+    def get_asset_template_by_id_check_avatar(self, asset_template_id: int, model_avatar, deleted: bool):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_asset_template_by_id_endpoint(asset_template_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Code:{response.status_code}.Message:{response.json()}'
+        model = SuccessGetAssetTemplateResult(**response.json())
+        if deleted is True:
+            assert 'avatarUrl' not in response.json(), \
+                f'Avatar with ID {model_avatar.attachmentID} has not been deleted'
+        elif deleted is False:
+            assert 'avatarUrl' in response.json(), \
+                f'Avatar with ID {model_avatar.attachmentID} is not attached to asset template ID {asset_template_id}'
+            assert model_avatar.publicUrl == model.avatarUrl, \
+                f'Avatar with ID {model_avatar.attachmentID} is not attached to asset template ID {asset_template_id}'
+        logger.info(f'Successfully get asset template with ID: {asset_template_id}.')
+        return model
+
     @allure.step("Get deleted asset template by ID.")
     def get_deleted_asset_template_by_id(self, asset_template_id: int):
         start = time.time()
