@@ -421,6 +421,29 @@ class EsAssetTemplatesAPI(Helper):
             f'Code:{response.status_code}.Message:{response.json()}'
         logger.warning(f'Successfully delete avatar by list from the asset template with ID: {asset_template_ids}.')
 
+    @allure.step("Get all list asset templates.")
+    def get_all_list_asset_templates(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_templates_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Asset templates not found")
+        else:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. Message:{data_response}'
+            model = SuccessGetListAssetTemplatesModel(root=response.json())
+            logger.info(f'Successfully get list asset templates.')
+            return model
+
     @allure.step("Get list asset templates.")
     def get_list_asset_templates(self, *asset_templates_ids: int or None):
         start = time.time()

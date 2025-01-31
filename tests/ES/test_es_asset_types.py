@@ -18,7 +18,7 @@ class TestEsAssetTypes(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(23590)
     def test_get_list_asset_types(self):
-        self.api_es_asset_types.get_list_asset_types(None)
+        self.api_es_asset_types.get_all_list_asset_types()
 
     @allure.title('Test add asset types.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23589")

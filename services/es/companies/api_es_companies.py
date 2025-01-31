@@ -320,20 +320,26 @@ class EsCompaniesAPI(Helper):
 
     @allure.step("Download attachment from company by ID.")
     def get_download_attachment_from_company(self, company_id: int, attachment_id: int):
+        param = {
+            "thumbnailSize": 128
+        }
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_download_attachment_from_company_endpoint(company_id, attachment_id),
+            params=param,
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
         logger.info(response.headers)
-        data_response = self.response_content(response)
-        self.attach_response(data_response)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {response.text}'
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[

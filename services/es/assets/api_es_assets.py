@@ -57,6 +57,30 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully receiving the assets list.')
         return model
 
+    @allure.step("Get all list assets available to the user.")
+    def get_all_asset_available_to_user(self, param: dict):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_directory_of_objects_available_to_user_endpoint, params=param,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        logger.info(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Assets not found")
+            return None
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
+                 f'Message:{data_response}')
+            model = AssetExtResults(results=response.json())
+            logger.info(f'Successfully receiving the assets list.')
+            return model
+
     @allure.step("Object creation.")
     def post_add_object(self, company_id: int, asset_type_id: int, asset_class_id: int):
         name = fake_ru.company()

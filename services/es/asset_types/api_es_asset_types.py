@@ -180,6 +180,30 @@ class EsAssetTypesAPI(Helper):
         logger.info(f'Successfully get list a asset types.')
         return model
 
+    @allure.step("Get all list asset types.")
+    def get_all_list_asset_types(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_asset_types_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Asset types not found")
+            return None
+        else:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            model = SuccessGetAssetTypeModel(root=response.json())
+            logger.info(f'Successfully get list a asset types.')
+            return model
+
     @allure.step("Get list asset types check data.")
     def get_list_asset_types_check_data_by_id(self, name: str, *asset_type_ids: int or None):
         start = time.time()

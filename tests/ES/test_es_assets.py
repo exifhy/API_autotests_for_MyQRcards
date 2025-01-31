@@ -19,7 +19,7 @@ class TestEsAssets(BaseTest):
     @pytest.mark.test_case_id(23025)
     @pytest.mark.parametrize('param', Params.params_assets_list.value)
     def test_get_directory_of_objects_available_to_user(self, param):
-        self.api_es_assets.get_asset_available_to_user(param, None)
+        self.api_es_assets.get_all_asset_available_to_user(param)
 
     @pytest.mark.smoke
     @pytest.mark.skip(reason='Asset is created in test - test_delete_object_by_id.')

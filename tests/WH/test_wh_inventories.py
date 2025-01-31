@@ -39,4 +39,4 @@ class TestWhInventories(BaseTest):
             wh_data.erpID,
             wh_data.name
         )
-        self.api_wh_inventories.delete_inventories_by_list(model_inventories.result[0])
+        self.api_wh_inventories.delete_inventories_by_list(model_inventories.result[0].id)

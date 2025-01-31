@@ -109,7 +109,7 @@ class TaskFilterData(BaseModel):
     systemTags: Optional[List[int]] = None
     scheduleRules: Optional[List[int]] = None
     dateRangePeriod: Optional[PeriodResult] = None
-    attributeValues: Optional[dict] = None
+    attributeValues: Optional[List[dict]] = None
     eventTransportTypes: Optional[List[int]] = None
     materials: Optional[List[int]] = None
     warehouses: Optional[List[int]] = None

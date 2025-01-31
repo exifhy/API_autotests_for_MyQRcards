@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 from allure_commons.types import Severity
@@ -94,6 +96,7 @@ class TestEsCompanies(BaseTest):
     def test_get_download_attachment_from_company(self):
         company_id = self.api_es_companies.post_add_our_company()
         attachment_id = self.api_es_company_attachments.post_upload_and_bind_to_company_data_from_form(company_id)
+        time.sleep(1)
         try:
             self.api_es_companies.get_download_attachment_from_company(company_id, attachment_id.attachmentID)
         finally:

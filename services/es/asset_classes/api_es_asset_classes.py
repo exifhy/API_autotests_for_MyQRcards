@@ -98,8 +98,8 @@ class EsAssetClassesAPI(Helper):
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetAssetClassesModel(root=response.json())
         logger.info(f'Successfully get list a asset class.')
         return model

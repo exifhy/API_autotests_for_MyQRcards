@@ -218,7 +218,7 @@ class TestEsAssetTemplates(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(24150)
     def test_get_list_asset_templates(self):
-        self.api_es_asset_templates.get_list_asset_templates(None)
+        self.api_es_asset_templates.get_all_list_asset_templates()
 
     @allure.title('Test update asset templates.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24151")
