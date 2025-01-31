@@ -1616,7 +1616,7 @@ class TestEsAssetsScriptSuite(BaseTest):
     @pytest.mark.test_task_id(24511)
     @pytest.mark.test_case_id(24547)
     @pytest.mark.test_script_runs
-    def test_es_asset_delete_by_list_put_restore_get_get_by_id(self, request, return_func_name):
+    def test_es_asset_delete_by_list_full_put_restore_get_get_by_id(self, request, return_func_name):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()
         self.api_es_company_locations.post_add_company_locations(
@@ -1659,6 +1659,50 @@ class TestEsAssetsScriptSuite(BaseTest):
                 finally:
                     self.api_es_assets.delete_assets_by_list(object_model.id, model_child_asset.id)
 
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
+        if errors:
+            pytest.fail(f"The test encountered errors:\n" + "\n".join(errors), pytrace=False)
+
+    @allure.title('Test api test script ES/assets/avatar (PUT from form, GET by id, DELETE, GET by id).')
+    @allure.severity(Severity.CRITICAL)
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.test_task_id(24511)
+    @pytest.mark.test_case_id()
+    @pytest.mark.test_script_runs
+    def test_es_asset_avatar_put_from_form_get_by_id_delete_get_by_id(self, request, return_func_name):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        runs = int(request.config.getoption("--runs"))
+        errors = []
+
+        for i in range(runs):
+            with (allure.step(f"Run #[{i+1}]")):
+                try:
+                    model_avatar = self.api_es_assets.put_upload_avatar_for_asset_data_from_form(object_model.id)
+                    self.api_es_assets.get_asset_by_id_avatar(object_model.id, model_avatar, False)
+                    self.api_es_assets.delete_avatar_from_asset_by_id(object_model.id)
+                    self.api_es_assets.get_asset_by_id_avatar(object_model.id, model_avatar, True)
+                except (AssertionError, JSONDecodeError) as e:
+                    logger.error(f"Error in Run #[{i+1}]: {e}")
+                    name = return_func_name()
+                    errors.append(f"Run #[{i + 1}] - {name} FAILED - {str(e)}")
+                finally:
+                    self.api_common_attachments.delete_attachment_by_id(model_avatar.attachmentID)
+
+        self.api_es_assets.delete_assets_by_list(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
 

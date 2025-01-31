@@ -274,6 +274,33 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully get the asset with ID: {model_asset.id}.')
         return model
 
+    @allure.step("Get asset by id, check avatar.")
+    def get_asset_by_id_avatar(self, asset_id: int, model_avatar, deleted_status: bool or None):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.detailed_information_on_object_endpoint(asset_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = AssetDetailedInfoResult(**response.json())
+        if deleted_status is True:
+            assert 'avatarUrl' not in response.json(), \
+                f'Avatar with ID {model_avatar.attachmentID} has not been deleted'
+        elif deleted_status is False:
+            assert 'avatarUrl' in response.json(), \
+                f'Avatar with ID {model_avatar.attachmentID} is not attached to asset with ID {asset_id}'
+            assert model_avatar.publicUrl == model.avatarUrl, \
+                f'Avatar with ID {model_avatar.attachmentID} is not attached to asset with ID {asset_id}'
+        logger.info(f'Successfully get the asset with ID: {asset_id}.')
+        return model
+
     @allure.step("Method of publishing an object.")
     def put_method_of_publishing_an_object_by_id(self, asset_id: int):
         start = time.time()
