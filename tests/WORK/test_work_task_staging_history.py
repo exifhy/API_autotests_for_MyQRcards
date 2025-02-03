@@ -10,7 +10,6 @@ class TestWorkTaskStagingHistory(BaseTest):
     @allure.title('Test actual record to the history of the task progress by stage.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23331")
     @pytest.mark.smoke
-    @pytest.mark.skip(reason='Test looping long execution.')
     @pytest.mark.test_case_id(23331)
     def test_post_add_task_staging_history(self, bearer_token):
         company_id = self.api_es_companies.post_add_our_company()

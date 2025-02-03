@@ -46,16 +46,20 @@ class EsAssetsAPI(Helper):
         logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
-             f'Message:{data_response}')
-        model = AssetExtResults(results=response.json())
-        if model_assets is not None:
-            for item in model_assets:
-                assert str(item.id) in model.results, \
-                    f'Asset with ID {item.id} is not in the list assets'
-        logger.info(f'Successfully receiving the assets list.')
-        return model
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'Successfully receiving the assets list. No content.')
+            return None
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
+                 f'Message:{data_response}')
+            model = AssetExtResults(results=response.json())
+            if model_assets is not None:
+                for item in model_assets:
+                    assert str(item.id) in model.results, \
+                        f'Asset with ID {item.id} is not in the list assets'
+            logger.info(f'Successfully receiving the assets list.')
+            return model
 
     @allure.step("Get all list assets available to the user.")
     def get_all_asset_available_to_user(self, param: dict):

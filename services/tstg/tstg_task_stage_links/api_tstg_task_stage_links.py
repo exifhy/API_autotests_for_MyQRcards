@@ -63,14 +63,21 @@ class TstgTaskStageLinksAPI(Helper):
         """
         Поиск всех возможных путей от начальной стадии к конечной, избегая циклов.
         Возвращает список списков ID стадий для каждого найденного пути.
-        Переходы по жизненному циклу заявки.
+        Переходы по жизненному циклу заявки. Счетчик не больше 20 попыток поиска.
         """
         paths = []  # Список для хранения всех найденных путей
         queue = deque([(start_task_stage_id, [start_task_stage_id])])
         work_task_history_api = WorkTaskStagingHistoryAPI()
+        visited_paths = set()  # Уникальные пути, чтобы избежать дублирования
+        counts = 0
 
         while queue:
+            if counts >= 20:
+                logger.error('Searching all possible paths from the initial stage to the final stage is not found.')
+                break
+
             current_stage, path = queue.popleft()
+            counts += 1
 
             # Проверка, достигли ли мы конечной стадии
             if current_stage == finish_task_stage_id:
@@ -86,20 +93,21 @@ class TstgTaskStageLinksAPI(Helper):
             for link in stage_links_model.links:
                 if link.toTaskStage and link.toTaskStage.id:
                     to_stage_id = link.toTaskStage.id
-                    # Проверка на циклы и возврат на начальную стадию
-                    if to_stage_id == start_task_stage_id or to_stage_id in path:
+
+                    # Проверка на зацикливание и дублирование пути
+                    new_path = tuple(path + [to_stage_id])  # Делаем путь неизменяемым для хранения в `set`
+                    if to_stage_id == start_task_stage_id or new_path in visited_paths:
                         continue
 
-                    # Формируем новый путь с добавленной следующей стадией
-                    new_path = path + [to_stage_id]
+                    visited_paths.add(new_path)  # Запоминаем пройденный путь
+                    queue.append((to_stage_id, list(new_path)))  # Добавляем в очередь
 
-                    # Добавляем новый путь в очередь для дальнейшей обработки
-                    queue.append((to_stage_id, new_path))
-        list_path_type_stage_id = paths[0][1:]
-        for task_stage_id in list_path_type_stage_id:
-            work_task_history_api.post_add_task_staging_history(
-                stage_id=str(task_stage_id),
-                task_id=task_id
-            )
+        if paths:
+            # Сохраняем историю стадий
+            for task_stage_id in paths[0][1:]:
+                work_task_history_api.post_add_task_staging_history(
+                    stage_id=str(task_stage_id),
+                    task_id=task_id
+                )
 
         return paths
