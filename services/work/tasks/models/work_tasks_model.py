@@ -366,3 +366,161 @@ class TaskMessageModel(BaseModel):
     attachment: Optional[List[AttachmentBaseResult]] = None
     delivery: Optional[TaskConversationDeliveryResult] = None
     read: Optional[TaskConversationReadResult] = None
+
+
+class PeriodResult(BaseModel):
+    from_: Optional[datetime] = Field(None, alias="from")
+    till: Optional[str] = None
+
+
+class AssignmentHistoryResultModel(BaseModel):
+    sortOrder: Optional[int] = None
+    assigned: Optional[str] = None
+    assignedTo: Optional[UserResult] = None
+    assignedBy: Optional[UserResult] = None
+    scheduled: Optional[PeriodResult] = None
+
+
+class SuccessGetListAssignmentHistoryResultModel(BaseModel):
+    result: List[AssignmentHistoryResultModel]
+
+
+class AttachmentResultModel(BaseModel):
+    fileName: Optional[str] = None
+    description: Optional[str] = None
+    isUploaded: Optional[bool] = None
+    publicUrl: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    isProtected: Optional[bool] = None
+    size: Optional[int] = None
+    created: Optional[str] = None
+
+
+class AttachmentResultByIdModel(BaseModel):
+    attachmentID: int
+    fileName: Optional[str] = None
+    description: Optional[str] = None
+    isUploaded: Optional[bool] = None
+    publicUrl: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    isProtected: Optional[bool] = None
+    size: Optional[int] = None
+    created: Optional[str] = None
+
+
+class SuccessGetListAttachmentResultModel(RootModel):
+    root: Dict[str, AttachmentResultModel]
+
+
+class SuccessGetAttachmentLinkNoRedirectModel(BaseModel):
+    fileName: str
+    url: str
+    size: int
+    created: datetime
+
+
+class AttributeResultModel(BaseModel):
+    attribute: Optional[IdNameDeletedResult] = None
+    value: Optional[str] = None
+    attributeType: Optional[AttributeTypeResult] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    domain: Optional[DomainResult] = None
+
+
+class SuccessGetListAttributeResultModel(BaseModel):
+    result: List[AttributeResultModel]
+
+
+class ChangeTypeResult(BaseModel):
+    tab: IdNameResult
+    sections: List[IdNameResult]
+
+
+class SuccessGetListTaskChangeTypeResultModel(BaseModel):
+    result: List[ChangeTypeResult]
+
+
+class Initiator(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    avatarUrl: Optional[str] = None
+
+
+class HistoryResult(BaseModel):
+    sortOrder: Optional[int] = None
+    uid: Optional[str] = None
+    occured: Optional[str] = None
+    operation: Optional[str] = None
+    tab: Optional[str] = None
+    section: Optional[str] = None
+    applicationID: Optional[int] = None
+    user: Optional[Initiator] = None
+    locationState: Optional[int] = None
+    location: Optional[str] = None
+    previousSnapshot: Optional[dict] = None
+    currentSnapshot: Optional[dict] = None
+    diff: Optional[dict] = None
+
+
+class SuccessGetListTaskChangesResultModel(BaseModel):
+    result: Optional[List[HistoryResult]] = None
+
+
+class IdNameChecklistResult(BaseModel):
+    description: Optional[str] = None
+    name: str
+    id: int
+
+
+class TaskCheckListResult(BaseModel):
+    checkList: IdNameChecklistResult
+    completedWorkID: Optional[int] = None
+    totalItemsCount: Optional[int] = None
+    completedItemsCount: Optional[int] = None
+
+
+class SuccessGetListTaskCheckListResultModel(RootModel):
+    root: Dict[str, TaskCheckListResult]
+
+
+class AddChecklistsToTaskModel(BaseModel):
+    taskID: int
+    id: int
+
+
+class SuccessAddChecklistsToTaskModel(BaseModel):
+    result: List[AddChecklistsToTaskModel]
+
+
+class SuccessUploadAttachmentsToServerTaskChecklistDataFromFormModel(BaseModel):
+    taskID: int
+    taskCheckListID: int
+    taskCheckListResultID: int
+    attachments: List[int]
+    md5Hash: Optional[str] = None
+    fileName: Optional[str] = None
+    isProtected: Optional[bool] = None
+
+
+class AttributeTypeResultChecklist(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    code: Optional[str] = None
+
+
+class TaskCheckListResultV2ResultModel(BaseModel):
+    isChecked: Optional[bool] = None
+    value: Optional[List[str]] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    domain: Optional[DomainResult] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
+    sortOrder: Optional[int] = None
+    attribute: Optional[IdNameChecklistResult] = None
+    attributeType: Optional[AttributeTypeResult] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+
+
+class SuccessGetTaskCheckListResultV2ResultModel(RootModel):
+    root: Dict[str, TaskCheckListResultV2ResultModel]

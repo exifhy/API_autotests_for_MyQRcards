@@ -40,14 +40,12 @@ class TstgTaskStageLinksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}, {data_response}'
         model = SuccessGetListTaskStageLinksModel(links=response.json())
         logger.info(f'Successfully get list task stage links in tenant.')
         return model
@@ -70,14 +68,19 @@ class TstgTaskStageLinksAPI(Helper):
         work_task_history_api = WorkTaskStagingHistoryAPI()
         visited_paths = set()  # Уникальные пути, чтобы избежать дублирования
         counts = 0
+        last_valid_path = []  # Сохраняем последний путь, даже если он не доходит до конца
 
         while queue:
             if counts >= 20:
                 logger.error('Searching all possible paths from the initial stage to the final stage is not found.')
+                if last_valid_path:  # Если путь есть, добавляем его в `paths`
+                    paths.append(last_valid_path)
                 break
 
             current_stage, path = queue.popleft()
             counts += 1
+
+            last_valid_path = path  # Обновляем последний найденный путь
 
             # Проверка, достигли ли мы конечной стадии
             if current_stage == finish_task_stage_id:
@@ -102,8 +105,13 @@ class TstgTaskStageLinksAPI(Helper):
                     visited_paths.add(new_path)  # Запоминаем пройденный путь
                     queue.append((to_stage_id, list(new_path)))  # Добавляем в очередь
 
+        logger.info(f'Found paths: {paths}')
+
+        # Используем последний валидный путь, если ни один путь не дошёл до конца
+        if not paths and last_valid_path:
+            paths.append(last_valid_path)
+
         if paths:
-            # Сохраняем историю стадий
             for task_stage_id in paths[0][1:]:
                 work_task_history_api.post_add_task_staging_history(
                     stage_id=str(task_stage_id),

@@ -262,7 +262,7 @@ class EsAssetTemplatesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessGetAssetTemplatesAttachmentsByIdNoRedirectModel(**response.json())
-        assert model.fileName == name, f'Expected fie name {name}, but got {model.filename}'
+        assert model.fileName == name, f'Expected file name {name}, but got {model.filename}'
         logger.info(f'Successfully get temporary link to download a file with ID {attachment_id}.')
         return model
 

@@ -342,7 +342,7 @@ class EsAssetSchemasAPI(Helper):
                 logger.warning("Received response is not a valid JSON")
             self.attach_time(start, end)
             self.attach_url(response.request.url)
-            assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
+            assert response.status_code == HTTPStatus.CREATED, f'Status code {response.text}'
             model = SuccessUploadFileToAssetSchemeModel(**response.json())
             logger.info(f'Successfully upload {file_name} to server and bind to asset scheme with ID: {scheme_id}.')
             return model

@@ -54,3 +54,16 @@ class Payloads:
             "attachments": []
         }
         return payload
+
+    @staticmethod
+    def post_add_checklists_to_task_payload(checklist_id: int) -> list:
+        payload = [
+            {
+                "checkListID": checklist_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_checklists_from_task_by_list_payload(*checklist_ids: int) -> list:
+        return [*checklist_ids]

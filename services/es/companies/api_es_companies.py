@@ -381,6 +381,9 @@ class EsCompaniesAPI(Helper):
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'Attributes from company by ID: {company_id} is not exist. No content.')
+            return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected {HTTPStatus.OK}, but got {response.status_code}. Message {data_response}'
         model = SuccessGetListCompanyAttributeResultModel(result=response.json())

@@ -1,5 +1,5 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel
 
 
 class CodeMessageModel(BaseModel):
@@ -18,4 +18,3 @@ class SuccessUploadAttachmentsToServerDataFromFormModel(BaseModel):
     checkSum: Optional[str] = None
     fileName: Optional[str] = None
     isProtected: Optional[bool] = None
-

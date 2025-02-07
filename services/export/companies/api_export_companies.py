@@ -61,18 +61,18 @@ class ExportCompaniesAPI(Helper):
         sheet_name = workbook.sheetnames
 
         assert 'Компании' in sheet_name
-        assert sheet['B3'].value == 'Название*', f'Expected Название*, but got {sheet['B3'].value}'
-        assert sheet['C3'].value == 'Полное наименование', f'Expected Полное наименование, but got {sheet['C3'].value}'
-        assert sheet['D3'].value == 'Код', f'Expected Код, but got {sheet['D3'].value}'
-        assert sheet['E3'].value == 'ERP ID', f'Expected ERP ID, but got {sheet['E3'].value}'
-        assert sheet['F3'].value == 'Адрес сайта', f'Expected Адрес сайта, but got {sheet['F3'].value}'
-        assert sheet['G3'].value == 'Телефон', f'Expected Телефон, but got {sheet['G3'].value}'
-        assert sheet['H3'].value == 'Электронная почта', f'Expected Электронная почта, but got {sheet['H3'].value}'
-        assert sheet['J3'].value == 'Тип контрагента*', f'Expected Тип контрагента*, but got {sheet['J3'].value}'
-        assert sheet['K3'].value == 'ИНН', f'Expected ИНН, but got {sheet['K3'].value}'
-        assert sheet['M3'].value == 'Заказчик', f'Expected Заказчик, but got {sheet['M3'].value}'
-        assert sheet['O3'].value == 'Подрядчик', f'Expected Подрядчик, but got {sheet['O3'].value}'
-        assert sheet['Q3'].value == 'Наша компания', f'Expected Наша компания, but got {sheet['Q3'].value}'
+        assert sheet['A3'].value == 'Название*', f'Expected Название*, but got {sheet['B3'].value}'
+        assert sheet['B3'].value == 'Полное наименование', f'Expected Полное наименование, but got {sheet['C3'].value}'
+        assert sheet['C3'].value == 'Код', f'Expected Код, but got {sheet['D3'].value}'
+        assert sheet['D3'].value == 'ERP ID', f'Expected ERP ID, but got {sheet['E3'].value}'
+        assert sheet['E3'].value == 'Адрес сайта', f'Expected Адрес сайта, but got {sheet['F3'].value}'
+        assert sheet['F3'].value == 'Телефон', f'Expected Телефон, but got {sheet['G3'].value}'
+        assert sheet['G3'].value == 'Электронная почта', f'Expected Электронная почта, but got {sheet['H3'].value}'
+        assert sheet['H3'].value == 'Тип контрагента*', f'Expected Тип контрагента*, but got {sheet['J3'].value}'
+        assert sheet['I3'].value == 'ИНН', f'Expected ИНН, but got {sheet['K3'].value}'
+        assert sheet['J3'].value == 'Заказчик', f'Expected Заказчик, but got {sheet['M3'].value}'
+        assert sheet['K3'].value == 'Подрядчик', f'Expected Подрядчик, but got {sheet['O3'].value}'
+        assert sheet['L3'].value == 'Наша компания', f'Expected Наша компания, but got {sheet['Q3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Компании.xlsx"

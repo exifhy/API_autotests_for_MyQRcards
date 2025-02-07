@@ -78,9 +78,9 @@ class Endpoints:
     @staticmethod
     def post_upload_attachment_to_server_bind_to_checklist_task_from_form_endpoint(
             task_id: int,
-            task_checklist_id: int
+            checklist_id: int
     ) -> str:
-        return f'{HOST}/WORK/tasks/{task_id}/checkLists/{task_checklist_id}/upload/fromForm'
+        return f'{HOST}/WORK/tasks/{task_id}/checkLists/{checklist_id}/upload/fromForm'
 
     @staticmethod
     def delete_results_checklist_from_task_endpoint(

@@ -300,7 +300,7 @@ class ScServiceContractAPI(Helper):
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully get the total number of service contracts.')
 
-    @allure.step("Method of get list user attributes by contract.")
+    @allure.step("Get list user attributes by contract.")
     def get_list_user_attributes_contract(self, contract_id: int):
         start = time.time()
         response = requests.get(
@@ -309,14 +309,15 @@ class ScServiceContractAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f'Contract attributes not existed. No content.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetContractAttributeResultModel(attributes=response.json())
         logger.info(f'Successfully get a list user attributes by contract.')
         return model
