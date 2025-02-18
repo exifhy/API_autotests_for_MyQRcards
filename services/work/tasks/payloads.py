@@ -1,4 +1,3 @@
-from datetime import datetime
 
 
 class Payloads:
@@ -67,3 +66,26 @@ class Payloads:
     @staticmethod
     def delete_checklists_from_task_by_list_payload(*checklist_ids: int) -> list:
         return [*checklist_ids]
+
+    @staticmethod
+    def delete_results_checklist_from_task_by_list_payload(*task_results_checklist_ids: int) -> list:
+        return [*task_results_checklist_ids]
+
+    @staticmethod
+    def put_update_results_task_checklists_items_v2_payload(
+            task_checklist_result_id: str,
+            checked: bool,
+            value,
+            type_item
+    ) -> list:
+        payload = [
+            {
+                "id": task_checklist_result_id,
+                "isChecked": checked,
+                "type": type_item,
+                "values": [
+                    value
+                ]
+            }
+        ]
+        return payload

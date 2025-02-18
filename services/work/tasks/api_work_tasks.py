@@ -318,7 +318,8 @@ class WorkTasksAPI(Helper):
             assert str(model_attachment.attachmentID) in model.root, \
                 f'Attachment ID{model_attachment.attachmentID} not in list task attachments.'
             assert model_attachment.fileName == model.root[str(model_attachment.attachmentID)].fileName, \
-                f'Expected {model_attachment.fileName}, but got {model.root[str(model_attachment.attachmentID)].fileName}'
+                (f'Expected {model_attachment.fileName}, '
+                 f'but got {model.root[str(model_attachment.attachmentID)].fileName}')
             logger.info(f'Successfully get the list task ID {task_id} attachment ID {model_attachment.attachmentID}.')
             return model
 
@@ -640,3 +641,274 @@ class WorkTasksAPI(Helper):
         model = SuccessGetTaskCheckListResultV2ResultModel(root=response.json())
         logger.info(f'Successfully get results of checklist {task_checklist_id} in the task with ID {task_id}.')
         return model
+
+    @allure.step("Get list attachments from items of checklists in the task by ID.")
+    def get_list_attachments_task_checklists_items_id(
+            self,
+            task_id: int,
+            task_checklist_id: int,
+            task_checklist_result_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attachments_checklist_from_task_by_id_endpoint(
+                task_id,
+                task_checklist_id,
+                task_checklist_result_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttachmentResultModel(root=response.json())
+        logger.info(f'Successfully get list attachments of result task checklist '
+                    f'{task_checklist_id} in the task with ID {task_id} by result ID {task_checklist_result_id}.')
+        return model
+
+    @allure.step("Get list attachments from items of checklists in the task.")
+    def get_list_attachments_task_checklists_items(
+            self,
+            task_id: int,
+            task_checklist_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attachments_checklist_from_task_endpoint(
+                task_id,
+                task_checklist_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttachmentResultModel(root=response.json())
+        logger.info(f'Successfully get list attachments of result task checklist '
+                    f'{task_checklist_id} in the task with ID {task_id}.')
+        return model
+
+    @allure.step("Get data attachment from items of checklists in the task by attach ID.")
+    def get_attachment_task_checklists_items_by_id(
+            self,
+            task_id: int,
+            task_checklist_id: int,
+            task_checklist_result_id: int,
+            attachment_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attachment_by_id_checklist_from_task_by_id_endpoint(
+                task_id,
+                task_checklist_id,
+                task_checklist_result_id,
+                attachment_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetAttachmentByIdFromTaskChecklist(**response.json())
+        logger.info(f'Successfully get list attachments of result task checklist '
+                    f'{task_checklist_id} in the task with ID {task_id}.')
+        return model
+
+    @allure.step("Delete results checklist from task by list.")
+    def delete_results_checklist_from_task_by_list(
+            self,
+            task_id: int,
+            task_checklist_id: int,
+            *task_results_checklist_ids: int
+    ):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_results_checklist_from_task_endpoint(task_id, task_checklist_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_results_checklist_from_task_by_list_payload(*task_results_checklist_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.warning(f'Successfully delete results ID {task_results_checklist_ids} '
+                       f'checklist ID {task_checklist_id} from task with ID {task_id}.')
+
+    @allure.step("Update results items of checklists in the task v2.")
+    def put_update_results_task_checklists_items_v2(
+            self,
+            task_id: int,
+            task_checklist_id: int,
+            task_checklist_result_id: str,
+            value,
+            check: bool,
+            type_item: str
+    ):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_results_checklist_from_task_v2_endpoint(
+                task_id,
+                task_checklist_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_results_task_checklists_items_v2_payload(
+                task_checklist_result_id,
+                check,
+                value,
+                type_item
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        model = SuccessUpdateTaskChecklistResultsModel(result=response.json())
+        logger.info(f'Successfully update results items ID {model.result[0].checkListItemID} '
+                    f'of checklists ID {model.result[0].taskCheckListID} in the task ID {model.result[0].taskID} v2.')
+        return model
+
+    @allure.step("Get list attachments bind to attribute task completed work by attribute ID.")
+    def get_list_attachments_from_attribute_task_completed_work_by_attribute_id(
+            self,
+            task_id: int,
+            completed_work_id: int,
+            attribute_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_files_attached_to_attribute_by_id_of_completed_work_by_id_on_task_endpoint(
+                task_id,
+                completed_work_id,
+                attribute_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetAttributeAttachmentResultModel(root=response.json())
+        logger.info(f'Successfully list attachments bind to attribute ID {attribute_id} '
+                    f'task ID {task_id} completed work ID {completed_work_id}.')
+        return model
+
+    @allure.step("Get list attachments bind to attribute task completed work.")
+    def get_list_attachments_from_attribute_task_completed_work(
+            self,
+            task_id: int,
+            completed_work_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_files_attached_to_attribute_of_completed_work_by_id_on_task_endpoint(
+                task_id,
+                completed_work_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetAttributeAttachmentResultModel(root=response.json())
+        logger.info(f'Successfully list attachments bind to attribute'
+                    f'task ID {task_id} completed work ID {completed_work_id}.')
+        return model
+
+    @allure.step("Upload file to server and bind to attribute task completed work, data from form.")
+    def post_upload_attachment_to_server_bind_attribute_task_completed_work_data_from_form(
+            self,
+            task_id: int,
+            completed_work_id: int,
+            attribute_id: int
+    ):
+        file_name = f'generated_image{randint(1001, 1200)}.png'
+        with io.BytesIO() as image_bytes:
+            with Image.new("RGB", (200, 200), color="green") as img:
+                img.save(image_bytes, format="PNG")
+                image_bytes.seek(0)  # Перемещаем указатель в начало
+
+            payload = MultipartEncoder(
+                fields={
+                    "Attachments.Index": "0",
+                    "AttributeID": str(attribute_id),
+                    "Attachments[0].IsIgnorePossibleDuplication": "true",
+                    "Attachments[0].File": (file_name, image_bytes, 'image/png')
+                }
+            )
+            start = time.time()
+            response = requests.post(
+                url=self.endpoints.post_upload_file_to_server_bind_to_completed_work_from_form_endpoint(
+                    task_id, completed_work_id
+                ),
+                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                data=payload
+            )
+            end = time.time()
+            logger.info(response.headers)
+            data_response = self.response_content(response)
+            self.attach_response_headers(response.headers)
+            self.attach_response(data_response)
+            self.attach_time(start, end)
+            self.attach_url(response.request.url)
+            assert response.status_code == HTTPStatus.CREATED, \
+                f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+            model = SuccessUploadAttachmentsToServerTaskCompletedWorkDataFromFormModel(**response.json())
+            logger.info(f'Successfully upload file - {file_name} ID {model.attachments[0]} to server '
+                        f'and bind to attribute {model.attributeID} task {model.taskID} '
+                        f'completed work {model.completedWorkID}.')
+            return model

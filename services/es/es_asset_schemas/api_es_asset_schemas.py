@@ -278,15 +278,13 @@ class EsAssetSchemasAPI(Helper):
             headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}.{data_response}'
         logger.warning(f'Successfully delete the current picture associated with the asset-scheme ID: {scheme_id}.')
 
     @allure.step("Method to get TemporaryRedirect to a temporary link for downloading the attached plan file.")
@@ -316,7 +314,7 @@ class EsAssetSchemasAPI(Helper):
     @allure.step("Upload file to server and bind to asset scheme, data from form.")
     def post_upload_file_to_server_and_bind_asset_scheme_data_from_form(self, scheme_id: int):
         file_name = f'generated_image{randint(999, 1099)}.JPG'
-        with io.BytesIO() as image_bytes:
+        with (io.BytesIO() as image_bytes):
             # Генерация изображения (например, 200x200 пикселей, зеленый фон)
             with Image.new("RGB", (200, 200), color="green") as img:
                 img.save(image_bytes, format="JPEG")
@@ -336,13 +334,12 @@ class EsAssetSchemasAPI(Helper):
             )
             end = time.time()
             logger.info(response.headers)
-            try:
-                self.attach_response(response.json())
-            except JSONDecodeError:
-                logger.warning("Received response is not a valid JSON")
+            data_response = self.response_content(response)
+            self.attach_response(data_response)
             self.attach_time(start, end)
             self.attach_url(response.request.url)
-            assert response.status_code == HTTPStatus.CREATED, f'Status code {response.text}'
+            assert response.status_code == HTTPStatus.CREATED, \
+                f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
             model = SuccessUploadFileToAssetSchemeModel(**response.json())
             logger.info(f'Successfully upload {file_name} to server and bind to asset scheme with ID: {scheme_id}.')
             return model

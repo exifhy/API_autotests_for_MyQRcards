@@ -213,8 +213,9 @@ class EsCompaniesAPI(Helper):
         return model
 
     @allure.step("Get list of companies with asserts.")
-    def get_list_companies_with_asserts(self, company_id:int, deleted: bool):
+    def get_list_companies_with_asserts(self, company_id: int, deleted: bool):
         param = {
+            "fetch": 1000000,
             "isDeleted": deleted
         }
         start = time.time()

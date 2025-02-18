@@ -57,11 +57,11 @@ class WorkChecklistItemsAPI(Helper):
         return model
 
     @allure.step("Add checklist items (foto).")
-    def post_add_checklist_items_foto(self, checklist_id: int):
+    def post_add_checklist_items_foto(self, checklist_id: int, attribute_id: int):
         data = {
             "name": f'Фото для заявки-{randint(1, 999)}',
             "description": f'Создан авто тестом-{randint(1, 999)}',
-            "attributeID": '2',
+            "attributeID": str(attribute_id),
             "sortOrder": 0
         }
         start = time.time()

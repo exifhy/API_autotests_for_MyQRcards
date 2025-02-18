@@ -398,7 +398,7 @@ class AttachmentResultModel(BaseModel):
 
 class AttachmentResultByIdModel(BaseModel):
     attachmentID: int
-    fileName: Optional[str] = None
+    fileName: str
     description: Optional[str] = None
     isUploaded: Optional[bool] = None
     publicUrl: Optional[str] = None
@@ -410,6 +410,10 @@ class AttachmentResultByIdModel(BaseModel):
 
 class SuccessGetListAttachmentResultModel(RootModel):
     root: Dict[str, AttachmentResultModel]
+
+
+class SuccessGetAttributeAttachmentResultModel(RootModel):
+    root: Dict[str, List[AttachmentResultByIdModel]]
 
 
 class SuccessGetAttachmentLinkNoRedirectModel(BaseModel):
@@ -524,3 +528,37 @@ class TaskCheckListResultV2ResultModel(BaseModel):
 
 class SuccessGetTaskCheckListResultV2ResultModel(RootModel):
     root: Dict[str, TaskCheckListResultV2ResultModel]
+
+
+class SuccessGetAttachmentByIdFromTaskChecklist(BaseModel):
+    tenantID: int
+    taskID: int
+    taskCheckListID: int
+    taskCheckListResultID: int
+    attachmentID: int
+    contentType: str
+    isProtected: bool
+    fileName: str
+    internalFileName: Optional[str] = None
+    storageLogin: Optional[str] = None
+    securityKey: str
+    storageContainer: str
+    size: int
+    created: datetime
+
+
+class SuccessUploadAttachmentsToServerTaskCompletedWorkDataFromFormModel(BaseModel):
+    taskID: int
+    completedWorkID: int
+    attributeID: int
+    attachments: List[int]
+
+
+class UpdateTaskChecklistResultsModel(BaseModel):
+    taskID: int
+    taskCheckListID: int
+    checkListItemID: int
+
+
+class SuccessUpdateTaskChecklistResultsModel(BaseModel):
+    result: List[UpdateTaskChecklistResultsModel]

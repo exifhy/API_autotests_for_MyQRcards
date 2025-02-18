@@ -103,6 +103,68 @@ class CommonAttributesAPI(Helper):
         logger.info(f'Successfully attribute type str creation method only for asset with name: {attribute_name}.')
         return model
 
+    @allure.step("Attribute creation method for checklist, type attachment.")
+    def post_add_attribute_only_for_checklist_attachment(self):
+        attribute_name = f'Поле фото чек-листа - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_add_method_attributes_type_str_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=10,
+                for_task=False,
+                for_asset=False,
+                for_check_list=True,
+                fro_complete_work=False,
+                for_contract=False,
+                for_company=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type attachment only for checklist with name: {attribute_name}.')
+        return model
+
+    @allure.step("Attribute creation method for complete work, type attachment.")
+    def post_add_attribute_only_for_complete_work_attachment(self):
+        attribute_name = f'Поле фото выполненной работы - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_add_method_attributes_type_str_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=10,
+                for_task=False,
+                for_asset=False,
+                for_check_list=False,
+                fro_complete_work=True,
+                for_contract=False,
+                for_company=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type attachment only for complete work with name: {attribute_name}.')
+        return model
+
     @allure.step("Attribute creation method for task only type string.")
     def post_add_method_attributes_only_for_task_str(self):
         attribute_name = f'Доп поле строка для заявки - {randint(1, 999)}'
@@ -245,26 +307,71 @@ class CommonAttributesAPI(Helper):
         logger.warning(f'Successfully get list attributes.')
         return model
 
-    @allure.step("Get list attributes and return id first attribute for contract.")
-    def get_list_attributes_return_id_first_attribute_for_contract(self):
+    @allure.step("Get list attributes and return id attribute 'Attachment' for checklist.")
+    def get_list_attributes_return_id_attribute_attachment_for_checklist(self):
+        param = {
+            "isDeleted": False
+        }
         start = time.time()
         response = requests.get(
-            url=self.endpoints.get_list_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            url=self.endpoints.get_list_attributes_endpoint, params=param,
+            headers=self.headers.basic_header(API_TOKEN)
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetAttributesModel(root=response.json())
-        logger.warning(f'Successfully get list attributes.')
-        return model
+        attachment_attribute_id = None
+        for key, value in model.root.items():
+            if value.type and value.relevantFor:
+                if value.type.code == "Attachment" and value.type.id == 10 and value.relevantFor.checkList:
+                    attachment_attribute_id = int(key)
+                    logger.warning(f'Successfully get list attributes and return id {attachment_attribute_id} '
+                                   f'attribute "Attachment" for checklist.')
+                    break
+        if attachment_attribute_id:
+            return attachment_attribute_id
+        else:
+            model = self.post_add_attribute_only_for_checklist_attachment()
+            return model.values[0]
+
+    @allure.step("Get list attributes and return id attribute 'Attachment' for complete work.")
+    def get_list_attributes_return_id_attribute_attachment_for_complete_work(self):
+        param = {
+            "isDeleted": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_endpoint, params=param,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessGetAttributesModel(root=response.json())
+        attachment_attribute_id = None
+        for key, value in model.root.items():
+            if value.type and value.relevantFor:
+                if value.type.code == "Attachment" and value.type.id == 10 and value.relevantFor.completedWork:
+                    attachment_attribute_id = int(key)
+                    logger.warning(f'Successfully get list attributes and return id {attachment_attribute_id} '
+                                   f'attribute "Attachment" for complete work.')
+                    break
+        if attachment_attribute_id:
+            return attachment_attribute_id
+        else:
+            model = self.post_add_attribute_only_for_complete_work_attachment()
+            return model.values[0]
 
     @allure.step("Get attribute by ID.")
     def get_attribute_by_id(self, attribute_id: int):

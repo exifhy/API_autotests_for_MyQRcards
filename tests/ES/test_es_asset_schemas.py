@@ -309,6 +309,7 @@ class TestEsAssetSchemas(BaseTest):
 
     @allure.title('Test method to get TemporaryRedirect to a temporary link for downloading the attached plan file.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24097")
+    @pytest.mark.xfail(reason='https://dev.azure.com/melston/HubEx/_workitems/edit/24741')
     @pytest.mark.regress
     @pytest.mark.test_case_id(24097)
     def test_get_temporary_link_for_downloading_attached_plan_file(self):
@@ -326,15 +327,13 @@ class TestEsAssetSchemas(BaseTest):
             asset_type_id=asset_type_id
         )
         model_scheme = self.api_es_asset_schemas.post_add_asset_scheme_only_name(model_asset.id)
-        try:
-            self.api_es_asset_schemas.post_upload_file_to_server_and_bind_asset_scheme_data_from_form(model_scheme.id)
-            self.api_es_asset_schemas.get_temporary_link_for_downloading_attached_plan_file(model_scheme.id)
-        finally:
-            self.api_es_asset_schemas.delete_picture_associated_with_asset_scheme(model_scheme.id)
-            self.api_es_asset_schemas.delete_asset_scheme_by_id(model_scheme.id)
-            self.api_es_assets.delete_object_by_id(model_asset.id)
-            self.api_es_companies.delete_company_by_id(company_id)
-            self.api_es_locations.delete_location_by_id(location_id)
+        self.api_es_asset_schemas.post_upload_file_to_server_and_bind_asset_scheme_data_from_form(model_scheme.id)
+        self.api_es_asset_schemas.get_temporary_link_for_downloading_attached_plan_file(model_scheme.id)
+        self.api_es_asset_schemas.delete_picture_associated_with_asset_scheme(model_scheme.id)
+        self.api_es_asset_schemas.delete_asset_scheme_by_id(model_scheme.id)
+        self.api_es_assets.delete_object_by_id(model_asset.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test bind attachment to asset scheme if attachment upload from common service.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24093")
@@ -399,6 +398,7 @@ class TestEsAssetSchemas(BaseTest):
 
     @allure.title('Test delete the current view (picture) associated with the asset-scheme.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24096")
+    @pytest.mark.xfail(reason='https://dev.azure.com/melston/HubEx/_workitems/edit/24741')
     @pytest.mark.regress
     @pytest.mark.test_case_id(24096)
     def test_delete_picture_associated_with_asset_scheme(self):
@@ -416,14 +416,12 @@ class TestEsAssetSchemas(BaseTest):
             asset_type_id=asset_type_id
         )
         model_scheme = self.api_es_asset_schemas.post_add_asset_scheme_only_name(model_asset.id)
-        try:
-            self.api_es_asset_schemas.post_upload_file_to_server_and_bind_asset_scheme_data_from_form(model_scheme.id)
-            self.api_es_asset_schemas.delete_picture_associated_with_asset_scheme(model_scheme.id)
-        finally:
-            self.api_es_asset_schemas.delete_asset_scheme_by_id(model_scheme.id)
-            self.api_es_assets.delete_object_by_id(model_asset.id)
-            self.api_es_companies.delete_company_by_id(company_id)
-            self.api_es_locations.delete_location_by_id(location_id)
+        self.api_es_asset_schemas.post_upload_file_to_server_and_bind_asset_scheme_data_from_form(model_scheme.id)
+        self.api_es_asset_schemas.delete_picture_associated_with_asset_scheme(model_scheme.id)
+        self.api_es_asset_schemas.delete_asset_scheme_by_id(model_scheme.id)
+        self.api_es_assets.delete_object_by_id(model_asset.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test adds points to the asset scheme.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24103")
@@ -538,6 +536,7 @@ class TestEsAssetSchemas(BaseTest):
 
     @allure.title('Test get the complete list of task points placed on the asset scheme.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24101")
+    @pytest.mark.xfail(reason='https://dev.azure.com/melston/HubEx/_workitems/edit/24741')
     @pytest.mark.regress
     @pytest.mark.test_case_id(24101)
     def test_get_list_points_from_asset_schema(self):
