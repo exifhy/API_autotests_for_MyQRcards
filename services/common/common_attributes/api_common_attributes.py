@@ -165,6 +165,37 @@ class CommonAttributesAPI(Helper):
         logger.info(f'Successfully add attribute type attachment only for complete work with name: {attribute_name}.')
         return model
 
+    @allure.step("Attribute creation method for complete work, type string.")
+    def post_add_attribute_only_for_complete_work_string(self):
+        attribute_name = f'Поле строка выполненной работы - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.post_add_method_attributes_type_str_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=1,
+                for_task=False,
+                for_asset=False,
+                for_check_list=False,
+                fro_complete_work=True,
+                for_contract=False,
+                for_company=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type string only for complete work with name: {attribute_name}.')
+        return model
+
     @allure.step("Attribute creation method for task only type string.")
     def post_add_method_attributes_only_for_task_str(self):
         attribute_name = f'Доп поле строка для заявки - {randint(1, 999)}'

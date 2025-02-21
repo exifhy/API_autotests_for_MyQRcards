@@ -89,3 +89,63 @@ class Payloads:
             }
         ]
         return payload
+
+    @staticmethod
+    def put_update_attributes_task_completed_work_by_id_payload(
+        attribute_id: int,
+        value: str
+    ) -> list:
+        payload = [
+            {
+                "attributeID": attribute_id,
+                "value": [
+                    value
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def put_update_attributes_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        attribute_id: int,
+        value: str
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "completedWorkID": completed_work_id,
+                "data": [
+                    {
+                        "isPublic": True,
+                        "attributeID": attribute_id,
+                        "value": [
+                            value
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_attributes_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        *attribute_ids: int,
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "completedWorkID": completed_work_id,
+                "data": [
+                    *attribute_ids
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_attributes_task_completed_work_by_list_payload(*attribute_ids: int) -> list:
+        return [*attribute_ids]

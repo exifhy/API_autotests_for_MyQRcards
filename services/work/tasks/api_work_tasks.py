@@ -666,7 +666,7 @@ class WorkTasksAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            logger.info(f'The task with ID {task_id} does not have a attachments from items of checklist results')
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
@@ -697,7 +697,7 @@ class WorkTasksAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            logger.info(f'The task with ID {task_id} does not have a attachment checklist results')
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
@@ -732,7 +732,7 @@ class WorkTasksAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            logger.info(f'The task with ID {task_id} does not have a attachment checklist results')
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
@@ -829,7 +829,7 @@ class WorkTasksAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            logger.info(f'The task with ID {task_id} does not have a attachments bind to attribute task completed work')
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
@@ -860,12 +860,12 @@ class WorkTasksAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            logger.info(f'The task with ID {task_id} does not have a checklist results')
+            logger.info(f'The task with ID {task_id} does not have a attachments bind to attribute task completed work.')
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessGetAttributeAttachmentResultModel(root=response.json())
-        logger.info(f'Successfully list attachments bind to attribute'
+        logger.info(f'Successfully get list attachments bind to attribute'
                     f'task ID {task_id} completed work ID {completed_work_id}.')
         return model
 
@@ -912,3 +912,311 @@ class WorkTasksAPI(Helper):
                         f'and bind to attribute {model.attributeID} task {model.taskID} '
                         f'completed work {model.completedWorkID}.')
             return model
+
+    @allure.step("Get list attributes task completed work.")
+    def get_list_attributes_task_completed_work(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_for_completed_work_from_task_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a attributes task completed work')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListCompletedWorkAttributeResultModel(result=response.json())
+        logger.info(f'Successfully get list attributes task ID {model.result[0].taskID} '
+                    f'completed work ID {model.result[0].completedWorkID}.')
+        return model
+
+    @allure.step("Get list attributes task completed work by completed work ID.")
+    def get_list_attributes_task_completed_work_by_id(self, task_id: int, completed_work_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_for_completed_work_by_id_from_task_endpoint(task_id, completed_work_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a attributes completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListCompletedWorkAttributeResultModel(result=response.json())
+        logger.info(f'Successfully get list attributes task ID {model.result[0].taskID} '
+                    f'completed work ID {model.result[0].completedWorkID}.')
+        return model
+
+    @allure.step("Update attributes task completed work by completed work ID.")
+    def put_update_attributes_task_completed_work_by_id(self, task_id: int, completed_work_id: int, attribute_id: int):
+        value = f'Значение для доп. поля {randint(1, 99999)}'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_attributes_for_completed_work_by_id_from_task_endpoint(
+                task_id,
+                completed_work_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_attributes_task_completed_work_by_id_payload(
+                attribute_id,
+                value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'No content')
+            return None
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttributesTaskCompletedWorksModel(results=response.json())
+        logger.info(f'Update attributes ID {attribute_id} task ID {task_id} '
+                    f'completed work by completed work ID {completed_work_id}.')
+        return model
+
+    @allure.step("Delete attributes task completed work by list and completed work ID.")
+    def delete_attributes_task_completed_work_id_by_list(self, task_id: int, completed_work_id: int, *attribute_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_completed_work_by_id_from_task_endpoint(
+                task_id,
+                completed_work_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_attributes_task_completed_work_by_list_payload(*attribute_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.warning(f'Success delete attributes ID {attribute_ids} task completed work by list.')
+
+    @allure.step("Update attributes task completed work.")
+    def put_update_attributes_task_completed_work(self, task_id: int, completed_work_id: int, attribute_id: int):
+        value = f'Значение для доп. поля {randint(1, 99999)}'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_attributes_completed_work_by_task_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_attributes_task_completed_work_payload(
+                task_id,
+                completed_work_id,
+                attribute_id,
+                value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'No content')
+            return None
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttributesTaskCompletedWorksModel(results=response.json())
+        logger.info(f'Update attributes ID {attribute_id} task ID {task_id} '
+                    f'completed work by completed work ID {completed_work_id}.')
+        return model
+
+    @allure.step("Delete attributes task completed work by list.")
+    def delete_attributes_task_completed_work(self, task_id: int, completed_work_id: int, *attribute_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_completed_work_by_task_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_attributes_task_completed_work_payload(
+                task_id,
+                completed_work_id,
+                *attribute_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.warning(f'Success delete attributes ID {attribute_ids} task completed work by list.')
+
+    @allure.step("Delete attribute task completed work by attribute ID.")
+    def delete_attribute_task_completed_work_by_attribute_id(self, task_id: int, completed_work_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attribute_by_id_completed_work_by_id_from_task_endpoint(
+                task_id,
+                completed_work_id,
+                attribute_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.warning(f'Successfully delete attribute by ID {attribute_id} task completed work.')
+
+    @allure.step("Get list task completed work.")
+    def get_list_task_completed_work(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_completed_work_from_task_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a task completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListCompletedWorkResult(result=response.json())
+        logger.info(f'Successfully get list task ID {task_id} completed work.')
+        return model
+
+    @allure.step("Get task completed work by ID.")
+    def get_task_completed_work_id(self, task_id: int, completed_work_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_completed_work_by_id_from_task_endpoint(task_id, completed_work_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a task completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = CompletedWorkResult(**response.json())
+        logger.info(f'Successfully get task ID {task_id} completed work by ID {model.id}.')
+        return model
+
+    @allure.step("Get list attachments task completed work by complected work ID.")
+    def get_list_attachments_task_completed_work_id(self, task_id: int, completed_work_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attachments_from_completed_work_by_id_task_endpoint(task_id, completed_work_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a attachments task completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttachmentsTaskCompletedWorksModel(result=response.json())
+        logger.info(f'Successfully get list attachments ID {model.result[0].attachmentID} task ID {task_id} '
+                    f'completed work by ID {model.result[0].completedWorkID}.')
+        return model
+
+    @allure.step("Get list attachments task completed work.")
+    def get_list_attachments_task_completed_work(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attachments_from_completed_work_task_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a attachments task completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttachmentsTaskCompletedWorksModel(result=response.json())
+        logger.info(f'Successfully get list attachments ID {model.result[0].attachmentID} task ID {task_id} '
+                    f'completed work by ID {model.result[0].completedWorkID}.')
+        return model
+
+    @allure.step("Get attachment task completed work by attachment ID.")
+    def get_attachment_task_completed_work_by_attachment_id(
+            self,
+            task_id: int,
+            completed_work_id: int,
+            attachment_id: int
+    ):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_temporary_redirect_attachments_completed_work_by_id_task_endpoint(
+                task_id,
+                completed_work_id,
+                attachment_id
+            ),
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'The task with ID {task_id} does not have a attachments task completed work.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListAttachmentsTaskCompletedWorksModel(result=response.json())
+        logger.info(f'Successfully get list attachments ID {model.result[0].attachmentID} task ID {task_id} '
+                    f'completed work by ID {model.result[0].completedWorkID}.')
+        return model

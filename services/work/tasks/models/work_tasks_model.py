@@ -562,3 +562,86 @@ class UpdateTaskChecklistResultsModel(BaseModel):
 
 class SuccessUpdateTaskChecklistResultsModel(BaseModel):
     result: List[UpdateTaskChecklistResultsModel]
+
+
+class CompletedWorkAttributeResult(BaseModel):
+    taskID: int
+    completedWorkID: int
+    attribute: Optional[IdNameDeletedResult] = None
+    selectionMode: Optional[IdNameResult] = None
+    values: Optional[List[str]] = None
+    attributeType: Optional[AttributeTypeResult] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    domain: Optional[DomainResult] = None
+
+
+class SuccessGetListCompletedWorkAttributeResultModel(BaseModel):
+    result: List[CompletedWorkAttributeResult]
+
+
+class ListAttributesTaskCompletedWorksModel(BaseModel):
+    taskID: int
+    completedWorkID: int
+    attributeID: int
+
+
+class SuccessGetListAttributesTaskCompletedWorksModel(BaseModel):
+    results: List[ListAttributesTaskCompletedWorksModel]
+
+
+class WorkTypeResult(BaseModel):
+    id: int
+    name: Optional[str] = None
+    cost: Optional[float] = None
+    costCurrencyID: Optional[int] = None
+
+
+class HostAssetResult(BaseModel):
+    location: Optional[IdResult] = None
+    deleted: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class MaintainedAssetResult(BaseModel):
+    deleted: Optional[str] = None
+    parentID: Optional[int] = None
+    location: Optional[IdResult] = None
+    host: Optional[HostAssetResult] = None
+    company: Optional[IdNameDeletedResult] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class CompletedWorkResult(BaseModel):
+    id: int
+    workType: Optional[WorkTypeResult] = None
+    maintainedAsset: Optional[AssetResult] = None
+    started: Optional[str] = None
+    finished: Optional[str] = None
+    notes: Optional[str] = None
+    quantity: Optional[float] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+    created: Optional[str] = None
+
+
+class SuccessGetListCompletedWorkResult(BaseModel):
+    result: List[CompletedWorkResult]
+
+
+class AttachmentsTaskCompletedWorksModel(BaseModel):
+    attachmentID: int
+    completedWorkID: int
+    fileName: str
+    description: Optional[str] = None
+    isUploaded: Optional[bool] = None
+    publicUrl: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    isProtected: Optional[bool] = None
+    size: Optional[int] = None
+    created: Optional[datetime] = None
+
+
+class SuccessGetListAttachmentsTaskCompletedWorksModel(BaseModel):
+    result: List[AttachmentsTaskCompletedWorksModel]

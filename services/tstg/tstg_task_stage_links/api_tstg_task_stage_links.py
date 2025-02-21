@@ -109,6 +109,7 @@ class TstgTaskStageLinksAPI(Helper):
 
         # Используем последний валидный путь, если ни один путь не дошёл до конца
         if not paths and last_valid_path:
+            last_valid_path.append(finish_task_stage_id)
             paths.append(last_valid_path)
 
         if paths:
