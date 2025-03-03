@@ -249,14 +249,15 @@ class ScServiceContractAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, \
-            f'Status code {response.status_code}, {response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'NO CONTENT: status code 204.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessGetMassContractDictModel(root=response.json())
         logger.info(f'Successfully get list service contracts.')
         return model

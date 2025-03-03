@@ -2068,3 +2068,27 @@ class WorkTasksAPI(Helper):
         model = SuccessGetListConversationDeliveryResult(results=response.json())
         logger.info(f'Successfully get info conversation delivery by id {conversation_id} from task ID {task_id}.')
         return model
+
+    @allure.step("Update (PATH) Notes field in the task by id.")
+    def patch_update_field_notes_in_task_by_id(self, task_id: int):
+        field = {
+            "field": "Notes",
+            "value": f"Заметка-{randint(1, 999)}"
+        }
+        start = time.time()
+        response = requests.patch(
+            url=self.endpoints.patch_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=field
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.info(f'Successfully update (PATH) Notes field in the task ID {task_id}.')

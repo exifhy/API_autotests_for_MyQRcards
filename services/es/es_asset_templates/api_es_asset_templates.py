@@ -514,9 +514,12 @@ class EsAssetTemplatesAPI(Helper):
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info('NO CONTENT: status code 204')
+            return None
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}.'
-             f'Message:{data_response}')
+             f'Message: {data_response}')
         model = SuccessGetListAssetTemplatesModel(root=response.json())
         if asset_templates_ids is not None:
             for item in asset_templates_ids:
