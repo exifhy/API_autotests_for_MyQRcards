@@ -63,3 +63,22 @@ class AdmTenantMembersAPI(Helper):
         model = SuccessTenantMembersListResultModel(**response.json())
         logger.info(f'Successfully returns the API user in the current tenant.')
         return model
+
+    @allure.step("Get API user in the current tenant.")
+    def get_api_user_in_current_tenant(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_returns_api_user_in_current_tenant_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessTenantMembersListResultModel(**response.json())
+        logger.info(f'Successfully get API user in the current tenant.')
+        return model

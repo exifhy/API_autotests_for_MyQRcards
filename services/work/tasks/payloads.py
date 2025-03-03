@@ -149,3 +149,206 @@ class Payloads:
     @staticmethod
     def delete_attributes_task_completed_work_by_list_payload(*attribute_ids: int) -> list:
         return [*attribute_ids]
+
+    @staticmethod
+    def post_add_materials_to_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        material_id: int,
+        warehouse_id: int,
+        inventory_id: int,
+        measurement_unit_id: int,
+        qty: int,
+        user_id: int,
+        cost: int,
+        currency: int
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "materials": [
+                            {
+                                "materialID": material_id,
+                                "warehouseID": warehouse_id,
+                                "inventoryID": inventory_id,
+                                "measurementUnitID": measurement_unit_id,
+                                "quantity": qty,
+                                "consumedByUserID": user_id,
+                                "cost": cost,
+                                "costCurrencyID": currency
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def post_add_technicians_to_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        rate: int,
+        user_id: int,
+        currency: int
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "technicians": [
+                            {
+                                "userID": user_id,
+                                "rate": rate,
+                                "rateCurrencyID": currency
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_materials_task_completed_work_payload(
+        material_id: int,
+        wh_id: int,
+        inventory_id: int,
+    ) -> dict:
+        payload = {
+            "materialID": material_id,
+            "warehouseID": wh_id,
+            "inventoryID": inventory_id
+        }
+        return payload
+
+    @staticmethod
+    def put_update_materials_to_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        material_id: int,
+        warehouse_id: int,
+        inventory_id: int,
+        measurement_unit_id: int,
+        qty: int,
+        user_id: int,
+        cost: int,
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "materials": [
+                            {
+                                "materialID": material_id,
+                                "warehouseID": warehouse_id,
+                                "inventoryID": inventory_id,
+                                "measurementUnitID": measurement_unit_id,
+                                "quantity": qty,
+                                "consumedByUserID": user_id,
+                                "cost": cost,
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_materials_from_task_completed_works_payload(
+        task_id: int,
+        completed_work_id: int,
+        material_id: int,
+        warehouse_id: int,
+        inventory_id: int,
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "materials": [
+                            {
+                                "materialID": material_id,
+                                "warehouseID": warehouse_id,
+                                "inventoryID": inventory_id,
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def post_add_uploaded_signature_to_report_task_completed_works_v2_payload(
+        job_title: str,
+        signatory: str
+    ) -> dict:
+        payload = {
+            "jobTitle": job_title,
+            "signatory": signatory
+
+        }
+        return payload
+
+    @staticmethod
+    def delete_technicians_task_completed_works_by_list_payload(*technicians_ids: int) -> list:
+        return [*technicians_ids]
+
+    @staticmethod
+    def put_update_technician_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        rate: int,
+        user_id: int,
+        currency: int
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "technicians": [
+                            {
+                                "userID": user_id,
+                                "rate": rate,
+                                "rateCurrencyID": currency
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_technician_from_task_completed_work_payload(
+        task_id: int,
+        completed_work_id: int,
+        *user_ids: int,
+    ) -> list:
+        payload = [
+            {
+                "taskID": task_id,
+                "data": [
+                    {
+                        "completedWorkID": completed_work_id,
+                        "technicians": [
+                                *user_ids
+                        ]
+                    }
+                ]
+            }
+        ]
+        return payload

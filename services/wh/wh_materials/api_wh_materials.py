@@ -94,7 +94,7 @@ class WhMaterialsAPI(Helper):
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        model = MaterialModel(**response.json())
         assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+        model = MaterialModel(**response.json())
         logger.warning(f'Successfully get material with Id: {materials_id}.')
         return model

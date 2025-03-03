@@ -48,17 +48,15 @@ class TestWorkTaskContacts(BaseTest):
             work_type_id=work_type_id,
             company_id=company_id
         )
-        try:
-            self.api_work_task_contacts.post_add_contacts_to_task(
-                model_task.id,
-                contact_id.contact[0]
-            )
-        finally:
-            self.api_work_tasks.delete_task_by_id(model_task.id)
-            self.api_common_contacts.delete_contact_by_id(contact_id.contact[0])
-            self.api_es_assets.delete_object_by_id(object_model.id)
-            self.api_es_companies.delete_company_by_id(company_id)
-            self.api_es_locations.delete_location_by_id(location_id)
+        self.api_work_task_contacts.post_add_contacts_to_task(
+            model_task.id,
+            contact_id.contact[0]
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_contacts.delete_contact_by_id(contact_id.contact[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test delete contact persons to the task.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24391")

@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 from config.base_test import BaseTest
@@ -1856,6 +1858,1756 @@ class TestWorkTasks(BaseTest):
         )
         self.api_work_tasks.get_list_attachments_task_completed_work(
             model_task.id,
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test download attachment from task completed work by ID. No redirect.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24926")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24926)
+    def test_get_download_attachment_from_task_completed_work_by_id_no_redirect(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        attachment_id = self.api_work_completed_work_attachments.post_upload_and_bind_to_completed_work_data_from_form(
+            model_task.id,
+            model_completed_work.result[0].id
+        )
+        self.api_work_tasks.get_download_attachment_from_task_completed_work_by_id_no_redirect(
+            model_task.id,
+            model_completed_work.result[0].id,
+            attachment_id.attachmentID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test download attachment from task completed work by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24927")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24927)
+    def test_get_download_attachment_from_task_completed_work_by_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        attachment_id = self.api_work_completed_work_attachments.post_upload_and_bind_to_completed_work_data_from_form(
+            model_task.id,
+            model_completed_work.result[0].id
+        )
+        self.api_work_tasks.get_download_attachment_from_task_completed_work_by_id(
+            model_task.id,
+            model_completed_work.result[0].id,
+            attachment_id.attachmentID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test add technicians to task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24936")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24936)
+    def test_post_add_technicians_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test add materials to task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24948")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24948)
+    def test_post_add_materials_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test update materials to task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24961")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24961)
+    def test_put_update_materials_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.put_update_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list materials task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24951")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24951)
+    def test_get_list_materials_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.get_list_materials_task_completed_work(model_task.id, model_completed_work.result[0].id)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete materials task completed work by completed work Id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24953")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24953)
+    def test_delete_materials_task_completed_work_by_completed_work_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.delete_materials_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            materials_data.id,
+            wh_data.id,
+            model_inventory_id.result[0].id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete materials task completed works.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24965")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24965)
+    def test_delete_materials_task_completed_works(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.delete_materials_task_completed_works(
+            model_task.id,
+            model_completed_work.result[0].id,
+            materials_data.id,
+            wh_data.id,
+            model_inventory_id.result[0].id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test upload file to server and bind to report task completed work, data from form.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24969")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24969)
+    def test_post_upload_attachment_to_server_bind_report_task_completed_work_data_from_form(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        time.sleep(2)
+        attach_id = self.api_work_tasks.post_upload_attachment_to_server_bind_report_task_completed_work_data_from_form(
+            task_id=model_task.id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(attach_id.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test upload file to server and bind to report task completed work, data from body.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24980")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24980)
+    def test_post_upload_attachment_to_server_bind_report_task_completed_work_data_from_body(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        time.sleep(2)
+        attach_id = self.api_work_tasks.post_upload_signature_to_report_task_completed_works_data_from_body(
+            task_id=model_task.id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(attach_id.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get signature from report task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24972")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24972)
+    def test_get_signature_report_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        time.sleep(2)
+        attach_id = self.api_work_tasks.post_upload_attachment_to_server_bind_report_task_completed_work_data_from_form(
+            task_id=model_task.id
+        )
+        self.api_work_tasks.get_signature_report_task_completed_work(model_task.id)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(attach_id.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete signature report task completed works.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24971")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24971)
+    def test_delete_signature_report_task_completed_works(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        time.sleep(2)
+        attach_id = self.api_work_tasks.post_upload_attachment_to_server_bind_report_task_completed_work_data_from_form(
+            task_id=model_task.id
+        )
+        self.api_work_tasks.delete_signature_report_task_completed_works(
+            task_id=model_task.id,
+            attachment_id=attach_id.attachmentID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(attach_id.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test add uploaded signature to report task completed works V2.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24979")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24979)
+    def test_post_add_uploaded_signature_to_report_task_completed_works_v2(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        model_attach = self.api_common_attachments.post_upload_attachments_to_server_data_from_form()
+        self.api_work_tasks.post_add_uploaded_signature_to_report_task_completed_works_v2(
+            model_task.id,
+            model_attach.attachmentID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(model_attach.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test add uploaded signature to report task completed works.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24975")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24975)
+    def test_post_add_uploaded_signature_to_report_task_completed_works(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        model_attach = self.api_common_attachments.post_upload_attachments_to_server_data_from_form()
+        self.api_work_tasks.post_add_uploaded_signature_to_report_task_completed_works(
+            model_task.id,
+            model_attach.attachmentID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(model_attach.attachmentID)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list technicians from task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24982")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24982)
+    def test_get_list_technicians_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.get_list_technicians_task_completed_work(model_task.id)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list technicians from task completed work by completed work ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24983")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24983)
+    def test_get_list_technicians_task_completed_work_completed_work_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.get_list_technicians_task_completed_work_completed_work_id(
+            model_task.id,
+            model_completed_work.result[0].id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete technicians task completed works by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24985")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24985)
+    def test_delete_technicians_task_completed_works_by_list(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        model_technicians = self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.delete_technicians_task_completed_works_by_list(
+            model_technicians.results[0].taskID,
+            model_technicians.results[0].completedWorkID,
+            model_technicians.results[0].userID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list materials all task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24955")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24955)
+    def test_get_list_materials_all_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        model_materials = self.api_wh_materials.post_add_materials()
+        wh_data = self.api_wh_warehouses.get_warehouses_by_id(model_wh[0].result[0])
+        materials_data = self.api_wh_materials.get_material_by_id(model_materials.result[0])
+        model_inventory_id = self.api_wh_inventories.post_add_inventories(
+            materials_data.erpID,
+            materials_data.name,
+            wh_data.erpID,
+            wh_data.name,
+        )
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_materials_task_completed_work(
+            task_id=model_task.id,
+            completed_work_id=model_completed_work.result[0].id,
+            material_id=materials_data.id,
+            warehouse_id=wh_data.id,
+            inventory_id=model_inventory_id.result[0].id,
+            measurement_unit_id=materials_data.measurementUnitID,
+            user_id=model_api_user.id
+        )
+        self.api_work_tasks.get_list_materials_all_task_completed_work(model_task.id)
+        self.api_work_tasks.delete_materials_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            materials_data.id,
+            wh_data.id,
+            model_inventory_id.result[0].id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_wh_materials.delete_materials_by_list(materials_data.id)
+        self.api_wh_warehouses.delete_warehouses_by_list(wh_data.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test update technician task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24987")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24987)
+    def test_put_update_technician_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.put_update_technician_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete technicians task completed work.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24988")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24988)
+    def test_delete_technicians_task_completed_work(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_completed_work = self.api_work_completed_works.post_add_completed_works(
+            task_id=model_task.id,
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_work_tasks.post_add_technicians_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.delete_technicians_from_task_completed_work(
+            model_task.id,
+            model_completed_work.result[0].id,
+            model_user.userID
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list contacts from task.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24989")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24989)
+    def test_get_list_contacts_from_task(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        contact_id = self.api_common_contacts.post_add_contacts()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        self.api_work_task_contacts.post_add_contacts_to_task(model_task.id, contact_id.contact[0])
+        self.api_work_tasks.get_list_contacts_from_task(model_task.id)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_contacts.delete_contact_by_id(contact_id.contact[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get contact from task by id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24990")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24990)
+    def test_get_contact_from_task_by_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        contact_id = self.api_common_contacts.post_add_contacts()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        self.api_work_task_contacts.post_add_contacts_to_task(model_task.id, contact_id.contact[0])
+        self.api_work_tasks.get_contact_from_task_by_id(model_task.id, contact_id.contact[0])
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_contacts.delete_contact_by_id(contact_id.contact[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test delete contact from task by contact id.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24994")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24994)
+    def test_delete_contact_from_task_by_contact_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        contact_id = self.api_common_contacts.post_add_contacts()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        self.api_work_task_contacts.post_add_contacts_to_task(model_task.id, contact_id.contact[0])
+        self.api_work_tasks.delete_contact_from_task_by_contact_id(model_task.id, contact_id.contact[0])
+        model_contact = self.api_work_tasks.get_contact_from_task_by_id(model_task.id, contact_id.contact[0])
+        assert hasattr(model_contact, 'deleted'), \
+            f'Contact with ID {contact_id.contact[0]} not deleted from task ID {model_task.id}'
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_contacts.delete_contact_by_id(contact_id.contact[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get list conversations from task.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24998")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(24998)
+    def test_get_list_conversations_from_task(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_conversation = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        model_conversation_get = self.api_work_tasks.get_conversations_from_task(model_task.id)
+        assert model_conversation.result[0].id == model_conversation_get.results[0].id, \
+            (f'Expected conversation ID {model_conversation.result[0].id}, '
+             f'but got {model_conversation_get.results[0].id}')
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get head conversations from task.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_head_conversations_from_task(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_conversation = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        model_conversation_2 = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        model_conversation_3 = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        model_conversation_get = self.api_work_tasks.get_conversations_from_task(model_task.id)
+        assert model_conversation.result[0].id == model_conversation_get.results[0].id, \
+            (f'Expected conversation ID {model_conversation.result[0].id}, '
+             f'but got {model_conversation_get.results[0].id}')
+        assert model_conversation_2.result[0].id == model_conversation_get.results[1].id, \
+            (f'Expected conversation ID {model_conversation_2.result[0].id}, '
+             f'but got {model_conversation_get.results[1].id}')
+        assert model_conversation_3.result[0].id == model_conversation_get.results[2].id, \
+            (f'Expected conversation ID {model_conversation_3.result[0].id}, '
+             f'but got {model_conversation_get.results[2].id}')
+        head_conversations_qty = self.api_work_tasks.head_conversations_from_task(model_task.id)
+        assert len(model_conversation_get.results) == head_conversations_qty, \
+            f'The list of conversation headers does not match the actual value'
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get conversation by ID from task.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_conversation_from_task_by_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_conversation = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        model_conversation_get = self.api_work_tasks.get_conversation_from_task_by_id(
+            model_task.id,
+            model_conversation.result[0].id
+        )
+        assert model_conversation.result[0].id == model_conversation_get.id, \
+            (f'Expected conversation ID {model_conversation.result[0].id}, '
+             f'but got {model_conversation_get.id}')
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test upload file to server and bind to conversation task, data from form.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_post_upload_attachment_to_server_bind_conversation_task_data_from_form(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_attach = self.api_work_tasks.post_upload_attachment_to_server_bind_conversation_task_data_from_form(
+            model_task.id
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(model_attach.attachments[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test download attachment from conversation task by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_download_attachment_from_conversation_task_by_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_attach = self.api_work_tasks.post_upload_attachment_to_server_bind_conversation_task_data_from_form(
+            model_task.id
+        )
+        self.api_work_tasks.get_download_attachment_from_conversation_task_by_id(
+            model_task.id,
+            model_attach.taskconversationID,
+            model_attach.attachments[0]
+        )
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_common_attachments.delete_attachment_by_id(model_attach.attachments[0])
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(created_location_id)
+
+    @allure.title('Test get info conversation delivery from task by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_info_conversation_delivery_from_task_by_id(self):
+        created_location_id = self.api_es_locations.post_add_location()
+        company_id = self.api_es_companies.post_add_our_company()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=created_location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+        object_model = self.api_es_assets.post_add_object(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assetlocations.add_location_to_object(
+            asset_id=object_model.id,
+            location_id=created_location_id
+        )
+        self.api_es_asset_work_types.post_add_work_type_to_asset(
+            asset_id=object_model.id,
+            work_type_id=work_type_id
+        )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_task(
+            criticality_id=criticality_id,
+            task_type_id=task_type_id[0],
+            asset_id=object_model.id,
+            work_type_id=work_type_id,
+            company_id=company_id
+        )
+        model_conversation = self.api_work_tasks.post_add_conversation_to_task(
+            model_task.id,
+            False
+        )
+        self.api_work_tasks.get_info_conversation_delivery_from_task_by_id(
+            model_task.id,
+            model_conversation.result[0].id
         )
         self.api_work_tasks.delete_task_by_id(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)

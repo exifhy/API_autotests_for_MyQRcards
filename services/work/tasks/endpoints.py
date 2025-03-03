@@ -201,6 +201,10 @@ class Endpoints:
         return f'{HOST}/WORK/tasks/{task_id}/completedWorks/report/attachment/{attachment_id}'
 
     @staticmethod
+    def post_add_attachment_by_id_report_completed_work_task_v2_endpoint(task_id: int, attachment_id: int) -> str:
+        return f'{HOST}/WORK/tasks/{task_id}/completedWorks/report/attachment/v2/{attachment_id}'
+
+    @staticmethod
     def delete_attachment_by_id_report_completed_work_task_endpoint(task_id: int, attachment_id: int) -> str:
         return f'{HOST}/WORK/tasks/{task_id}/completedWorks/report/attachment/{attachment_id}'
 

@@ -368,6 +368,10 @@ class TaskMessageModel(BaseModel):
     read: Optional[TaskConversationReadResult] = None
 
 
+class SuccessGetListTaskMessageModel(BaseModel):
+    results: List[TaskMessageModel]
+
+
 class PeriodResult(BaseModel):
     from_: Optional[datetime] = Field(None, alias="from")
     till: Optional[str] = None
@@ -645,3 +649,144 @@ class AttachmentsTaskCompletedWorksModel(BaseModel):
 
 class SuccessGetListAttachmentsTaskCompletedWorksModel(BaseModel):
     result: List[AttachmentsTaskCompletedWorksModel]
+
+
+class MaterialsTaskComplectedWorkModel(BaseModel):
+    taskID: int
+    completedWorkID: int
+    materialID: int
+    warehouseID: int
+    inventoryID: int
+
+
+class SuccessAddMaterialsTaskComplectedWork(BaseModel):
+    results: List[MaterialsTaskComplectedWorkModel]
+
+
+class TechniciansTaskComplectedWorkModel(BaseModel):
+    taskID: int
+    completedWorkID: int
+    userID: int
+
+
+class SuccessAddTechniciansTaskComplectedWorkModel(BaseModel):
+    results: List[TechniciansTaskComplectedWorkModel]
+
+
+class IdNameErpIDResult(BaseModel):
+    erpID: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class TakenByUserResult(BaseModel):
+    id: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class MaterialResult(BaseModel):
+    inventoryID: Optional[int] = None
+    materialID: Optional[int] = None
+    materialName: Optional[str] = None
+    materialErpID: Optional[str] = None
+    materialDeleted: Optional[datetime] = None
+    warehouse: Optional[IdNameErpIDResult] = None
+    measurementUnit: Optional[IdNameResult] = None
+    quantity: Optional[float] = None
+    consumed: Optional[datetime] = None
+    takenByUser: Optional[TakenByUserResult] = None
+    cost: Optional[float] = None
+    costCurrencyID: Optional[int] = None
+    sortOrder: Optional[int] = None
+
+
+class SuccessGetListCompletedWorkMaterialResultModel(BaseModel):
+    taskID: Optional[int] = None
+    completedWorkID: Optional[int] = None
+    materials: Optional[List[MaterialResult]] = None
+
+
+class SuccessGetListRootCompletedWorkMaterialResultModel(RootModel):
+    root: Dict[str, SuccessGetListCompletedWorkMaterialResultModel]
+
+
+class SuccessUploadAttachToReportTaskCompletedWorkModel(BaseModel):
+    taskID: int
+    attachmentID: int
+    md5Hash: str
+    fileName: str
+    isProtected: bool
+
+
+class SignatureReportAttachmentModel(BaseModel):
+    tenantID: Optional[int] = None
+    attachmentID: Optional[int] = None
+    taskID: Optional[int] = None
+    fileName: Optional[str] = None
+    internalFileName: Optional[str] = None
+    contentType: Optional[str] = None
+    storageLogin: Optional[str] = None
+    securityKey: Optional[str] = None
+    size: Optional[int] = None
+    created: Optional[datetime] = None
+    storageContainer: Optional[str] = None
+    isProtected: Optional[bool] = None
+
+
+class TechnicianResult(BaseModel):
+    userID: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    rate: Optional[float] = None
+    rateCurrencyID: Optional[int] = None
+
+
+class CompletedWorkTechnicianResult(BaseModel):
+    taskID: int
+    completedWorkID: int
+    technicians: List[TechnicianResult]
+
+
+class SuccessGetListCompletedWorkTechnicianResult(RootModel):
+    root: Dict[str, CompletedWorkTechnicianResult]
+
+
+class TaskContactsListResultModel(BaseModel):
+    fullName: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    position: Optional[str] = None
+    deleted: Optional[datetime] = None
+    description: Optional[str] = None
+    archived: Optional[datetime] = None
+    taskID: Optional[int] = None
+    contactID: Optional[int] = None
+
+
+class SuccessGetTaskContactsListResultModel(RootModel):
+    root: Dict[str, TaskContactsListResultModel]
+
+
+class SuccessUploadAttachmentsToServerTaskConversationDataFromFormModel(BaseModel):
+    taskID: Optional[int] = None
+    taskconversationID: int
+    attachments: List[int]
+    md5Hash: Optional[str] = None
+    fileName: Optional[str] = None
+    isProtected: Optional[bool] = None
+
+
+class ConversationDeliveryResult(BaseModel):
+    recipient: Optional[UserResult] = None
+    delivered: Optional[datetime] = None
+    read: Optional[datetime] = None
+
+
+class SuccessGetListConversationDeliveryResult(BaseModel):
+    results: List[ConversationDeliveryResult]
