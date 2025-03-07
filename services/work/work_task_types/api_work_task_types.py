@@ -25,7 +25,7 @@ class WorkTaskTypesAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Get list task types and returns ID the first existing.")
+    @allure.step("Get list task types and returns ID the first existing, check company code.")
     def get_list_task_types_return_first_id(self):
         start = time.time()
         response = requests.get(
@@ -45,7 +45,10 @@ class WorkTaskTypesAPI(Helper):
         for key, value in model.root.items():
             logger.info(f'Successfully get list task types.')
             logger.info(f'Task type ID: {key}, name: {value.name}')
-            return key, value.name
+            if "{Company.Code}" in value.numberMask:
+                return key, value.name, True
+            else:
+                return key, value.name, False
 
     @allure.step("Get list task types.")
     def get_list_task_types(self):

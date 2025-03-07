@@ -9,7 +9,7 @@ class TestWorkTaskMaterials(BaseTest):
 
     @allure.title('Test add task materials.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24461")
-    @pytest.mark.skip(reason="Тест на создание материалов заявки проходит в - ")
+    @pytest.mark.skip(reason="Тест на создание материалов заявки проходит в - test_delete_task_materials")
     @pytest.mark.regress
     @pytest.mark.test_case_id(24461)
     def test_post_add_task_materials(self):

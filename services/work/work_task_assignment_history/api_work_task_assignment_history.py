@@ -57,5 +57,6 @@ class WorkTaskAssignmentHistoryAPI(Helper):
         model = SuccessAddTaskAssignmentHistoryModel(history=response.json())
         assert model.history[0].taskID == task_id, f'Expected {task_id}, but got {model.history[0].taskID}'
         assert model.history[0].assignments[0].userID == user_id, f'Expected {user_id}, but got {model.history[0].assignments[0].userID}'
-        logger.info(f'Successfully add new task to a user.')
+        logger.info(f'Successfully add new task ID {model.history[0].taskID} '
+                    f'to a user ID {model.history[0].assignments[0].userID}.')
         return model

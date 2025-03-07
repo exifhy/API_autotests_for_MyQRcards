@@ -50,17 +50,16 @@ class TestWorkTaskStagingHistory(BaseTest):
             user_id=model_user.userID,
             task_id=model_task.id
         )
-        try:
-            model_route = self.api_work_task_types.get_route_task_type(task_type_id=task_type_id[0])
-            self.api_tstg_task_stage_links.get_list_task_stage_path_switch_from_start_to_finish(
-                task_type_id=task_type_id[0],
-                start_task_stage_id=model_route.startTaskStage.id,
-                finish_task_stage_id=model_route.finishTaskStage.id,
-                task_id=model_task.id
-            )
-        finally:
-            self.api_work_tasks.delete_task_by_id(model_task.id)
-            self.api_adm_users.delete_user_by_id(model_user.userID)
-            self.api_es_assets.delete_object_by_id(model_asset.id)
-            self.api_es_companies.delete_company_by_id(company_id)
-            self.api_es_locations.delete_location_by_id(location_id)
+        model_route = self.api_work_task_types.get_route_task_type(task_type_id=task_type_id[0])
+        self.api_tstg_task_stage_links.get_list_task_stage_path_switch_from_start_to_finish(
+            task_type_id=task_type_id[0],
+            start_task_stage_id=model_route.startTaskStage.id,
+            finish_task_stage_id=model_route.finishTaskStage.id,
+            task_id=model_task.id
+        )
+        self.api_work_tasks.put_task_completed(model_task.id, bearer_token)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_es_assets.delete_object_by_id(model_asset.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)

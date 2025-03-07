@@ -1,90 +1,94 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field, RootModel, ConfigDict
 from datetime import datetime
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    
+    
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddTasksModel(BaseModel):
+class SuccessAddTasksModel(StrictBaseModel):
     id: int
     number: str
 
 
-class ResultDeleteModel(BaseModel):
-    tenantID: Optional[int] = None
-    taskID: Optional[int] = None
+class ResultDeleteModel(StrictBaseModel):
+    tenantID: int
+    taskID: int
     error: Optional[str] = None
 
 
-class SuccessDeleteTaskModel(BaseModel):
-    list: Optional[List[ResultDeleteModel]] = None
+class SuccessDeleteTaskModel(StrictBaseModel):
+    list: List[ResultDeleteModel]
 
 
-class IdResult(BaseModel):
+class IdResult(StrictBaseModel):
     id: Optional[int] = None
 
 
-class TimeZoneResult(BaseModel):
+class TimeZoneResult(StrictBaseModel):
     utcOffsetMinutes: Optional[int] = None
     id: Optional[int] = None
     name: Optional[str] = None
 
 
-class CountryResult(BaseModel):
+class CountryResult(StrictBaseModel):
     id: Optional[int] = None
     twoSymbolCode: Optional[str] = None
     name: Optional[str] = None
 
 
-class IdNameResult(BaseModel):
+class IdNameResult(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TaskWorkTypeListResult(BaseModel):
+class TaskWorkTypeListResult(StrictBaseModel):
     normalWorkingHours: Optional[int] = None
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class IdNameDeletedResult(BaseModel):
+class IdNameDeletedResult(StrictBaseModel):
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TaskActualCriticalityResult(BaseModel):
+class TaskActualCriticalityResult(StrictBaseModel):
     color: Optional[str] = None
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TaskStatusResult(BaseModel):
+class TaskStatusResult(StrictBaseModel):
     color: Optional[str] = None
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class ScheduledAppointmentResult(BaseModel):
+class ScheduledAppointmentResult(StrictBaseModel):
     notes: Optional[str] = None
     isContinuedOnTheNextDay: Optional[bool] = None
     from_: Optional[datetime] = Field(None, alias="from")
     till: Optional[datetime] = None
 
 
-class UserResult(BaseModel):
+class UserResult(StrictBaseModel):
     tenantMemberID: Optional[int] = None
     coordinate: Optional[str] = None
     email: Optional[str] = None
@@ -108,7 +112,7 @@ class UserResult(BaseModel):
     deleted: Optional[datetime] = None
 
 
-class AssetResult(BaseModel):
+class AssetResult(StrictBaseModel):
     deleted: Optional[datetime] = None
     parentID: Optional[int] = None
     location: Optional[IdResult] = None
@@ -116,7 +120,7 @@ class AssetResult(BaseModel):
     id: Optional[int] = None
 
 
-class LocationResult(BaseModel):
+class LocationResult(StrictBaseModel):
     timeZone: Optional[TimeZoneResult] = None
     country: Optional[CountryResult] = None
     deleted: Optional[datetime] = None
@@ -126,7 +130,7 @@ class LocationResult(BaseModel):
     id: Optional[int] = None
 
 
-class TimesheetResult(BaseModel):
+class TimesheetResult(StrictBaseModel):
     created: Optional[datetime] = None
     requested: Optional[datetime] = None
     statusChanged: Optional[datetime] = None
@@ -145,13 +149,30 @@ class TimesheetResult(BaseModel):
     nextTaskStageMovement: Optional[datetime] = None
 
 
-class IdNameColorResult(BaseModel):
+class HostAssetResult(StrictBaseModel):
+    location: Optional[IdResult] = None
+    deleted: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class TaskAssetResult(StrictBaseModel):
+    deleted: Optional[datetime] = None
+    parentID: Optional[int] = None
+    location: Optional[IdResult] = None
+    host: Optional[HostAssetResult] = None
+    company: Optional[IdNameDeletedResult] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class IdNameColorResult(StrictBaseModel):
     color: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TaskListResult(BaseModel):
+class TaskListResult(StrictBaseModel):
     isAvailable: Optional[bool] = None
     isRated: Optional[bool] = None
     sortOrder: Optional[int] = None
@@ -174,7 +195,7 @@ class TaskListResult(BaseModel):
     approvalWith: Optional[UserResult] = None
     escalatedTo: Optional[UserResult] = None
     company: Optional[IdNameDeletedResult] = None
-    asset: Optional[AssetResult] = None
+    asset: Optional[TaskAssetResult] = None
     location: Optional[LocationResult] = None
     timesheet: Optional[TimesheetResult] = None
     isFavourite: Optional[bool] = None
@@ -187,16 +208,16 @@ class TaskListResult(BaseModel):
 
 
 class SuccessTaskListResultModel(RootModel):
-    root: Optional[Dict[str, TaskListResult]] = None
+    root: Dict[str, TaskListResult]
 
 
-class CurrencyResult(BaseModel):
+class CurrencyResult(StrictBaseModel):
     id: Optional[int] = None
     shortName: Optional[str] = None
     asciiCode: Optional[str] = None
 
 
-class ContractResult(BaseModel):
+class ContractResult(StrictBaseModel):
     id: Optional[int] = None
     number: Optional[str] = None
     date: Optional[str] = None
@@ -205,54 +226,54 @@ class ContractResult(BaseModel):
     name: Optional[str] = None
 
 
-class CompanyResult(BaseModel):
+class CompanyResult(StrictBaseModel):
     code: Optional[str] = None
     deleted: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class CounterResult(BaseModel):
+class CounterResult(StrictBaseModel):
     checkListsCount: Optional[int] = None
     completedWorksCount: Optional[int] = None
 
 
-class TaskWorkTypeGetResult(BaseModel):
+class TaskWorkTypeGetResult(StrictBaseModel):
     normalWorkingHours: Optional[int] = None
     deleted: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class FlagsResult(BaseModel):
+class FlagsResult(StrictBaseModel):
     isAllowMergeRating: Optional[bool] = None
 
 
-class AttributeResult(BaseModel):
+class AttributeResult(StrictBaseModel):
     attribute: Optional[IdNameDeletedResult] = None
     value: Optional[str] = None
 
 
-class AttributeTypeResult(BaseModel):
+class AttributeTypeResult(StrictBaseModel):
     code: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class MeasurementUnitResult(BaseModel):
+class MeasurementUnitResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     abbreviation: Optional[str] = None
     designation: Optional[str] = None
 
 
-class DomainResult(BaseModel):
+class DomainResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
 
-class SuccessDetailedInfoModel(BaseModel):
+class SuccessDetailedInfoModel(StrictBaseModel):
     erpID: Optional[str] = None
     branch: Optional[IdNameResult] = None
     requestMethod: Optional[IdNameResult] = None
@@ -283,7 +304,7 @@ class SuccessDetailedInfoModel(BaseModel):
     contactPhone: Optional[str] = None
     contactEmail: Optional[str] = None
     serviceLevelAgreement: Optional[IdNameDeletedResult] = None
-    actualCriticality: Optional[IdNameDeletedResult] = None
+    actualCriticality: Optional[TaskActualCriticalityResult] = None
     taskStatus: Optional[IdNameDeletedResult] = None
     taskActuality: Optional[IdNameResult] = None
     taskType: Optional[IdNameDeletedResult] = None
@@ -292,7 +313,8 @@ class SuccessDetailedInfoModel(BaseModel):
     listAssignedTo: Optional[List[UserResult]] = None
     approvalWith: Optional[UserResult] = None
     escalatedTo: Optional[UserResult] = None
-    asset: Optional[LocationResult] = None
+    asset: Optional[TaskAssetResult] = None
+    location: Optional[LocationResult] = None
     timesheet: Optional[TimesheetResult] = None
     isFavourite: Optional[bool] = None
     deleted: Optional[str] = None
@@ -302,13 +324,13 @@ class SuccessDetailedInfoModel(BaseModel):
     childCount: Optional[int] = None
 
 
-class TaskStageRequirementResult(BaseModel):
+class TaskStageRequirementResult(StrictBaseModel):
     code: Optional[str] = None
     name: Optional[str] = None
     arguments: Optional[str] = None
 
 
-class ListStagesResult(BaseModel):
+class ListStagesResult(StrictBaseModel):
     name: Optional[str] = None
     verbName: Optional[str] = None
     taskViewTemplateID: Optional[int] = None
@@ -328,36 +350,36 @@ class SuccessGetListStagesModel(RootModel):
     root: Dict[str, ListStagesResult]
 
 
-class ConversationTaskModel(BaseModel):
+class ConversationTaskModel(StrictBaseModel):
     taskID: int
     id: int
 
 
-class SuccessListConversationTaskModel(BaseModel):
+class SuccessListConversationTaskModel(StrictBaseModel):
     result: List[ConversationTaskModel]
 
 
-class AttachmentBaseResult(BaseModel):
+class AttachmentBaseResult(StrictBaseModel):
     id: Optional[int] = None
     fileName: Optional[str] = None
     publicUrl: Optional[str] = None
     thumbnailUrl: Optional[str] = None
 
 
-class TaskConversationDeliveryResult(BaseModel):
+class TaskConversationDeliveryResult(StrictBaseModel):
     toAnyone: Optional[bool] = None
     toAll: Optional[bool] = None
     toCurrentUser: Optional[datetime] = None
 
 
-class TaskConversationReadResult(BaseModel):
+class TaskConversationReadResult(StrictBaseModel):
     byAnyone: Optional[bool] = None
     byAll: Optional[bool] = None
     byCurrentUser: Optional[datetime] = None
     isReadExpected: Optional[bool] = None
 
 
-class TaskMessageModel(BaseModel):
+class TaskMessageModel(StrictBaseModel):
     id: Optional[int] = None
     created: Optional[datetime] = None
     message: Optional[str] = None
@@ -368,16 +390,16 @@ class TaskMessageModel(BaseModel):
     read: Optional[TaskConversationReadResult] = None
 
 
-class SuccessGetListTaskMessageModel(BaseModel):
+class SuccessGetListTaskMessageModel(StrictBaseModel):
     results: List[TaskMessageModel]
 
 
-class PeriodResult(BaseModel):
+class PeriodResult(StrictBaseModel):
     from_: Optional[datetime] = Field(None, alias="from")
     till: Optional[str] = None
 
 
-class AssignmentHistoryResultModel(BaseModel):
+class AssignmentHistoryResultModel(StrictBaseModel):
     sortOrder: Optional[int] = None
     assigned: Optional[str] = None
     assignedTo: Optional[UserResult] = None
@@ -385,11 +407,11 @@ class AssignmentHistoryResultModel(BaseModel):
     scheduled: Optional[PeriodResult] = None
 
 
-class SuccessGetListAssignmentHistoryResultModel(BaseModel):
+class SuccessGetListAssignmentHistoryResultModel(StrictBaseModel):
     result: List[AssignmentHistoryResultModel]
 
 
-class AttachmentResultModel(BaseModel):
+class AttachmentResultModel(StrictBaseModel):
     fileName: Optional[str] = None
     description: Optional[str] = None
     isUploaded: Optional[bool] = None
@@ -400,7 +422,7 @@ class AttachmentResultModel(BaseModel):
     created: Optional[str] = None
 
 
-class AttachmentResultByIdModel(BaseModel):
+class AttachmentResultByIdModel(StrictBaseModel):
     attachmentID: int
     fileName: str
     description: Optional[str] = None
@@ -420,14 +442,14 @@ class SuccessGetAttributeAttachmentResultModel(RootModel):
     root: Dict[str, List[AttachmentResultByIdModel]]
 
 
-class SuccessGetAttachmentLinkNoRedirectModel(BaseModel):
+class SuccessGetAttachmentLinkNoRedirectModel(StrictBaseModel):
     fileName: str
     url: str
     size: int
     created: datetime
 
 
-class AttributeResultModel(BaseModel):
+class AttributeResultModel(StrictBaseModel):
     attribute: Optional[IdNameDeletedResult] = None
     value: Optional[str] = None
     attributeType: Optional[AttributeTypeResult] = None
@@ -436,26 +458,26 @@ class AttributeResultModel(BaseModel):
     domain: Optional[DomainResult] = None
 
 
-class SuccessGetListAttributeResultModel(BaseModel):
+class SuccessGetListAttributeResultModel(StrictBaseModel):
     result: List[AttributeResultModel]
 
 
-class ChangeTypeResult(BaseModel):
+class ChangeTypeResult(StrictBaseModel):
     tab: IdNameResult
     sections: List[IdNameResult]
 
 
-class SuccessGetListTaskChangeTypeResultModel(BaseModel):
+class SuccessGetListTaskChangeTypeResultModel(StrictBaseModel):
     result: List[ChangeTypeResult]
 
 
-class Initiator(BaseModel):
+class Initiator(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     avatarUrl: Optional[str] = None
 
 
-class HistoryResult(BaseModel):
+class HistoryResult(StrictBaseModel):
     sortOrder: Optional[int] = None
     uid: Optional[str] = None
     occured: Optional[str] = None
@@ -471,17 +493,17 @@ class HistoryResult(BaseModel):
     diff: Optional[dict] = None
 
 
-class SuccessGetListTaskChangesResultModel(BaseModel):
+class SuccessGetListTaskChangesResultModel(StrictBaseModel):
     result: Optional[List[HistoryResult]] = None
 
 
-class IdNameChecklistResult(BaseModel):
+class IdNameChecklistResult(StrictBaseModel):
     description: Optional[str] = None
     name: str
     id: int
 
 
-class TaskCheckListResult(BaseModel):
+class TaskCheckListResult(StrictBaseModel):
     checkList: IdNameChecklistResult
     completedWorkID: Optional[int] = None
     totalItemsCount: Optional[int] = None
@@ -492,16 +514,16 @@ class SuccessGetListTaskCheckListResultModel(RootModel):
     root: Dict[str, TaskCheckListResult]
 
 
-class AddChecklistsToTaskModel(BaseModel):
+class AddChecklistsToTaskModel(StrictBaseModel):
     taskID: int
     id: int
 
 
-class SuccessAddChecklistsToTaskModel(BaseModel):
+class SuccessAddChecklistsToTaskModel(StrictBaseModel):
     result: List[AddChecklistsToTaskModel]
 
 
-class SuccessUploadAttachmentsToServerTaskChecklistDataFromFormModel(BaseModel):
+class SuccessUploadAttachmentsToServerTaskChecklistDataFromFormModel(StrictBaseModel):
     taskID: int
     taskCheckListID: int
     taskCheckListResultID: int
@@ -511,13 +533,13 @@ class SuccessUploadAttachmentsToServerTaskChecklistDataFromFormModel(BaseModel):
     isProtected: Optional[bool] = None
 
 
-class AttributeTypeResultChecklist(BaseModel):
+class AttributeTypeResultChecklist(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
 
-class TaskCheckListResultV2ResultModel(BaseModel):
+class TaskCheckListResultV2ResultModel(StrictBaseModel):
     isChecked: Optional[bool] = None
     value: Optional[List[str]] = None
     listOfValues: Optional[Dict[str, str]] = None
@@ -534,7 +556,7 @@ class SuccessGetTaskCheckListResultV2ResultModel(RootModel):
     root: Dict[str, TaskCheckListResultV2ResultModel]
 
 
-class SuccessGetAttachmentByIdFromTaskChecklist(BaseModel):
+class SuccessGetAttachmentByIdFromTaskChecklist(StrictBaseModel):
     tenantID: int
     taskID: int
     taskCheckListID: int
@@ -551,24 +573,24 @@ class SuccessGetAttachmentByIdFromTaskChecklist(BaseModel):
     created: datetime
 
 
-class SuccessUploadAttachmentsToServerTaskCompletedWorkDataFromFormModel(BaseModel):
+class SuccessUploadAttachmentsToServerTaskCompletedWorkDataFromFormModel(StrictBaseModel):
     taskID: int
     completedWorkID: int
     attributeID: int
     attachments: List[int]
 
 
-class UpdateTaskChecklistResultsModel(BaseModel):
+class UpdateTaskChecklistResultsModel(StrictBaseModel):
     taskID: int
     taskCheckListID: int
     checkListItemID: int
 
 
-class SuccessUpdateTaskChecklistResultsModel(BaseModel):
+class SuccessUpdateTaskChecklistResultsModel(StrictBaseModel):
     result: List[UpdateTaskChecklistResultsModel]
 
 
-class CompletedWorkAttributeResult(BaseModel):
+class CompletedWorkAttributeResult(StrictBaseModel):
     taskID: int
     completedWorkID: int
     attribute: Optional[IdNameDeletedResult] = None
@@ -580,35 +602,28 @@ class CompletedWorkAttributeResult(BaseModel):
     domain: Optional[DomainResult] = None
 
 
-class SuccessGetListCompletedWorkAttributeResultModel(BaseModel):
+class SuccessGetListCompletedWorkAttributeResultModel(StrictBaseModel):
     result: List[CompletedWorkAttributeResult]
 
 
-class ListAttributesTaskCompletedWorksModel(BaseModel):
+class ListAttributesTaskCompletedWorksModel(StrictBaseModel):
     taskID: int
     completedWorkID: int
     attributeID: int
 
 
-class SuccessGetListAttributesTaskCompletedWorksModel(BaseModel):
+class SuccessGetListAttributesTaskCompletedWorksModel(StrictBaseModel):
     results: List[ListAttributesTaskCompletedWorksModel]
 
 
-class WorkTypeResult(BaseModel):
+class WorkTypeResult(StrictBaseModel):
     id: int
     name: Optional[str] = None
     cost: Optional[float] = None
     costCurrencyID: Optional[int] = None
 
 
-class HostAssetResult(BaseModel):
-    location: Optional[IdResult] = None
-    deleted: Optional[str] = None
-    name: Optional[str] = None
-    id: Optional[int] = None
-
-
-class MaintainedAssetResult(BaseModel):
+class MaintainedAssetResult(StrictBaseModel):
     deleted: Optional[str] = None
     parentID: Optional[int] = None
     location: Optional[IdResult] = None
@@ -618,7 +633,7 @@ class MaintainedAssetResult(BaseModel):
     id: Optional[int] = None
 
 
-class CompletedWorkResult(BaseModel):
+class CompletedWorkResult(StrictBaseModel):
     id: int
     workType: Optional[WorkTypeResult] = None
     maintainedAsset: Optional[AssetResult] = None
@@ -630,11 +645,11 @@ class CompletedWorkResult(BaseModel):
     created: Optional[str] = None
 
 
-class SuccessGetListCompletedWorkResult(BaseModel):
+class SuccessGetListCompletedWorkResult(StrictBaseModel):
     result: List[CompletedWorkResult]
 
 
-class AttachmentsTaskCompletedWorksModel(BaseModel):
+class AttachmentsTaskCompletedWorksModel(StrictBaseModel):
     attachmentID: int
     completedWorkID: int
     fileName: str
@@ -647,11 +662,11 @@ class AttachmentsTaskCompletedWorksModel(BaseModel):
     created: Optional[datetime] = None
 
 
-class SuccessGetListAttachmentsTaskCompletedWorksModel(BaseModel):
+class SuccessGetListAttachmentsTaskCompletedWorksModel(StrictBaseModel):
     result: List[AttachmentsTaskCompletedWorksModel]
 
 
-class MaterialsTaskComplectedWorkModel(BaseModel):
+class MaterialsTaskComplectedWorkModel(StrictBaseModel):
     taskID: int
     completedWorkID: int
     materialID: int
@@ -659,27 +674,27 @@ class MaterialsTaskComplectedWorkModel(BaseModel):
     inventoryID: int
 
 
-class SuccessAddMaterialsTaskComplectedWork(BaseModel):
+class SuccessAddMaterialsTaskComplectedWork(StrictBaseModel):
     results: List[MaterialsTaskComplectedWorkModel]
 
 
-class TechniciansTaskComplectedWorkModel(BaseModel):
+class TechniciansTaskComplectedWorkModel(StrictBaseModel):
     taskID: int
     completedWorkID: int
     userID: int
 
 
-class SuccessAddTechniciansTaskComplectedWorkModel(BaseModel):
+class SuccessAddTechniciansTaskComplectedWorkModel(StrictBaseModel):
     results: List[TechniciansTaskComplectedWorkModel]
 
 
-class IdNameErpIDResult(BaseModel):
+class IdNameErpIDResult(StrictBaseModel):
     erpID: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TakenByUserResult(BaseModel):
+class TakenByUserResult(StrictBaseModel):
     id: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
@@ -688,7 +703,7 @@ class TakenByUserResult(BaseModel):
     deleted: Optional[datetime] = None
 
 
-class MaterialResult(BaseModel):
+class MaterialResult(StrictBaseModel):
     inventoryID: Optional[int] = None
     materialID: Optional[int] = None
     materialName: Optional[str] = None
@@ -704,7 +719,7 @@ class MaterialResult(BaseModel):
     sortOrder: Optional[int] = None
 
 
-class SuccessGetListCompletedWorkMaterialResultModel(BaseModel):
+class SuccessGetListCompletedWorkMaterialResultModel(StrictBaseModel):
     taskID: Optional[int] = None
     completedWorkID: Optional[int] = None
     materials: Optional[List[MaterialResult]] = None
@@ -714,7 +729,7 @@ class SuccessGetListRootCompletedWorkMaterialResultModel(RootModel):
     root: Dict[str, SuccessGetListCompletedWorkMaterialResultModel]
 
 
-class SuccessUploadAttachToReportTaskCompletedWorkModel(BaseModel):
+class SuccessUploadAttachToReportTaskCompletedWorkModel(StrictBaseModel):
     taskID: int
     attachmentID: int
     md5Hash: str
@@ -722,7 +737,7 @@ class SuccessUploadAttachToReportTaskCompletedWorkModel(BaseModel):
     isProtected: bool
 
 
-class SignatureReportAttachmentModel(BaseModel):
+class SignatureReportAttachmentModel(StrictBaseModel):
     tenantID: Optional[int] = None
     attachmentID: Optional[int] = None
     taskID: Optional[int] = None
@@ -737,7 +752,7 @@ class SignatureReportAttachmentModel(BaseModel):
     isProtected: Optional[bool] = None
 
 
-class TechnicianResult(BaseModel):
+class TechnicianResult(StrictBaseModel):
     userID: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
@@ -747,7 +762,7 @@ class TechnicianResult(BaseModel):
     rateCurrencyID: Optional[int] = None
 
 
-class CompletedWorkTechnicianResult(BaseModel):
+class CompletedWorkTechnicianResult(StrictBaseModel):
     taskID: int
     completedWorkID: int
     technicians: List[TechnicianResult]
@@ -757,7 +772,7 @@ class SuccessGetListCompletedWorkTechnicianResult(RootModel):
     root: Dict[str, CompletedWorkTechnicianResult]
 
 
-class TaskContactsListResultModel(BaseModel):
+class TaskContactsListResultModel(StrictBaseModel):
     fullName: Optional[str] = None
     email: Optional[str] = None
     phone: Optional[str] = None
@@ -773,7 +788,7 @@ class SuccessGetTaskContactsListResultModel(RootModel):
     root: Dict[str, TaskContactsListResultModel]
 
 
-class SuccessUploadAttachmentsToServerTaskConversationDataFromFormModel(BaseModel):
+class SuccessUploadAttachmentsToServerTaskConversationDataFromFormModel(StrictBaseModel):
     taskID: Optional[int] = None
     taskconversationID: int
     attachments: List[int]
@@ -782,11 +797,284 @@ class SuccessUploadAttachmentsToServerTaskConversationDataFromFormModel(BaseMode
     isProtected: Optional[bool] = None
 
 
-class ConversationDeliveryResult(BaseModel):
+class ConversationDeliveryResult(StrictBaseModel):
     recipient: Optional[UserResult] = None
     delivered: Optional[datetime] = None
     read: Optional[datetime] = None
 
 
-class SuccessGetListConversationDeliveryResult(BaseModel):
+class SuccessGetListConversationDeliveryResult(StrictBaseModel):
     results: List[ConversationDeliveryResult]
+
+
+class SuccessGetUsedCompanyCodeInTaskNumberModel(StrictBaseModel):
+    result: bool
+
+
+class LocationShortResult(StrictBaseModel):
+    address: Optional[str] = None
+    coordinate: Optional[str] = None
+    description: Optional[str] = None
+    id: Optional[int] = None
+
+
+class ListShortResult(StrictBaseModel):
+    number: Optional[str] = None
+    notes: Optional[str] = None
+    deadline: Optional[datetime] = None
+    sortOrder: Optional[int] = None
+    criticality: Optional[TaskActualCriticalityResult] = None
+    location: Optional[LocationShortResult] = None
+    asset: Optional[AssetResult] = None
+    timesheet: Optional[TimesheetResult] = None
+    escalatedToUserID: Optional[int] = None
+    approvalWithUserID: Optional[int] = None
+    assignedToUserID: Optional[int] = None
+    assignedToUserIDs: Optional[List[int]] = None
+    requestedByUserID: Optional[int] = None
+    workTypeID: Optional[int] = None
+    lastModified: Optional[datetime] = None
+    erpID: Optional[str] = None
+    id: int
+
+
+class SuccessListShortResultModel(RootModel):
+    root: Dict[str, ListShortResult]
+
+
+class ListCountResult(StrictBaseModel):
+    countWithAssign: Optional[int] = None
+    countWithoutAssign: Optional[int] = None
+    runtimeMinutes: Optional[int] = None
+
+
+class SuccessGetListCountResultModel(RootModel):
+    root: Dict[str, ListCountResult]
+
+
+class ClusterResult(StrictBaseModel):
+    hash: Optional[str] = None
+    center: Optional[str] = None
+
+
+class TaskGroupByResult(StrictBaseModel):
+    tasksCount: Optional[int] = None
+    assignedTaskCount: Optional[int] = None
+    unasssignedTaskCount: Optional[int] = None
+    expiredTaskCount: Optional[int] = None
+    groupKey: Optional[ClusterResult] = None
+
+
+class SuccessGetTaskGroupByResultModel(StrictBaseModel):
+    results: List[TaskGroupByResult]
+
+
+class IdNameErpIDDeletedResult(StrictBaseModel):
+    deleted: Optional[datetime] = None
+    erpID: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class TaskUserResult(StrictBaseModel):
+    id: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class ListResult(StrictBaseModel):
+    material: Optional[IdNameErpIDDeletedResult] = None
+    warehouse: Optional[IdNameErpIDResult] = None
+    measurementUnit: Optional[IdNameResult] = None
+    quantity: Optional[float] = None
+    taken: Optional[datetime] = None
+    takenByUser: Optional[TaskUserResult] = None
+    sortOrder: Optional[int] = None
+    id: Optional[int] = None
+
+
+class SuccessTaskMaterialsModel(RootModel):
+    root: Dict[str, ListResult]
+
+
+class TaskStageComponentResult(StrictBaseModel):
+    permission: Optional[str] = None
+    capability: Optional[str] = None
+
+
+class TaskStageAttributeResult(StrictBaseModel):
+    permission: Optional[str] = None
+    capability: Optional[str] = None
+    attribute: Optional[IdNameDeletedResult] = None
+    value: Optional[str] = None
+    attributeType: Optional[AttributeTypeResult] = None
+    measurementUnit: Optional[MeasurementUnitResult] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    domain: Optional[DomainResult] = None
+
+
+class TaskFormMetadataResultModel(StrictBaseModel):
+    taskStage: Optional[IdNameResult] = None
+    taskViewTemplateCode: Optional[str] = None
+    components: Optional[Dict[str, TaskStageComponentResult]] = None
+    attributes: Optional[Dict[str, TaskStageAttributeResult]] = None
+
+
+class SuccessGetTaskFormMetadataResultModel(RootModel):
+    root: Dict[str, TaskFormMetadataResultModel]
+
+
+class TechnicianUserResult(StrictBaseModel):
+    tenantMemberID: int
+    id: int
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class RatingResultModel(StrictBaseModel):
+    technician: Optional[TechnicianUserResult] = None
+    ratingCriteria: Optional[IdNameResult] = None
+    rating: Optional[int] = None
+    comment: Optional[str] = None
+    isIgnore: Optional[bool] = None
+    ignoreReason: Optional[str] = None
+
+
+class SuccessGetListRatingResultModel(StrictBaseModel):
+    results: List[RatingResultModel]
+
+
+class TaskSkillResultModel(StrictBaseModel):
+    name: str
+    id: int
+
+
+class SuccessGetTaskSkillResultModel(RootModel):
+    root: Dict[str, TaskSkillResultModel]
+
+
+class IdNameDescriptionResult(StrictBaseModel):
+    description: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[int] = None
+
+
+class TaskStageModel(StrictBaseModel):
+    taskSnapshotID: int
+    color: str
+    name: str
+    id: int
+
+
+class ModifiedByUserModel(StrictBaseModel):
+    id: int
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+
+
+class ChangeSetModel(StrictBaseModel):
+    timeStamp: datetime
+    modifiedBy: ModifiedByUserModel
+    taskAction: IdNameResult
+    assignedTo: Optional[IdNameResult] = None
+    actionLocationState: int
+
+
+class ListStagingHistoryResultModel(StrictBaseModel):
+    taskStageFrom: Optional[TaskStageModel] = None
+    taskStageTo: Optional[TaskStageModel] = None
+    taskStatus: Optional[IdNameResult] = None
+    dateFrom: Optional[datetime] = None
+    dateTill: Optional[datetime] = None
+    changeSet: Optional[List[ChangeSetModel]] = None
+
+
+class SuccessGetListStagingHistoryResultModel(StrictBaseModel):
+    results: List[ListStagingHistoryResultModel]
+
+
+class SuccessGetListTaskTagsModel(StrictBaseModel):
+    results: List[str]
+
+
+class EmploymentResult(StrictBaseModel):
+    company: Optional[str] = None
+    position: Optional[str] = None
+    tenantMemberID: Optional[int] = None
+    coordinate: Optional[str] = None
+    email: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    otherPhone: Optional[str] = None
+    workPhone: Optional[str] = None
+    isTechnician: Optional[bool] = None
+    isCustomer: Optional[bool] = None
+    isEmailVerified: Optional[bool] = None
+    isMobilePhoneVerified: Optional[bool] = None
+    coordinateActuality: Optional[datetime] = None
+    distance: Optional[int] = None
+    rate: Optional[float] = None
+    rateCurrencyID: Optional[int] = None
+    appointments: Optional[List[ScheduledAppointmentResult]] = None
+    id: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class TaskWatchListsListResultModel(StrictBaseModel):
+    employments: Optional[List[EmploymentResult]] = None
+    isCreator: Optional[bool] = None
+    isExecutor: Optional[bool] = None
+    hasExternalAccess: Optional[bool] = None
+    tenantMemberID: Optional[int] = None
+    coordinate: Optional[str] = None
+    email: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    otherPhone: Optional[str] = None
+    workPhone: Optional[str] = None
+    isTechnician: Optional[bool] = None
+    isCustomer: Optional[bool] = None
+    isEmailVerified: Optional[bool] = None
+    isMobilePhoneVerified: Optional[bool] = None
+    coordinateActuality: Optional[datetime] = None
+    distance: Optional[int] = None
+    rate: Optional[float] = None
+    rateCurrencyID: Optional[int] = None
+    appointments: Optional[List[ScheduledAppointmentResult]] = None
+    id: Optional[int] = None
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    middleName: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class SuccessGetListTaskWatchListsListResultModel(StrictBaseModel):
+    results: List[TaskWatchListsListResultModel]
+
+
+class NextStageModel(StrictBaseModel):
+    nextStage: IdNameColorResult
+    linkName: str
+    sortOrder: int
+
+
+class ListStagesNextResult(StrictBaseModel):
+    taskTypeID: int
+    currentStage: IdNameColorResult
+    nextStages: List[NextStageModel]
+    tasks: List[int]
+    error: str
+
+
+class SuccessGetListStagesNextModel(StrictBaseModel):
+    results: List[ListStagesNextResult]

@@ -73,8 +73,9 @@ class TstgTaskStageLinksAPI(Helper):
         while queue:
             if counts >= 20:
                 logger.error('Searching all possible paths from the initial stage to the final stage is not found.')
-                if last_valid_path:  # Если путь есть, добавляем его в `paths`
-                    paths.append(last_valid_path)
+                if last_valid_path and last_valid_path[-1] != finish_task_stage_id:
+                    last_valid_path.append(finish_task_stage_id)  # Добавляем конечную стадию
+                paths.append(last_valid_path)
                 break
 
             current_stage, path = queue.popleft()
@@ -109,7 +110,8 @@ class TstgTaskStageLinksAPI(Helper):
 
         # Используем последний валидный путь, если ни один путь не дошёл до конца
         if not paths and last_valid_path:
-            last_valid_path.append(finish_task_stage_id)
+            if last_valid_path[-1] != finish_task_stage_id:
+                last_valid_path.append(finish_task_stage_id)
             paths.append(last_valid_path)
 
         if paths:

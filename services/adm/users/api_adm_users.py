@@ -95,7 +95,7 @@ class AdmUsersAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessUserModel(**response.json())
-        logger.warning(f'Successfully add a user staff name {user_name}')
+        logger.info(f'Successfully add a user ID {model.userID} staff name {user_name}')
         return model
 
     @allure.step("Delete user by ID.")

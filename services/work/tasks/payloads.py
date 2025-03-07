@@ -352,3 +352,20 @@ class Payloads:
             }
         ]
         return payload
+
+    @staticmethod
+    def delete_task_by_list_payload(*task_ids: int):
+        return [*task_ids]
+
+    @staticmethod
+    def put_restore_deleted_task_by_list_payload(*task_ids: int):
+        return [*task_ids]
+
+    @staticmethod
+    def put_task_completed_payload(closed: str, completed: str) -> dict:
+        payload = {
+            "closedBy": 1,
+            "closed": closed,
+            "completed": completed
+        }
+        return payload

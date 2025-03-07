@@ -348,10 +348,12 @@ class Endpoints:
     def get_list_of_available_stages_to_task_can_transferred_endpoint(task_id: int) -> str:
         return f'{HOST}/WORK/tasks/{task_id}/stages/next'
 
+    get_available_next_stages_to_task_from_list_endpoint = f'{HOST}/WORK/tasks/stages/next'
+
     @staticmethod
-    def get_available_next_stages_to_task_from_list_endpoint() -> str:
-        return f'{HOST}/WORK/tasks/stages/next'
+    def get_tags_task_endpoint(task_id: int) -> str:
+        return f'{HOST}/WORK/tasks/{task_id}/tags'
 
     @staticmethod
     def get_watch_list_by_task_endpoint(task_id: int) -> str:
-        return f'{HOST}/WORK/tasks/{task_id}/watchList'
+        return f'{HOST}/WORK/tasks/{task_id}/watchLists'
