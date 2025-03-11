@@ -72,6 +72,104 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully add a task ID {model.id}')
         return model
 
+    @allure.step("Add task with number params.")
+    def post_add_task_with_number(
+            self,
+            asset_id: int,
+            company_id: int,
+            work_type_id: str,
+            criticality_id: str,
+            task_type_id: str,
+            task_number,
+            status_code,
+            len_task_number
+    ):
+        additional_data = {
+            "AssetID": asset_id,
+            "WorkTypeID": work_type_id,
+            "companyID": company_id
+        }
+        date = datetime.now(timezone.utc).isoformat(timespec='milliseconds')
+        current_time_iso = date.replace('+00:00', 'Z')
+        note_task = f'Заявка создана авто-тестом'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.add_task_payload(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id,
+                number=task_number,
+                note=note_task,
+                date=current_time_iso,
+                **additional_data
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
+        self.attach_request(response.request.body)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == status_code, \
+            f'Expected status code {status_code}, but got {response.status_code}, {response.json()}'
+        match response.status_code:
+            case HTTPStatus.BAD_REQUEST:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+            case HTTPStatus.CONFLICT:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+        model = SuccessAddTasksModel(**response.json())
+        logger.info(f'Successfully add a task ID {model.id}')
+        model_get_task = self.get_detailed_info_task_by_id(model.id)
+        assert len(model_get_task.number) == len_task_number, \
+            f'Expected {len_task_number}, but got {len(model_get_task.number)}'
+        return model
+
+    @allure.step("Update task number.")
+    def put_update_task_number(self, task_id: int, task_number: int or str, status_code: int, len_task_number: int):
+        date = datetime.now(timezone.utc).isoformat(timespec='milliseconds')
+        current_time_iso = date.replace('+00:00', 'Z')
+        note_task = 'Заявка изменена авто-тестом'
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.put_update_task_payload(
+                number=task_number,
+                note=note_task,
+                date=current_time_iso
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == status_code, \
+            f'Expected status code {status_code}, but got {response.status_code}, {data_response}'
+        match response.status_code:
+            case HTTPStatus.BAD_REQUEST:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+            case HTTPStatus.CONFLICT:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+        model_task = self.get_detailed_info_task_by_id(task_id)
+        assert len(model_task.number) == len_task_number, \
+            f'Expected status code {len_task_number}, but got {len(model_task.number)}'
+        logger.info(f'Successfully update task number on the task ID {task_id}.')
+
     @allure.step("Delete the task by ID.")
     def delete_task_by_id(self, task_id: int):
         start = time.time()
@@ -2101,6 +2199,50 @@ class WorkTasksAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
         logger.info(f'Successfully update (PATCH) Notes field in the task ID {task_id}.')
         return note
+
+    @allure.step("Update (PATCH) number field in the task by id.")
+    def patch_update_field_number_in_task_by_id(
+            self,
+            task_id: int,
+            task_number: int or str,
+            status_code: int,
+            len_task_number: int
+    ) -> None:
+        field = [
+            {
+                "field": "number",
+                "value": task_number
+            }
+        ]
+        start = time.time()
+        response = requests.patch(
+            url=self.endpoints.patch_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(API_TOKEN),
+            json=field
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == status_code, \
+            f'Expected status code {status_code}, but got {response.status_code}, {data_response}'
+        match response.status_code:
+            case HTTPStatus.BAD_REQUEST:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+            case HTTPStatus.CONFLICT:
+                model = ErrorModel(list_model=response.json())
+                logger.warning(f'{response.status_code}: {model.list_model[0].message}')
+                return None
+        model_get_task = self.get_detailed_info_task_by_id(task_id)
+        assert len(model_get_task.number) == len_task_number, \
+            f'Expected {len_task_number}, but got {len(model_get_task.number)}'
+        logger.info(f'Successfully update (PATCH) number field in the task ID {task_id}.')
 
     @allure.step("Delete task by list.")
     def delete_task_by_list(self, *task_ids: int):

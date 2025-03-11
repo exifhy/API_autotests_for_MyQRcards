@@ -34,6 +34,7 @@ class WorkTaskTypesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:

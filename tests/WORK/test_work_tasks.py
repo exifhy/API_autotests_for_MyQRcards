@@ -1,5 +1,5 @@
 import time
-
+from src.enums.params_enums import Params
 import allure
 import pytest
 from config.base_test import BaseTest
@@ -1544,7 +1544,6 @@ class TestWorkTasks(BaseTest):
 
     @allure.title('Test update attributes task completed work by completed work ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24894")
-    @pytest.mark.xfail(reason='Ошибка в описание в swagger. Ответ пустой список.')
     @pytest.mark.regress
     @pytest.mark.test_case_id(24894)
     def test_put_update_attributes_task_completed_work_by_id(self):
@@ -3341,9 +3340,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get head conversations from task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25056")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25056)
     def test_head_conversations_from_task(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3409,9 +3408,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get conversation by ID from task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25065")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25065)
     def test_get_conversation_from_task_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3463,9 +3462,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test upload file to server and bind to conversation task, data from form.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25066")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25066)
     def test_post_upload_attachment_to_server_bind_conversation_task_data_from_form(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3510,9 +3509,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test download attachment from conversation task by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25067")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25067)
     def test_get_download_attachment_from_conversation_task_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3562,9 +3561,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get info conversation delivery from task by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25068")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25068)
     def test_get_info_conversation_delivery_from_task_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3613,9 +3612,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test update (PATCH) Notes field in the task by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25069")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25069)
     def test_patch_update_field_notes_in_task_by_id(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3660,9 +3659,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test delete four task by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25084")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25084)
     def test_delete_task_by_list(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3726,9 +3725,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get info the company code is used when generating the task number.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25086")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25086)
     def test_get_info_check_company_code_used(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -3772,16 +3771,16 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test head task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25087")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25087)
     def test_head_task(self):
         self.api_work_tasks.head_task()
 
     @allure.title('Test get short list tasks.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25088")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25088)
     def test_get_short_list_tasks(self):
         self.api_work_tasks.get_short_list_tasks()
 
@@ -4018,9 +4017,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test marks the task as completed.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25089")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25089)
     def test_put_task_completed(self, bearer_token):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4062,9 +4061,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test restore deleted task by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25091")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25091)
     def test_put_restore_deleted_tasks_by_list(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4134,23 +4133,23 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get count list tasks by day (yesterday, now).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25092")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25092)
     def test_get_count_list_tasks_by_day(self):
         self.api_work_tasks.get_count_list_tasks_by_day()
 
     @allure.title('Test get short list of tasks clustered by geo-area hash code (clustering).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25095")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25095)
     def test_get_short_list_tasks_by_geo_area_hash_code(self):
         self.api_work_tasks.get_short_list_tasks_by_geo_area_hash_code()
 
     @allure.title('Test get list materials of task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25097")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25097)
     def test_get_list_materials_task(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         model_materials = self.api_wh_materials.post_add_materials()
@@ -4212,9 +4211,9 @@ class TestWorkTasks(BaseTest):
         self.api_wh_warehouses.delete_warehouses_by_list(model_wh[0].result[0])
 
     @allure.title('Test get metadata for the task form.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25098")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25098)
     def test_get_metadata_for_task_form(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4256,16 +4255,16 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get metadata for the task form (new).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25099")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25099)
     def test_get_metadata_for_tasks_form_new(self):
         self.api_work_tasks.get_metadata_for_tasks_form_new()
 
     @allure.title('Test get technician reviews/ratings on the task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25100")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25100)
     def test_get_technician_ratings_avg_on_task(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4312,9 +4311,9 @@ class TestWorkTasks(BaseTest):
         self.api_adm_users.delete_user_by_id(model_user.userID)
 
     @allure.title('Test get technician ratings on the task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25101")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25101)
     def test_get_technician_ratings_on_task(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4361,9 +4360,9 @@ class TestWorkTasks(BaseTest):
         self.api_adm_users.delete_user_by_id(model_user.userID)
 
     @allure.title('Test get skills from task.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25104")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25104)
     def test_get_skills_from_task(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4502,9 +4501,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test get the history of the tasks movement through the stages.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25105")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25105)
     def test_get_task_stages(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4547,9 +4546,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test get list of available stages to which tasks from the list can be transferred.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25106")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25106)
     def test_get_task_stages_next(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4592,9 +4591,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test get task tags.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25109")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25109)
     def test_get_task_tags(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4638,9 +4637,9 @@ class TestWorkTasks(BaseTest):
         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test get task watch lists.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25110")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25110)
     def test_get_task_watch_lists(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -4688,3 +4687,222 @@ class TestWorkTasks(BaseTest):
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
+
+    class TestRequirement24586(BaseTest):
+
+        @allure.title('Test POST add task with task number of different length.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
+        @pytest.mark.regress
+        @pytest.mark.parametrize('number, status_code, len_number', Params.params_post_task_number.value)
+        @pytest.mark.test_case_id()
+        def test_post_add_task_with_number_of_different_length(self, number, status_code, len_number):
+            created_location_id = self.api_es_locations.post_add_location()
+            company_id = self.api_es_companies.post_add_our_company()
+            location_id = self.api_es_locations.post_add_location()
+            self.api_es_company_locations.post_add_company_locations(
+                company_id=company_id,
+                location_id=location_id
+            )
+            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+            work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+            object_model = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            self.api_es_asset_work_types.post_add_work_type_to_asset(
+                asset_id=object_model.id,
+                work_type_id=work_type_id
+            )
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=object_model.id,
+                location_id=created_location_id
+            )
+            self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+            self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+            criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+            task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+            try:
+                model_task = self.api_work_tasks.post_add_task_with_number(
+                    criticality_id=criticality_id,
+                    task_type_id=task_type_id[0],
+                    asset_id=object_model.id,
+                    work_type_id=work_type_id,
+                    company_id=company_id,
+                    task_number=number,
+                    status_code=status_code,
+                    len_task_number=len_number
+                )
+                if model_task:
+                    self.api_work_tasks.delete_task_by_id(model_task.id)
+            finally:
+                self.api_es_assets.delete_object_by_id(object_model.id)
+                self.api_es_companies.delete_company_by_id(company_id)
+                self.api_es_locations.delete_location_by_id(location_id)
+
+        @allure.title('Test PUT update task number on different length.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
+        @pytest.mark.regress
+        @pytest.mark.parametrize('number, status_code, len_number', Params.params_put_task_number.value)
+        @pytest.mark.test_case_id()
+        def test_put_update_task_number_on_different_length(self, number, status_code, len_number):
+            created_location_id = self.api_es_locations.post_add_location()
+            company_id = self.api_es_companies.post_add_our_company()
+            location_id = self.api_es_locations.post_add_location()
+            self.api_es_company_locations.post_add_company_locations(
+                company_id=company_id,
+                location_id=location_id
+            )
+            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+            work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+            object_model = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            self.api_es_asset_work_types.post_add_work_type_to_asset(
+                asset_id=object_model.id,
+                work_type_id=work_type_id
+            )
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=object_model.id,
+                location_id=created_location_id
+            )
+            self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+            self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+            criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+            task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+            model_task = self.api_work_tasks.post_add_task(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id[0],
+                asset_id=object_model.id,
+                work_type_id=work_type_id,
+                company_id=company_id
+            )
+            try:
+                self.api_work_tasks.put_update_task_number(
+                    task_id=model_task.id,
+                    task_number=number,
+                    status_code=status_code,
+                    len_task_number=len_number
+                )
+            finally:
+                self.api_work_tasks.delete_task_by_id(model_task.id)
+                self.api_es_assets.delete_object_by_id(object_model.id)
+                self.api_es_companies.delete_company_by_id(company_id)
+                self.api_es_locations.delete_location_by_id(location_id)
+
+        @allure.title('Test PATCH update task number on different length.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
+        @pytest.mark.regress
+        @pytest.mark.parametrize('number, status_code, len_number', Params.params_patch_task_number.value)
+        @pytest.mark.test_case_id()
+        def test_patch_update_task_number_on_different_length(self, number, status_code, len_number):
+            created_location_id = self.api_es_locations.post_add_location()
+            company_id = self.api_es_companies.post_add_our_company()
+            location_id = self.api_es_locations.post_add_location()
+            self.api_es_company_locations.post_add_company_locations(
+                company_id=company_id,
+                location_id=location_id
+            )
+            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+            work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+            object_model = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            self.api_es_asset_work_types.post_add_work_type_to_asset(
+                asset_id=object_model.id,
+                work_type_id=work_type_id
+            )
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=object_model.id,
+                location_id=created_location_id
+            )
+            self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+            self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+            criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+            task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+            model_task = self.api_work_tasks.post_add_task(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id[0],
+                asset_id=object_model.id,
+                work_type_id=work_type_id,
+                company_id=company_id
+            )
+            try:
+                self.api_work_tasks.patch_update_field_number_in_task_by_id(
+                    task_id=model_task.id,
+                    task_number=number,
+                    status_code=status_code,
+                    len_task_number=len_number
+                )
+            finally:
+                self.api_work_tasks.delete_task_by_id(model_task.id)
+                self.api_es_assets.delete_object_by_id(object_model.id)
+                self.api_es_companies.delete_company_by_id(company_id)
+                self.api_es_locations.delete_location_by_id(location_id)
+
+        @allure.title('Test export task with number with different length.')
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
+        @pytest.mark.regress
+        @pytest.mark.parametrize('number, status_code, len_number', Params.params_export_task_number.value)
+        @pytest.mark.test_case_id()
+        def test_export_task_number_with_different_length(self, number, status_code, len_number):
+            created_location_id = self.api_es_locations.post_add_location()
+            company_id = self.api_es_companies.post_add_our_company()
+            location_id = self.api_es_locations.post_add_location()
+            self.api_es_company_locations.post_add_company_locations(
+                company_id=company_id,
+                location_id=location_id
+            )
+            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+            work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
+            object_model = self.api_es_assets.post_add_object(
+                company_id=company_id,
+                asset_class_id=asset_class_id,
+                asset_type_id=asset_type_id
+            )
+            self.api_es_asset_work_types.post_add_work_type_to_asset(
+                asset_id=object_model.id,
+                work_type_id=work_type_id
+            )
+            self.api_es_assetlocations.add_location_to_object(
+                asset_id=object_model.id,
+                location_id=created_location_id
+            )
+            self.api_es_asset_districts.add_default_district_to_object(object_model.id)
+            self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
+            criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
+            task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+            model_task = self.api_work_tasks.post_add_task_with_number(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id[0],
+                asset_id=object_model.id,
+                work_type_id=work_type_id,
+                company_id=company_id,
+                task_number=number,
+                status_code=status_code,
+                len_task_number=len_number
+            )
+            try:
+                self.api_export_tasks.get_normal_export_task_by_task_id(
+                    task_id=model_task.id,
+                    number_task=str(number),
+                    name_task_type=task_type_id[1]
+                )
+            finally:
+                if model_task:
+                    self.api_work_tasks.delete_task_by_id(model_task.id)
+                self.api_es_assets.delete_object_by_id(object_model.id)
+                self.api_es_companies.delete_company_by_id(company_id)
+                self.api_es_locations.delete_location_by_id(location_id)

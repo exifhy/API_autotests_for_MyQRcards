@@ -1,5 +1,7 @@
 from enum import Enum
 import pytest
+import random
+import string
 
 
 class Params(Enum):
@@ -94,4 +96,46 @@ class Params(Enum):
             "Password": "02022014",
             "CodeHash": "6dae72cdce875817968eacf0093ce9548f60243c3e46f1d632352d1a22a8893e"
         }, id="Change password with codeHash")
+    ]
+
+    params_post_task_number = [
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
+                     , 201, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
+                     , 201, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
+                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
+                     201, 32, id="Task number length 32 (integer)."),
+    ]
+
+    params_put_task_number = [
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
+                     , 202, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
+                     , 202, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
+                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
+                     202, 32, id="Task number length 32 (integer)."),
+    ]
+
+    params_patch_task_number = [
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
+                     , 202, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
+                     , 202, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
+                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
+                     409, 32, id="Task number length 32 (integer)."),
+    ]
+
+    params_export_task_number = [
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
+                     , 201, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
+                     , 201, 31, id="Task number length 31 (string)."),
+        pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
+                     201, 32, id="Task number length 32 (integer)."),
     ]
