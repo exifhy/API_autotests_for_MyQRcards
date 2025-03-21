@@ -12,6 +12,7 @@ from dotenv import load_dotenv, set_key, unset_key
 import requests
 import re
 import traceback
+from utils.helper import Helper
 
 
 load_dotenv()
@@ -81,6 +82,7 @@ def return_func_name_with_error() -> str:
     return matches[-1] if matches else "Unknown function"
 
 
+@allure.step("Get API user access token.")
 def get_api_user_access_token():
     global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
     now = datetime.now(UTC)
@@ -124,11 +126,14 @@ def pytest_sessionstart(session):
         print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
 
+@allure.step("Сheck the access token before each test")
 def pytest_runtest_setup():
     """Проверка перед каждым тестом."""
     global TOKEN_EXPIRATION_TIME
+    Helper.attach_token_expiration_time(TOKEN_EXPIRATION_TIME)
     now = datetime.now(UTC)
-    if not TOKEN_EXPIRATION_TIME or now >= TOKEN_EXPIRATION_TIME:
+    Helper.attach_test_start_time(now)
+    if now > TOKEN_EXPIRATION_TIME:
         logger.warning("Token expired, refreshing...")
         get_api_user_access_token()
 

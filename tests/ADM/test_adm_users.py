@@ -69,3 +69,16 @@ class TestAdmUsers(BaseTest):
     def test_get_list_asset_queries_to_current_user(self, bearer_token):
         self.api_adm_users.get_list_asset_queries_to_current_user(bearer_token)
 
+    @allure.title('Test delete users by list.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_delete_users_by_list(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_user2 = self.api_adm_users.post_add_user_staff()
+        model_user3 = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.delete_users_by_list(
+            model_user.userID,
+            model_user2.userID,
+            model_user3.userID,
+        )

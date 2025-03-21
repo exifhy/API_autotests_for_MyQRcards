@@ -972,6 +972,11 @@ class TaskStageModel(StrictBaseModel):
     id: int
 
 
+class TaskChecklistModel(StrictBaseModel):
+    id: int
+    checkList: IdNameResult
+
+
 class ModifiedByUserModel(StrictBaseModel):
     id: int
     firstName: Optional[str] = None
@@ -984,6 +989,7 @@ class ChangeSetModel(StrictBaseModel):
     modifiedBy: ModifiedByUserModel
     taskAction: IdNameResult
     assignedTo: Optional[IdNameResult] = None
+    taskCheckList: Optional[TaskChecklistModel] = None
     actionLocationState: int
 
 

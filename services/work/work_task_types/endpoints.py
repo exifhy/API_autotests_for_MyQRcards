@@ -9,7 +9,7 @@ class Endpoints:
     get_list_task_types_endpoint = f'{HOST}/WORK/TaskTypes'
     put_update_task_types_endpoint = f'{HOST}/WORK/TaskTypes'
     post_add_task_types_endpoint = f'{HOST}/WORK/TaskTypes'
-    delete_task_types_endpoint = f'{HOST}/WORK/TaskTypes'
+    delete_task_types_by_list_endpoint = f'{HOST}/WORK/TaskTypes'
 
     @staticmethod
     def get_task_types_by_id_endpoint(task_type_id: int) -> str:

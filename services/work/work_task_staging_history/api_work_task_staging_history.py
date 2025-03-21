@@ -37,6 +37,7 @@ class WorkTaskStagingHistoryAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
@@ -47,26 +48,26 @@ class WorkTaskStagingHistoryAPI(Helper):
         logger.info(f'Successfully add task staging history, stage id: {stage_id}.')
 
     @allure.step("Mass movement of task by stages.")
-    def post_multiple_add_task_staging_history(self, stage_id: str, task_id: int):
+    def post_multiple_add_task_staging_history(self, stage_ids: list[str], task_ids: list[int]):
         start = time.time()
         response = requests.post(
             url=self.endpoints.mass_movement_of_task_by_stage_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.mass_movement_of_task_by_stage_payload(
-                stage_id=stage_id,
-                task_id=task_id
+                stage_ids=stage_ids,
+                task_ids=task_ids
             )
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessTaskStagingHistoryModel(history=response.json())
-        logger.warning(f'Successfully mass movement of task by stages.')
+        logger.info(f'Successfully mass movement of task ID {task_ids} by stages.')
         return model

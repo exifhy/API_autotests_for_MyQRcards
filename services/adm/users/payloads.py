@@ -74,3 +74,7 @@ class Payloads:
             "rateCurrencyID": 1
         }
         return payload
+
+    @staticmethod
+    def delete_users_by_list_payload(*user_ids: int):
+        return [*user_ids]

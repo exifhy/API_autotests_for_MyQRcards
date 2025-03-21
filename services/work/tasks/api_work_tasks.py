@@ -219,6 +219,39 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully returns a list of tasks available to the user.')
         return model
 
+    @allure.step("Get list tasks return list.")
+    def get_list_tasks_list(self):
+        list_users = []
+        params = {
+            "fetch": 100,
+            "isClosed": False,
+            "isDeleted": False,
+            "offset": 0,
+            "orderBy": 1,
+            "sortDirection": 2,
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_task_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            f'Status code {response.status_code}, {response.json()}'
+        model = SuccessTaskListResultModel(**response.json())
+        for ids, data in model.root.items():
+            int_id = int(ids)
+            list_users.append(int_id)
+        logger.info(f'Successfully get  list {list_users}.')
+        return list_users
+
     @allure.step("Returns detailed information on the task by id.")
     def get_detailed_info_task_by_id(self, task_id: int):
         # params = {
@@ -232,15 +265,15 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessDetailedInfoModel(**response.json())
-        logger.info(f'Successfully returns detailed information on the task by id.')
+        logger.info(f'Successfully get detailed information on the task ID {task_id}.')
         return model
 
     @allure.step("Update task by id.")
@@ -590,8 +623,8 @@ class WorkTasksAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessGetListTaskCheckListResultModel(root=response.json())
-        assert checklist_id == model.root['1'].checkList.id, \
-            f'Checklist with ID {checklist_id} is not in list task checklists.'
+        found = any(item.checkList.id == checklist_id for item in model.root.values())
+        assert found, f'Checklist with ID {checklist_id} is not in list task checklists.'
         logger.info(f'Successfully get list of checklists in the task with ID {task_id}.')
         return model
 
@@ -1724,9 +1757,9 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
@@ -1746,10 +1779,10 @@ class WorkTasksAPI(Helper):
                 task_id, attachment_id
             ),
             headers=self.headers.basic_header(API_TOKEN),
-            json=self.payloads.post_add_uploaded_signature_to_report_task_completed_works_v2_payload(
-                'Обслуживание',
-                'Работник'
-            )
+            # json=self.payloads.post_add_uploaded_signature_to_report_task_completed_works_v2_payload(
+            #     'Обслуживание',
+            #     'Работник'
+            # )
         )
         end = time.time()
         logger.info(response.headers)
@@ -1758,7 +1791,7 @@ class WorkTasksAPI(Helper):
         self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        self.attach_request(response.request.body)
+        # self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}'
         logger.info(f'Successfully bind uploaded signature ID {attachment_id} '

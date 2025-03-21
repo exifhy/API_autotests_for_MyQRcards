@@ -51,7 +51,7 @@ class EsCompaniesAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}.Message:{data_response}'
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}.Message:{data_response}'
         model = SuccessAddCompaniesModel(companies=response.json())
         logger.info(f'Successfully created Our company, name: {name_new_company}.')
         return model.companies[0]
@@ -65,9 +65,13 @@ class EsCompaniesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete company, id: {company_id}.')
 
     @allure.step("Delete companies by list.")
@@ -211,6 +215,44 @@ class EsCompaniesAPI(Helper):
         model = SuccessGetCompaniesListResultModel(**response.json())
         logger.info(f'Successfully receiving a list of companies available to the user not deleted.')
         return model
+
+    @allure.step("Returns a list of companies return list companies.")
+    def get_list_companies_return_list(self):
+        list_comp = []
+        params = {
+            # "searchText": str,
+            # "Range": str,
+            # "offset": str,
+            # "fetch": str,
+            "isDeleted": False,
+            # "taskTypeID": int,
+            # "companyID": int,
+            # "companyRegistrationTypeID": int,
+            # "isEmployer": bool,
+            # "isContractorHolder": bool,
+            # "isOurCompany": bool,
+            # "isVATTaxpayer": bool
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_companies_endpoint,
+            headers=self.headers.basic_header(API_TOKEN)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.Message:{data_response}'
+        model = SuccessGetCompaniesListResultModel(**response.json())
+        for ids, data in model.root.items():
+            int_id = int(ids)
+            list_comp.append(int_id)
+        logger.info(f'Successfully receiving a list of companies {list_comp}.')
+        return list_comp
 
     @allure.step("Get list of companies with asserts.")
     def get_list_companies_with_asserts(self, company_id: int, deleted: bool):

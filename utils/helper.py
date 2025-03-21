@@ -46,6 +46,22 @@ class Helper:
         allure.attach(f'API Response time: {response_time_ms:.2f}ms', name="Response Time",
                       attachment_type=AttachmentType.JSON)
 
+    @classmethod
+    def attach_token_expiration_time(cls, token_expiration_time):
+        """Добавляет время истечения токена в отчет Allure."""
+        expiration_str = token_expiration_time.strftime('%Y-%m-%d %H:%M:%S %Z')
+        allure.attach(f'Token Expiration Time: {expiration_str}',
+                      name="Token Expiration",
+                      attachment_type=allure.attachment_type.TEXT)
+
+    @classmethod
+    def attach_test_start_time(cls, test_start_time):
+        """Добавляет время начала теста в отчет Allure."""
+        expiration_str = test_start_time.strftime('%Y-%m-%d %H:%M:%S %Z')
+        allure.attach(f'Test start time: {expiration_str}',
+                      name="Start time",
+                      attachment_type=allure.attachment_type.TEXT)
+
     @staticmethod
     def basic_token_generation(login: str, password: str) -> str:
 

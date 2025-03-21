@@ -95,6 +95,7 @@ class ExportUsersAPI(Helper):
         assert sheet['F3'].value == 'Электронная почта*', f'Expected Электронная почта*, but got {sheet['F3'].value}'
         assert sheet['F4'].value == email.strip(), f'Expected {email.strip()}, but got {sheet['F4'].value}'
         assert sheet['G3'].value == 'Тип*', f'Expected Тип*, but got {sheet['G3'].value}'
+        assert sheet['G4'].value == 'Заказчик', f'Expected Заказчик, but got {sheet['G4'].value}'
         assert sheet['H3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['H3'].value}'
         assert sheet['H4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['H4'].value}'
         assert sheet['I3'].value == 'Участок', f'Expected Участок, but got {sheet['I3'].value}'
@@ -119,7 +120,12 @@ class ExportUsersAPI(Helper):
             phone: str,
             role: str,
             district_name: str,
+            technician: bool
     ):
+        if technician is True:
+            type_user = "Мобильный инженер"
+        else:
+            type_user = "Штатный сотрудник"
         params = {
             "userID": user_id,
             "isCustomer": "false",
@@ -135,13 +141,15 @@ class ExportUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         try:
             self.attach_response(response.json())
         except JSONDecodeError:
             logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.OK, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {response.json()}'
         assert response.headers['Content-Type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
         file_stream = BytesIO(response.content)
@@ -174,7 +182,7 @@ class ExportUsersAPI(Helper):
         assert sheet['F3'].value == 'Электронная почта*', f'Expected Электронная почта*, but got {sheet['F3'].value}'
         assert sheet['F4'].value == email.strip(), f'Expected {email.strip()}, but got {sheet['F4'].value}'
         assert sheet['G3'].value == 'Тип*', f'Expected Тип*, but got {sheet['G3'].value}'
-        assert sheet['G4'].value == 'Заказчик', f'Expected Заказчик, but got {sheet['G4'].value}'
+        assert sheet['G4'].value == type_user, f'Expected {type_user}, but got {sheet['G4'].value}'
         assert sheet['H3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['H3'].value}'
         assert sheet['H4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['H4'].value}'
         assert sheet['I3'].value == 'Участок', f'Expected Участок, but got {sheet['I3'].value}'

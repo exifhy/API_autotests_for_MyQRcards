@@ -10,7 +10,6 @@ import time
 from http import HTTPStatus
 from dotenv import load_dotenv
 import os
-from random import randint
 
 
 load_dotenv()
@@ -25,15 +24,15 @@ class WorkTaskWatchListsAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Add watch lists to task.")
-    def post_add_watch_lists_to_task(self, task_id: int, user_id: int):
+    @allure.step("Add user to task watch list.")
+    def post_add_user_to_task_watch_list(self, task_id: int, *user_ids: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_task_watch_lists_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.post_add_task_watch_lists_payload(
                 task_id,
-                user_id
+                *user_ids
             )
         )
         end = time.time()
@@ -47,18 +46,18 @@ class WorkTaskWatchListsAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTaskWatchListsModel(results=response.json())
-        logger.info(f'Successfully add watch lists ID <{user_id}> to task ID {task_id}')
+        logger.info(f'Successfully add user ID {user_ids} to task ID {task_id} watch lists.')
         return model
 
-    @allure.step("Delete watch lists from task.")
-    def delete_tags_from_task(self, task_id: int, user_id: int):
+    @allure.step("Delete user from task watch list.")
+    def delete_user_from_task_watch_list(self, task_id: int, *user_ids: int):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_watch_lists_endpoint,
             headers=self.headers.basic_header(API_TOKEN),
             json=self.payloads.delete_task_watch_lists_payload(
                 task_id,
-                user_id
+                *user_ids
             )
         )
         end = time.time()
@@ -71,4 +70,4 @@ class WorkTaskWatchListsAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete watch lists ID <{user_id}> from task ID {task_id}')
+        logger.warning(f'Successfully delete user ID {user_ids} task ID {task_id} watch list.')

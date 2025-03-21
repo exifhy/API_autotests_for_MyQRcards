@@ -57,7 +57,8 @@ class TestExportUsers(BaseTest):
             email=user_info.email,
             phone=user_info.mobilePhone,
             role=model_user_roles.root[str(staff_model.userID)][0].name,
-            district_name=district_info.name
+            district_name=district_info.name,
+            technician=user_info.isTechnician
         )
         self.api_adm_users.delete_user_by_id(staff_model.userID)
         self.api_es_districts.delete_district_by_id(district_model.districts[0])

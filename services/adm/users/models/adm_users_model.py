@@ -202,7 +202,7 @@ class IdNameResult(BaseModel):
 
 
 class SuccessGetUsersRolesModel(RootModel):
-    root: Optional[Dict[str, List[IdNameResult]]] = None
+    root: Dict[str, List[IdNameResult]]
 
 
 class Coordinate(BaseModel):

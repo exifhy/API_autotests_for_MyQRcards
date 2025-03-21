@@ -27,17 +27,18 @@ class AdmUsersAPI(Helper):
         self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
-        self.user = next(generated_user())
+        # self.user = next(generated_user())
 
     @allure.step("Add user customer.")
     def post_add_user_customer(self):
+        user = next(generated_user())
         params = {
             "skipAccountVerification": True
         }
-        user_name = self.user.name
-        user_surname = self.user.surname
-        user_email = self.user.email
-        user_phone = self.user.phone
+        user_name = user.name
+        user_surname = user.surname
+        user_email = user.email
+        user_phone = user.phone
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_users_endpoint, params=params,
@@ -66,13 +67,14 @@ class AdmUsersAPI(Helper):
 
     @allure.step("Add user staff is technician.")
     def post_add_user_staff(self):
+        user = next(generated_user())
         params = {
             "skipAccountVerification": True
         }
-        user_name = self.user.name
-        user_surname = self.user.surname
-        user_email = self.user.email
-        user_phone = self.user.phone
+        user_name = user.name
+        user_surname = user.surname
+        user_email = user.email
+        user_phone = user.phone
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_users_endpoint, params=params,
@@ -115,6 +117,25 @@ class AdmUsersAPI(Helper):
             logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete user with id: {user_id}.')
+
+    @allure.step("Delete users by list.")
+    def delete_users_by_list(self, *user_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_users_by_list_endpoint,
+            headers=self.headers.basic_header(API_TOKEN),
+            json=self.payloads.delete_users_by_list_payload(*user_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully delete users with ids: {user_ids}.')
 
     @allure.step('Get detail user info.')
     def get_user_info_by_id(self, user_id: int):
@@ -163,13 +184,45 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully received list users info.')
         return model
 
+    @allure.step('Get list users return ids.')
+    def get_list_users_ids(self):
+        list_users = []
+        params = {
+            "isCustomer": False,
+            "includeTaskActuality": True,
+            "isDeleted": False,
+            # "needForAllowedTasks": bool
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_users_endpoint, params=params,
+            headers=self.headers.basic_header(API_TOKEN),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        # self.attach_response_headers(response)
+        # data_response = self.response_content(response)
+        self.attach_response(response.json())
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}, '
+             f'{response.json()}')
+        model = SuccessGetUsersListModel(**response.json())
+        for ids, data in model.root.items():
+            int_id = int(ids)
+            list_users.append(int_id)
+        logger.info(f'Successfully get list {list_users} users.')
+        return list_users
+
     @allure.step("Put update user.")
     def put_update_user_by_id(self, user_id: int, user_email: str, user_phone: str):
+        user = next(generated_user())
         sex = random.randint(1, 3)
-        new_user_name = self.user.name
-        new_user_surname = self.user.surname
-        new_user_email = self.user.email
-        new_user_phone = self.user.phone
+        new_user_name = user.name
+        new_user_surname = user.surname
+        new_user_email = user.email
+        new_user_phone = user.phone
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_user_info_by_id_endpoint(user_id),
@@ -232,16 +285,15 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        model = SuccessGetUsersRolesModel(**response.json())
-        logger.info(f'Successfully received users roles by ID.{response.json()}, {response.status_code}')
+        assert response.status_code == HTTPStatus.OK,\
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
+        model = SuccessGetUsersRolesModel(root=response.json())
+        logger.info(f'Successfully received users roles by ID.')
         return model
 
     @allure.step('Get a list asset queries to the current user.')
@@ -253,13 +305,15 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Not available to the user a list asset queries.")
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
         model = AssetListQueryResultModel(**response.json())
         logger.info(f'Successfully get a list asset queries to the current user.')
         return model

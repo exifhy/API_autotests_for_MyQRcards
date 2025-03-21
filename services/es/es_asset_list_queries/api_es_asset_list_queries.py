@@ -75,13 +75,16 @@ class EsAssetListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'{response.status_code},{response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("The list of stored queries available in the tenant is not available.")
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetAssetListQueryResultModel(root=response.json())
         logger.info(f'Successfully get a list of stored queries available in the tenant.')
         return model

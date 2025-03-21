@@ -4691,11 +4691,11 @@ class TestWorkTasks(BaseTest):
     class TestRequirement24586(BaseTest):
 
         @allure.title('Test POST add task with task number of different length.')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25138")
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
         @pytest.mark.regress
         @pytest.mark.parametrize('number, status_code, len_number', Params.params_post_task_number.value)
-        @pytest.mark.test_case_id()
+        @pytest.mark.test_case_id(25138)
         def test_post_add_task_with_number_of_different_length(self, number, status_code, len_number):
             created_location_id = self.api_es_locations.post_add_location()
             company_id = self.api_es_companies.post_add_our_company()
@@ -4743,11 +4743,11 @@ class TestWorkTasks(BaseTest):
                 self.api_es_locations.delete_location_by_id(location_id)
 
         @allure.title('Test PUT update task number on different length.')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25139")
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
         @pytest.mark.regress
         @pytest.mark.parametrize('number, status_code, len_number', Params.params_put_task_number.value)
-        @pytest.mark.test_case_id()
+        @pytest.mark.test_case_id(25139)
         def test_put_update_task_number_on_different_length(self, number, status_code, len_number):
             created_location_id = self.api_es_locations.post_add_location()
             company_id = self.api_es_companies.post_add_our_company()
@@ -4797,11 +4797,11 @@ class TestWorkTasks(BaseTest):
                 self.api_es_locations.delete_location_by_id(location_id)
 
         @allure.title('Test PATCH update task number on different length.')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25140")
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
         @pytest.mark.regress
         @pytest.mark.parametrize('number, status_code, len_number', Params.params_patch_task_number.value)
-        @pytest.mark.test_case_id()
+        @pytest.mark.test_case_id(25140)
         def test_patch_update_task_number_on_different_length(self, number, status_code, len_number):
             created_location_id = self.api_es_locations.post_add_location()
             company_id = self.api_es_companies.post_add_our_company()
@@ -4851,11 +4851,11 @@ class TestWorkTasks(BaseTest):
                 self.api_es_locations.delete_location_by_id(location_id)
 
         @allure.title('Test export task with number with different length.')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25143")
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24586")
         @pytest.mark.regress
         @pytest.mark.parametrize('number, status_code, len_number', Params.params_export_task_number.value)
-        @pytest.mark.test_case_id()
+        @pytest.mark.test_case_id(25143)
         def test_export_task_number_with_different_length(self, number, status_code, len_number):
             created_location_id = self.api_es_locations.post_add_location()
             company_id = self.api_es_companies.post_add_our_company()

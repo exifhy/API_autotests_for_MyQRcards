@@ -89,6 +89,12 @@ from services.wh.wh_inventories.api_wh_inventories import WhInventoriesAPI
 from services.work.work_task_skills.api_work_task_skills import WorkTaskSkillsAPI
 from services.work.work_task_tags.api_work_task_tags import WorkTaskTagsAPI
 from services.work.work_task_watch_lists.api_work_task_watch_lists import WorkTaskWatchListsAPI
+from services.work.work_task_statuses.api_work_task_statuses import WorkTaskStatusesAPI
+from services.work.work_task_template_excluded_assets.api_work_task_template_excluded_assets import WorkTaskTemplateExcludedAssetsAPI
+from services.work.work_task_type_district.api_work_task_type_district import WorkTaskTypeDistrictAPI
+from services.work.work_task_type_routes.api_work_task_type_routes import WorkTaskTypeRoutesAPI
+from services.work.work_user_task_favourites.api_work_user_task_favourites import WorkUserTaskFavouritesAPI
+from services.work.work_template_quick_response.api_work_template_quick_response import WorkTemplateQuickResponseAPI
 
 
 class BaseTest:
@@ -185,3 +191,10 @@ class BaseTest:
         self.api_work_task_skills = WorkTaskSkillsAPI()
         self.api_work_task_tags = WorkTaskTagsAPI()
         self.api_work_task_watch_lists = WorkTaskWatchListsAPI()
+        self.api_work_task_statuses = WorkTaskStatusesAPI()
+        self.api_work_task_template_excluded_assets = WorkTaskTemplateExcludedAssetsAPI()
+        self.api_work_task_type_district = WorkTaskTypeDistrictAPI()
+        self.api_work_task_type_routes = WorkTaskTypeRoutesAPI()
+        self.api_work_user_task_favourites = WorkUserTaskFavouritesAPI()
+        self.api_work_template_quick_response = WorkTemplateQuickResponseAPI()
+

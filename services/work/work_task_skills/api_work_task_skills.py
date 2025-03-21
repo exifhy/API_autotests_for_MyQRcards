@@ -69,4 +69,4 @@ class WorkTaskSkillsAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete skills ID: {skill_ids} from tasK ID {task_id}.')
+        logger.warning(f'Successfully delete skills ID: {skill_ids} from tasK ID {task_id}.')
