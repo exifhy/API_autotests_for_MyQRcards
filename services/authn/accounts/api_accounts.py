@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-
 APP_ID = os.getenv('APP_ID')
 BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
 USER_PHONE = os.getenv('USER_PHONE')

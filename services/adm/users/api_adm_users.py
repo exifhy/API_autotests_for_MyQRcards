@@ -11,12 +11,12 @@ from config.headers import Headers
 from services.adm.users.models.adm_users_model import *
 import time
 from http import HTTPStatus
+from utils.token_utils import get_token
 from dotenv import load_dotenv
 import os
 
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 
 
@@ -31,6 +31,7 @@ class AdmUsersAPI(Helper):
 
     @allure.step("Add user customer.")
     def post_add_user_customer(self):
+        """Заказчик"""
         user = next(generated_user())
         params = {
             "skipAccountVerification": True
@@ -42,7 +43,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_users_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_user_customer_payload(
                 name=user_name,
                 surname=user_surname,
@@ -67,6 +68,7 @@ class AdmUsersAPI(Helper):
 
     @allure.step("Add user staff is technician.")
     def post_add_user_staff(self):
+        """Сотрудник"""
         user = next(generated_user())
         params = {
             "skipAccountVerification": True
@@ -78,7 +80,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_users_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_user_staff_payload(
                 name=user_name,
                 surname=user_surname,
@@ -105,7 +107,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_user_by_id_endpoint(user_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -123,7 +125,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_users_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_users_by_list_payload(*user_ids)
         )
         end = time.time()
@@ -142,7 +144,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_user_info_by_id_endpoint(user_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -168,7 +170,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_users_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -196,7 +198,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_users_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -226,7 +228,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_user_info_by_id_endpoint(user_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_user_payload(
                 name=new_user_name,
                 surname=new_user_surname,
@@ -281,7 +283,7 @@ class AdmUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_users_roles_by_id_endpoint(user_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -290,7 +292,7 @@ class AdmUsersAPI(Helper):
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK,\
+        assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
         model = SuccessGetUsersRolesModel(root=response.json())
         logger.info(f'Successfully received users roles by ID.')

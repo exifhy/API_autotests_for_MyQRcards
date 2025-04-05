@@ -9,13 +9,9 @@ from config.headers import Headers
 from services.common.common_contacts.models.common_contacts_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from src.generators.generators import generated_user
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class CommonContactsAPI(Helper):
@@ -32,7 +28,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_contacts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_contacts(
                 full_name=f'{self.contact.surname} {self.contact.name}',
                 email=self.contact.email,
@@ -61,7 +57,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_contacts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_contacts(
                 contact_id=contact_id,
                 full_name=new_name,
@@ -88,7 +84,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contact_by_id(contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -106,7 +102,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contacts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_mass_of_contact_payload(*args)
         )
         end = time.time()
@@ -133,7 +129,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_info_contacts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -154,7 +150,7 @@ class CommonContactsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_info_contact_by_id(contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

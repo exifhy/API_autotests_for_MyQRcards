@@ -10,12 +10,12 @@ from config.headers import Headers
 from services.adm.adm_tenant_members.models.adm_tenant_members_model import *
 import time
 from http import HTTPStatus
+from utils.token_utils import get_token
 from dotenv import load_dotenv
 
 
 load_dotenv()
 APP_ID = os.getenv('APP_ID')
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class AdmTenantMembersAPI(Helper):
@@ -31,7 +31,7 @@ class AdmTenantMembersAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_tenant_member_by_id_endpoint(tenant_member_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -69,7 +69,7 @@ class AdmTenantMembersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_returns_api_user_in_current_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

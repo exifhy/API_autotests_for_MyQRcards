@@ -13,12 +13,7 @@ from config.headers import Headers
 from services.common.common_attachments.models.common_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class CommonAttachmentsAPI(Helper):
@@ -47,7 +42,7 @@ class CommonAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_server_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -68,7 +63,7 @@ class CommonAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_attachment_endpoint(attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

@@ -82,7 +82,7 @@ def return_func_name_with_error() -> str:
     return matches[-1] if matches else "Unknown function"
 
 
-@allure.step("Get API user access token.")
+@allure.title("Get API user access token.")
 def get_api_user_access_token():
     global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
     now = datetime.now(UTC)
@@ -104,45 +104,64 @@ def get_api_user_access_token():
         response_authorization_data = response_authorization.json()
         BEARER_TOKEN = response_authorization_data['access_token']
         TOKEN_EXPIRATION_TIME = now + timedelta(minutes=20)
-        set_key('.env', 'API_TOKEN', BEARER_TOKEN)
-        os.environ["API_TOKEN"] = BEARER_TOKEN
+        # set_key('.env', 'API_TOKEN', BEARER_TOKEN)
+        # os.environ["API_TOKEN"] = BEARER_TOKEN
         return BEARER_TOKEN
     except (requests.exceptions.RequestException, TypeError) as er:
         logger.error(er)
         return None
 
 
+@allure.step("Вызывается перед выполнением тестов.")
 def pytest_sessionstart(session):
     """Вызывается перед выполнением тестов."""
-    logger.info("pytest_session start called")
+    logger.debug("pytest_session start called")
     token = get_api_user_access_token()
     if token:
         cache = session.config.cache
         cache.set("api_token", token)
-        logger.info("Cache set for api_token")
+        logger.debug("Cache set for api_token")
         set_key('.env', 'API_TOKEN', token)
-        logger.info('Token set in .env file')
+        logger.debug('Token set in .env file')
         os.environ["API_TOKEN"] = token
         print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
 
-@allure.step("Сheck the access token before each test")
-def pytest_runtest_setup():
+@allure.step("Check the access token before each test")
+def pytest_runtest_setup(item):
     """Проверка перед каждым тестом."""
-    global TOKEN_EXPIRATION_TIME
+    global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
+
+    load_dotenv()
+
+    cache = item.config.cache
+    cached_token = cache.get("api_token", None)
+
+    if cached_token:
+        BEARER_TOKEN = cached_token
+        logger.debug("Loaded API token from pytest cache")
+
     Helper.attach_token_expiration_time(TOKEN_EXPIRATION_TIME)
     now = datetime.now(UTC)
     Helper.attach_test_start_time(now)
+
     if now > TOKEN_EXPIRATION_TIME:
-        logger.warning("Token expired, refreshing...")
-        get_api_user_access_token()
+        logger.debug("Token expired, refreshing...")
+        new_token = get_api_user_access_token()
+        Helper.attach_token(new_token)
+        if new_token:
+            cache.set("api_token", new_token)  # Обновляем кэш
+            set_key('.env', 'API_TOKEN', new_token)  # Обновляем .env
+            os.environ["API_TOKEN"] = new_token  # Обновляем переменные окружения
+            logger.debug(f"New token set in pytest cache and .env - {os.environ["API_TOKEN"]}")
+            print(f"::set-output name=API_TOKEN::{new_token}")
 
 
 def pytest_sessionfinish(session, exitstatus):
     """Вызывается после выполнения тестов."""
-    logger.info("pytest_sessionfinish called")
+    logger.debug("pytest_sessionfinish called")
     unset_key('.env', 'API_TOKEN')
-    logger.info("API_TOKEN unset in .env file")
+    logger.debug("API_TOKEN unset in .env file")
 
 
 @allure.step("Attach host information")

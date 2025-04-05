@@ -139,3 +139,25 @@ class Params(Enum):
         pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
                      201, 32, id="Task number length 32 (integer)."),
     ]
+
+    params_negative_warehouse_body = [
+        pytest.param({"ErpID": "ErpID 67"}, "InvalidData", "The Name field is required.",
+                     "Successful processing of a request without the name field",
+                     id="Request body without <name> field."),
+        pytest.param({"Name": "", "ErpID": "ErpID 67"}, "InvalidData", "The Name field is required.",
+                     "Successful processing of a request with empty <name> field",
+                     id="Request body with empty <name> field."),
+        pytest.param({}, "InvalidData", "The Name field is required.",
+                     "Successful processing of a request with empty dict",
+                     id="Request body with {}."),
+        pytest.param({"Name": "Склад 67", "ErpID": f"{"A"*65}"}, "InvalidData",
+                     "The field ErpID must be a string with a maximum length of 64.",
+                     "Successful processing of a request with a 65-character long erpID field in body.",
+                     id="Request body with 65-character long erpID field."),
+    ]
+    params_negative_get_warehouse_body = [
+        pytest.param("test", 404, id="Sent value: test."),
+        pytest.param("123test", 404, id="Sent value: 123test."),
+        pytest.param("test123", 404, id="Sent value: test123."),
+        pytest.param("!@#$%^&*(", 404, id="Sent value: !@#$%^&*(."),
+    ]

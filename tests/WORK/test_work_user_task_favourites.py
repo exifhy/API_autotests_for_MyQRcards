@@ -8,11 +8,11 @@ from config.base_test import BaseTest
 class TestWorkUserTaskFavourites(BaseTest):
 
     @allure.title('Test adds task to the favorites list for the current user.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25350")
     @pytest.mark.skip(reason="Тест добавления заявки в список избранных проходит "
                              "в - test_delete_task_from_favourite_list_user")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25350)
     def test_post_add_task_to_favourite_list_user(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
@@ -58,9 +58,9 @@ class TestWorkUserTaskFavourites(BaseTest):
             self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test delete task from the favorites list the current user.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25351")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25351)
     def test_delete_task_from_favourite_list_user(self):
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()

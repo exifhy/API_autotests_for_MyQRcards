@@ -1,24 +1,28 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, RootModel, ConfigDict
 from datetime import datetime
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    
+
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddAssetTemplatesModel(BaseModel):
+class SuccessAddAssetTemplatesModel(StrictBaseModel):
     result: List[int]
 
 
-class GetListAttachmentsFromAssetTemplate(BaseModel):
+class GetListAttachmentsFromAssetTemplate(StrictBaseModel):
     fileName: str
     description: Optional[str] = None
     isUploaded: Optional[bool] = None
@@ -33,32 +37,32 @@ class SuccessGetListAttachmentsFromAssetTemplate(RootModel):
     root: Dict[str, GetListAttachmentsFromAssetTemplate]
 
 
-class IdNameDeletedResult(BaseModel):
+class IdNameDeletedResult(StrictBaseModel):
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class AttributeTypeResult(BaseModel):
+class AttributeTypeResult(StrictBaseModel):
     code: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class MeasurementUnitResult(BaseModel):
+class MeasurementUnitResult(StrictBaseModel):
     abbreviation: Optional[str] = None
     designation: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class DomainResult(BaseModel):
+class DomainResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
 
-class AssetTemplateAttributeResultModel(BaseModel):
+class AssetTemplateAttributeResultModel(StrictBaseModel):
     attribute: Optional[IdNameDeletedResult] = None
     value: Optional[str] = None
     isPublic: Optional[bool] = None
@@ -69,22 +73,22 @@ class AssetTemplateAttributeResultModel(BaseModel):
     domain: Optional[DomainResult] = None
 
 
-class SuccessAssetTemplateAttributeResultModel(BaseModel):
+class SuccessAssetTemplateAttributeResultModel(StrictBaseModel):
     result: List[AssetTemplateAttributeResultModel]
 
 
-class SuccessUploadAvatarToAssetTemplateModel(BaseModel):
+class SuccessUploadAvatarToAssetTemplateModel(StrictBaseModel):
     attachmentID: Optional[int] = None
     publicUrl: Optional[str] = None
     size: Optional[int] = None
 
 
-class IdNameModel(BaseModel):
+class IdNameModel(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class GetListAssetTemplatesModel(BaseModel):
+class GetListAssetTemplatesModel(StrictBaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     assetName: Optional[str] = None
@@ -98,13 +102,13 @@ class SuccessGetListAssetTemplatesModel(RootModel):
     root: Dict[str, GetListAssetTemplatesModel]
 
 
-class AssetTypeResult(BaseModel):
+class AssetTypeResult(StrictBaseModel):
     isHostable: Optional[bool] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class UserResult(BaseModel):
+class UserResult(StrictBaseModel):
     id: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
@@ -113,19 +117,19 @@ class UserResult(BaseModel):
     deleted: Optional[datetime] = None
 
 
-class TimeZoneResult(BaseModel):
+class TimeZoneResult(StrictBaseModel):
     utcOffsetMinutes: Optional[int] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class CountryResult(BaseModel):
+class CountryResult(StrictBaseModel):
     twoSymbolCode: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class LocationResult(BaseModel):
+class LocationResult(StrictBaseModel):
     address: Optional[str] = None
     coordinate: Optional[str] = None
     description: Optional[str] = None
@@ -135,7 +139,7 @@ class LocationResult(BaseModel):
     id: Optional[int] = None
 
 
-class AssetResult(BaseModel):
+class AssetResult(StrictBaseModel):
     host: Optional[IdNameDeletedResult] = None
     deleted: Optional[datetime] = None
     parentID: Optional[int] = None
@@ -143,7 +147,7 @@ class AssetResult(BaseModel):
     id: Optional[int] = None
 
 
-class SuccessGetAssetTemplateResult(BaseModel):
+class SuccessGetAssetTemplateResult(StrictBaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     hostAsset: Optional[IdNameModel] = None
@@ -166,7 +170,7 @@ class SuccessGetAssetTemplateResult(BaseModel):
     avatarUrl: Optional[str] = None
 
 
-class DistrictsFromAssetTemplateModel(BaseModel):
+class DistrictsFromAssetTemplateModel(StrictBaseModel):
     name: str
 
 
@@ -174,26 +178,26 @@ class SuccessGetListDistrictsFromAssetTemplateModel(RootModel):
     root: Dict[str, DistrictsFromAssetTemplateModel]
 
 
-class SuccessGetListSkillsFromAssetTemplateModel(BaseModel):
+class SuccessGetListSkillsFromAssetTemplateModel(StrictBaseModel):
     result: List[int]
 
 
-class DescriptionWorkTypesModel(BaseModel):
+class DescriptionWorkTypesModel(StrictBaseModel):
     description: Optional[str] = None
     name: str
     id: int
 
 
-class ListWorkTypesFromAssetTemplateModel(BaseModel):
+class ListWorkTypesFromAssetTemplateModel(StrictBaseModel):
     workType: DescriptionWorkTypesModel
-    isDefault: bool
+    isDefault: Optional[bool] = None
 
 
-class SuccessGetListWorkTypesFromAssetTemplateModel(BaseModel):
+class SuccessGetListWorkTypesFromAssetTemplateModel(StrictBaseModel):
     result: List[ListWorkTypesFromAssetTemplateModel]
 
 
-class SuccessGetAssetTemplatesAttachmentsByIdNoRedirectModel(BaseModel):
+class SuccessGetAssetTemplatesAttachmentsByIdNoRedirectModel(StrictBaseModel):
     fileName: str
     url: str
     size: int

@@ -9,11 +9,11 @@ from config.headers import Headers
 from services.common.common_applications.models.common_applications_model import *
 import time
 from http import HTTPStatus
+from utils.token_utils import get_token
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 
 
@@ -30,7 +30,7 @@ class CommonApplicationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_branches_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)

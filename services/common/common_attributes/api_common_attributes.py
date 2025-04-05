@@ -9,12 +9,12 @@ from config.headers import Headers
 from services.common.common_attributes.models.common_attributes_model import *
 import time
 from http import HTTPStatus
+from utils.token_utils import get_token
 from dotenv import load_dotenv
 import os
 from random import randint
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 
 
@@ -45,7 +45,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=1,
@@ -77,7 +77,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=1,
@@ -109,7 +109,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=10,
@@ -140,7 +140,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=10,
@@ -171,7 +171,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=1,
@@ -202,7 +202,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=1,
@@ -235,7 +235,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=1,
@@ -271,7 +271,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_method_attributes_type_str_payloads(
                 attribute_name=attribute_name,
                 attribute_type_id=6,
@@ -304,7 +304,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_method_attribute_by_id_endpoint(attribute_id),
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -322,7 +322,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -346,7 +346,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attributes_endpoint, params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -379,7 +379,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attributes_endpoint, params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -409,7 +409,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attribute_by_id_endpoint(attribute_id),
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -430,7 +430,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_mass_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.delete_mass_method_attribute(attribute_id)
         )
         end = time.time()
@@ -449,7 +449,7 @@ class CommonAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_available_values_for_attribute_endpoint(attribute_id),
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)

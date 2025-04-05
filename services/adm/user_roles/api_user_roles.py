@@ -9,12 +9,7 @@ from config.headers import Headers
 from services.adm.user_roles.models.user_roles_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class AdmUserRolesAPI(Helper):
@@ -30,7 +25,7 @@ class AdmUserRolesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_roles_to_user_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_roles_to_user_payload(
                 user_id=user_id,
                 role_ids=customer_role_id

@@ -12,10 +12,10 @@ from http import HTTPStatus
 from dotenv import load_dotenv
 import os
 from random import randint
+from utils.token_utils import get_token
 from src.generators.generators import generated_user
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 USER_EMAIL = os.getenv('USER_EMAIL')
 
@@ -34,7 +34,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_account_applications_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -59,7 +59,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_account_applications_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID, **param_range)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID, **param_range)
         )
         end = time.time()
         logger.info(response.headers)
@@ -84,7 +84,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_account_applications_endpoint, params=params,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -148,7 +148,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_account_applications_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID, **params)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID, **params)
         )
         end = time.time()
         logger.info(response.headers)
@@ -171,7 +171,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_account_applications_endpoint, params=params,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID)
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
         )
         end = time.time()
         logger.info(response.headers)
@@ -183,7 +183,7 @@ class AuthAccountsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CONFLICT, f'Status code {response.status_code}, {response.json()}'
         model = ErrorModel(list_model=response.json())
-        logger.warning(f'Expected error: {model.list_model[0].message}.')
+        logger.warning(f'Expected error: {response.status_code}, message: {model.list_model[0].message}.')
         return model
 
     @allure.step("Updating the current account's application data.")
@@ -194,7 +194,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_updating_current_account_application_data_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.updating_current_accounts_application_data_payload(
                 client_id=uniq_client_id,
                 push_token=push_token,
@@ -219,7 +219,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_unbind_app_device_from_your_current_account_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.delete_app_and_device_from_account_payload(
                 client_id=client_id,
                 app_id=app_id
@@ -242,7 +242,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_logout_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.delete_app_and_device_from_account_payload(
                 client_id=client_id,
                 app_id=app_id
@@ -272,7 +272,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_register_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_accounts_register_payload(**value)
         )
         end = time.time()
@@ -298,7 +298,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_accounts_endpoint, params=params,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
         )
         end = time.time()
         logger.info(response.headers)
@@ -336,7 +336,8 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.NOT_FOUND, f'Status code {response.status_code}, {response.json()}'
+            assert response.status_code == HTTPStatus.NOT_FOUND, \
+                f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {response.json()}'
             logger.warning(f'No data with such credentials, status code: {response.status_code}.')
         else:
             assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}'
@@ -351,7 +352,7 @@ class AuthAccountsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_notifications_from_log_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
         )
         end = time.time()
         logger.info(response.headers)
@@ -362,10 +363,12 @@ class AuthAccountsAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.NO_CONTENT, f'Status code {response.status_code}, {response.json()}'
+            assert response.status_code == HTTPStatus.NO_CONTENT, \
+                f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {response.json()}'
             logger.warning(f'No data of notifications from the log, status code: {response.status_code}.')
         else:
-            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, f'Status code {response.status_code}'
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {response.json()}'
             model = SuccessNotificationListResultModel(result=response.json())
             logger.warning(f'Successfully list of notifications from the log.')
             return model

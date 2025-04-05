@@ -9,6 +9,7 @@ from config.headers import Headers
 from services.common.common_attribute_list_of_values.models.common_attribute_list_of_values_model import *
 import time
 from http import HTTPStatus
+from utils.token_utils import get_token
 from dotenv import load_dotenv
 import os
 from random import randint
@@ -19,7 +20,6 @@ faker_ru = Faker('ru_RU')
 
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 
 
@@ -44,7 +44,7 @@ class CommonAttributeListOfValuesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_attribute_list_of_value_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_attribute_list_of_value_payload(
                 attribute_id,
                 *values
@@ -63,4 +63,3 @@ class CommonAttributeListOfValuesAPI(Helper):
         logger.warning(f'Successfully add attribute the list of available values.')
         result = {item['key']: item['value'] for item in values}
         return result
-

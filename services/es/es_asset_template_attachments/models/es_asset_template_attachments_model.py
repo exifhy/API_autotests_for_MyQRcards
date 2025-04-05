@@ -1,30 +1,34 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class AttachmentsToAssetTemplateModel(BaseModel):
+class AttachmentsToAssetTemplateModel(StrictBaseModel):
     assetTemplateID: int
     attachmentID: int
 
 
-class SuccessBindAttachmentsToAssetTemplateModel(BaseModel):
+class SuccessBindAttachmentsToAssetTemplateModel(StrictBaseModel):
     result: List[AttachmentsToAssetTemplateModel]
 
 
-class SuccessUploadBindAttachmentToTemplateModel(BaseModel):
+class SuccessUploadBindAttachmentToTemplateModel(StrictBaseModel):
     assetTemplateID: int
     attachmentID: int
     checkSum: Optional[str] = None
     fileName: str
-    isProtected: bool
+    isProtected: Optional[bool] = None

@@ -1,36 +1,40 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field, RootModel, ConfigDict
 from datetime import datetime
 
 
-class AssetTaskActualityResult(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class AssetTaskActualityResult(StrictBaseModel):
     self: int
     nested: int
 
 
-class IdNameDeletedResult(BaseModel):
+class IdNameDeletedResult(StrictBaseModel):
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class IdResult(BaseModel):
+class IdResult(StrictBaseModel):
     id: Optional[int] = None
 
 
-class TimeZoneResult(BaseModel):
+class TimeZoneResult(StrictBaseModel):
     utcOffsetMinutes: Optional[int] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class CountryResult(BaseModel):
+class CountryResult(StrictBaseModel):
     twoSymbolCode: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class LocationResult(BaseModel):
+class LocationResult(StrictBaseModel):
     address: Optional[str] = None
     coordinate: Optional[str] = None
     description: Optional[str] = None
@@ -40,14 +44,14 @@ class LocationResult(BaseModel):
     id: Optional[int] = None
 
 
-class AssetResultWithLocation(BaseModel):
+class AssetResultWithLocation(StrictBaseModel):
     location: Optional[IdResult] = None
     deleted: Optional[datetime] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class AssetExtResult(BaseModel):
+class AssetExtResult(StrictBaseModel):
     hasChildren: bool
     tasksActualities: Optional[Dict[str, AssetTaskActualityResult]] = None
     hostAsset: Optional[IdNameDeletedResult] = None
@@ -68,46 +72,46 @@ class AssetExtResult(BaseModel):
     id: int
 
 
-class AssetExtResults(BaseModel):
+class AssetExtResults(StrictBaseModel):
     """Main model AssetList"""
     results: Dict[str, AssetExtResult]
 
 
-class CodeMessageModel(BaseModel):
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class IdNameResultModel(BaseModel):
+class IdNameResultModel(StrictBaseModel):
     name: str
     id: int
 
 
-class AssetTypeResult(BaseModel):
+class AssetTypeResult(StrictBaseModel):
     isHostable: bool
     name: str
     id: int
 
 
-class IdNameResult(BaseModel):
+class IdNameResult(StrictBaseModel):
     name: str
     id: int
 
 
-class ParentAssetResult(BaseModel):
+class ParentAssetResult(StrictBaseModel):
     assetType: AssetTypeResult
     deleted: Optional[datetime] = None
     name: str
     id: int
 
 
-class AssetResponsiblePersonResult(BaseModel):
+class AssetResponsiblePersonResult(StrictBaseModel):
     userID: int
     firstName: str
     middleName: Optional[str] = None
@@ -119,20 +123,20 @@ class AssetResponsiblePersonResult(BaseModel):
     isMobilePhoneVerified: bool
 
 
-class AssetPosition(BaseModel):
+class AssetPosition(StrictBaseModel):
     schemaID: int
     x: int
     y: int
 
 
-class AssetResultWithLocationDetailedInfo(BaseModel):
+class AssetResultWithLocationDetailedInfo(StrictBaseModel):
     location: IdNameResult
     deleted: Optional[datetime] = None
     name: str
     id: int
 
 
-class AssetDetailedInfoResult(BaseModel):
+class AssetDetailedInfoResult(StrictBaseModel):
     """Main asset detailed model"""
     isMobileAsset: bool
     assetType: AssetTypeResult
@@ -162,7 +166,7 @@ class AssetDetailedInfoResult(BaseModel):
     id: int
 
 
-class UserResult(BaseModel):
+class UserResult(StrictBaseModel):
     id: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
@@ -171,22 +175,22 @@ class UserResult(BaseModel):
     deleted: Optional[str] = None
 
 
-class PeriodResult(BaseModel):
+class PeriodResult(StrictBaseModel):
     from_: Optional[str] = Field(None, alias="from")
     till: Optional[str] = None
 
 
-class GetAssetAssignmentResultModel(BaseModel):
+class GetAssetAssignmentResultModel(StrictBaseModel):
     user: Optional[UserResult] = None
     validityPeriod: Optional[PeriodResult] = None
     notes: Optional[str] = None
 
 
-class SuccessGetAssetAssignmentResultModel(BaseModel):
+class SuccessGetAssetAssignmentResultModel(StrictBaseModel):
     result: List[GetAssetAssignmentResultModel]
 
 
-class ListAttachmentResult(BaseModel):
+class ListAttachmentResult(StrictBaseModel):
     fileName: Optional[str] = None
     description: Optional[str] = None
     isUploaded: Optional[bool] = None
@@ -201,26 +205,26 @@ class SuccessGetListAttachmentResultModel(RootModel):
     root: Dict[str, ListAttachmentResult]
 
 
-class AttributeTypeResult(BaseModel):
+class AttributeTypeResult(StrictBaseModel):
     code: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class MeasurementUnitResult(BaseModel):
+class MeasurementUnitResult(StrictBaseModel):
     abbreviation: Optional[str] = None
     designation: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class DomainResult(BaseModel):
+class DomainResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
 
-class AssetAttributeResult(BaseModel):
+class AssetAttributeResult(StrictBaseModel):
     attribute: Optional[IdNameDeletedResult] = None
     value: Optional[str] = None
     isPublic: Optional[bool] = None
@@ -231,17 +235,17 @@ class AssetAttributeResult(BaseModel):
     domain: Optional[DomainResult] = None
 
 
-class SuccessGetListAssetAttributeResultModel(BaseModel):
+class SuccessGetListAssetAttributeResultModel(StrictBaseModel):
     result: List[AssetAttributeResult]
 
 
-class SuccessPutUploadFileModel(BaseModel):
+class SuccessPutUploadFileModel(StrictBaseModel):
     attachmentID: int
     publicUrl: str
     size: int
 
 
-class GetAssetChecklistsModel(BaseModel):
+class GetAssetChecklistsModel(StrictBaseModel):
     description: str
     name: str
     id: int
@@ -251,7 +255,7 @@ class SuccessGetAssetChecklistsModel(RootModel):
     root: Dict[str, List[GetAssetChecklistsModel]]
 
 
-class GetAssetContactsResultModel(BaseModel):
+class GetAssetContactsResultModel(StrictBaseModel):
     fullName: Optional[str] = None
     email: Optional[str] = None
     phone: Optional[str] = None
@@ -267,7 +271,7 @@ class SuccessGetAssetContactsResultModel(RootModel):
     root: Dict[str, GetAssetContactsResultModel]
 
 
-class SuccessGetAssetContactByIdResult(BaseModel):
+class SuccessGetAssetContactByIdResult(StrictBaseModel):
     email: Optional[str] = None
     phone01: Optional[str] = None
     phone02: Optional[str] = None
@@ -283,17 +287,17 @@ class SuccessGetAssetContactByIdResult(BaseModel):
     id: Optional[int] = None
 
 
-class SuccessAddContactAssetResultModel(BaseModel):
+class SuccessAddContactAssetResultModel(StrictBaseModel):
     assetID: int
     contactID: int
     id: int
 
 
-class SuccessListContactAssetResultModel(BaseModel):
+class SuccessListContactAssetResultModel(StrictBaseModel):
     result: List[SuccessAddContactAssetResultModel]
 
 
-class AssetDistrictResultModel(BaseModel):
+class AssetDistrictResultModel(StrictBaseModel):
     parentID: Optional[int] = None
     name: str
 
@@ -306,11 +310,11 @@ class SuccessAssetSkillResultModel(RootModel):
     root: Dict[str, IdNameResult]
 
 
-class SuccessGetTagsAssetsModel(BaseModel):
+class SuccessGetTagsAssetsModel(StrictBaseModel):
     result: List[str]
 
 
-class GetAssetWorkTypesResult(BaseModel):
+class GetAssetWorkTypesResult(StrictBaseModel):
     workClassID: Optional[int] = None
     name: str
     description: Optional[str] = None

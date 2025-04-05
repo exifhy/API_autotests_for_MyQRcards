@@ -55,7 +55,7 @@ class Payloads:
             surname: str,
             old_mail: str,
             old_phone: str,
-            sex: str,
+            sex,
             email: str,
             phone: str
     ) -> dict:

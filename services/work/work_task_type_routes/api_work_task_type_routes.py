@@ -59,9 +59,9 @@ class WorkTaskTypeRoutesAPI(Helper):
     @allure.step("Update routes task types.")
     def put_update_task_types_routes(
             self,
-            task_type_id: str,
+            task_type_id: int,
             start_task_stage_id: int,
-            start_task_status_id: str,
+            start_task_status_id: int,
             finish_task_stage_id: int
     ):
         data = {

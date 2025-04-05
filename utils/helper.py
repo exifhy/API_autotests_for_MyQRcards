@@ -35,6 +35,12 @@ class Helper:
         allure.attach(body=request, name='Service API url', attachment_type=AttachmentType.TEXT)
 
     @classmethod
+    def attach_token(cls, request):
+        if isinstance(request, bytes):
+            request = request.decode('utf-8')
+        allure.attach(body=request, name='Token', attachment_type=AttachmentType.TEXT)
+
+    @classmethod
     def attach_request_txt(cls, request):
         if isinstance(request, bytes):
             request = request.decode('utf-8')

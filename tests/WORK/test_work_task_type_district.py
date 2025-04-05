@@ -8,9 +8,9 @@ from config.base_test import BaseTest
 class TestWorkTaskTypeDistrict(BaseTest):
 
     @allure.title('Test changing the binding of task types to district.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25348")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25348)
     def test_put_update_task_type_district(self):
         model_district = self.api_es_districts.post_add_three_districts()
         model_task_type = self.api_work_task_types.post_add_task_types()
