@@ -9,14 +9,10 @@ from config.headers import Headers
 from services.es.districts.models.districts_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from faker import Faker
 
 fake_ru = Faker('ru_RU')
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsDistrictsAPI(Helper):
@@ -34,7 +30,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_districts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_districts_payload(
                 district_name=district_name,
                 notes=notes_text,
@@ -60,7 +56,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_districts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_districts_args_payload(
                 ("Участок-1", f"Описание-1", False),
                 ("Участок-2", f"Описание-2", False),
@@ -86,7 +82,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_districts_by_id_endpoint(district_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -104,7 +100,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_info_district_available_to_user_by_id_endpoint(district_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -124,7 +120,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_districts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_districts_by_list_payload(*district_id)
         )
         end = time.time()
@@ -143,7 +139,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_districts_available_to_user_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -164,7 +160,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_districts_available_to_user_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -195,7 +191,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.update_districts_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_district_payload(
                 district_id=district_id,
                 district_name=district_name,
@@ -220,7 +216,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_parent_and_district_sorting_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_parent_district_payload(
                 district_id=district_id,
                 parent_id=parent_id
@@ -244,7 +240,7 @@ class EsDistrictsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_parent_and_district_sorting_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_district_sorting_payload(
                 district_id=district_id,
                 sorted_id=sorted_order

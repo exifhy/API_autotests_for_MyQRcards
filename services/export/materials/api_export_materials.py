@@ -10,14 +10,9 @@ from config.headers import Headers
 from services.export.materials.models.export_materials_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from openpyxl import load_workbook
 from io import BytesIO
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportMaterialsAPI(Helper):
@@ -36,7 +31,7 @@ class ExportMaterialsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_materials_endpoint, params=params,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -60,8 +55,10 @@ class ExportMaterialsAPI(Helper):
         sheet_name = workbook.sheetnames
 
         assert 'Материалы' in sheet_name
-        assert sheet['B3'].value == 'Номенклатура материала', f'Expected Номенклатура материала, but got {sheet['B3'].value}'
-        assert sheet['C3'].value == 'Код номенклатуры материала', f'Expected Код номенклатуры материала, but got {sheet['C3'].value}'
+        assert sheet['B3'].value == 'Номенклатура материала', \
+            f'Expected Номенклатура материала, but got {sheet['B3'].value}'
+        assert sheet['C3'].value == 'Код номенклатуры материала', \
+            f'Expected Код номенклатуры материала, but got {sheet['C3'].value}'
         assert sheet['D3'].value == 'Стоимость (руб)', f'Expected Стоимость (руб), but got {sheet['D3'].value}'
         assert sheet['E3'].value == 'Название склада', f'Expected Название склада, but got {sheet['E3'].value}'
         assert sheet['F3'].value == 'Код склада', f'Expected Код склада, but got {sheet['F3'].value}'

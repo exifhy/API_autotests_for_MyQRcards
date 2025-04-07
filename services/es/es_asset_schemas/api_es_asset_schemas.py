@@ -12,12 +12,8 @@ from config.headers import Headers
 from services.es.es_asset_schemas.models.es_asset_schemas_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetSchemasAPI(Helper):
@@ -33,7 +29,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_plan_scheme_attached_to_asset_endpoint(asset_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -54,7 +50,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_existing_asset_schemas_endpoint(asset_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -75,7 +71,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_schema_by_id_endpoint(schema_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -96,7 +92,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_asset_schema_by_id_endpoint(schema_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -116,7 +112,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_asset_schemas_endpoint(asset_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_asset_scheme_payload(scheme_id, name)
         )
         end = time.time()
@@ -142,7 +138,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_asset_schemas_endpoint(asset_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_create_asset_scheme_payload(
                 asset_id, asset_x, asset_y, scheme_id, asset_id, image_id, name
             )
@@ -168,7 +164,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_asset_schemas_endpoint(asset_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_create_asset_scheme_only_name_payload(name)
         )
         end = time.time()
@@ -191,7 +187,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_schemas_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -212,7 +208,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_asset_schemas_to_asset_by_id_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_bind_asset_scheme_to_asset_payloads(*asset_ids)
         )
         end = time.time()
@@ -233,7 +229,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_unbind_asset_schemas_from_asset_by_id_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_unbind_asset_scheme_to_asset_payloads(*asset_ids)
         )
         end = time.time()
@@ -254,7 +250,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_data_image_bind_asset_schemas_by_id_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -275,7 +271,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_image_bind_asset_schemas_by_id_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -292,7 +288,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_image_bind_asset_schemas_temporary_redirect_by_id_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -329,7 +325,7 @@ class EsAssetSchemasAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_add_asset_schema_from_form_endpoint(scheme_id),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -349,7 +345,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_image_to_asset_schema_by_id_endpoint(scheme_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -370,7 +366,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_points_from_asset_schema_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -396,7 +392,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_points_to_asset_schema_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_points_to_asset_schema_payload(params)
         )
         end = time.time()
@@ -419,7 +415,7 @@ class EsAssetSchemasAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_points_from_asset_schema_by_list_endpoint(scheme_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_points_from_asset_schema_payload(*point_id)
         )
         end = time.time()

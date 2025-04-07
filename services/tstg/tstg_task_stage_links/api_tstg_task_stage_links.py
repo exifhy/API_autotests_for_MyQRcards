@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.tstg.tstg_task_stage_links.payloads import Payloads
 from services.tstg.tstg_task_stage_links.endpoints import Endpoints
@@ -9,14 +8,9 @@ from config.headers import Headers
 from services.tstg.tstg_task_stage_links.models.tstg_task_stage_links_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from collections import deque
 from services.work.work_task_staging_history.api_work_task_staging_history import WorkTaskStagingHistoryAPI
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class TstgTaskStageLinksAPI(Helper):
@@ -36,7 +30,7 @@ class TstgTaskStageLinksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_stage_links_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

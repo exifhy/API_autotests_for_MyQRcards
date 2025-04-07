@@ -9,14 +9,10 @@ from config.headers import Headers
 from services.es.asset_work_types.models.asset_work_types_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from faker import Faker
 
 fake_ru = Faker('ru_RU')
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsAssetWorkTypesAPI(Helper):
@@ -32,7 +28,7 @@ class EsAssetWorkTypesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_asset_work_type_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.asset_work_types_payload(
                 asset_id=asset_id,
                 work_type_id=work_type_id,
@@ -57,7 +53,7 @@ class EsAssetWorkTypesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_work_type_from_asset_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.asset_work_types_payload(
                 asset_id=asset_id,
                 work_type_id=work_type_id,

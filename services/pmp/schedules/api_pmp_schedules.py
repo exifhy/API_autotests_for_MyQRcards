@@ -10,11 +10,7 @@ from config.headers import Headers
 from services.pmp.schedules.models.pmp_schedules_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class PmpSchedulesAPI(Helper):
@@ -32,7 +28,7 @@ class PmpSchedulesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_update_schedules_for_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_during_day_schedule_for_tenant_payload(
                 date_from=f"{tomorrow}T00:00:00",
                 date_till=f"{tomorrow}T23:59:59"
@@ -57,7 +53,7 @@ class PmpSchedulesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_schedules_endpoint(schedule_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -69,4 +65,3 @@ class PmpSchedulesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully deleting a schedule for a tenant by id.')
-

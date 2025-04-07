@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.work.work_task_ratings.payloads import Payloads
 from services.work.work_task_ratings.endpoints import Endpoints
@@ -9,12 +8,8 @@ from config.headers import Headers
 from services.work.work_task_ratings.models.work_task_ratings_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskRatingsAPI(Helper):
@@ -34,7 +29,7 @@ class WorkTaskRatingsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_ratings_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_task_ratings_payload(data)
         )
         end = time.time()

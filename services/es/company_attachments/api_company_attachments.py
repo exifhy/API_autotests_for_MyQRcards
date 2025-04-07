@@ -9,17 +9,12 @@ from config.headers import Headers
 from services.es.company_attachments.models.company_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from PIL import Image
 from requests_toolbelt import MultipartEncoder
 import io
 import base64
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsCompanyAttachmentsAPI(Helper):
@@ -35,7 +30,7 @@ class EsCompanyAttachmentsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_attachments_and_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_bind_attachments_and_company_payload(
                 company_id,
                 *attachment_ids
@@ -63,7 +58,7 @@ class EsCompanyAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_unbind_attachments_and_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_unbind_attachments_from_company_payload(
                 company_id,
                 *attachment_ids
@@ -102,7 +97,7 @@ class EsCompanyAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_company_data_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -141,7 +136,7 @@ class EsCompanyAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_company_data_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()

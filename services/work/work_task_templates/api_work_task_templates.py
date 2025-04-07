@@ -10,11 +10,7 @@ from config.headers import Headers
 from services.work.work_task_templates.models.work_task_templates_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskTemplatesAPI(Helper):
@@ -32,7 +28,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_task_templates_payloads(
                 template_name=name,
                 templates_note=note,
@@ -65,7 +61,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_templates_payloads(
                 template_id=template_id,
                 template_name=name,
@@ -99,7 +95,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_templates_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -123,7 +119,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -143,7 +139,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_template_by_id_endpoint(task_template_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -163,7 +159,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -181,7 +177,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_download_qr_code_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -206,7 +202,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_download_qr_code_task_template_by_id_endpoint(task_template_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -231,7 +227,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_templates_payloads(task_templates_id)
         )
         end = time.time()
@@ -252,7 +248,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_publish_task_template_by_id_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -272,7 +268,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_unpublish_task_template_by_id_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -290,7 +286,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_public_task_template_by_id_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -310,7 +306,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_assignment_task_templates_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.bind_employee_to_template_payloads(*user_ids)
         )
         end = time.time()
@@ -333,7 +329,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_assignment_task_templates_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -353,7 +349,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_templates_for_schedules_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_task_templates_for_schedules_payloads(schedule_id)
         )
         end = time.time()
@@ -374,7 +370,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_excluded_assets_task_templates_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -397,7 +393,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_excluded_assets_task_templates_by_asset_id_endpoint(task_templates_id, asset_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -408,14 +404,15 @@ class WorkTaskTemplatesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete excluded assets ID {asset_id} from task template by ID {task_templates_id}.')
+        logger.warning(f'Successfully delete excluded assets ID {asset_id} '
+                       f'from task template by ID {task_templates_id}.')
 
     @allure.step("Regeneration of events for schedule.")
     def post_appointments_schedules_task_templates(self, task_templates_id: str, schedule_id: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_templates_for_schedules_appointments_endpoint(task_templates_id, schedule_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -433,7 +430,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_templates_for_schedules_endpoint(task_templates_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -453,7 +450,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.activate_schedule_endpoint(task_templates_id, schedule_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -475,7 +472,7 @@ class WorkTaskTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.deactivate_schedule_endpoint(task_templates_id, schedule_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -488,4 +485,3 @@ class WorkTaskTemplatesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully schedule deactivation by ID.')
-

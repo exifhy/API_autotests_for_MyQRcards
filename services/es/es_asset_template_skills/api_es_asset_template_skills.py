@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.es.es_asset_template_skills.payloads import Payloads
 from services.es.es_asset_template_skills.endpoints import Endpoints
@@ -9,12 +8,7 @@ from config.headers import Headers
 from services.es.es_asset_template_skills.models.es_asset_template_skills_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetTemplateSkillsAPI(Helper):
@@ -34,7 +28,7 @@ class EsAssetTemplateSkillsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_skills_to_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_skills_to_asset_templates_payload(asset_template_id, skills)
         )
         end = time.time()
@@ -56,7 +50,7 @@ class EsAssetTemplateSkillsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_skills_from_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_skills_from_asset_templates_payload(asset_template_id, *skill_ids)
         )
         end = time.time()
@@ -76,7 +70,7 @@ class EsAssetTemplateSkillsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_skills_from_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_skills_from_asset_template_by_id_payload(*skill_ids)
         )
         end = time.time()

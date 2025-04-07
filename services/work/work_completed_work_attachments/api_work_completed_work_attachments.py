@@ -9,16 +9,12 @@ from config.headers import Headers
 from services.work.work_completed_work_attachments.models.work_completed_work_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from requests_toolbelt import MultipartEncoder
 from PIL import Image
 import io
 import base64
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class WorkCompletedWorkAttachmentsAPI(Helper):
@@ -34,7 +30,7 @@ class WorkCompletedWorkAttachmentsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_completed_work_attachments_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_completed_work_attachments_payload(
                 task_id,
                 completed_work_id,
@@ -62,7 +58,7 @@ class WorkCompletedWorkAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_completed_work_attachments_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_completed_work_attachments_payload(
                 task_id,
                 completed_work_id,
@@ -104,7 +100,7 @@ class WorkCompletedWorkAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_to_completed_work_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -146,7 +142,7 @@ class WorkCompletedWorkAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_to_completed_work_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()

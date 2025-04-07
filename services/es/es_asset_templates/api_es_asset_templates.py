@@ -9,17 +9,12 @@ from config.headers import Headers
 from services.es.es_asset_templates.models.es_asset_templates_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from PIL import Image
 from requests_toolbelt import MultipartEncoder
 import io
 import base64
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsAssetTemplatesAPI(Helper):
@@ -51,7 +46,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_asset_templates_endpoint(params)
         )
         end = time.time()
@@ -91,7 +86,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_asset_templates_endpoint(params)
         )
         end = time.time()
@@ -137,7 +132,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.post_add_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_asset_templates_endpoint(params)
         )
         end = time.time()
@@ -157,7 +152,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_asset_templates_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_asset_templates_by_lyst_endpoint(*asset_templates_id)
         )
         end = time.time()
@@ -177,7 +172,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -195,7 +190,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attachments_from_asset_template_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -219,7 +214,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attachment_from_asset_template_by_id_endpoint(asset_template_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -250,7 +245,7 @@ class EsAssetTemplatesAPI(Helper):
         response = requests.get(
             url=self.endpoints.get_attachment_from_asset_template_by_id_endpoint(asset_template_id, attachment_id),
             params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -271,7 +266,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attachment_from_asset_template_by_id_endpoint(asset_template_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -289,7 +284,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attributes_asset_template_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -325,7 +320,7 @@ class EsAssetTemplatesAPI(Helper):
             start = time.time()
             response = requests.put(
                 url=self.endpoints.put_upload_avatar_to_asset_template_data_from_from_endpoint(asset_template_id),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -362,7 +357,7 @@ class EsAssetTemplatesAPI(Helper):
             start = time.time()
             response = requests.put(
                 url=self.endpoints.put_upload_avatar_to_asset_template_data_from_body_endpoint(asset_template_id),
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()
@@ -384,7 +379,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_avatar_from_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         try:
@@ -404,7 +399,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_avatar_from_assets_template_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_avatar_from_asset_templates_by_lyst_endpoint(*asset_template_ids)
         )
         end = time.time()
@@ -426,7 +421,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -449,7 +444,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -477,7 +472,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -505,7 +500,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -533,7 +528,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -553,7 +548,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -581,7 +576,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -599,7 +594,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_districts_from_asset_template_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -623,7 +618,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_skills_from_asset_template_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -647,7 +642,7 @@ class EsAssetTemplatesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_work_types_from_asset_template_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

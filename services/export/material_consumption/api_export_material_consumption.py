@@ -10,14 +10,9 @@ from config.headers import Headers
 from services.export.material_consumption.models.export_material_consumption_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from openpyxl import load_workbook
 from io import BytesIO
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportMaterialConsumptionAPI(Helper):
@@ -36,7 +31,7 @@ class ExportMaterialConsumptionAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_material_consumption_endpoint, params=params,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -60,8 +55,10 @@ class ExportMaterialConsumptionAPI(Helper):
         sheet_name = workbook.sheetnames
 
         assert 'Расходы материалов' in sheet_name
-        assert sheet['B3'].value == 'Номенклатура материала', f'Expected Номенклатура материала, but got {sheet['B3'].value}'
-        assert sheet['C3'].value == 'Код номенклатуры материала', f'Expected Код номенклатуры материала, but got {sheet['C3'].value}'
+        assert sheet['B3'].value == 'Номенклатура материала', \
+            f'Expected Номенклатура материала, but got {sheet['B3'].value}'
+        assert sheet['C3'].value == 'Код номенклатуры материала', \
+            f'Expected Код номенклатуры материала, but got {sheet['C3'].value}'
         assert sheet['D3'].value == 'Стоимость (руб)', f'Expected Стоимость (руб), but got {sheet['D3'].value}'
         assert sheet['E3'].value == 'Расходы', f'Expected Расходы, but got {sheet['E3'].value}'
         assert sheet['F3'].value == 'Итоговая стоимость', f'Expected Итоговая стоимость, but got {sheet['F3'].value}'
@@ -71,7 +68,8 @@ class ExportMaterialConsumptionAPI(Helper):
         assert sheet['M3'].value == 'Номер заявки', f'Expected Номер заявки, but got {sheet['M3'].value}'
         assert sheet['O3'].value == 'Оборудование', f'Expected Оборудование, but got {sheet['O3'].value}'
         assert sheet['P3'].value == 'Дата расхода', f'Expected Дата расхода, but got {sheet['P3'].value}'
-        assert sheet['Q3'].value == 'ФИО сотрудника, чей расход', f'Expected ФИО сотрудника, чей расход, but got {sheet['Q3'].value}'
+        assert sheet['Q3'].value == 'ФИО сотрудника, чей расход', \
+            f'Expected ФИО сотрудника, чей расход, but got {sheet['Q3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Расходы+материалов.xlsx"

@@ -9,12 +9,7 @@ from config.headers import Headers
 from services.es.es_asset_template_districts.models.es_asset_template_districts_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetTemplateDistrictsAPI(Helper):
@@ -30,7 +25,7 @@ class EsAssetTemplateDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_districts_to_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_districts_to_asset_templates_payload(asset_template_id, *districts_id)
         )
         end = time.time()
@@ -52,7 +47,7 @@ class EsAssetTemplateDistrictsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_districts_from_asset_templates_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_districts_from_asset_templates_payload(asset_template_id, *districts_id)
         )
         end = time.time()
@@ -72,7 +67,7 @@ class EsAssetTemplateDistrictsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_districts_from_asset_template_by_id_endpoint(asset_template_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_districts_from_asset_template_by_id_payload(*districts_id)
         )
         end = time.time()

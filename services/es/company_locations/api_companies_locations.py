@@ -11,10 +11,10 @@ import time
 from http import HTTPStatus
 from dotenv import load_dotenv
 import os
+from utils.token_utils import get_token
 
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 APP_ID = os.getenv('APP_ID')
 
 
@@ -31,7 +31,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_company_locations_endpoint,
-            headers=self.headers.auth_header(bearer_token=API_TOKEN, app_id=APP_ID),
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
             json=self.payloads.post_add_company_locations_payload(
                 company_id=company_id,
                 location_id=location_id
@@ -57,7 +57,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_company_locations_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -80,7 +80,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_company_locations_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -110,7 +110,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_company_locations_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -128,7 +128,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_company_location_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_location_from_company_payload(
                 company_id=company_id,
                 location_id=location_id
@@ -152,7 +152,7 @@ class EsCompanyLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_locations_from_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_location_from_company_payload(
                 company_id=company_id
             )

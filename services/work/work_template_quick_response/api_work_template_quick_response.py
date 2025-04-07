@@ -9,12 +9,7 @@ from config.headers import Headers
 from services.work.work_template_quick_response.models.work_template_quick_response_models import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTemplateQuickResponseAPI(Helper):
@@ -30,7 +25,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -60,7 +55,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_template_quick_response_payload(data)
         )
         end = time.time()
@@ -90,7 +85,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_template_quick_response_payload(data)
         )
         end = time.time()
@@ -122,7 +117,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_template_quick_response_payload(data, data2)
         )
         end = time.time()
@@ -144,7 +139,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_template_quick_response_by_list_payload(*response_ids)
         )
         end = time.time()
@@ -164,7 +159,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_template_quick_response_by_id_endpoint(response_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -184,7 +179,7 @@ class WorkTemplateQuickResponseAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_type_template_quick_response_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_type_template_quick_response_by_list_payload(
                 response_id,
                 task_type_id
@@ -200,4 +195,5 @@ class WorkTemplateQuickResponseAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully update bind template quick response ID {response_id} and task type ID {task_type_id}.')
+        logger.info(f'Successfully update bind template quick response ID {response_id} '
+                    f'and task type ID {task_type_id}.')

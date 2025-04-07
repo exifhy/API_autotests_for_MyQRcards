@@ -1,4 +1,3 @@
-from requests import JSONDecodeError
 import allure
 import requests
 from loguru import logger
@@ -9,12 +8,8 @@ from config.headers import Headers
 from services.es.locations.models.locations_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsLocationsAPI(Helper):
@@ -30,7 +25,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_locations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_location_payload(
                 address=f"Невский проспект, {randint(1, 300)}, Санкт-Петербург, Россия",
                 coordinate="59.932741:30.349137",
@@ -57,7 +52,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_location_by_id(location_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -74,7 +69,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_locations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_locations_payload(*args)
         )
         end = time.time()
@@ -94,7 +89,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_locations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -114,7 +109,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_locations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -148,7 +143,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_location_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_location_payload(params)
         )
         end = time.time()
@@ -168,7 +163,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_return_quantity_locations,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -186,7 +181,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.remove_location_by_id_endpoint(location_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -204,7 +199,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.remove_locations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_locations_by_list_remove_payload(*location_ids)
         )
         end = time.time()
@@ -223,7 +218,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_location_by_id_endpoint(location_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -243,7 +238,7 @@ class EsLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_location_by_id_endpoint(location_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)

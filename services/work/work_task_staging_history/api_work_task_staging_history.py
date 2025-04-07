@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.work.work_task_staging_history.payloads import Payloads
 from services.work.work_task_staging_history.endpoints import Endpoints
@@ -9,11 +8,7 @@ from config.headers import Headers
 from services.work.work_task_staging_history.models.work_task_staging_history_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskStagingHistoryAPI(Helper):
@@ -29,7 +24,7 @@ class WorkTaskStagingHistoryAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_actual_record_to_history_progress_task_by_stage_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_actual_record_to_history_progress_task_by_stage_payload(
                 stage_id=stage_id,
                 task_id=task_id
@@ -52,7 +47,7 @@ class WorkTaskStagingHistoryAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.mass_movement_of_task_by_stage_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.mass_movement_of_task_by_stage_payload(
                 stage_ids=stage_ids,
                 task_ids=task_ids

@@ -40,6 +40,7 @@ class TestAuthnAccounts(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23442")
     @pytest.mark.regress
     @pytest.mark.test_case_id(23442)
+    @pytest.mark.skip(reason="Отправка СМС")
     def test_post_generating_code_for_authorization_by_sms(self):
         self.api_authn_accounts.post_generating_code_for_authorization_by_sms()
 

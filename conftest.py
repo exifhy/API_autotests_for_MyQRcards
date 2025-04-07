@@ -103,7 +103,7 @@ def get_api_user_access_token():
 
         response_authorization_data = response_authorization.json()
         BEARER_TOKEN = response_authorization_data['access_token']
-        TOKEN_EXPIRATION_TIME = now + timedelta(minutes=20)
+        TOKEN_EXPIRATION_TIME = now + timedelta(minutes=25)
         # set_key('.env', 'API_TOKEN', BEARER_TOKEN)
         # os.environ["API_TOKEN"] = BEARER_TOKEN
         return BEARER_TOKEN

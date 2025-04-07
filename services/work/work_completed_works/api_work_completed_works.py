@@ -9,13 +9,9 @@ from config.headers import Headers
 from services.work.work_completed_works.models.work_completed_works_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from datetime import datetime, timedelta
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class WorkCompletedWorksAPI(Helper):
@@ -43,7 +39,7 @@ class WorkCompletedWorksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_completed_works_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_completed_works_payload(task_id, data)
         )
         end = time.time()
@@ -79,7 +75,7 @@ class WorkCompletedWorksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_completed_works_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_completed_works_payload(task_id, data)
         )
         end = time.time()
@@ -100,7 +96,7 @@ class WorkCompletedWorksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_completed_works_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_completed_works_by_list_payload(task_id, *completed_work_ids)
         )
         end = time.time()

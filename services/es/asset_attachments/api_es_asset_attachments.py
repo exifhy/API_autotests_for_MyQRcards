@@ -15,12 +15,7 @@ from config.headers import Headers
 from services.es.asset_attachments.models.es_asset_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetAttachmentsAPI(Helper):
@@ -36,7 +31,7 @@ class EsAssetAttachmentsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_attachments_to_asset_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.attachments_and_asset_payloads(
                 asset_id,
                 *args
@@ -61,7 +56,7 @@ class EsAssetAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_unbind_attachments_from_asset_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.attachments_and_asset_payloads(
                 asset_id,
                 *args
@@ -97,7 +92,7 @@ class EsAssetAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_to_asset_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -131,7 +126,7 @@ class EsAssetAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_plan_to_asset_data_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -175,7 +170,7 @@ class EsAssetAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_asset_data_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()

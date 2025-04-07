@@ -2,7 +2,6 @@ import allure
 import requests
 from loguru import logger
 from requests import JSONDecodeError
-
 from utils.helper import Helper
 from services.es.es_asset_list_queries.payloads import Payloads
 from services.es.es_asset_list_queries.endpoints import Endpoints
@@ -10,13 +9,8 @@ from config.headers import Headers
 from services.es.es_asset_list_queries.models.es_asset_list_queries_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsAssetListQueriesAPI(Helper):
@@ -71,7 +65,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_queries_available_in_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -94,7 +88,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_query_by_id(query_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -141,7 +135,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_queries_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_queries_list_payloads(query_id)
         )
         end = time.time()
@@ -161,7 +155,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_remove_query_by_id(query_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -179,7 +173,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_query_by_id(query_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -197,7 +191,7 @@ class EsAssetListQueriesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_remove_query_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_queries_list_payloads(query_id)
         )
         end = time.time()

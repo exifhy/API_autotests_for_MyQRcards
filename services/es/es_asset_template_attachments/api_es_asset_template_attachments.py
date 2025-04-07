@@ -9,17 +9,12 @@ from config.headers import Headers
 from services.es.es_asset_template_attachments.models.es_asset_template_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from PIL import Image
 from requests_toolbelt import MultipartEncoder
 import io
 import base64
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsAssetTemplateAttachmentsAPI(Helper):
@@ -35,7 +30,7 @@ class EsAssetTemplateAttachmentsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_attachments_to_asset_template_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_bind_attachments_to_asset_template_payload(
                 asset_template_id,
                 *attachment_ids
@@ -63,7 +58,7 @@ class EsAssetTemplateAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_attachments_from_asset_template_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_attachments_from_asset_template_payload(
                 asset_template_id,
                 *attachment_ids
@@ -105,7 +100,7 @@ class EsAssetTemplateAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachment_to_template_data_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -144,7 +139,7 @@ class EsAssetTemplateAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachment_to_template_data_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()

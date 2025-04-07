@@ -8,12 +8,7 @@ from config.headers import Headers
 from services.work.work_task_type_routes.models.work_task_type_routes_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskTypeRoutesAPI(Helper):
@@ -41,7 +36,7 @@ class WorkTaskTypeRoutesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_type_routes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_task_type_routes_payload(data)
         )
         end = time.time()
@@ -73,7 +68,7 @@ class WorkTaskTypeRoutesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_type_routes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_type_routes_payload(data)
         )
         end = time.time()
@@ -93,7 +88,7 @@ class WorkTaskTypeRoutesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_type_routes_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_type_routes_by_list_payload(*task_type_routes_ids)
         )
         end = time.time()
@@ -113,7 +108,7 @@ class WorkTaskTypeRoutesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_type_routes_by_id_endpoint(task_type_routes_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

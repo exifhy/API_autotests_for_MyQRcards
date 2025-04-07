@@ -8,12 +8,7 @@ from config.headers import Headers
 from services.es.assetlocations.models.assetlocations_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetLocationsAPI(Helper):
@@ -29,7 +24,7 @@ class EsAssetLocationsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_location_to_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_location_to_object_payload(asset_id, location_id)
         )
         end = time.time()
@@ -45,7 +40,7 @@ class EsAssetLocationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_of_location_from_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.unbind_of_location_from_object_payload(asset_id)
         )
         end = time.time()
@@ -64,7 +59,7 @@ class EsAssetLocationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_location_by_object_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -81,7 +76,7 @@ class EsAssetLocationsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_time_an_asset_on_location_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_location_to_object_payload(
                 asset_id=asset_id,
                 location_id=location_id

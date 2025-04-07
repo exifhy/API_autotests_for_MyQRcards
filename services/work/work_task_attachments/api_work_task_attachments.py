@@ -9,16 +9,12 @@ from config.headers import Headers
 from services.work.work_task_attachments.models.work_task_attachments_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
 from requests_toolbelt import MultipartEncoder
 from PIL import Image
 import io
 import base64
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class WorkTaskAttachmentsAPI(Helper):
@@ -34,7 +30,7 @@ class WorkTaskAttachmentsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_attachments_to_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_bind_attachments_to_task_payload(
                 task_id,
                 *attachment_ids
@@ -61,7 +57,7 @@ class WorkTaskAttachmentsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_unbind_attachments_from_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_unbind_attachments_from_task_payload(
                 task_id,
                 *attachment_ids
@@ -101,7 +97,7 @@ class WorkTaskAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_task_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -141,7 +137,7 @@ class WorkTaskAttachmentsAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_task_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()

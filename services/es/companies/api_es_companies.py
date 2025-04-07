@@ -9,13 +9,9 @@ from config.headers import Headers
 from services.es.companies.models.companies_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from src.generators.generators import generator_company
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsCompaniesAPI(Helper):
@@ -33,7 +29,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_companies_payload(
                 name=name_new_company,
                 type_id=3,
@@ -61,7 +57,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_company_by_id_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -79,7 +75,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_companies_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_companies_by_list_payload(*company_ids)
         )
         end = time.time()
@@ -99,7 +95,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_companies_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -115,7 +111,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_company_by_id_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -135,7 +131,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_company_by_id_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -163,7 +159,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_company_by_id_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -201,7 +197,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_companies_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -236,7 +232,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_companies_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -264,7 +260,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_companies_endpoint, params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -301,7 +297,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.update_companies_payload(
                 company_id=company_id,
                 company_name=new_name_company,
@@ -343,7 +339,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attachments_from_company_endpoint(company_id), params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -371,7 +367,7 @@ class EsCompaniesAPI(Helper):
         response = requests.get(
             url=self.endpoints.get_download_attachment_from_company_endpoint(company_id, attachment_id),
             params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -396,7 +392,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_info_attachment_from_company_by_id_endpoint(company_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -416,7 +412,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attributes_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -439,7 +435,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attributes_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -473,7 +469,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_attributes_to_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_attributes_to_company_payload(params)
         )
         end = time.time()
@@ -493,7 +489,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_attributes_to_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=[]
         )
         end = time.time()
@@ -513,7 +509,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_bank_accounts_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -533,7 +529,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_bank_accounts_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -561,7 +557,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_bank_accounts_by_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_bank_accounts_by_company_payload(params)
         )
         end = time.time()
@@ -588,7 +584,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_bank_accounts_to_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_bank_accounts_to_company_payload(params)
         )
         end = time.time()
@@ -610,7 +606,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_bank_accounts_from_company_by_list_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_bank_accounts_from_company_by_list_payload(*bank_account_company_ids)
         )
         end = time.time()
@@ -629,7 +625,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_bank_account_from_company_by_id_endpoint(company_id, bank_account_company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -647,7 +643,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_contacts_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -667,7 +663,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_contacts_from_company_endpoint(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -685,7 +681,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_contact_from_company_by_id_endpoint(company_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -707,7 +703,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_contact_to_company_by_id_endpoint(company_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -729,7 +725,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contact_from_company_by_id_endpoint(company_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -755,7 +751,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_contacts_to_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_contacts_to_company_payload(params)
         )
         end = time.time()
@@ -785,7 +781,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contacts_from_company_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_contacts_from_company_by_list_payload(params)
         )
         end = time.time()
@@ -805,7 +801,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_companies_by_list_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_restore_companies_by_list_payload(*company_ids)
         )
         end = time.time()
@@ -830,7 +826,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_dadata_find_company_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -852,7 +848,7 @@ class EsCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_actual_locations_from_company(company_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

@@ -13,14 +13,10 @@ from config.headers import Headers
 from services.sc.sc_service_contract.models.sc_service_contract_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from src.generators.generators import generator_contract
 from requests_toolbelt import MultipartEncoder
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ScServiceContractAPI(Helper):
@@ -37,7 +33,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_method_for_add_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_method_for_add_contract_payload(
                 company_id=company_id,
                 contract_name=self.contract.name,
@@ -69,7 +65,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_method_for_add_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_method_for_add_contract_payload(
                 company_id=company_id,
                 contract_name=contract_name,
@@ -97,7 +93,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contract_by_id_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -115,7 +111,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_mass_of_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_mass_of_contract_payload(*args)
         )
         end = time.time()
@@ -135,7 +131,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_list_object_to_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_list_object_to_contract_payload(
                 asset_id=asset_id,
                 child=True
@@ -166,7 +162,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_list_object_to_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_list_with_three_objects_to_contract_payload(
                 asset1_id=asset_id_first,
                 asset2_id=asset_id_second,
@@ -197,7 +193,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_method_for_exist_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_method_for_update_contract_payload(
                 contract_id=contract_id,
                 company_id=company_id,
@@ -225,7 +221,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_method_of_contract_by_id_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -245,7 +241,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_method_list_of_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -267,7 +263,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_contract_objects_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -288,7 +284,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_method_total_count_of_contract_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -306,7 +302,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_user_attributes_by_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -328,7 +324,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_objects_related_to_contracts_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_objects_related_to_contracts_payload(*args)
         )
         end = time.time()
@@ -348,7 +344,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_objects_related_to_contracts_by_id_endpoint(contract_id, asset_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -366,7 +362,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_contract_objects_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -390,7 +386,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_add_object_to_contracts_by_id_endpoint(contract_id, asset_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -423,7 +419,7 @@ class ScServiceContractAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_to_server_and_bind_contract_data_from_form_endpoint(contract_id),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -436,7 +432,8 @@ class ScServiceContractAPI(Helper):
             self.attach_url(response.request.url)
             assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
             model = SuccessUploadResultModel(**response.json())
-            logger.info(f'Successfully upload file - {file_name} to server and bind to contract with ID: {contract_id}.')
+            logger.info(f'Successfully upload file - {file_name} '
+                        f'to server and bind to contract with ID: {contract_id}.')
             return model
 
     @allure.step("Upload file to server and bind to contract, data from body.")
@@ -467,7 +464,7 @@ class ScServiceContractAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_file_to_server_and_bind_contract_data_from_body_endpoint(contract_id),
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()
@@ -480,7 +477,8 @@ class ScServiceContractAPI(Helper):
             self.attach_url(response.request.url)
             assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}'
             model = SuccessUploadResultModel(**response.json())
-            logger.info(f'Successfully upload file - {file_name} to server and bind to contract with ID: {contract_id}.')
+            logger.info(f'Successfully upload file - {file_name} '
+                        f'to server and bind to contract with ID: {contract_id}.')
             return model
 
     @allure.step("Method of get the list of attachments bind to contract.")
@@ -488,7 +486,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attachments_by_contracts_by_id_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -509,7 +507,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_bind_contract_and_attachment_by_list_id_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_attachment_bind_to_contract_payload(*args)
         )
         end = time.time()
@@ -532,7 +530,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_unbind_contract_and_attachment_by_id_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_attachment_from_contract_payload(*args)
         )
         end = time.time()
@@ -552,7 +550,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attachment_binds_contract_by_id_endpoint(contract_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -572,7 +570,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_temporary_redirect_to_temporary_download_link_endpoint(contract_id, attachment_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -596,7 +594,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_contacts_by_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_contacts_to_contract_payload(*args)
         )
         end = time.time()
@@ -618,7 +616,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_contacts_by_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -639,7 +637,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contacts_by_contract_endpoint(contract_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_contacts_from_contract_payload(*args)
         )
         end = time.time()
@@ -659,7 +657,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contact_from_contract_by_id_endpoint(contract_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -677,7 +675,7 @@ class ScServiceContractAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_contact_to_contract_by_id_endpoint(contract_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

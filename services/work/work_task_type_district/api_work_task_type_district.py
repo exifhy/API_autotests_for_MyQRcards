@@ -8,11 +8,7 @@ from config.headers import Headers
 from services.work.work_task_type_district.models.work_task_type_district_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskTypeDistrictAPI(Helper):
@@ -28,7 +24,7 @@ class WorkTaskTypeDistrictAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_type_district_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_type_district_payload(
                 task_type_id,
                 *district_ids

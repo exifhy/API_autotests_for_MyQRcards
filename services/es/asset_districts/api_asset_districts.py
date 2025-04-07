@@ -9,12 +9,7 @@ from config.headers import Headers
 from services.es.asset_districts.models.asset_districts_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetDistrictsAPI(Helper):
@@ -30,7 +25,7 @@ class EsAssetDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_districts_payload(asset_id, district_id)
         )
         end = time.time()
@@ -50,7 +45,7 @@ class EsAssetDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_new_districts_args_payload(asset_id, *district_id)
         )
         end = time.time()
@@ -70,7 +65,7 @@ class EsAssetDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_new_districts_payload(asset_id, district_id)
         )
         end = time.time()
@@ -90,7 +85,7 @@ class EsAssetDistrictsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_default_districts_payload(asset_id)
         )
         end = time.time()
@@ -111,7 +106,7 @@ class EsAssetDistrictsAPI(Helper):
         response = requests.delete(
             url=self.endpoints.delete_districts_from_object_endpoint,
             json=self.payloads.delete_districts_payload(asset_id, district_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)

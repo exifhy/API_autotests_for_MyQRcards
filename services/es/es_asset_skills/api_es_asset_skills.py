@@ -9,11 +9,7 @@ from config.headers import Headers
 from services.es.es_asset_skills.models.es_asset_skills_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetSkillsAPI(Helper):
@@ -29,7 +25,7 @@ class EsAssetSkillsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_skills_to_assets_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.skills_and_one_asset_payload(
                 asset_id, *skill_id
             )
@@ -53,7 +49,7 @@ class EsAssetSkillsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_skills_from_assets_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.skills_and_one_asset_payload(
                 asset_id, *skill_id
             )

@@ -10,11 +10,7 @@ from config.headers import Headers
 from services.work.work_task_assignment_history.models.work_task_assiggnment_history_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskAssignmentHistoryAPI(Helper):
@@ -36,7 +32,7 @@ class WorkTaskAssignmentHistoryAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_new_task_to_user_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_new_task_assignment_history(
                 user_id=user_id,
                 task_id=task_id,
@@ -56,7 +52,8 @@ class WorkTaskAssignmentHistoryAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
         model = SuccessAddTaskAssignmentHistoryModel(history=response.json())
         assert model.history[0].taskID == task_id, f'Expected {task_id}, but got {model.history[0].taskID}'
-        assert model.history[0].assignments[0].userID == user_id, f'Expected {user_id}, but got {model.history[0].assignments[0].userID}'
+        assert model.history[0].assignments[0].userID == user_id, \
+            f'Expected {user_id}, but got {model.history[0].assignments[0].userID}'
         logger.info(f'Successfully add new task ID {model.history[0].taskID} '
                     f'to a user ID {model.history[0].assignments[0].userID}.')
         return model

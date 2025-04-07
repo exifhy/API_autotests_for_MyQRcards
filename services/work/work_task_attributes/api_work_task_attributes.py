@@ -9,11 +9,7 @@ from config.headers import Headers
 from services.work.work_task_attributes.models.work_task_attributes_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskAttributesAPI(Helper):
@@ -30,7 +26,7 @@ class WorkTaskAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_task_attributes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_task_attributes_payload(
                 task_id=task_id,
                 attribute_id=attribute_id,
@@ -59,7 +55,7 @@ class WorkTaskAttributesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_attributes_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

@@ -9,12 +9,8 @@ from config.headers import Headers
 from services.work.work_checklists.models.work_checklists_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkChecklistsAPI(Helper):
@@ -32,7 +28,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_checklists_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_checklists_payload(
                 name=name,
                 desc=description
@@ -58,7 +54,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_checklist_by_id_endpoint(checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -77,7 +73,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_checklist_by_id_endpoint(checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -98,7 +94,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_checklists_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_checklists_payloads(*args)
         )
         end = time.time()
@@ -119,7 +115,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_active_checklists_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -144,7 +140,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_checklists_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_checklists_payload(
                 checklist_id=checklist_id,
                 name=name,
@@ -169,7 +165,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_checklist_identifiers_in_tables_of_asset_and_work_types_endpoint(checklist_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_checklists_assign_payload(
                 asset_id,
                 work_type_id=work_type_id
@@ -195,7 +191,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_checklist_identifiers_from_tables_of_asset_and_work_types_endpoint(checklist_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_checklists_assign_payload(
                 asset_id,
                 work_type_id=work_type_id
@@ -222,7 +218,7 @@ class WorkChecklistsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_items_checklist_endpoint(checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

@@ -9,13 +9,8 @@ from config.headers import Headers
 from services.es.es_asset_attributes.models.es_asset_attributes_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from random import randint
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class EsAssetAttributesAPI(Helper):
@@ -32,7 +27,7 @@ class EsAssetAttributesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_update_attributes_assets_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_update_attributes_assets_payload(
                 asset_id,
                 attribute_id,

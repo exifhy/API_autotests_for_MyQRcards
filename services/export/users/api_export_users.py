@@ -10,17 +10,13 @@ from config.headers import Headers
 from services.export.users.models.export_users_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from faker import Faker
 from openpyxl import load_workbook
 from io import BytesIO
 
 
 fake_ru = Faker('ru_RU')
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportUsersAPI(Helper):
@@ -52,7 +48,7 @@ class ExportUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_users_endpoint, params=params,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -99,9 +95,11 @@ class ExportUsersAPI(Helper):
         assert sheet['H3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['H3'].value}'
         assert sheet['H4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['H4'].value}'
         assert sheet['I3'].value == 'Участок', f'Expected Участок, but got {sheet['I3'].value}'
-        assert sheet['I4'].value == district_name.strip(), f'Expected {district_name.strip()}, but got {sheet['I4'].value}'
+        assert sheet['I4'].value == district_name.strip(), \
+            f'Expected {district_name.strip()}, but got {sheet['I4'].value}'
         assert sheet['J3'].value == 'Компания', f'Expected Компания, but got {sheet['J3'].value}'
-        assert sheet['J4'].value == company_name.strip(), f'Expected {company_name.strip()}, but got {sheet['J4'].value}'
+        assert sheet['J4'].value == company_name.strip(), \
+            f'Expected {company_name.strip()}, but got {sheet['J4'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Пользователи.xlsx"
@@ -137,7 +135,7 @@ class ExportUsersAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_users_endpoint, params=params,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -186,7 +184,8 @@ class ExportUsersAPI(Helper):
         assert sheet['H3'].value == 'Роль пользователя*', f'Expected Роль пользователя*, but got {sheet['H3'].value}'
         assert sheet['H4'].value == role.strip(), f'Expected {role.strip()}, but got {sheet['H4'].value}'
         assert sheet['I3'].value == 'Участок', f'Expected Участок, but got {sheet['I3'].value}'
-        assert sheet['I4'].value == district_name.strip(), f'Expected {district_name.strip()}, but got {sheet['I4'].value}'
+        assert sheet['I4'].value == district_name.strip(), \
+            f'Expected {district_name.strip()}, but got {sheet['I4'].value}'
         assert sheet['J3'].value == 'Компания', f'Expected Компания, but got {sheet['J3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))

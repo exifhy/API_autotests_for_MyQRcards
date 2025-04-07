@@ -153,9 +153,9 @@ class TestWhWarehouses(BaseTest):
         self.api_wh_warehouses.get_warehouse_with_negative_values(value, status_code)
 
     @allure.title('Test delete default warehouse by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25415")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25415)
     def test_delete_default_warehouse_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_default_warehouse()
         self.api_wh_warehouses.delete_default_warehouse_by_id(model_wh.result[0])
@@ -163,18 +163,18 @@ class TestWhWarehouses(BaseTest):
         self.api_wh_warehouses.delete_warehouses_by_list(model_wh.result[0])
 
     @allure.title('Test delete deleted warehouse by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25416")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25416)
     def test_delete_deleted_warehouse_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
         self.api_wh_warehouses.delete_deleted_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete warehouses by list (undeleted, deleted).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25417")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25417)
     def test_delete_warehouses_by_list_undeleted_deleted(self):
         model_wh = self.api_wh_warehouses.post_add_two_warehouses()
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh.result[1])
@@ -185,25 +185,26 @@ class TestWhWarehouses(BaseTest):
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh.result[0])
 
     @allure.title('Test delete warehouses by list (default, undeleted).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25418")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25418)
     def test_delete_warehouses_by_list_default_undeleted(self):
-        model_wh = self.api_wh_warehouses.post_add_two_warehouses_default()
+        model_default_wh = self.api_wh_warehouses.post_add_default_warehouse()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
         self.api_wh_warehouses.delete_warehouses_by_list_default_undeleted(
-            model_wh.result[0],
-            model_wh.result[1],
+            model_default_wh.result[0],
+            model_wh[0].result[0]
         )
-        self.api_wh_warehouses.put_update_warehouse(model_wh.result[0])
+        self.api_wh_warehouses.put_update_warehouse(model_default_wh.result[0])
         self.api_wh_warehouses.delete_warehouses_by_list(
-            model_wh.result[0],
-            model_wh.result[1]
+            model_default_wh.result[0],
+            model_wh[0].result[0]
         )
 
     @allure.title('Test delete warehouses by list (default, deleted).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25419")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25419)
     def test_delete_warehouses_by_list_default_deleted(self):
         model_default_wh = self.api_wh_warehouses.post_add_default_warehouse()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -214,3 +215,50 @@ class TestWhWarehouses(BaseTest):
         )
         self.api_wh_warehouses.put_update_warehouse(model_default_wh.result[0])
         self.api_wh_warehouses.delete_warehouse_by_id(model_default_wh.result[0])
+
+    @allure.title('Test PUT restore undeleted warehouse by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25420")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(25420)
+    def test_put_restore_undeleted_warehouses_by_id(self):
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        self.api_wh_warehouses.put_restore_undeleted_warehouses_by_id(model_wh[0].result[0])
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+
+    @allure.title('Test PUT restore nonexistent warehouse by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25421")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(25421)
+    def test_put_restore_nonexistent_warehouses_by_id(self):
+        self.api_wh_warehouses.put_restore_nonexistent_warehouses_by_id()
+
+    @allure.title('Test PUT restore warehouses by list (undeleted, deleted).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25422")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(25422)
+    def test_put_restore_warehouses_by_list_undeleted_deleted(self):
+        model_wh = self.api_wh_warehouses.post_add_two_warehouses()
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh.result[1])
+        self.api_wh_warehouses.put_restore_warehouses_by_list_undeleted_deleted(
+            model_wh.result[0],
+            model_wh.result[1]
+        )
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh.result[0])
+
+    @allure.title('Test PUT restore warehouses by list (undeleted, nonexistent).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25423")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(25423)
+    def test_put_restore_warehouses_by_list_undeleted_nonexistent(self):
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        self.api_wh_warehouses.put_restore_warehouses_by_list_undeleted_nonexistent(model_wh[0].result[0])
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+
+    @allure.title('Test PUT restore warehouses by list (deleted, nonexistent).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25424")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(25424)
+    def test_put_restore_warehouses_by_list_deleted_nonexistent(self):
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+        self.api_wh_warehouses.put_restore_warehouses_by_list_deleted_nonexistent(model_wh[0].result[0])

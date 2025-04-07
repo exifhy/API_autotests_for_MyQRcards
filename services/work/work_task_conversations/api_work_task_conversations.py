@@ -9,11 +9,7 @@ from config.headers import Headers
 from services.work.work_task_conversations.models.work_task_conversations_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskConversationsAPI(Helper):
@@ -27,7 +23,7 @@ class WorkTaskConversationsAPI(Helper):
     @allure.step("Get list task conversations by task ID.")
     def get_list_task_conversations_by_task_id(self, task_id: int, token: str or None):
         if token is None:
-            token = API_TOKEN
+            token = get_token()
         params = {
             "taskID": task_id
         }
@@ -55,7 +51,7 @@ class WorkTaskConversationsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_conversations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -79,7 +75,7 @@ class WorkTaskConversationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_conversations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_conversations_payload(
                 task_id,
                 *message_ids
@@ -102,7 +98,7 @@ class WorkTaskConversationsAPI(Helper):
     @allure.step("Head task conversations check count unread message.")
     def head_task_conversations_check_items(self, message_qty: int, token: str or None):
         if token is None:
-            token = API_TOKEN
+            token = get_token()
         params = {
             "isRead": False
         }
@@ -135,7 +131,7 @@ class WorkTaskConversationsAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_task_conversations_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -153,7 +149,7 @@ class WorkTaskConversationsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_remove_task_conversations_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_conversations_payload(
                 task_id,
                 *message_ids

@@ -9,12 +9,8 @@ from config.headers import Headers
 from services.pa.pa_skills.models.pa_skills_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class PaSkillsAPI(Helper):
@@ -30,7 +26,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_skills_for_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_skills_for_tenant_payload(
                 (f'Навык-{randint(100, 199)}', f'Описание-{randint(100, 199)}', True)
             )
@@ -54,7 +50,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_skills_for_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_skills_for_tenant_payload(
                 (f'Навык-{randint(100, 199)}', f'Описание-{randint(100, 199)}', True),
                 (f'Навык-{randint(100, 199)}', f'Описание-{randint(100, 199)}', True),
@@ -81,7 +77,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_skills_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_skills_by_list_payload(*args)
         )
         end = time.time()
@@ -101,7 +97,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_skills_for_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -125,7 +121,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_skills_for_tenant_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -154,7 +150,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_skills_for_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_skills_for_tenant_payload(
                 (skill_id, f'Обновленный-{randint(1, 99)}', f'Обновленное-{randint(1, 99)}', False)
             )
@@ -176,7 +172,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_skill_by_id(skill_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -197,7 +193,7 @@ class PaSkillsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_skill_by_id(skill_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

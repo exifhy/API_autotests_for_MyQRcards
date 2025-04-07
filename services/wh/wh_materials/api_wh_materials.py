@@ -10,12 +10,7 @@ from config.headers import Headers
 from services.wh.wh_materials.models.wh_materials_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WhMaterialsAPI(Helper):
@@ -34,7 +29,7 @@ class WhMaterialsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_materials_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_materials_payload(
                 name,
                 currency_id=1,
@@ -62,7 +57,7 @@ class WhMaterialsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_materials_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_materials_by_list(*materials_ids)
         )
         end = time.time()
@@ -83,7 +78,7 @@ class WhMaterialsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_materials_by_id_endpoint(materials_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

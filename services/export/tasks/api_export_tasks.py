@@ -9,15 +9,10 @@ from config.headers import Headers
 from services.export.tasks.models.export_tasks_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from openpyxl import load_workbook
 from io import BytesIO
 from urllib import parse
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportTasksAPI(Helper):
@@ -37,7 +32,7 @@ class ExportTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_tasks_extended_endpoint,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -65,7 +60,7 @@ class ExportTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_tasks_endpoint, params=params,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -92,9 +87,11 @@ class ExportTasksAPI(Helper):
         assert sheet['A3'].value == 'Номер', f'Expected Номер, but got {sheet['A3'].value}'
         assert sheet['A4'].value == number_task.strip(), f'Expected {number_task.strip()}, but got {sheet['A4'].value}'
         assert sheet['B3'].value == 'Тип заявки*', f'Expected Тип заявки*, but got {sheet['B3'].value}'
-        assert sheet['B4'].value == name_task_type.strip(), f'Expected <{name_task_type.strip()}>, but got {sheet['B4'].value}'
+        assert sheet['B4'].value == name_task_type.strip(), \
+            f'Expected <{name_task_type.strip()}>, but got {sheet['B4'].value}'
         assert sheet['C3'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C3'].value}'
-        assert sheet['C4'].value == 'Заявка создана авто-тестом', f'Expected <Заявка создана авто-тестом>, but got {sheet['C4'].value}'
+        assert sheet['C4'].value == 'Заявка создана авто-тестом', \
+            f'Expected <Заявка создана авто-тестом>, but got {sheet['C4'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Заявки.xlsx"
@@ -108,7 +105,7 @@ class ExportTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_extended_tasks_all_filters_by_task_id_endpoint(task_id),
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -137,7 +134,8 @@ class ExportTasksAPI(Helper):
         assert sheet['B2'].value == 'Тип заявки', f'Expected Тип заявки*, but got {sheet['B2'].value}'
         assert sheet['B3'].value == 'Заявка', f'Expected Заявка, but got {sheet['B3'].value}'
         assert sheet['C2'].value == 'Описание заявки', f'Expected Описание заявки, but got {sheet['C2'].value}'
-        assert sheet['C3'].value == 'Заявка создана авто-тестом', f'Expected Заявка создана авто-тестом, but got {sheet['C3'].value}'
+        assert sheet['C3'].value == 'Заявка создана авто-тестом', \
+            f'Expected Заявка создана авто-тестом, but got {sheet['C3'].value}'
 
         logger.warning(parse.unquote(response.headers['Content-Disposition']))
         expected_filename = "Заявки.xlsx"

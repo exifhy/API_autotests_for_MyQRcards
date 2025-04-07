@@ -9,12 +9,7 @@ from config.headers import Headers
 from services.es.es_preferred_technicians.models.es_preferred_technicians_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsPreferredTechniciansAPI(Helper):
@@ -30,7 +25,7 @@ class EsPreferredTechniciansAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_preferred_technicians_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_preferred_technicians_payload(
                 asset_id,
                 *user_ids
@@ -58,7 +53,7 @@ class EsPreferredTechniciansAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_preferred_technicians_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
             )
         end = time.time()
         logger.info(response.headers)
@@ -79,7 +74,7 @@ class EsPreferredTechniciansAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_preferred_technicians_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
             )
         end = time.time()
         logger.info(response.headers)

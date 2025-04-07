@@ -9,11 +9,7 @@ from config.headers import Headers
 from services.work.work_task_materials.models.work_task_materials_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskMaterialsAPI(Helper):
@@ -33,7 +29,7 @@ class WorkTaskMaterialsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_task_materials_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_task_materials_payload(task_id, data)
         )
         end = time.time()
@@ -61,7 +57,7 @@ class WorkTaskMaterialsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_materials_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_task_materials_payload(task_id, data)
         )
         end = time.time()
@@ -84,7 +80,7 @@ class WorkTaskMaterialsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_materials_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_materials_payload(task_id, *material_ids)
         )
         end = time.time()
@@ -107,7 +103,7 @@ class WorkTaskMaterialsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_task_materials_take_on_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_task_materials_take_on_payload(task_id, data)
         )
         end = time.time()
@@ -128,7 +124,7 @@ class WorkTaskMaterialsAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_task_materials_take_off_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_task_materials_take_off_payload(task_id, *task_material_ids)
         )
         end = time.time()

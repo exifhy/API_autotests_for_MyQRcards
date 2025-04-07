@@ -8,11 +8,7 @@ from config.headers import Headers
 from services.work.work_task_template_excluded_assets.models.work_task_template_excluded_assets_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskTemplateExcludedAssetsAPI(Helper):
@@ -28,7 +24,7 @@ class WorkTaskTemplateExcludedAssetsAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_task_template_excluded_assets_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_task_template_excluded_assets_payload(
                 task_template_id,
                 *asset_ids
@@ -53,7 +49,7 @@ class WorkTaskTemplateExcludedAssetsAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_template_excluded_assets_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_template_excluded_assets_payload(
                 task_template_id,
                 *asset_ids

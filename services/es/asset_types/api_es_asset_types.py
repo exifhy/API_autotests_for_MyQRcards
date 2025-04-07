@@ -9,13 +9,8 @@ from config.headers import Headers
 from services.es.asset_types.models.es_asset_types_models import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class EsAssetTypesAPI(Helper):
@@ -32,7 +27,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_asset_type_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_asset_type_payload(
                 name=name_asset_type,
                 host=host,
@@ -59,7 +54,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_asset_type_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_asset_type_payload(
                 asset_type_id=asset_type_id,
                 name=name_asset_type,
@@ -85,7 +80,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_asset_type_by_id_endpoint(asset_type_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -104,7 +99,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_asset_types_by_list_payload(*asset_type_ids)
         )
         end = time.time()
@@ -129,7 +124,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -153,7 +148,8 @@ class EsAssetTypesAPI(Helper):
             for key, asset_type in model.root.items():
                 if asset_type.isHostable is True:
                     logger.info(f'Successfully get a list asset type.')
-                    logger.warning(f'First asset type with isHostable=True found: {asset_type.name}, Asset Type id: {key}')
+                    logger.warning(f'First asset type with isHostable=True found: '
+                                   f'{asset_type.name}, Asset Type id: {key}')
                     return int(key)
 
     @allure.step("Get list asset types.")
@@ -161,7 +157,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -185,7 +181,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -209,7 +205,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -235,7 +231,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_asset_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -259,7 +255,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_type_by_id_endpoint(asset_type_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)
@@ -279,7 +275,7 @@ class EsAssetTypesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_asset_type_by_id_endpoint(asset_type_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         data_response = self.response_content(response)

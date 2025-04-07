@@ -10,14 +10,9 @@ from config.headers import Headers
 from services.export.companies.models.export_companies_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from openpyxl import load_workbook
 from io import BytesIO
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportCompaniesAPI(Helper):
@@ -37,7 +32,7 @@ class ExportCompaniesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_companies_endpoint,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

@@ -16,13 +16,8 @@ from config.headers import Headers
 from services.work.tasks.models.work_tasks_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
 from random import randint
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTasksAPI(Helper):
@@ -47,7 +42,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_task_payload(
                 criticality_id=criticality_id,
                 task_type_id=task_type_id,
@@ -95,7 +90,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.add_task_payload(
                 criticality_id=criticality_id,
                 task_type_id=task_type_id,
@@ -139,7 +134,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_payload(
                 number=task_number,
                 note=note_task,
@@ -175,7 +170,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -203,7 +198,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -233,7 +228,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_task_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -261,7 +256,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_detailed_info_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -285,7 +280,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_task_payload(
                 number=task_number,
                 note=note_task,
@@ -311,7 +306,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_conversation_to_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_conversation_to_task_payload(
                 external,
                 value
@@ -360,7 +355,7 @@ class WorkTasksAPI(Helper):
     @allure.step("Get task conversation by ID.")
     def get_task_conversation_by_id(self, task_id: int, conversation_id: int, token: str or None, read: bool):
         if token is None:
-            token = API_TOKEN
+            token = get_token()
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_conversation_by_id_from_task_endpoint(task_id, conversation_id),
@@ -388,7 +383,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_of_available_stages_to_task_can_transferred_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -407,7 +402,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_assignments_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -433,7 +428,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_attachments_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -461,7 +456,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_attachment_by_id_endpoint(task_id, model_attachment.attachmentID),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -488,7 +483,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 model_attachment.attachmentID
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -522,7 +517,7 @@ class WorkTasksAPI(Helper):
                 model_attachment.attachmentID
             ),
             params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -544,7 +539,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_attributes_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -568,7 +563,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_change_types_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -588,7 +583,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_changes_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -608,7 +603,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_checklists_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -633,7 +628,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_checklists_to_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_checklists_to_task_payload(checklist_id)
         )
         end = time.time()
@@ -655,7 +650,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_checklists_to_task_by_id_endpoint(task_id, checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -675,7 +670,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_checklists_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_checklists_from_task_by_list_payload(*checklist_ids)
         )
         end = time.time()
@@ -695,7 +690,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_checklist_from_task_by_id_endpoint(task_id, checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -734,7 +729,7 @@ class WorkTasksAPI(Helper):
                 url=self.endpoints.post_upload_attachment_to_server_bind_to_checklist_task_from_form_endpoint(
                     task_id, task_checklist_id
                 ),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -757,7 +752,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_results_checklist_from_task_v2_endpoint(task_id, task_checklist_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -789,7 +784,7 @@ class WorkTasksAPI(Helper):
                 task_checklist_id,
                 task_checklist_result_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -820,7 +815,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 task_checklist_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -855,7 +850,7 @@ class WorkTasksAPI(Helper):
                 task_checklist_result_id,
                 attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -884,7 +879,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_results_checklist_from_task_endpoint(task_id, task_checklist_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_results_checklist_from_task_by_list_payload(*task_results_checklist_ids)
         )
         end = time.time()
@@ -915,7 +910,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 task_checklist_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_results_task_checklists_items_v2_payload(
                 task_checklist_result_id,
                 check,
@@ -952,7 +947,7 @@ class WorkTasksAPI(Helper):
                 completed_work_id,
                 attribute_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -983,7 +978,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 completed_work_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1028,7 +1023,7 @@ class WorkTasksAPI(Helper):
                 url=self.endpoints.post_upload_file_to_server_bind_to_completed_work_from_form_endpoint(
                     task_id, completed_work_id
                 ),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -1051,7 +1046,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attributes_for_completed_work_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1075,7 +1070,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attributes_for_completed_work_by_id_from_task_endpoint(task_id, completed_work_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1103,7 +1098,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 completed_work_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_attributes_task_completed_work_by_id_payload(
                 attribute_id,
                 value
@@ -1137,7 +1132,7 @@ class WorkTasksAPI(Helper):
                 task_id,
                 completed_work_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_attributes_task_completed_work_by_list_payload(*attribute_ids)
         )
         end = time.time()
@@ -1158,7 +1153,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_attributes_completed_work_by_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_attributes_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1189,7 +1184,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_attributes_completed_work_by_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_attributes_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1218,7 +1213,7 @@ class WorkTasksAPI(Helper):
                 completed_work_id,
                 attribute_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1236,7 +1231,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_completed_work_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1259,7 +1254,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_completed_work_by_id_from_task_endpoint(task_id, completed_work_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1282,7 +1277,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_attachments_from_completed_work_by_id_task_endpoint(task_id, completed_work_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1306,7 +1301,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_attachments_from_completed_work_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1339,7 +1334,7 @@ class WorkTasksAPI(Helper):
                 completed_work_id,
                 attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1376,7 +1371,7 @@ class WorkTasksAPI(Helper):
                 attachment_id
             ),
             params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1405,7 +1400,7 @@ class WorkTasksAPI(Helper):
                 completed_work_id,
                 attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1440,7 +1435,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_materials_from_completed_work_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_materials_to_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1479,7 +1474,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_technicians_to_completed_works_task_endpoints,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_technicians_to_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1508,7 +1503,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_materials_from_completed_work_by_id_task_endpoint(task_id, completed_work_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1539,7 +1534,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_materials_from_completed_work_by_id_task_endpoint(task_id, completed_work_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_materials_task_completed_work_payload(
                 material_id,
                 wh_id,
@@ -1564,7 +1559,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_materials_from_completed_work_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1596,7 +1591,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_materials_from_completed_work_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_materials_to_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1634,7 +1629,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_materials_from_completed_work_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_materials_from_task_completed_works_payload(
                 task_id,
                 completed_work_id,
@@ -1677,7 +1672,7 @@ class WorkTasksAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachment_bind_to_report_completed_work_task_from_form_endpoint,
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -1699,7 +1694,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_report_attachment_from_completed_work_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1728,7 +1723,7 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.delete_attachment_by_id_report_completed_work_task_endpoint(
                 task_id, attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -1753,7 +1748,7 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.post_add_attachment_by_id_report_completed_work_task_endpoint(
                 task_id, attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -1778,7 +1773,7 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.post_add_attachment_by_id_report_completed_work_task_v2_endpoint(
                 task_id, attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             # json=self.payloads.post_add_uploaded_signature_to_report_task_completed_works_v2_payload(
             #     'Обслуживание',
             #     'Работник'
@@ -1820,7 +1815,7 @@ class WorkTasksAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachment_bind_to_report_completed_work_task_from_body_endpoint,
-                headers=self.headers.basic_header(API_TOKEN),
+                headers=self.headers.basic_header(get_token()),
                 json=payload
             )
             end = time.time()
@@ -1842,7 +1837,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_technicians_from_completed_work_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1867,7 +1862,7 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.get_list_technicians_from_completed_work_by_id_task_endpoint(
                 task_id, completed_work_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -1897,7 +1892,7 @@ class WorkTasksAPI(Helper):
             url=self.endpoints.delete_technicians_from_completed_work_task_endpoint(
                 task_id, completed_work_id
             ),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_technicians_task_completed_works_by_list_payload(
                 *technicians_ids
             )
@@ -1925,7 +1920,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_update_technicians_from_completed_works_task_endpoints,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_update_technician_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1957,7 +1952,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_technicians_from_completed_works_task_endpoints,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_technician_from_task_completed_work_payload(
                 task_id,
                 completed_work_id,
@@ -1982,7 +1977,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_contacts_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2005,7 +2000,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_contact_by_id_from_task_endpoint(task_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2025,7 +2020,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_contact_by_id_from_task_endpoint(task_id, contact_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2043,7 +2038,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_conversations_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2066,7 +2061,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_conversations_from_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2090,7 +2085,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_conversation_by_id_from_task_endpoint(task_id, conversation_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2130,7 +2125,7 @@ class WorkTasksAPI(Helper):
             start = time.time()
             response = requests.post(
                 url=self.endpoints.post_upload_attachments_to_conversation_task_from_form_endpoint(task_id),
-                headers=self.headers.upload_file_header(API_TOKEN, payload.content_type),
+                headers=self.headers.upload_file_header(get_token(), payload.content_type),
                 data=payload
             )
             end = time.time()
@@ -2161,7 +2156,7 @@ class WorkTasksAPI(Helper):
                 conversation_id,
                 attachment_id
             ),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2187,7 +2182,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_conversation_delivery_status_task_endpoint(task_id, conversation_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2217,7 +2212,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.patch(
             url=self.endpoints.patch_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=field
         )
         end = time.time()
@@ -2250,7 +2245,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.patch(
             url=self.endpoints.patch_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=field
         )
         end = time.time()
@@ -2282,7 +2277,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.delete_task_by_list_payload(*task_ids)
         )
         end = time.time()
@@ -2304,7 +2299,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_check_company_code_used_task_by_id_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2327,7 +2322,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_task_endpoint, params=params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2351,7 +2346,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.head(
             url=self.endpoints.head_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2369,7 +2364,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_short_list_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)
@@ -2416,7 +2411,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_restore_deleted_task_by_list_payload(*task_ids)
         )
         end = time.time()
@@ -2444,7 +2439,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_count_task_by_day_endpoint, params=date_params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2471,7 +2466,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_short_list_of_task_clustered_by_geo_hash_endpoint, params=geo_params,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2494,7 +2489,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_materials_for_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2517,7 +2512,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_meta_data_for_form_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2540,7 +2535,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_meta_new_data_for_form_task_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2563,7 +2558,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_ratings_avg_engineers_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2586,7 +2581,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_ratings_engineers_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2609,7 +2604,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_skills_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2632,7 +2627,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_activate_auto_staginging_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2650,7 +2645,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_deactivate_auto_staginging_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2668,7 +2663,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_history_stages_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2691,7 +2686,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_available_next_stages_to_task_from_list_endpoint, params=param,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2711,7 +2706,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_tags_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -2731,7 +2726,7 @@ class WorkTasksAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_watch_list_by_task_endpoint(task_id),
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

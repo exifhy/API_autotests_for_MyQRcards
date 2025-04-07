@@ -10,17 +10,13 @@ from config.headers import Headers
 from services.export.assets.models.export_assets_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
+from utils.token_utils import get_token
 from faker import Faker
 from openpyxl import load_workbook
 from io import BytesIO
 
 
 fake_ru = Faker('ru_RU')
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
 
 
 class ExportAssetsAPI(Helper):
@@ -36,7 +32,7 @@ class ExportAssetsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_list_object_extended_includes_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -56,7 +52,7 @@ class ExportAssetsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.normal_export_list_object_endpoint,
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
@@ -133,7 +129,7 @@ class ExportAssetsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.export_all_filters_by_asset_id_endpoint(asset_id),
-            headers=self.headers.export_header(API_TOKEN)
+            headers=self.headers.export_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)

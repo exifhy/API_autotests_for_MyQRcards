@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.tstg.tstg_task_stages.payloads import Payloads
 from services.tstg.tstg_task_stages.endpoints import Endpoints
@@ -9,12 +8,7 @@ from config.headers import Headers
 from services.tstg.tstg_task_stages.models.tstg_task_stages_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class TstgTaskStagesAPI(Helper):
@@ -30,17 +24,17 @@ class TstgTaskStagesAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_task_stages_in_tenant_endpoint,
-            headers=self.headers.basic_header(API_TOKEN)
+            headers=self.headers.basic_header(get_token())
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListTaskStagesResultModel(**response.json())
         logger.info(f'Successfully get list task stages in tenant')
         return model

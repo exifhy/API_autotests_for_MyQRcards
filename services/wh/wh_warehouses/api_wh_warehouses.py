@@ -654,6 +654,105 @@ class WhWarehousesAPI(Helper):
         logger.info(f'Successfully put restore warehouses by list with ID:{wh_ids}.')
         return None
 
+    @allure.step("PUT restore warehouses by list (undeleted, deleted).")
+    def put_restore_warehouses_by_list_undeleted_deleted(self, *wh_ids: int):
+        """Первый ID неудаленный, второй удаленный."""
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_warehouses_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_restore_warehouses_by_list_payload(*wh_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "AlreadyDone", \
+            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Операция была выполнена ранее", \
+            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+        assert "AlreadyDone" in response.headers["X-Application-Errors"], \
+            f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step("PUT restore warehouses by list (undeleted, nonexistent).")
+    def put_restore_warehouses_by_list_undeleted_nonexistent(self, undeleted_wh_id: int):
+        """Первый ID неудаленный, второй несозданный."""
+        warehouses_list = self.get_list_warehouses_v2()
+        if warehouses_list is None:
+            non_existent_wh = 1
+        else:
+            wh_id = int(max(warehouses_list.root.keys(), key=int))
+            non_existent_wh = wh_id + 1
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_warehouses_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_restore_warehouses_by_list_payload(undeleted_wh_id, non_existent_wh)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NOT_FOUND, \
+            f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "WarehouseNotFound", \
+            f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Склад не найден", \
+            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+        assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step("PUT restore warehouses by list (deleted, nonexistent).")
+    def put_restore_warehouses_by_list_deleted_nonexistent(self, deleted_wh_id: int):
+        """Первый ID удаленный, второй несозданный."""
+        warehouses_list = self.get_list_warehouses_v2()
+        if warehouses_list is None:
+            non_existent_wh = 1
+        else:
+            wh_id = int(max(warehouses_list.root.keys(), key=int))
+            non_existent_wh = wh_id + 1
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_warehouses_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_restore_warehouses_by_list_payload(deleted_wh_id, non_existent_wh)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NOT_FOUND, \
+            f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "WarehouseNotFound", \
+            f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Склад не найден", \
+            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+        assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
     @allure.step("PUT restore warehouse by ID.")
     def put_restore_warehouses_by_id(self, wh_id: int):
         start = time.time()
@@ -673,30 +772,60 @@ class WhWarehousesAPI(Helper):
         logger.info(f'Successfully put restore warehouse ID:{wh_id}.')
         return None
 
-    def put_restore_warehouse_by_id_negative(
-            self, wh_id: int, step: str, status_code: int, error_code: str, error_message: str
-    ):
-        with allure.step(step):
-            start = time.time()
-            response = requests.put(
-                url=self.endpoints.put_restore_warehouses_by_id_endpoint(wh_id),
-                headers=self.headers.basic_header(get_token())
-            )
-            end = time.time()
-            logger.info(response.headers)
-            self.attach_response_headers(response.headers)
-            data_response = self.response_content(response)
-            self.attach_response(data_response)
-            self.attach_time(start, end)
-            self.attach_url(response.request.url)
-            assert response.status_code == status_code, \
-                f'Expected status code {status_code}, but got {response.status_code}, {data_response}'
-            model = ErrorModel(list_model=response.json())
-            assert model.list_model[0].code == error_code, \
-                f'Expected {error_code}, but got {model.list_model[0].code}'
-            assert model.list_model[0].message == error_message, \
-                f'Expected {error_message}, but got {model.list_model[0].message}'
-            assert error_code in response.headers["X-Application-Errors"], \
-                f'Expected {error_code}, but got {response.headers["X-Application-Errors"]}'
-            logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
-            return None
+    @allure.step("PUT restore undeleted warehouse by ID.")
+    def put_restore_undeleted_warehouses_by_id(self, wh_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_warehouses_by_id_endpoint(wh_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "AlreadyDone", \
+            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Операция была выполнена ранее", \
+            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+        assert "AlreadyDone" in response.headers["X-Application-Errors"], \
+            f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step("PUT restore nonexistent warehouse by ID.")
+    def put_restore_nonexistent_warehouses_by_id(self):
+        warehouses_list = self.get_list_warehouses_v2()
+        if warehouses_list is None:
+            non_existent_wh = 1
+        else:
+            wh_id = int(max(warehouses_list.root.keys(), key=int))
+            non_existent_wh = wh_id + 1
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_restore_warehouses_by_id_endpoint(non_existent_wh),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NOT_FOUND, \
+            f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "WarehouseNotFound", \
+            f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Склад не найден", \
+            f'Expected <Склад не найден>, but got {model.list_model[0].message}'
+        assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None

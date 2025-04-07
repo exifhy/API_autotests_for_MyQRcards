@@ -9,11 +9,7 @@ from config.headers import Headers
 from services.work.work_request_methods.models.work_request_methods_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkRequestMethodsAPI(Helper):
@@ -29,7 +25,7 @@ class WorkRequestMethodsAPI(Helper):
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_request_methods_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
         logger.info(response.headers)

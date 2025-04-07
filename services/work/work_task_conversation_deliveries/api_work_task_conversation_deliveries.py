@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.work.work_task_conversation_deliveries.payloads import Payloads
 from services.work.work_task_conversation_deliveries.endpoints import Endpoints
@@ -9,11 +8,7 @@ from config.headers import Headers
 from services.work.work_task_conversation_deliveries.models.work_task_conversation_deliveries_model import *
 import time
 from http import HTTPStatus
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+from utils.token_utils import get_token
 
 
 class WorkTaskConversationDeliveriesAPI(Helper):
@@ -29,7 +24,7 @@ class WorkTaskConversationDeliveriesAPI(Helper):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_task_conversation_deliveries_endpoint,
-            headers=self.headers.basic_header(API_TOKEN),
+            headers=self.headers.basic_header(get_token()),
             json=self.payloads.put_task_conversation_deliveries_payload(
                 task_id,
                 conversation_id
