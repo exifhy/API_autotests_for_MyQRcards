@@ -19,8 +19,11 @@ class Payloads:
 
     @staticmethod
     def post_add_three_materials_payload(*data) -> list:
-        payload = [*data]
-        return payload
+        return [*data]
+
+    @staticmethod
+    def put_update_material_payload(*data) -> list:
+        return [*data]
 
     @staticmethod
     def put_update_materials_payload(
@@ -41,7 +44,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_materials_by_list(*materials_ids: tuple) -> list:
+    def delete_materials_by_list(*materials_ids) -> list:
         return [*materials_ids]
 
     @staticmethod

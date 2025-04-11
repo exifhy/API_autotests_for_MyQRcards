@@ -1,6 +1,7 @@
 import allure
 import pytest
 from config.base_test import BaseTest
+from src.enums.params_enums import Params
 
 
 @allure.epic("Administration")
@@ -334,3 +335,131 @@ class TestWhMaterials(BaseTest):
     @pytest.mark.test_case_id()
     def test_put_restore_nonexistent_material_by_id(self):
         self.api_wh_materials.put_restore_nonexistent_material_by_id()
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    @pytest.mark.parametrize('data, name_step, error_message', Params.params_negative_add_materials_body.value)
+    def test_post_add_material_negative(self, data, name_step, error_message, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        self.api_wh_materials.post_add_material_negative(data, name_step, error_message)
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    @pytest.mark.parametrize('data, name_step, error_message', Params.params_negative_update_material_body.value)
+    def test_put_update_material_negative(self, data, name_step, error_message, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        model_material = self.api_wh_materials.post_add_materials()
+        try:
+            self.api_wh_materials.put_update_material_negative(
+                model_material.result[0], data, name_step, error_message
+            )
+        finally:
+            self.api_wh_materials.delete_material_by_id(model_material.result[0])
+
+    @allure.title('Test add barcodes to material with nonexistent barcodeTypeID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    @pytest.mark.skip(reason="Ручка в разработке, создается штрихкод с несуществующем типом.")
+    def test_post_add_barcodes_material_with_nonexistent_barcode_type_id(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        try:
+            self.api_wh_materials.post_add_barcodes_material_with_nonexistent_barcode_type_id(
+                model_materials.result[0]
+            )
+        finally:
+            self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test add barcodes to material with empty string in value.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    @pytest.mark.skip(reason="Ручка в разработке, создается штрих код с пустым значением в value.")
+    def test_post_add_barcodes_material_with_empty_string_in_value(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        try:
+            self.api_wh_materials.post_add_barcodes_material_with_empty_string_in_value(
+                model_materials.result[0]
+            )
+        finally:
+            self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test delete materials by list (undeleted, deleted).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_delete_materials_by_list_undeleted_deleted(self):
+        model_materials = self.api_wh_materials.post_add_two_materials()
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+        try:
+
+            self.api_wh_materials.delete_materials_by_list_negative_already_done(
+                model_materials.result[0],
+                model_materials.result[1]
+            )
+        finally:
+            self.api_wh_materials.delete_material_by_id(model_materials.result[1])
+
+    @allure.title('Test delete materials by list (deleted, deleted).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_delete_materials_by_list_deleted_deleted(self):
+        model_materials = self.api_wh_materials.post_add_two_materials()
+        self.api_wh_materials.delete_materials_by_list(model_materials.result[0], model_materials.result[1])
+        self.api_wh_materials.delete_materials_by_list_negative_already_done(
+            model_materials.result[0],
+            model_materials.result[1]
+        )
+
+    @allure.title('Test delete materials by list (nonexistent, deleted).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_delete_materials_by_list_nonexistent_deleted(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+        self.api_wh_materials.delete_materials_by_list_negative_not_found(model_materials.result[0])
+
+    @allure.title('Test delete materials by list (nonexistent, undeleted).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_delete_materials_by_list_nonexistent_undeleted(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.delete_materials_by_list_negative_not_found(model_materials.result[0])
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test get list materials V2 (isDeleted=true).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_deleted_materials_v2(self):
+        self.api_wh_materials.get_list_deleted_materials_v2()
+
+    @allure.title('Test get list materials V2 (isDeleted=false).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_undeleted_materials_v2(self):
+        self.api_wh_materials.get_list_undeleted_materials_v2()
+
+    @allure.title('Test get list materials, searchText={POST WH/materials name}.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_materials_search_text_new_material(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.get_list_materials_search_text_new_material(model_materials.result[0])
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test get list materials, searchText={POST WH/materials erpID}.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_materials_search_text_erp_id(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.get_list_materials_search_text_erp_id(model_materials.result[0])
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])

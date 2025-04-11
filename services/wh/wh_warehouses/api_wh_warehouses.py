@@ -780,13 +780,7 @@ class WhWarehousesAPI(Helper):
         assert response.status_code == HTTPStatus.CONFLICT, \
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
-        assert model.list_model[0].code == "AlreadyDone", \
-            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Операция была выполнена ранее", \
-            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
-        assert "AlreadyDone" in response.headers["X-Application-Errors"], \
-            f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
-        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        self.assert_already_done(response, model)
         return None
 
     @allure.step("PUT restore nonexistent warehouse by ID.")

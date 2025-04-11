@@ -161,6 +161,64 @@ class WhMaterialsAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete materials with ID:{materials_ids}.')
 
+    @allure.step("Delete materials by list negative <alredy done>.")
+    def delete_materials_by_list_negative_already_done(self, *materials_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_materials_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_materials_by_list(*materials_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        self.assert_already_done(response, model)
+        return None
+
+    @allure.step("Delete materials by list negative <not found>.")
+    def delete_materials_by_list_negative_not_found(self, material_id: int):
+        materials_list = self.get_list_materials_v2()
+        if materials_list is None:
+            nonexistent_material = 1
+        else:
+            material_id = int(max(materials_list.root.keys(), key=int))
+            nonexistent_material = material_id + 1
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_materials_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_materials_by_list(nonexistent_material, material_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NOT_FOUND, \
+            f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "MaterialNotFound", \
+            f'Expected <MaterialNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Номенклатура не найдена", \
+            f'Expected <Номенклатура не найдена>, but got {model.list_model[0].message}'
+        assert "MaterialNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
+        assert "ResourceNotFound" in response.headers["X-ServiceFabric"], \
+            f'Expected <ResourceNotFound>, but got {response.headers["X-ServiceFabric"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
     @allure.step("Get material by ID.")
     def get_material_by_id(self, materials_id: int):
         start = time.time()
@@ -492,6 +550,62 @@ class WhMaterialsAPI(Helper):
         model = SuccessAddBarcodesMaterialsModel(results=response.json())
         logger.info(f'Successfully add barcodes to material by ID {material_id}.')
         return model
+
+    @allure.step("Add barcodes to material with nonexistent barcodeTypeID.")
+    def post_add_barcodes_material_with_nonexistent_barcode_type_id(self, material_id: int):
+        data = {
+            "barcodeTypeID": random.randint(9, 20),
+            "value": f"{random.randint(1, 999999)}"
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_barcodes_materials_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_barcodes_material_payload(
+                material_id, data
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
+        return None
+
+    @allure.step("Add barcodes to material with empty string in value.")
+    def post_add_barcodes_material_with_empty_string_in_value(self, material_id: int):
+        data = {
+            "barcodeTypeID": random.randint(9, 20),
+            "value": f""
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_barcodes_materials_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_barcodes_material_payload(
+                material_id, data
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
+        return None
 
     @allure.step("Add two barcodes to material.")
     def post_add_two_barcodes_material(self, material_id: int):
@@ -931,3 +1045,166 @@ class WhMaterialsAPI(Helper):
             f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
+
+    def post_add_material_negative(self, data: dict, name_step: str, error_message: str):
+        with allure.step(name_step):
+            start = time.time()
+            response = requests.post(
+                url=self.endpoints.post_add_materials_endpoint,
+                headers=self.headers.basic_header(get_token()),
+                json=self.payloads.post_add_three_materials_payload(data)
+            )
+            end = time.time()
+            logger.info(response.headers)
+            self.attach_response_headers(response.headers)
+            data_response = self.response_content(response)
+            self.attach_response(data_response)
+            self.attach_time(start, end)
+            self.attach_request(response.request.body)
+            self.attach_url(response.request.url)
+            assert response.status_code == HTTPStatus.CONFLICT, \
+                f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+            model = ErrorModel(list_model=response.json())
+            assert model.list_model[0].code == "InvalidData", \
+                f'Expected <InvalidData>, but got {model.list_model[0].code}'
+            assert model.list_model[0].message == error_message, \
+                f'Expected {error_message}, but got {model.list_model[0].message}'
+            assert "InvalidData" in response.headers["X-Application-Errors"], \
+                f'Expected <InvalidData>, but got {response.headers["X-Application-Errors"]}'
+            logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
+            return None
+
+    def put_update_material_negative(self, material_id: int, data: dict, name_step: str, error_message: str):
+        with allure.step(name_step):
+            data["id"] = material_id
+            start = time.time()
+            response = requests.put(
+                url=self.endpoints.post_add_materials_endpoint,
+                headers=self.headers.basic_header(get_token()),
+                json=self.payloads.put_update_material_payload(data)
+            )
+            end = time.time()
+            logger.info(response.headers)
+            self.attach_response_headers(response.headers)
+            data_response = self.response_content(response)
+            self.attach_response(data_response)
+            self.attach_time(start, end)
+            self.attach_request(response.request.body)
+            self.attach_url(response.request.url)
+            assert response.status_code == HTTPStatus.CONFLICT, \
+                f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+            model = ErrorModel(list_model=response.json())
+            assert model.list_model[0].code == "InvalidData", \
+                f'Expected <InvalidData>, but got {model.list_model[0].code}'
+            assert model.list_model[0].message == error_message, \
+                f'Expected {error_message}, but got {model.list_model[0].message}'
+            assert "InvalidData" in response.headers["X-Application-Errors"], \
+                f'Expected <InvalidData>, but got {response.headers["X-Application-Errors"]}'
+            logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
+            return None
+
+    @allure.step("Get list materials V2 (isDeleted=true).")
+    def get_list_deleted_materials_v2(self):
+        param = {
+            "isDeleted": True
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_v2_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Tenant does not contain deleted materials")
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessGetListMaterialsV2Model(root=response.json())
+        for material_id, material in model.root.items():
+            if "deleted" not in material.model_fields_set:
+                raise AssertionError(f"Received not deleted material ID {material_id} in the deleted materials list")
+        logger.info(f'Successfully get list deleted materials V2.')
+        return model
+
+    @allure.step("Get list materials V2 (isDeleted=false).")
+    def get_list_undeleted_materials_v2(self):
+        param = {
+            "isDeleted": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_v2_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Tenant does not contain undeleted materials")
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessGetListMaterialsV2Model(root=response.json())
+        for material_id, material in model.root.items():
+            if "deleted" in material.model_fields_set:
+                raise AssertionError(f"Received deleted material ID {material_id} in the undeleted materials list")
+        logger.info(f'Successfully get list undeleted materials V2.')
+        return model
+
+    @allure.step("Get list materials, searchText=(POST add materials name).")
+    def get_list_materials_search_text_new_material(self, material_id: int):
+        model_material = self.get_material_by_id(material_id)
+        param = {
+            "searchText": model_material.name
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info("The old API endpoint (GET materials) doesn't return the new material data.")
+
+    @allure.step("Get list materials, searchText=(POST add materials erpID).")
+    def get_list_materials_search_text_erp_id(self, material_id: int):
+        model_material = self.get_material_by_id(material_id)
+        param = {
+            "searchText": model_material.erpID
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info("The old API endpoint (GET materials) doesn't return the new material by id data.")
