@@ -55,10 +55,11 @@ class Endpoints:
     post_add_materials_endpoint = f'{HOST}/WH/Materials'
     delete_materials_endpoint = f'{HOST}/WH/Materials'
     head_materials_endpoint = f'{HOST}/WH/Materials'
+    get_list_required_materials_endpoint = f'{HOST}/WH/Materials/required'
 
-    @staticmethod
-    def get_list_required_materials_endpoint(required: int) -> str:
-        return f'{HOST}/WH/Materials/{required}'
+    # @staticmethod
+    # def get_list_required_materials_endpoint(required: int) -> str:
+    #     return f'{HOST}/WH/Materials/{required}'
 
     @staticmethod
     def get_materials_by_id_endpoint(material_id: int) -> str:
@@ -74,8 +75,3 @@ class Endpoints:
     @staticmethod
     def put_material_restore_by_id_endpoint(material_id: int) -> str:
         return f'{HOST}/WH/Materials/{material_id}/restore'
-
-
-
-
-

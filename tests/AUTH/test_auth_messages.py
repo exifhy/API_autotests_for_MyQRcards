@@ -11,7 +11,6 @@ class TestAuthMessages(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23427")
     @pytest.mark.regress
     @pytest.mark.test_case_id(23427)
-    @pytest.mark.skip(reason="Отправка email")
     def test_post_message_verify_email(self):
         model = self.api_authn_accounts.account_authentication_by_basic_authorization()
         self.api_auth_messages.post_message_verify_email(

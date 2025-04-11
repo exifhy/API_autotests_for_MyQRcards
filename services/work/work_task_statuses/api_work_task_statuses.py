@@ -23,7 +23,7 @@ class WorkTaskStatusesAPI(Helper):
 
     @allure.step("Add task status.")
     def post_add_task_statuses(self):
-        colors = ["FF4500", "6A5ACD", "32CD32", "FFD700", "8A2BE2"]
+        colors = ["1E90FF", "FF6347", "9370DB", "3CB371", "FF8C00"]
         value = {
             "name": f"Статус-{randint(1, 999)}",
             "sortOrder": 0,

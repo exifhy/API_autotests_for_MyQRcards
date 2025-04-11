@@ -4,6 +4,7 @@ import allure
 import json
 from allure_commons.types import AttachmentType
 from requests.structures import CaseInsensitiveDict
+from loguru import logger
 
 
 class Helper:
@@ -94,3 +95,14 @@ class Helper:
             return response.json()
         else:
             return "The response body is empty."
+
+    @staticmethod
+    def assert_already_done(response, model):
+        assert model.list_model[0].code == "AlreadyDone", \
+            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Операция была выполнена ранее", \
+            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+        assert "AlreadyDone" in response.headers["X-Application-Errors"], \
+            f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None

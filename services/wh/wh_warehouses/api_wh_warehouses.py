@@ -23,30 +23,27 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("Create warehouses.")
     def post_add_warehouses(self):
-        number = random.randint(1, 99999)
-        name = f"Склад {number}"
-        erp_name = f"WHErpID {number}"
+        erp_name = f"WHErpID {random.randint(1, 999999999)}"
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_warehouses_endpoint,
             headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_warehouse_payload(
-                name,
+                f"Склад {random.randint(1, 999999999)}",
                 erp_name
             )
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddWarehousesModel(result=response.json())
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         logger.info(f'Successfully created warehouse with ID:{model.result[0]}.')
         return model, erp_name
 
@@ -674,13 +671,7 @@ class WhWarehousesAPI(Helper):
         assert response.status_code == HTTPStatus.CONFLICT, \
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
-        assert model.list_model[0].code == "AlreadyDone", \
-            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Операция была выполнена ранее", \
-            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
-        assert "AlreadyDone" in response.headers["X-Application-Errors"], \
-            f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
-        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        self.assert_already_done(response, model)
         return None
 
     @allure.step("PUT restore warehouses by list (undeleted, nonexistent).")
@@ -747,7 +738,7 @@ class WhWarehousesAPI(Helper):
         assert model.list_model[0].code == "WarehouseNotFound", \
             f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
         assert model.list_model[0].message == "Склад не найден", \
-            f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
+            f'Expected <Склад не найден>, but got {model.list_model[0].message}'
         assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
