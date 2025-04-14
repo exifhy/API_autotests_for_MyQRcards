@@ -55,9 +55,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get list attachments by material ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25478")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25478)
     def test_get_list_attachments_by_material_id(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -68,9 +68,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test delete attachments from material by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25479")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25479)
     def test_delete_attachments_from_material_by_list(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -83,9 +83,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get attachment from material by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25481")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25481)
     def test_get_attachment_from_material_by_id(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -98,9 +98,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test delete attachment by ID from material by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25480")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25480)
     def test_delete_attachment_from_material_by_id(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -113,9 +113,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get TemporaryRedirect to a temporary link for downloading the attachment file from material.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25484")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25484)
     def test_get_downloading_attachment_file_from_material(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -128,9 +128,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get temporary link for downloading the attachment file from material (noRedirect).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25485")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25485)
     def test_get_downloading_attachment_file_from_material_no_redirect(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -143,9 +143,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test uploads the file to server and binds it to the material, data from form.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25486")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25486)
     def test_post_upload_attachment_and_bind_to_material_data_from_form(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_form(
@@ -155,9 +155,9 @@ class TestWhMaterials(BaseTest):
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test uploads the file to server and binds it to the material, data from body.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25487")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25487)
     def test_post_upload_attachment_and_bind_to_material_data_from_body(self):
         model_materials = self.api_wh_materials.post_add_materials()
         attachment_id = self.api_wh_materials.post_upload_attachment_and_bind_to_material_data_from_body(
@@ -358,11 +358,20 @@ class TestWhMaterials(BaseTest):
         finally:
             self.api_wh_materials.delete_material_by_id(model_material.result[0])
 
+    @allure.title('Test update material.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_put_update_materials(self):
+        model_material = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.put_update_materials(model_material.result[0])
+        self.api_wh_materials.delete_material_by_id(model_material.result[0])
+
     @allure.title('Test add barcodes to material with nonexistent barcodeTypeID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
     @pytest.mark.regress
     @pytest.mark.test_case_id()
-    @pytest.mark.skip(reason="Ручка в разработке, создается штрихкод с несуществующем типом.")
+    @pytest.mark.xfail(reason="Ручка в разработке, создается штрихкод с несуществующем типом.")
     def test_post_add_barcodes_material_with_nonexistent_barcode_type_id(self):
         model_materials = self.api_wh_materials.post_add_materials()
         try:
@@ -376,7 +385,7 @@ class TestWhMaterials(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
     @pytest.mark.regress
     @pytest.mark.test_case_id()
-    @pytest.mark.skip(reason="Ручка в разработке, создается штрих код с пустым значением в value.")
+    @pytest.mark.xfail(reason="Ручка в разработке, создается штрих код с пустым значением в value.")
     def test_post_add_barcodes_material_with_empty_string_in_value(self):
         model_materials = self.api_wh_materials.post_add_materials()
         try:
@@ -462,4 +471,22 @@ class TestWhMaterials(BaseTest):
     def test_get_list_materials_search_text_erp_id(self):
         model_materials = self.api_wh_materials.post_add_materials()
         self.api_wh_materials.get_list_materials_search_text_erp_id(model_materials.result[0])
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test get list materials V2, searchText={POST WH/materials erpID}.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_materials_v2_search_text_erp_id(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.get_list_materials_v2_search_text_erp_id(model_materials.result[0])
+        self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test get list materials V2, searchText={POST WH/materials name}.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_get_list_materials_v2_search_text_name(self):
+        model_materials = self.api_wh_materials.post_add_materials()
+        self.api_wh_materials.get_list_materials_v2_search_text_name(model_materials.result[0])
         self.api_wh_materials.delete_material_by_id(model_materials.result[0])

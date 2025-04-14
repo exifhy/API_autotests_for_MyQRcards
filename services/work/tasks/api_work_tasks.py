@@ -2376,7 +2376,7 @@ class WorkTasksAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.info('NO CONTENT: status code 204.')
             return None
-        assert response.status_code == HTTPStatus.OK, \
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessListShortResultModel(root=response.json())
         logger.info(f'Successfully get short list tasks.')
