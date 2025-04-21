@@ -671,6 +671,7 @@ class WhWarehousesAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("PUT restore warehouses by list (undeleted, nonexistent).")
@@ -780,6 +781,7 @@ class WhWarehousesAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("PUT restore nonexistent warehouse by ID.")

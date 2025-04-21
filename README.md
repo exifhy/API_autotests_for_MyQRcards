@@ -37,9 +37,13 @@
 
 ## Запуск тестов
 
-1. Для запуска всех тестов на DEV стенде используйте команду:
+1. Для запуска всех тестов на стендах dev, stage или prod используйте соответствующую команду:
    
- - $env:ENVIRON='qa'; pytest -s
+ - $env:ENVIRON='dev'; pytest -s
+
+ - $env:ENVIRON='stage'; pytest -s
+
+ - $env:ENVIRON='prod'; pytest -s
 
  - параметр для записи allure-results прописан в pytest.ini. Запускается автоматически.
 

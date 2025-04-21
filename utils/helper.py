@@ -109,7 +109,6 @@ class Helper:
             f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
         assert "AlreadyDone" in response.headers["X-Application-Errors"], \
             f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
-        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @staticmethod
@@ -120,5 +119,4 @@ class Helper:
             f'Expected <Документ оприходывания не найден>, but got {model.list_model[0].message}'
         assert "ReceiptNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <ReceiptNotFound>, but got {response.headers["X-Application-Errors"]}'
-        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None

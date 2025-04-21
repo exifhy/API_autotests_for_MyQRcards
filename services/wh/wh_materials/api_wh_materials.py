@@ -181,6 +181,7 @@ class WhMaterialsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Delete materials by list negative <not found>.")
@@ -918,6 +919,7 @@ class WhMaterialsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore materials by list (nonexistent, undeleted).")
@@ -1025,6 +1027,7 @@ class WhMaterialsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore nonexistent material by ID.")

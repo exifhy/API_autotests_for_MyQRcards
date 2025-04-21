@@ -365,7 +365,8 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
-        return  None
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
 
     @allure.step("Delete nonexistent receipt by ID.")
     def delete_nonexistent_receipt_by_id(self):
@@ -386,6 +387,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_receipt_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Delete receipt by ID.")
@@ -575,6 +577,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore nonexistent receipt by ID.")
@@ -596,6 +599,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_receipt_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore receipts by list.")
@@ -639,6 +643,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore receipts by list (undeleted, undeleted).")
@@ -661,6 +666,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore receipts by list (nonexistent, undeleted).")
@@ -684,6 +690,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_receipt_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Restore receipts by list (nonexistent, deleted).")
@@ -707,6 +714,7 @@ class WhReceiptsAPI(Helper):
             f'Expected status code {HTTPStatus.NOT_FOUND}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_receipt_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
     @allure.step("Get list receipt items by receipt ID.")
