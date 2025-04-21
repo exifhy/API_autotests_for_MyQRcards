@@ -13,14 +13,15 @@ import requests
 import re
 import traceback
 from utils.helper import Helper
+from config.config import HOST, ENVIRON
 
 
 load_dotenv()
 
 
 # Определение HOST на основе переменной окружения ENVIRON
-ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, используем "prod" по умолчанию
-HOST = os.getenv('URL_DEV_HUBEX') if ENVIRON == 'qa' else os.getenv('URL_PROD_HUBEX')
+# ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, используем "prod" по умолчанию
+# HOST = os.getenv('URL_DEV_HUBEX') if ENVIRON == 'qa' else os.getenv('URL_PROD_HUBEX')
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_USER_TOKEN = os.getenv('API_USER_TOKEN')
 BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')

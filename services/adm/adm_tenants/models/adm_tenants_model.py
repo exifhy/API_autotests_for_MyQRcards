@@ -1,20 +1,35 @@
-from pydantic import BaseModel
-from typing import List, Optional
+from pydantic import BaseModel, ConfigDict
+from typing import List, Optional, Dict
 from datetime import datetime
 
 
-class BanReasonResult(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CodeMessageModel(StrictBaseModel):
+    traceIdentifier: str
+    code: str
+    message: str
+    arguments: Optional[Dict[str, str]] = None
+
+
+class ErrorModel(StrictBaseModel):
+    results: List[CodeMessageModel]
+
+
+class BanReasonResult(StrictBaseModel):
     description: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class BanResult(BaseModel):
+class BanResult(StrictBaseModel):
     dateTill: Optional[datetime] = None
     banReason: Optional[BanReasonResult] = None
 
 
-class TenantMemberResult(BaseModel):
+class TenantMemberResult(StrictBaseModel):
     accountID: Optional[int] = None
     description: Optional[str] = None
     firstName: Optional[str] = None
@@ -23,7 +38,7 @@ class TenantMemberResult(BaseModel):
     id: Optional[int] = None
 
 
-class SuccessGetCurrentTenantResult(BaseModel):
+class SuccessGetCurrentTenantResult(StrictBaseModel):
     banned: Optional[BanResult] = None
     owner: Optional[TenantMemberResult] = None
     tenantMembers: Optional[List[TenantMemberResult]] = None
@@ -34,5 +49,5 @@ class SuccessGetCurrentTenantResult(BaseModel):
     id: Optional[int] = None
 
 
-class SuccessGetListTenantsResultModel(BaseModel):
+class SuccessGetListTenantsResultModel(StrictBaseModel):
     result: List[SuccessGetCurrentTenantResult]

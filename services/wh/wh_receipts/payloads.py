@@ -3,15 +3,32 @@
 class Payloads:
 
     @staticmethod
-    def post_add_receipt_payload(wh_id: int, wh_status_id: int, erp_name: str) -> list:
+    def post_add_receipt_payload(wh_id: int, wh_status_id: int, erp_name: str, number: str) -> list:
         payload = [
             {
+                "number": number,
                 "warehouseID": wh_id,
                 "documentStatusID": wh_status_id,
                 "erpID": erp_name
             }
         ]
         return payload
+
+    @staticmethod
+    def post_add_receipts_payload(*data: tuple or dict) -> list:
+        return [*data]
+
+    @staticmethod
+    def put_update_receipts_payload(*data: dict or tuple) -> list:
+        return [*data]
+
+    @staticmethod
+    def put_restore_receipts_payload(*receipts_ids: int or tuple) -> list:
+        return [*receipts_ids]
+
+    @staticmethod
+    def post_add_receipt_negative_payload(*data: tuple or dict) -> list:
+        return [*data]
 
     @staticmethod
     def delete_receipts_payload(*receipt_ids: tuple) -> list:

@@ -161,7 +161,7 @@ class WhMaterialsAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete materials with ID:{materials_ids}.')
 
-    @allure.step("Delete materials by list negative <alredy done>.")
+    @allure.step("Delete materials by list negative <already done>.")
     def delete_materials_by_list_negative_already_done(self, *materials_ids: int):
         start = time.time()
         response = requests.delete(
@@ -792,9 +792,8 @@ class WhMaterialsAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning("Tenant does not contain materials")
             return None
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
-             f'but got {response.status_code}, {data_response}')
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}, {data_response}'
         model = SuccessGetListMaterialsV2Model(root=response.json())
         qty_items = int(response.headers["Content-Range"].split("/")[-1])
         logger.info(f'Successfully get list materials V2. Quantity of materials {len(model.root)}.')

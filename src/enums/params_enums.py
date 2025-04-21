@@ -277,7 +277,7 @@ class Params(Enum):
                 "Cost": 10.50,
                 "PurchaseCost": 10.50,
                 "purchaseCostCurrencyID": 1,
-            }, "Create material without <CostCurrencyID> field.", "Неверные данные: Currency",
+            }, "Update material without <CostCurrencyID> field.", "Неверные данные: Currency",
             id="Test update material without <CostCurrencyID> field."),
         pytest.param({
                 "name": f"Материал {random.randint(1, 99999)}",

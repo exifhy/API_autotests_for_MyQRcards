@@ -174,15 +174,14 @@ class WhWarehousesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete warehouse with ID:{wh_ids}.')
 
     @allure.step("Delete warehouses by list (undeleted, deleted).")

@@ -91,18 +91,34 @@ class Helper:
 
     @staticmethod
     def response_content(response) -> str:
+
+        allure.attach(body=str(response.request.method), name='Method', attachment_type=AttachmentType.TEXT)
+
+        allure.attach(body=str(response.status_code), name='Status code', attachment_type=AttachmentType.TEXT)
+
         if response.content:
             return response.json()
         else:
             return "The response body is empty."
 
     @staticmethod
-    def assert_already_done(response, model):
+    def assert_already_done(response, model) -> None:
         assert model.list_model[0].code == "AlreadyDone", \
             f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
         assert model.list_model[0].message == "Операция была выполнена ранее", \
             f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
         assert "AlreadyDone" in response.headers["X-Application-Errors"], \
             f'Expected <AlreadyDone>, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @staticmethod
+    def assert_receipt_not_found(response, model) -> None:
+        assert model.list_model[0].code == "ReceiptNotFound", \
+            f'Expected <ReceiptNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Документ оприходывания не найден", \
+            f'Expected <Документ оприходывания не найден>, but got {model.list_model[0].message}'
+        assert "ReceiptNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <ReceiptNotFound>, but got {response.headers["X-Application-Errors"]}'
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
