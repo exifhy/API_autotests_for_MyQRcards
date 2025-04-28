@@ -4,7 +4,6 @@ import allure
 import json
 from allure_commons.types import AttachmentType
 from requests.structures import CaseInsensitiveDict
-from loguru import logger
 
 
 class Helper:

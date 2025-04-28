@@ -86,6 +86,15 @@ class Headers:
         "Content-Type": "application/json"
     }
 
+    basic_header_without_authorization = {
+        "Accept": "application/json",
+        "Accept-Language": "ru-RU",
+        "X-Application-ID": f"{APP_ID}",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json"
+    }
+
     @staticmethod
     def authentication_header(token: str, app_id: str) -> dict:
         header = {

@@ -83,7 +83,7 @@ class Params(Enum):
         pytest.param({
             "code": "code",
             "MobilePhone": "+7number",
-            "Password" : "password"
+            "Password": "password"
         }, id="Change password with code, mobilePhone")
     ]
 
@@ -99,43 +99,43 @@ class Params(Enum):
     ]
 
     params_post_task_number = [
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
-                     , 201, 32, id="Task number length 32 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
-                     , 201, 31, id="Task number length 31 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
-                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32)),
+                     201, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31)),
+                     201, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33)),
+                     409, 0, id="Task number length 33 (string)."),
         pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
                      201, 32, id="Task number length 32 (integer)."),
     ]
 
     params_put_task_number = [
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
-                     , 202, 32, id="Task number length 32 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
-                     , 202, 31, id="Task number length 31 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
-                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32)),
+                     202, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31)),
+                     202, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33)),
+                     409, 0, id="Task number length 33 (string)."),
         pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
                      202, 32, id="Task number length 32 (integer)."),
     ]
 
     params_patch_task_number = [
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
-                     , 202, 32, id="Task number length 32 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
-                     , 202, 31, id="Task number length 31 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33))
-                     , 409, 0, id="Task number length 33 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32)),
+                     202, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31)),
+                     202, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(33)),
+                     409, 0, id="Task number length 33 (string)."),
         pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
                      409, 32, id="Task number length 32 (integer)."),
     ]
 
     params_export_task_number = [
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32))
-                     , 201, 32, id="Task number length 32 (string)."),
-        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31))
-                     , 201, 31, id="Task number length 31 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(32)),
+                     201, 32, id="Task number length 32 (string)."),
+        pytest.param(''.join(random.choice(string.ascii_letters) for _ in range(31)),
+                     201, 31, id="Task number length 31 (string)."),
         pytest.param(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999),
                      201, 32, id="Task number length 32 (integer)."),
     ]
@@ -337,4 +337,157 @@ class Params(Enum):
             }, "Update material with exceeding character limits erpID=65.",
             "The field ErpID must be a string with a maximum length of 64.",
             id="Test update material with exceeding character limits erpID=65.")
+    ]
+
+    params_negative_add_package_body = [
+        pytest.param({
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "Name": f"Name {random.randint(1, 999999)}",
+            "IconUrl": "https://239911.selcdn.ru/Plugins/default.png",
+            "AddonUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without AddonID field.",
+            "Параметр [AddonID] не может быть пустым.",
+            id="Test add package without <AddonID> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Name": f"Name {random.randint(1, 999999)}",
+            "IconUrl": f"https://dev-automate.hubex.ru/webhook/{random.randint(1, 9999999)}",
+            "AddonUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without Version field.",
+            "Параметр [Version] не может быть пустым.",
+            id="Test add package without <Version> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "IconUrl": "https://239911.selcdn.ru/Plugins/default.png",
+            "AddonUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without Name field.",
+            "Параметр [Name] не может быть пустым.",
+            id="Test add package without <Name> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "Name": "",
+            "IconUrl": f"https://dev-automate.hubex.ru/webhook/{random.randint(1, 9999999)}",
+            "AddonUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database with empty string in Name field.",
+            "Параметр [Name] не может быть пустым.",
+            id="Test add package with empty string in <Name> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "Name": f"Name {random.randint(1, 999999)}",
+            "AddonUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without IconUrl field.",
+            "Параметр [IconUrl] не может быть пустым.",
+            id="Test add package without <IconUrl> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "Name": f"Name {random.randint(1, 999999)}",
+            "IconUrl": "https://ya.ru/",
+            "ResourceID": 1,
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without AddonUrl field.",
+            "Параметр [AddonUrl] не может быть пустым.",
+            id="Test add package without <AddonUrl> field."),
+        pytest.param({
+            "AddonID": f"{random.randint(1, 999999999999)}",
+            "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
+            "Name": f"Name {random.randint(1, 999999)}",
+            "IconUrl": "https://239911.selcdn.ru/Plugins/default.png",
+            "AddonUrl": "https://ya.ru/",
+            "IsMobile": False
+        },
+            "Add a package by cross tenant admin to database without ResourceID field.",
+            "Параметр [ResourceID] не может быть пустым.",
+            id="Test add package without <ResourceID> field.")
+    ]
+
+    params_add_package_to_different_resource_body = [
+        pytest.param(1, "Форма заявки", "Add package with ResourceID=1", False,
+                     id="Test add package with ResourceID=1, TaskForm."),
+        pytest.param(2, "Список заявок", "Add package with ResourceID=2", False,
+                     id="Test add package with ResourceID=2, TasksList."),
+        pytest.param(3, "Форма сотрудника", "Add package with ResourceID=3", False,
+                     id="Test add package with ResourceID=3, TechnicianForm."),
+        pytest.param(4, "Список сотрудников", "Add package with ResourceID=4", False,
+                     id="Test add package with ResourceID=4, TechniciansList."),
+        pytest.param(5, "Форма заказчиков", "Add package with ResourceID=5", False,
+                     id="Test add package with ResourceID=5, CustomerForm."),
+        pytest.param(6, "Список заказчиков", "Add package with ResourceID=6", False,
+                     id="Test add package with ResourceID=6, CustomersList."),
+        pytest.param(7, "AssetForm", "Add package with ResourceID=7", False,
+                     id="Test add package with ResourceID=7, AssetForm."),
+        pytest.param(8, "AssetsList", "Add package with ResourceID=8", False,
+                     id="Test add package with ResourceID=8, AssetsList."),
+        pytest.param(9, "Страница аналитики", "Add package with ResourceID=9", False,
+                     id="Test add package with ResourceID=9, Analytics."),
+        pytest.param(10, "Страница PowerBI-отчета",
+                     "Add package with ResourceID=10", False,
+                     id="Test add package with ResourceID=10, PowerBIReport."),
+        pytest.param(11, "Подпункт в форме заявки",
+                     "Add package with ResourceID=11", False,
+                     id="Test add package with ResourceID=11, SubitemTask."),
+        pytest.param(12, "Подпункт в форме объекта",
+                     "Add package with ResourceID=12", False,
+                     id="Test add package with ResourceID=12, SubitemAsset."),
+        pytest.param(13, "Подпункт в форме сотрудника",
+                     "Add package with ResourceID=13", False,
+                     id="Test add package with ResourceID=13, SubitemTechnician."),
+        pytest.param(14, "Подпункт в форме заказчика",
+                     "Add package with ResourceID=14", False,
+                     id="Test add package with ResourceID=14, SubitemCustomer."),
+        pytest.param(15, "Подпункт в форме компании",
+                     "Add package with ResourceID=15", False,
+                     id="Test add package with ResourceID=15, SubitemCompany."),
+        pytest.param(16, "Подпункт меню в меню Заявки",
+                     "Add package with ResourceID=16", False,
+                     id="Test add package with ResourceID=16, SubitemMenuTask."),
+        pytest.param(17, "Подпункт меню в меню Объекты",
+                     "Add package with ResourceID=17", False,
+                     id="Test add package with ResourceID=17, SubitemMenuAsset."),
+        pytest.param(18, "Подпункт меню в меню Пользователи",
+                     "Add package with ResourceID=18", False,
+                     id="Test add package with ResourceID=18, SubitemMenuUser."),
+        pytest.param(19, "Подпункт меню в меню Компании",
+                     "Add package with ResourceID=19", False,
+                     id="Test add package with ResourceID=19, SubitemMenuCompany."),
+        pytest.param(20, "Подпункт меню в меню Аналитика",
+                     "Add package with ResourceID=20", False,
+                     id="Test add package with ResourceID=20, SubitemMenuAnalytics."),
+        pytest.param(21, "Подпункт меню в меню Карты",
+                     "Add package with ResourceID=21", False,
+                     id="Test add package with ResourceID=21, SubitemMenuMap."),
+        pytest.param(22, "Подпункт меню в меню Склады",
+                     "Add package with ResourceID=22", False,
+                     id="Test add package with ResourceID=22, SubitemMenuWarehouse."),
+        pytest.param(23, "Новый пункт меню",
+                     "Add package with ResourceID=2", False,
+                     id="Test add package with ResourceID=23, NewMenuItem."),
+        pytest.param(24, "Пункт меню в мобильном приложении",
+                     "Add package with ResourceID=24", True,
+                     id="Test add package with ResourceID=24, MenuItemMA."),
+        pytest.param(25, "Новый подпункт в заявке в мобильном приложении",
+                     "Add package with ResourceID=25", True,
+                     id="Test add package with ResourceID=25, NewSubitemTaskMA."),
+        pytest.param(26, "Новый подпункт в списке заявок в мобильном приложении",
+                     "Add package with ResourceID=26", True,
+                     id="Test add package with ResourceID=26, NewSubitemTaskListMA."),
     ]

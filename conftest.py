@@ -25,6 +25,7 @@ load_dotenv()
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_USER_TOKEN = os.getenv('API_USER_TOKEN')
 BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
+POWER_USER_TOKEN = os.getenv('POWER_USER_TOKEN')
 TENANT_ID = os.getenv('TENANT_ID')
 TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
 APP_ID = os.getenv('APP_ID')
@@ -62,6 +63,41 @@ def bearer_token():
         token = response_authorization_data['access_token']
         logger.info(f"Return bearer token {token}")
         return token
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+@allure.step("Authorization API by cross tenant admin (power user).")
+@pytest.fixture(scope='module')
+def bearer_token_power_user():
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=POWER_USER_TOKEN, app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(token, APP_ID),
+            json={
+                "tenantID": TENANT_ID,
+                "tenantMemberID": TENANT_MEMBER_ID
+            }
+        )
+        logger.info("Tenant authorization by power user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token_bearer = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token_bearer}")
+        return token_bearer
 
     except (requests.exceptions.RequestException, TypeError) as er:
         logger.error(er)
@@ -170,7 +206,8 @@ def pytest_sessionfinish(session, exitstatus):
 def attach_host_info():
     info = {
         "STAGE": ENVIRON,
-        "HOST": HOST
+        "HOST": HOST,
+        "TENANT ID": TENANT_ID
     }
     allure.attach(body=json.dumps(info, indent=4), name='Host Info', attachment_type=AttachmentType.JSON)
 
