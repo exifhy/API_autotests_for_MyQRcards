@@ -1,8 +1,12 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, RootModel, ConfigDict
 
 
-class ApplicationResult(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class ApplicationResult(StrictBaseModel):
     code: str
     nameRu: str
 
@@ -11,16 +15,16 @@ class SuccessGetApplicationResultModel(RootModel):
     root: Dict[str, ApplicationResult]
 
 
-class CodeMessageModel(BaseModel):
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddAttributeModel(BaseModel):
+class SuccessAddAttributeModel(StrictBaseModel):
     values: List[int]

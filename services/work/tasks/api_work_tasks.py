@@ -67,6 +67,32 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully add a task ID {model.id}')
         return model
 
+    @allure.step("Add empty task.")
+    def post_add_empty_task(self, task_type_id: str):
+        data = {
+            "RequestMethodID": 1,
+            "TaskTypeID": task_type_id
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=data
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksModel(**response.json())
+        logger.info(f'Successfully add a empty task ID {model.id}')
+        return model
+
     @allure.step("Add task with number params.")
     def post_add_task_with_number(
             self,

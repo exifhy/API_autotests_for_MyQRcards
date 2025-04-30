@@ -164,7 +164,7 @@ def pytest_sessionstart(session):
         print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
 
-@allure.step("Check the access token before each test")
+@allure.step("SYSTEM check of access token lifetime before each test.")
 def pytest_runtest_setup(item):
     """Проверка перед каждым тестом."""
     global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
