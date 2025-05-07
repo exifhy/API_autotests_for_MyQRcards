@@ -95,6 +95,15 @@ from services.work.work_task_type_district.api_work_task_type_district import Wo
 from services.work.work_task_type_routes.api_work_task_type_routes import WorkTaskTypeRoutesAPI
 from services.work.work_user_task_favourites.api_work_user_task_favourites import WorkUserTaskFavouritesAPI
 from services.work.work_template_quick_response.api_work_template_quick_response import WorkTemplateQuickResponseAPI
+from services.common.common_attribute_types.api_common_attribute_types import CommonAttributeTypesAPI
+from services.common.common_countries.api_common_contries import CommonCountriesAPI
+from services.common.common_currencies.api_common_currencies import CommonCurrenciesAPI
+from services.common.common_events.api_common_events import CommonEventsAPI
+from services.common.commont_measurement_units.api_common_measurement_units import CommonMeasurementUnitsAPI
+from services.common.common_power_bi_reports.api_common_power_bi_reports import CommonPowerBIReportsAPI
+from services.common.common_system_tags.api_common_system_tags import CommonSystemTagsAPI
+from services.common.common_tags.api_common_tags import CommonTagsAPI
+from services.common.common_time_zones.api_common_time_zones import CommonTimeZonesAPI
 
 
 class BaseTest:
@@ -197,4 +206,12 @@ class BaseTest:
         self.api_work_task_type_routes = WorkTaskTypeRoutesAPI()
         self.api_work_user_task_favourites = WorkUserTaskFavouritesAPI()
         self.api_work_template_quick_response = WorkTemplateQuickResponseAPI()
-
+        self.api_common_attribute_types = CommonAttributeTypesAPI()
+        self.api_common_countries = CommonCountriesAPI()
+        self.api_common_currencies = CommonCurrenciesAPI()
+        self.api_common_events = CommonEventsAPI()
+        self.api_common_measurement_units = CommonMeasurementUnitsAPI()
+        self.api_common_power_bi_reports = CommonPowerBIReportsAPI()
+        self.api_common_system_tags = CommonSystemTagsAPI()
+        self.api_common_tags = CommonTagsAPI()
+        self.api_common_time_zones = CommonTimeZonesAPI()

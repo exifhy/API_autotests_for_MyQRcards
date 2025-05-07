@@ -52,6 +52,20 @@ class Headers:
         return basic
 
     @staticmethod
+    def basic_header_range(token: str, number: int) -> dict:
+        basic = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            "Accept-Language": "ru-RU",
+            "X-Application-ID": f"{APP_ID}",
+            "Range": f"Items=1-{number}",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Content-Type": "application/json"
+        }
+        return basic
+
+    @staticmethod
     def upload_file_header(token: str, cont_type: str) -> dict:
         basic = {
             "Accept": "application/json",
