@@ -825,7 +825,7 @@ class ListShortResult(StrictBaseModel):
     sortOrder: Optional[int] = None
     criticality: Optional[TaskActualCriticalityResult] = None
     location: Optional[LocationShortResult] = None
-    asset: Optional[AssetResult] = None
+    asset: Optional[TaskAssetResult] = None
     timesheet: Optional[TimesheetResult] = None
     escalatedToUserID: Optional[int] = None
     approvalWithUserID: Optional[int] = None
@@ -929,7 +929,7 @@ class SuccessGetTaskFormMetadataResultModel(RootModel):
 
 class TechnicianUserResult(StrictBaseModel):
     tenantMemberID: int
-    id: int
+    id: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     middleName: Optional[str] = None

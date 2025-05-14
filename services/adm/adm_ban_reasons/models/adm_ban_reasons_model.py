@@ -1,5 +1,5 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, RootModel, ConfigDict
 
 
 class StrictBaseModel(BaseModel):
@@ -17,20 +17,11 @@ class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SystemRole(StrictBaseModel):
-    name: Optional[str] = None
-    id: Optional[int] = None
-
-
-class RolesModel(StrictBaseModel):
-    id: int
+class BanReasonsListResultModel(StrictBaseModel):
+    code: str
     name: str
     description: Optional[str] = None
-    deleted: Optional[str] = None
-    systemRoles: Optional[List[SystemRole]] = None
 
 
-class SuccessGetListRolesModel(StrictBaseModel):
-    results: List[RolesModel]
-
-
+class SuccessGetBanReasonsListResultModel(RootModel):
+    root: Dict[str, BanReasonsListResultModel]

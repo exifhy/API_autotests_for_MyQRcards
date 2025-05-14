@@ -63,7 +63,7 @@ class HttpHeader(StrictBaseModel):
 
 class DownloadLinkResultModel(StrictBaseModel):
     downloadUrl: str
-    headers: List[HttpHeader]
+    headers: Optional[List[HttpHeader]] = None
     expiresAfter: datetime
     failures: Optional[List[str]] = None
 

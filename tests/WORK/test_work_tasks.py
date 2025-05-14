@@ -2091,7 +2091,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.delete_task_by_id(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
@@ -2161,7 +2161,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.put_update_materials_task_completed_work(
             task_id=model_task.id,
@@ -2240,7 +2240,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.get_list_materials_task_completed_work(model_task.id, model_completed_work.result[0].id)
         self.api_work_tasks.delete_task_by_id(model_task.id)
@@ -2311,7 +2311,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.delete_materials_task_completed_work(
             model_task.id,
@@ -2388,7 +2388,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.delete_materials_task_completed_works(
             model_task.id,
@@ -3007,7 +3007,7 @@ class TestWorkTasks(BaseTest):
             warehouse_id=wh_data.id,
             inventory_id=model_inventory_id.result[0].id,
             measurement_unit_id=materials_data.measurementUnitID,
-            user_id=model_api_user.id
+            user_id=model_api_user.user.id
         )
         self.api_work_tasks.get_list_materials_all_task_completed_work(model_task.id)
         self.api_work_tasks.delete_materials_task_completed_work(
@@ -4679,8 +4679,8 @@ class TestWorkTasks(BaseTest):
         )
         self.api_work_task_assignment_history.post_add_new_task_to_user(model_user.userID, model_task.id)
         model_watch_lists = self.api_work_tasks.get_task_watch_lists(model_task.id)
-        assert model_watch_lists.results[0].id == model_api_user.id, \
-            f"Expected {model_watch_lists.results[0].id}, but got {model_api_user.id}"
+        assert model_watch_lists.results[0].id == model_api_user.user.id, \
+            f"Expected {model_watch_lists.results[0].id}, but got {model_api_user.user.id}"
         assert model_watch_lists.results[1].id == model_user.userID, \
             f"Expected {model_watch_lists.results[1].id}, but got {model_user.userID}"
         self.api_work_tasks.delete_task_by_id(model_task.id)

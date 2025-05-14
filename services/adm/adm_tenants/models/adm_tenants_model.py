@@ -171,7 +171,7 @@ class SuccessGetTenantPackagesListResultModel(StrictBaseModel):
 
 class TenantVariablesResultModel(StrictBaseModel):
     value: str
-    description: str
+    description: Optional[str] = None
 
 
 class SuccessGetListTenantVariablesResultModel(RootModel):

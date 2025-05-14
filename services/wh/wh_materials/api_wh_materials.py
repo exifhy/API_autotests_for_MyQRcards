@@ -1166,8 +1166,9 @@ class WhMaterialsAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning("Tenant does not contain undeleted materials")
             return None
-        assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetListMaterialsV2Model(root=response.json())
         for material_id, material in model.root.items():
             if "deleted" in material.model_fields_set:

@@ -104,6 +104,13 @@ from services.common.common_power_bi_reports.api_common_power_bi_reports import 
 from services.common.common_system_tags.api_common_system_tags import CommonSystemTagsAPI
 from services.common.common_tags.api_common_tags import CommonTagsAPI
 from services.common.common_time_zones.api_common_time_zones import CommonTimeZonesAPI
+from services.adm.adm_ban_reasons.api_adm_ban_reasons import AdmBanReasonsAPI
+from services.adm.adm_capabilities.api_adm_capabilities import AdmCapabilitiesAPI
+from services.adm.adm_user_templates.api_adm_user_templates import AdmUserTemplatesAPI
+from services.adm.adm_user_template_districts.api_adm_user_template_districts import AdmUserTemplateDistrictsAPI
+from services.adm.adm_user_template_roles.api_adm_user_template_roles import AdmUserTemplateRolesAPI
+from services.adm.adm_roles.api_adm_roles import AdmRolesAPI
+from services.adm.adm_invitations.api_adm_invitations import AdmInvitationsAPI
 
 
 class BaseTest:
@@ -215,3 +222,10 @@ class BaseTest:
         self.api_common_system_tags = CommonSystemTagsAPI()
         self.api_common_tags = CommonTagsAPI()
         self.api_common_time_zones = CommonTimeZonesAPI()
+        self.api_adm_ban_reasons = AdmBanReasonsAPI()
+        self.api_adm_capabilities = AdmCapabilitiesAPI()
+        self.api_adm_user_templates = AdmUserTemplatesAPI()
+        self.api_adm_user_template_districts = AdmUserTemplateDistrictsAPI()
+        self.api_adm_user_template_roles = AdmUserTemplateRolesAPI()
+        self.api_adm_roles = AdmRolesAPI()
+        self.api_adm_invitations = AdmInvitationsAPI()

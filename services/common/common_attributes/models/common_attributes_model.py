@@ -1,42 +1,46 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, RootModel, ConfigDict
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddAttributeModel(BaseModel):
+class SuccessAddAttributeModel(StrictBaseModel):
     values: List[int]
 
 
-class AttributeTypeResult(BaseModel):
+class AttributeTypeResult(StrictBaseModel):
     code: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class DomainResult(BaseModel):
+class DomainResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
 
-class MeasurementUnitResult(BaseModel):
+class MeasurementUnitResult(StrictBaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     abbreviation: Optional[str] = None
     designation: Optional[str] = None
 
 
-class RelevantAttributeResult(BaseModel):
+class RelevantAttributeResult(StrictBaseModel):
     task: Optional[bool] = None
     asset: Optional[bool] = None
     checkList: Optional[bool] = None
@@ -45,7 +49,7 @@ class RelevantAttributeResult(BaseModel):
     company: Optional[bool] = None
 
 
-class AttributeResultList(BaseModel):
+class AttributeResultList(StrictBaseModel):
     listOfValues: Optional[Dict[str, str]] = None
     name: Optional[str] = None
     type: Optional[AttributeTypeResult] = None
