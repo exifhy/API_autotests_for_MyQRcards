@@ -41,6 +41,18 @@
 
  - Через файл .env в корне проекта.
  - Через переменные окружения операционной системы (например, в CI/CD)
+   ### Обязательные переменные окружения:
+   - API_USER_TOKEN=
+   - SECOND_BASIC_TOKEN= (base64 login:password хозяина тенанта)
+   - POWER_USER_TOKEN=
+   - TENANT_ID=
+   - TENANT_MEMBER_ID=
+   - APP_ID=
+   - URL_DEV_HUBEX="https://dev-api.hubex.ru/fsm"
+   - URL_PROD_HUBEX="https://api.hubex.ru/fsm"
+   - URL_STAGE_HUBEX="https://stg-api.hubex.ru/fsm"
+   - USER_EMAIL=
+   - USER_PHONE=
 
  - ### Файл .env автоматически подхватывается при запуске тестов. Если файл отсутствует, переменные будут браться из окружения вашей системы.
 

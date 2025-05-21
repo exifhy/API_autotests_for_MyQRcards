@@ -111,6 +111,16 @@ from services.adm.adm_user_template_districts.api_adm_user_template_districts im
 from services.adm.adm_user_template_roles.api_adm_user_template_roles import AdmUserTemplateRolesAPI
 from services.adm.adm_roles.api_adm_roles import AdmRolesAPI
 from services.adm.adm_invitations.api_adm_invitations import AdmInvitationsAPI
+from services.adm.adm_permission_api_tags.api_adm_permission_api_tags import AdmPermissionApiTagsAPI
+from services.adm.adm_permission_ext_tags.api_adm_permission_ext_tags import AdmPermissionExtTagsAPI
+from services.adm.adm_permissions_api.api_adm_permissions_api import AdmPermissionsApiAPI
+from services.adm.adm_permissions_ext.api_adm_permissions_ext import AdmPermissionsExtAPI
+from services.adm.adm_permissions_ui.api_adm_permissions_ui import AdmPermissionsUIAPI
+from services.adm.adm_role_applications.api_adm_role_applications import AdmRoleApplicationsAPI
+from services.adm.adm_role_permissions_api.api_adm_role_permissions_api import AdmRolePermissionsApiAPI
+from services.adm.adm_role_permissions_ext.api_adm_role_permissions_ext import AdmRolePermissionsExtAPI
+from services.adm.adm_role_permissions_ui.api_adm_role_permissions_ui import AdmRolePermissionsUiAPI
+from services.adm.adm_system_permission_ui_tags.api_adm_system_permission_ui_tags import AdmSystemPermissionUiTagsAPI
 
 
 class BaseTest:
@@ -229,3 +239,13 @@ class BaseTest:
         self.api_adm_user_template_roles = AdmUserTemplateRolesAPI()
         self.api_adm_roles = AdmRolesAPI()
         self.api_adm_invitations = AdmInvitationsAPI()
+        self.api_adm_permission_api_tags = AdmPermissionApiTagsAPI()
+        self.api_adm_permission_ext_tags = AdmPermissionExtTagsAPI()
+        self.api_adm_permissions_api = AdmPermissionsApiAPI()
+        self.api_adm_permissions_ext = AdmPermissionsExtAPI()
+        self.api_adm_permissions_ui = AdmPermissionsUIAPI()
+        self.api_adm_role_applications = AdmRoleApplicationsAPI()
+        self.api_adm_role_permissions_api = AdmRolePermissionsApiAPI()
+        self.api_adm_role_permissions_ext = AdmRolePermissionsExtAPI()
+        self.api_adm_role_permissions_ui = AdmRolePermissionsUiAPI()
+        self.api_system_permission_ui_tags = AdmSystemPermissionUiTagsAPI()

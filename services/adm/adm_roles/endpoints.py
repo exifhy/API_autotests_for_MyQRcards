@@ -1,8 +1,4 @@
 from config.config import HOST
-# import os
-#
-#
-# HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.getenv('URL_PROD_HUBEX')
 
 
 class Endpoints:
@@ -27,6 +23,7 @@ class Endpoints:
     put_update_role_endpoint = f'{HOST}/ADM/Roles'
     delete_roles_by_list_endpoint = f'{HOST}/ADM/Roles'
     post_roles_copy_endpoint = f'{HOST}/ADM/Roles/copy'
+    post_add_roles_endpoint = f'{HOST}/ADM/Roles'
 
     @staticmethod
     def get_list_roles_permissions_api_endpoint(role_id: int) -> str:

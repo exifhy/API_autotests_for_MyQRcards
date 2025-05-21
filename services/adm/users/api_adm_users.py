@@ -54,14 +54,14 @@ class AdmUsersAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         logger.warning(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessUserModel(**response.json())
         logger.info(f'Successfully add a user customer name: {user_name}')
         return model
@@ -111,13 +111,13 @@ class AdmUsersAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}. but got {response.status_code}, {response.json()}'
         logger.warning(f'Successfully delete user with id: {user_id}.')
 
     @allure.step("Delete users by list.")
@@ -318,4 +318,24 @@ class AdmUsersAPI(Helper):
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
         model = AssetListQueryResultModel(**response.json())
         logger.info(f'Successfully get a list asset queries to the current user.')
+        return model
+
+    @allure.step('Add anonymous user.')
+    def post_add_anonymous_user(self):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_anonymous_user_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
+        model = SuccessCreatedApiUserModel(**response.json())
+        logger.info(f'Successfully add anonymous user.')
         return model
