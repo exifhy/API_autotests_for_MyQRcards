@@ -339,3 +339,63 @@ class AdmUsersAPI(Helper):
         model = SuccessCreatedApiUserModel(**response.json())
         logger.info(f'Successfully add anonymous user.')
         return model
+
+    @allure.step('Get user notifications by user ID.')
+    def get_user_notifications_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_user_notifications_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
+        model = UserDisabledNotificationsListResult(**response.json())
+        logger.info(f'Successfully get user notifications by user ID {user_id}.')
+        return model
+
+    @allure.step('Get user districts by user ID.')
+    def get_user_districts_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_user_districts_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
+        model = SuccessGetUsersDistrictsModel(root=response.json())
+        logger.info(f'Successfully get user districts by user ID {user_id}.')
+        return model
+
+    @allure.step('Get user asset assignments by user ID.')
+    def get_user_asset_assignments_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_user_asset_assignments_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}.'
+        model = SuccessGetUsersDistrictsModel(root=response.json())
+        logger.info(f'Successfully get user districts by user ID {user_id}.')
+        return model

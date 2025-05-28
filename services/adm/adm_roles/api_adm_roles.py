@@ -44,6 +44,33 @@ class AdmRolesAPI(Helper):
         logger.info(f'Successfully get list roles for tenant.')
         return model
 
+    @allure.step("Get list roles isDeleted=false.")
+    def get_list_roles_undeleted(self):
+        params = {
+            "isDeleted": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_roles_endpoint, params=params,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f"Status code:{HTTPStatus.NO_CONTENT}, no list of roles.")
+            return None
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
+        model = SuccessGetListRolesModel(results=response.json())
+        logger.info(f'Successfully get list roles isDeleted=false.')
+        return model
+
     @allure.step("Get list applications role by role ID.")
     def get_list_applications_role_by_role_id(self, role_id: int):
         start = time.time()

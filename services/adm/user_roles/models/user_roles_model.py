@@ -1,5 +1,9 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, RootModel
+
+
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
 
 
 class CodeMessageModel(BaseModel):
@@ -11,3 +15,7 @@ class CodeMessageModel(BaseModel):
 
 class ErrorModel(BaseModel):
     list_model: List[CodeMessageModel]
+
+
+class UserRolesResponseModel(RootModel):
+    root: Dict[str, List[int]]

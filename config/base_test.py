@@ -121,6 +121,12 @@ from services.adm.adm_role_permissions_api.api_adm_role_permissions_api import A
 from services.adm.adm_role_permissions_ext.api_adm_role_permissions_ext import AdmRolePermissionsExtAPI
 from services.adm.adm_role_permissions_ui.api_adm_role_permissions_ui import AdmRolePermissionsUiAPI
 from services.adm.adm_system_permission_ui_tags.api_adm_system_permission_ui_tags import AdmSystemPermissionUiTagsAPI
+from services.adm.adm_tenant_settings.api_adm_tenant_settings import AdmTenantSettingsAPI
+from services.adm.adm_user_asset_list_queries.api_adm_user_asset_list_queries import AdmUserAssetListQueriesAPI
+from services.msg.msg_providers.api_msg_providers import MsgProvidersAPI
+from services.adm.adm_user_disabled_notifications.api_adm_user_disabled_notifications import AdmUserDisabledNotificationsAPI
+from services.adm.adm_user_order_by.api_adm_user_order_by import AdmUserOrderByAPI
+from services.pa.pa_asset_assignments.api_pa_asset_assignments import PaAssetAssignmentsAPI
 
 
 class BaseTest:
@@ -249,3 +255,9 @@ class BaseTest:
         self.api_adm_role_permissions_ext = AdmRolePermissionsExtAPI()
         self.api_adm_role_permissions_ui = AdmRolePermissionsUiAPI()
         self.api_system_permission_ui_tags = AdmSystemPermissionUiTagsAPI()
+        self.api_adm_tenant_settings = AdmTenantSettingsAPI()
+        self.api_adm_user_asset_list_queries = AdmUserAssetListQueriesAPI()
+        self.api_msg_providers = MsgProvidersAPI()
+        self.api_adm_user_disabled_notifications = AdmUserDisabledNotificationsAPI()
+        self.api_adm_user_order_by = AdmUserOrderByAPI()
+        self.api_pa_asset_assignments = PaAssetAssignmentsAPI()

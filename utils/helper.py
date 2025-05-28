@@ -96,7 +96,16 @@ class Helper:
         allure.attach(body=str(response.status_code), name='Status code', attachment_type=AttachmentType.TEXT)
 
         if response.content:
-            return response.json()
+            content_type = response.headers.get("Content-Type", "")
+            if "application/json" in content_type:
+                try:
+                    return response.json()
+                except ValueError as e:
+                    # JSON невалидный
+                    return f"Invalid JSON response: {str(e)}"
+            else:
+                # content-type не JSON
+                return "The response body is not JSON."
         else:
             return "The response body is empty."
 

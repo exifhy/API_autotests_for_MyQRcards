@@ -1,10 +1,8 @@
 from config.config import HOST
-# import os
-#
-#
-# HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.getenv('URL_PROD_HUBEX')
 
 
 class Endpoints:
 
-    add_districts_to_user_endpoint = f'{HOST}/ADM/userdistricts'
+    add_districts_to_user_endpoint = f'{HOST}/ADM/UserDistricts'
+    delete_districts_from_user_endpoint = f'{HOST}/ADM/UserDistricts'
+    put_user_districts_update_endpoint = f'{HOST}/ADM/UserDistricts'

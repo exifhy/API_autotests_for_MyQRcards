@@ -60,6 +60,38 @@ class EsAssetListQueriesAPI(Helper):
         logger.info(f'Successfully creates a saved queries and binds it to the current user.')
         return model
 
+    @allure.step("Add asset list queries add to user, only asset type.")
+    def post_add_asset_list_queries_only_asset_type(
+            self,
+            token,
+            asset_type_id,
+            tenant_id
+    ):
+        name_query = f"Запрос {randint(1, 9999)}"
+        value_query = (f"warrantyTill=9999-12-31T23%3A59%3A59&assetTypeID={asset_type_id}&includePath=false"
+                       f"&includeTaskActuality=true&parentID=-1&tenantID={tenant_id}&isAssigned=false")
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_query_endpoint,
+            headers=self.headers.basic_header(token),
+            json=self.payloads.post_add_queries_binds_to_user_payload(
+                name=name_query,
+                query=value_query
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code},{data_response}'
+        model = SuccessAddAssetListQueryModel(result=response.json())
+        logger.info(f'Successfully add asset list queries only asset type.')
+        return model
+
     @allure.step("Get a list of stored queries available in the tenant.")
     def get_list_queries_available_in_tenant(self):
         start = time.time()

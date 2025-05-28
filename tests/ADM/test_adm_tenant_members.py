@@ -44,8 +44,8 @@ class TestAdmTenantMembers(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(25920)
     def test_get_tenant_members_anonymous_user(self):
-        model_user = self.api_adm_users.post_add_anonymous_user()
-        try:
+        model_anon = self.api_adm_tenant_members.get_tenant_members_anonymous_user()
+        if model_anon is None:
+            model_user = self.api_adm_users.post_add_anonymous_user()
             self.api_adm_tenant_members.get_tenant_members_anonymous_user()
-        finally:
             self.api_adm_users.delete_user_by_id(model_user.userID)

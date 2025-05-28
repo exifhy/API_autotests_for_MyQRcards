@@ -23,5 +23,11 @@ class TaskStagingHistoryModel(StrictBaseModel):
     error: Optional[str] = None
 
 
+class TaskStagingHistoryMultipleModel(StrictBaseModel):
+    isSuccessed: bool
+    batchID: str
+    error: Optional[str] = None
+
+
 class SuccessTaskStagingHistoryModel(StrictBaseModel):
     history: List[TaskStagingHistoryModel]

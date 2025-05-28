@@ -1,44 +1,48 @@
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, RootModel, ConfigDict
 from typing import List, Optional, Dict, Literal
 from datetime import datetime
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class SuccessAddAssetListQueryModel(BaseModel):
+class SuccessAddAssetListQueryModel(StrictBaseModel):
     result: List[int]
 
 
-class Coordinate(BaseModel):
+class Coordinate(StrictBaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
 
-class PeriodResult(BaseModel):
+class PeriodResult(StrictBaseModel):
     from_date: Optional[datetime] = None
     till: Optional[datetime] = None
 
 
-class AssetFlagFilter(BaseModel):
+class AssetFlagFilter(StrictBaseModel):
     isMobile: Optional[bool] = None
     isAssigned: Optional[bool] = None
     hasSchema: Optional[bool] = None
 
 
-class AssetTextFilter(BaseModel):
+class AssetTextFilter(StrictBaseModel):
     name: Optional[str] = None
 
 
-class FlagFilter(BaseModel):
+class FlagFilter(StrictBaseModel):
     isPublished: Optional[bool] = None
     isDeleted: Optional[bool] = None
     isPublic: Optional[bool] = None
@@ -48,18 +52,18 @@ class FlagFilter(BaseModel):
     isSystem: Optional[bool] = None
 
 
-class LocationFilter(BaseModel):
+class LocationFilter(StrictBaseModel):
     radius: Optional[float] = None
     pointCenter: Optional[Coordinate] = None
     pointNorthEast: Optional[Coordinate] = None
     pointSouthWest: Optional[Coordinate] = None
 
 
-class ExportFlagFilter(BaseModel):
+class ExportFlagFilter(StrictBaseModel):
     noData: Optional[bool] = None
 
 
-class AssetFilterData(BaseModel):
+class AssetFilterData(StrictBaseModel):
     assetFlags: Optional[AssetFlagFilter] = None
     assetText: Optional[AssetTextFilter] = None
     warrantyPeriod: Optional[PeriodResult] = None
@@ -100,17 +104,17 @@ class AssetFilterData(BaseModel):
     warehouses: Optional[List[int]] = None
 
 
-class RangeData(BaseModel):
+class RangeData(StrictBaseModel):
     offset: Optional[int] = None
     fetch: Optional[int] = None
 
 
-class SortData(BaseModel):
+class SortData(StrictBaseModel):
     orderBy: Optional[int] = None
     direction: Optional[Literal["Ascending", "Descending"]] = None
 
 
-class AssetListQueryResult(BaseModel):
+class AssetListQueryResult(StrictBaseModel):
     name: Optional[str] = None
     filter: Optional[AssetFilterData] = None
     searchText: Optional[str] = None

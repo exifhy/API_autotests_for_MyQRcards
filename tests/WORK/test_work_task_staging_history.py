@@ -68,6 +68,7 @@ class TestWorkTaskStagingHistory(BaseTest):
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23332")
     @pytest.mark.regress
     @pytest.mark.test_case_id(23332)
+    @pytest.mark.skip(reason="Ручка отключена, функционал в POST WORK/TaskStagingHistory/batch")
     def test_post_multiple_add_task_staging_history(self, bearer_token):
         company_id = self.api_es_companies.post_add_our_company()
         location_id = self.api_es_locations.post_add_location()

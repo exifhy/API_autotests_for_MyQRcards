@@ -1,9 +1,13 @@
 from typing import Optional, Dict, List, Literal
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, RootModel, ConfigDict, Field
 from datetime import datetime
 
 
-class SuccessUserModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class SuccessUserModel(StrictBaseModel):
     tenantID: Optional[int] = None
     tenantMemberID: Optional[int] = None
     userID: Optional[int] = None
@@ -15,34 +19,34 @@ class SuccessUserModel(BaseModel):
     verificationRequestValidTill: Optional[datetime] = None
 
 
-class CodeMessageModel(BaseModel):
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class BanReason(BaseModel):
+class BanReason(StrictBaseModel):
     description: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class Ban(BaseModel):
+class Ban(StrictBaseModel):
     dateTill: Optional[datetime] = None
     banReason: Optional[BanReason] = None
 
 
-class TimeZone(BaseModel):
+class TimeZone(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class Location(BaseModel):
+class Location(StrictBaseModel):
     id: Optional[int] = None
     address: Optional[str] = None
     description: Optional[str] = None
@@ -50,42 +54,42 @@ class Location(BaseModel):
     timeZone: Optional[TimeZone] = None
 
 
-class ActualLocation(BaseModel):
+class ActualLocation(StrictBaseModel):
     actuality: Optional[datetime] = None
     coordinate: Optional[str] = None
     timeZone: Optional[TimeZone] = None
 
 
-class Mobility(BaseModel):
+class Mobility(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class GeoTrackingMode(BaseModel):
+class GeoTrackingMode(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class TeamLeader(BaseModel):
+class TeamLeader(StrictBaseModel):
     leadID: Optional[int] = None
     leadFirstName: Optional[str] = None
     leadMiddleName: Optional[str] = None
     leadLastName: Optional[str] = None
 
 
-class Rating(BaseModel):
+class Rating(StrictBaseModel):
     total: Optional[float] = None
     totalTrendDirection: Optional[float] = None
     timestamp: Optional[datetime] = None
 
 
-class RateCurrency(BaseModel):
+class RateCurrency(StrictBaseModel):
     id: Optional[int] = None
     shortName: Optional[str] = None
     asciiCode: Optional[str] = None
 
 
-class SuccessGetDetailedInfoUserModel(BaseModel):
+class SuccessGetDetailedInfoUserModel(StrictBaseModel):
     ban: Optional[Ban] = None
     defaultLocation: Optional[Location] = None
     actualLocation: Optional[ActualLocation] = None
@@ -115,35 +119,35 @@ class SuccessGetDetailedInfoUserModel(BaseModel):
     avatarUrl: Optional[str] = None
 
 
-class OrgUnitResult(BaseModel):
+class OrgUnitResult(StrictBaseModel):
     parentID: Optional[int] = None
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class CompanyResult(BaseModel):
+class CompanyResult(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class EmploymentResult(BaseModel):
+class EmploymentResult(StrictBaseModel):
     orgUnit: Optional[OrgUnitResult] = None
     company: Optional[CompanyResult] = None
     position: Optional[str] = None
     scheduleRuleID: Optional[int] = None
 
 
-class DistrictResult(BaseModel):
+class DistrictResult(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class UserTaskActualityResult(BaseModel):
+class UserTaskActualityResult(StrictBaseModel):
     requested: Optional[int] = None
     assigned: Optional[int] = None
 
 
-class UserRelevance(BaseModel):
+class UserRelevance(StrictBaseModel):
     workType: Optional[int] = None
     onShift: Optional[int] = None
     responsibility: Optional[int] = None
@@ -151,13 +155,13 @@ class UserRelevance(BaseModel):
     skill: Optional[int] = None
 
 
-class CurrencyResult(BaseModel):
+class CurrencyResult(StrictBaseModel):
     id: Optional[int] = None
     shortName: Optional[str] = None
     asciiCode: Optional[str] = None
 
 
-class UserResult(BaseModel):
+class UserResult(StrictBaseModel):
     banTill: Optional[str] = None
     coordinate: Optional[str] = None
     locationActuality: Optional[str] = None
@@ -191,12 +195,12 @@ class SuccessGetUsersListModel(RootModel):
     root: Optional[Dict[str, UserResult]] = None
 
 
-class SuccessCreatedApiUserModel(BaseModel):
+class SuccessCreatedApiUserModel(StrictBaseModel):
     userID: int
     tenantMemberID: int
 
 
-class IdNameResult(BaseModel):
+class IdNameResult(StrictBaseModel):
     name: str
     id: int
 
@@ -205,27 +209,31 @@ class SuccessGetUsersRolesModel(RootModel):
     root: Dict[str, List[IdNameResult]]
 
 
-class Coordinate(BaseModel):
+class SuccessGetUsersDistrictsModel(RootModel):
+    root: Dict[str, IdNameResult]
+
+
+class Coordinate(StrictBaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
 
-class PeriodResult(BaseModel):
+class PeriodResult(StrictBaseModel):
     from_date: Optional[datetime] = None
     till: Optional[datetime] = None
 
 
-class AssetFlagFilter(BaseModel):
+class AssetFlagFilter(StrictBaseModel):
     isMobile: Optional[bool] = None
     isAssigned: Optional[bool] = None
     hasSchema: Optional[bool] = None
 
 
-class AssetTextFilter(BaseModel):
+class AssetTextFilter(StrictBaseModel):
     name: Optional[str] = None
 
 
-class FlagFilter(BaseModel):
+class FlagFilter(StrictBaseModel):
     isPublished: Optional[bool] = None
     isDeleted: Optional[bool] = None
     isPublic: Optional[bool] = None
@@ -235,18 +243,18 @@ class FlagFilter(BaseModel):
     isSystem: Optional[bool] = None
 
 
-class LocationFilter(BaseModel):
+class LocationFilter(StrictBaseModel):
     radius: Optional[float] = None
     pointCenter: Optional[Coordinate] = None
     pointNorthEast: Optional[Coordinate] = None
     pointSouthWest: Optional[Coordinate] = None
 
 
-class ExportFlagFilter(BaseModel):
+class ExportFlagFilter(StrictBaseModel):
     noData: Optional[bool] = None
 
 
-class AssetFilterData(BaseModel):
+class AssetFilterData(StrictBaseModel):
     assetFlags: Optional[AssetFlagFilter] = None
     assetText: Optional[AssetTextFilter] = None
     warrantyPeriod: Optional[PeriodResult] = None
@@ -287,17 +295,17 @@ class AssetFilterData(BaseModel):
     warehouses: Optional[List[int]] = None
 
 
-class RangeData(BaseModel):
+class RangeData(StrictBaseModel):
     offset: Optional[int] = None
     fetch: Optional[int] = None
 
 
-class SortData(BaseModel):
+class SortData(StrictBaseModel):
     orderBy: Optional[int] = None
     direction: Optional[Literal["Ascending", "Descending"]] = None
 
 
-class AssetListQueryResult(BaseModel):
+class AssetListQueryResult(StrictBaseModel):
     name: Optional[str] = None
     filter: Optional[AssetFilterData] = None
     searchText: Optional[str] = None
@@ -309,3 +317,45 @@ class AssetListQueryResult(BaseModel):
 class AssetListQueryResultModel(RootModel):
     root: Dict[str, AssetListQueryResult]
 
+
+class ProviderResult(StrictBaseModel):
+    id: Optional[int] = None
+    code: Optional[str] = None
+    name: Optional[str] = None
+    isOn: Optional[bool] = None
+    isAvailableForUser: Optional[bool] = None
+
+
+class UserDisabledNotificationsListResult(StrictBaseModel):
+    email: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    providers: Optional[List[ProviderResult]] = None
+
+
+class IdNameDeletedResult(StrictBaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    deleted: Optional[datetime] = None
+
+
+class AssetResult(StrictBaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    host: Optional[IdNameDeletedResult] = None
+    deleted: Optional[datetime] = None
+    parentID: Optional[int] = None
+
+
+class PeriodResultModel(StrictBaseModel):
+    from_: Optional[datetime] = Field(None, alias="from")
+    till: Optional[datetime] = None
+
+
+class AssetAssignmentResult(StrictBaseModel):
+    asset: Optional[AssetResult] = None
+    validityPeriod: Optional[PeriodResultModel] = None
+    notes: Optional[str] = None
+
+
+class AssetAssignmentListResponse(StrictBaseModel):
+    results: List[AssetAssignmentResult]

@@ -58,7 +58,8 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.test_case_id(23554)
     def test_get_users_roles_by_id(self):
         model_user = self.api_adm_users.post_add_user_staff()
-        self.api_adm_user_roles.post_add_roles_to_user(model_user.userID, [1])
+        model_roles = self.api_adm_roles.get_list_roles_undeleted()
+        self.api_adm_user_roles.post_add_roles_to_user(model_user.userID, model_roles.results[0].id)
         self.api_adm_users.get_users_roles_by_id(model_user.userID)
         self.api_adm_users.delete_user_by_id(model_user.userID)
 

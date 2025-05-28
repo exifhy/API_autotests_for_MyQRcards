@@ -54,37 +54,37 @@ class TestAdmTenants(BaseTest):
         )
 
     @allure.title('Test get list of tenants to which the authorized user has access.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25936")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25936)
     def test_get_list_tenants(self):
         self.api_adm_tenants.get_list_tenants()
 
     @allure.title('Test get list of template tenants to which the authenticated user has access.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25937")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25937)
     def test_get_list_templates_tenants(self):
         self.api_adm_tenants.get_list_templates_tenants()
 
     @allure.title('Test get list of feature flags tenants.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25938")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25938)
     def test_get_list_feature_flags_tenants(self):
         self.api_adm_tenants.get_list_feature_flags_tenants()
 
     @allure.title('Test get list of licenses tenants.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25939")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25939)
     def test_get_list_of_licenses_tenants(self):
         self.api_adm_tenants.get_list_of_licenses_tenants()
 
     @allure.title('Test get list meta from tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25945")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25945)
     def test_get_list_meta_from_tenant(self):
         self.api_adm_tenants.get_list_meta_from_tenant()
 
@@ -248,32 +248,32 @@ class TestAdmTenants(BaseTest):
             )
 
     @allure.title('Test get a list variables from tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25946")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25946)
     def test_get_list_variables_from_tenant(self):
         self.api_adm_tenants.get_list_variables_from_tenant()
 
     @allure.title('Test add variables to tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25947")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25947)
     @pytest.mark.skip(reason="Тест на создание переменных проходит в - test_delete_variable_from_tenant_by_name")
     def test_post_add_variables_to_tenant(self):
         self.api_adm_tenants.post_add_variables_to_tenant()
 
     @allure.title('Test delete variable from tenant by name.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25951")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25951)
     def test_delete_variable_from_tenant_by_name(self):
         name = self.api_adm_tenants.post_add_variables_to_tenant()
         self.api_adm_tenants.delete_variable_from_tenant_by_name(name)
 
     @allure.title('Test delete variables from tenant by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25950")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25950)
     def test_delete_variables_from_tenant_by_list(self):
         name = self.api_adm_tenants.post_add_variables_to_tenant()
         name2 = self.api_adm_tenants.post_add_variables_to_tenant()
@@ -281,9 +281,9 @@ class TestAdmTenants(BaseTest):
         self.api_adm_tenants.delete_variables_from_tenant_by_list(name, name2, name3)
 
     @allure.title('Test update variables tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25949")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(25949)
     def test_put_update_variables_tenant(self):
         name = self.api_adm_tenants.post_add_variables_to_tenant()
         self.api_adm_tenants.put_update_variables_tenant(name)

@@ -22,7 +22,8 @@ class TestExportUsers(BaseTest):
             user_id=customer_model.userID,
             customer_org_unit_id=company_model.customerOrgUnit.id
         )
-        self.api_adm_user_roles.post_add_roles_to_user(customer_model.userID, [1])
+        model_roles = self.api_adm_roles.get_list_roles_undeleted()
+        self.api_adm_user_roles.post_add_roles_to_user(customer_model.userID, model_roles.results[0].id)
         self.api_adm_user_districts.post_add_districts_to_user(district_model.districts[0], customer_model.userID)
         model_user_roles = self.api_adm_users.get_users_roles_by_id(customer_model.userID)
         self.api_export_users.get_export_list_customers_by_user_id(
@@ -45,7 +46,8 @@ class TestExportUsers(BaseTest):
     def test_get_export_list_staff_by_user_id(self):
         staff_model = self.api_adm_users.post_add_user_staff()
         user_info = self.api_adm_users.get_user_info_by_id(staff_model.userID)
-        self.api_adm_user_roles.post_add_roles_to_user(staff_model.userID, [3])
+        model_roles = self.api_adm_roles.get_list_roles_undeleted()
+        self.api_adm_user_roles.post_add_roles_to_user(staff_model.userID, model_roles.results[0].id)
         district_model = self.api_es_districts.post_add_district()
         self.api_adm_user_districts.post_add_districts_to_user(district_model.districts[0], staff_model.userID)
         model_user_roles = self.api_adm_users.get_users_roles_by_id(staff_model.userID)

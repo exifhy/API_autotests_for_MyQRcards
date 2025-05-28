@@ -2,7 +2,6 @@ import os
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.adm.adm_tenant_members.payloads import Payloads
 from services.adm.adm_tenant_members.endpoints import Endpoints

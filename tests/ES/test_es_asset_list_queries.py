@@ -14,9 +14,7 @@ class TestEsAssetListQueries(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(23861)
     def test_get_list_queries_available_in_tenant(self):
-        model = self.api_es_asset_list_queries.get_list_queries_available_in_tenant()
-        # for key, value in model.root.items():
-        #     print(f'{key}, {value.name}')
+        self.api_es_asset_list_queries.get_list_queries_available_in_tenant()
 
     @allure.title('Test add queries and binds it to the current user.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23860")
