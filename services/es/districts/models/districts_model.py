@@ -1,28 +1,32 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List, Optional, Dict
 
 
-class SuccessAddDistrictsModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class SuccessAddDistrictsModel(StrictBaseModel):
     districts: List[int]
 
 
-class CodeMessageModel(BaseModel):
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class PathDistrictModel(BaseModel):
+class PathDistrictModel(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
 
 
-class SuccessGetInfoDistrictModel(BaseModel):
+class SuccessGetInfoDistrictModel(StrictBaseModel):
     hasChildren: Optional[bool] = None
     path: Optional[PathDistrictModel] = None
     description: Optional[str] = None
@@ -37,6 +41,6 @@ class SuccessGetInfoDistrictModel(BaseModel):
     id: Optional[int] = None
 
 
-class SuccessGetListInfoDistrictsModel(BaseModel):
+class SuccessGetListInfoDistrictsModel(StrictBaseModel):
     result: List[SuccessGetInfoDistrictModel]
 

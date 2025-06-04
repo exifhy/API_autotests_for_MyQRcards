@@ -158,8 +158,8 @@ def pytest_sessionstart(session):
         cache = session.config.cache
         cache.set("api_token", token)
         logger.debug("Cache set for api_token")
-        set_key('.env', 'API_TOKEN', token)
-        logger.debug('Token set in .env file')
+        # set_key('.env', 'API_TOKEN', token)
+        # logger.debug('Token set in .env file')
         os.environ["API_TOKEN"] = token
         print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
@@ -188,17 +188,17 @@ def pytest_runtest_setup(item):
         Helper.attach_token(new_token)
         if new_token:
             cache.set("api_token", new_token)  # Обновляем кэш
-            set_key('.env', 'API_TOKEN', new_token)  # Обновляем .env
+            # set_key('.env', 'API_TOKEN', new_token)  # Обновляем .env
             os.environ["API_TOKEN"] = new_token  # Обновляем переменные окружения
             logger.debug(f"New token set in pytest cache and .env - {os.environ["API_TOKEN"]}")
             print(f"::set-output name=API_TOKEN::{new_token}")
 
 
-def pytest_sessionfinish(session, exitstatus):
-    """Вызывается после выполнения тестов."""
-    logger.debug("pytest_sessionfinish called")
-    unset_key('.env', 'API_TOKEN')
-    logger.debug("API_TOKEN unset in .env file")
+# def pytest_sessionfinish(session, exitstatus):
+#     """Вызывается после выполнения тестов."""
+#     logger.debug("pytest_sessionfinish called")
+#     unset_key('.env', 'API_TOKEN')
+#     logger.debug("API_TOKEN unset in .env file")
 
 
 @allure.step("Attach host information")

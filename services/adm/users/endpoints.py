@@ -29,7 +29,7 @@ class Endpoints:
         return f'{HOST}/ADM/Users/{user_id}'
 
     @staticmethod
-    def restore_user_endpoint(user_id: int) -> str:
+    def put_restore_user_endpoint(user_id: int) -> str:
         return f'{HOST}/ADM/Users/{user_id}/restore'
 
     put_restore_users_endpoint = f'{HOST}/ADM/Users/restore'

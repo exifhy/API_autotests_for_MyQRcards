@@ -67,6 +67,32 @@ class WorkTaskListQueriesAPI(Helper):
         logger.info(f'Successfully add task list queries (district, work type).')
         return model
 
+    @allure.step("Add list task queries by owner user.")
+    def post_task_list_queries_by_owner_user(self, district_id: int, work_type_id: int, token: str):
+        query_name = f'{randint(1000, 99999)}'
+        params = (f"districtID={district_id}&isClosed=false&isDeleted=false&orderBy=1&searchText=&"
+                  f"sortDirection=2&workTypeID={work_type_id}")
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_task_list_queries_endpoint,
+            headers=self.headers.basic_header(token),
+            json=self.payloads.post_task_list_queries_payload(query_name, params)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        model = SuccessAddTaskListQueryResultModel(result=response.json())
+        logger.info(f'Successfully add task list queries (district, work type).')
+        return model
+
     @allure.step("Update list task queries.")
     def put_task_list_queries(self, query_id: int):
         query_name = f'Новый запрос{randint(1, 999)}'
@@ -100,16 +126,35 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.info(f'Successfully delete task list queries by list with IDs: {query_ids}.')
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully delete task list queries by list with IDs: {query_ids}.')
+
+    @allure.step("Delete list task queries by list by owner user.")
+    def delete_task_list_queries_by_list_by_owner_user(self, token: str,  *query_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_task_list_queries_endpoint,
+            headers=self.headers.basic_header(token),
+            json=self.payloads.delete_task_list_queries_payload(*query_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully delete task list queries by list with IDs: {query_ids}.')
 
     @allure.step("Delete list task queries by list (remove).")
     def delete_remove_task_list_queries_by_list(self, *query_ids: int):

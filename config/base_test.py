@@ -127,6 +127,8 @@ from services.msg.msg_providers.api_msg_providers import MsgProvidersAPI
 from services.adm.adm_user_disabled_notifications.api_adm_user_disabled_notifications import AdmUserDisabledNotificationsAPI
 from services.adm.adm_user_order_by.api_adm_user_order_by import AdmUserOrderByAPI
 from services.pa.pa_asset_assignments.api_pa_asset_assignments import PaAssetAssignmentsAPI
+from services.pa.pa_user_skills.api_pa_user_skills import PaUserSkillsAPI
+from services.adm.adm_user_tags.api_adm_user_tags import AdmUserTagsAPI
 
 
 class BaseTest:
@@ -261,3 +263,6 @@ class BaseTest:
         self.api_adm_user_disabled_notifications = AdmUserDisabledNotificationsAPI()
         self.api_adm_user_order_by = AdmUserOrderByAPI()
         self.api_pa_asset_assignments = PaAssetAssignmentsAPI()
+        self.api_pa_user_skills = PaUserSkillsAPI()
+        self.api_adm_user_tags = AdmUserTagsAPI()
+

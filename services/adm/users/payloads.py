@@ -78,3 +78,39 @@ class Payloads:
     @staticmethod
     def delete_users_by_list_payload(*user_ids: int):
         return [*user_ids]
+
+    @staticmethod
+    def post_change_status_users_by_list_payload(*user_ids: int):
+        return [*user_ids]
+
+    @staticmethod
+    def put_restore_users_by_list_payload(*user_ids: int):
+        return [*user_ids]
+
+    @staticmethod
+    def delete_users_avatar_by_list_payload(*user_ids: int):
+        return [*user_ids]
+
+    @staticmethod
+    def post_add_users_registration_payload(
+            invitation_id: str,
+            name: str,
+            surname: str,
+            email: str
+    ) -> dict:
+        payload = {
+            "invitationID": invitation_id,
+            "firstName": name,
+            "lastName": surname,
+            "email": email
+        }
+        return payload
+
+    @staticmethod
+    def post_add_users_registration_verify_payload(tenant_id, account_id: int) -> dict:
+        payload = {
+            "tenantID": tenant_id,
+            "accountID": account_id
+        }
+        return payload
+

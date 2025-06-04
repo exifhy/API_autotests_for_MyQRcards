@@ -125,11 +125,9 @@ class PaSkillsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-            self.attach_response_headers(response.headers)
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
@@ -138,12 +136,10 @@ class PaSkillsAPI(Helper):
             return model_skill.skills[0].skillID
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-                f'Status code {response.status_code}, {response.json()}'
+                (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+                 f'but got {response.status_code}, {data_response}')
             model = SuccessGetSkillsListResultModel(root=response.json())
-            for key, skill in model.root.items():
-                logger.info(f'Successfully get a list skills.')
-                logger.info(f"Skill ID: {key}, Name: {skill.name}")
-                return int(key)
+            return int(next(iter(model.root)))
 
     @allure.step("Update skills to this tenant.")
     def put_update_skills_to_tenant(self, skill_id: int):
