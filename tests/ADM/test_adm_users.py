@@ -4,7 +4,10 @@ from config.base_test import BaseTest
 
 
 @allure.epic("Administration")
-@allure.feature("Users management")
+@allure.feature(
+    "The administration service provides methods for working with users, "
+    "tenant, tenant creation requests, permissions, roles, etc."
+)
 class TestAdmUsers(BaseTest):
 
     @allure.title('Test add new user customer.')
@@ -509,3 +512,17 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.test_case_id(26156)
     def test_get_list_notifications_to_current_user(self):
         self.api_adm_users.get_list_notifications_to_current_user()
+
+    @allure.title('Test get a list users warehouses (deprecated).')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26180")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26180)
+    def test_get_list_users_warehouses_by_id(self):
+        model_owner_user = self.api_adm_tenants.get_data_current_tenant()
+        model_warehouses = self.api_wh_warehouses.post_add_warehouses()
+        self.api_adm_user_warehouses.post_add_warehouses_to_user(
+            model_owner_user.owner.userID,
+            model_warehouses[0].result[0]
+        )
+        self.api_adm_users.get_list_users_warehouses_by_id(model_owner_user.owner.userID)
+        self.api_wh_warehouses.delete_warehouse_by_id(model_warehouses[0].result[0])

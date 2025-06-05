@@ -673,3 +673,13 @@ class TaskListQueryResult(StrictBaseModel):
 
 class UserTaskListQueryResponse(RootModel):
     root: Dict[str, TaskListQueryResult]
+
+
+class IdNameErpIdModel(StrictBaseModel):
+    id: int
+    name: str
+    erpID: str
+
+
+class UsersWarehousesResponseModel(StrictBaseModel):
+    results: List[IdNameErpIdModel]

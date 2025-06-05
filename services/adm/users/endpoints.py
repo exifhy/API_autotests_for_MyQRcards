@@ -109,3 +109,7 @@ class Endpoints:
     @staticmethod
     def get_users_roles_by_id_endpoint(user_id: int) -> str:
         return f'{HOST}/ADM/Users/{user_id}/roles'
+
+    @staticmethod
+    def get_users_warehouses_by_user_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM//Users/{user_id}/warehouses'

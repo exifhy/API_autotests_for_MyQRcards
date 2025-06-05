@@ -129,6 +129,8 @@ from services.adm.adm_user_order_by.api_adm_user_order_by import AdmUserOrderByA
 from services.pa.pa_asset_assignments.api_pa_asset_assignments import PaAssetAssignmentsAPI
 from services.pa.pa_user_skills.api_pa_user_skills import PaUserSkillsAPI
 from services.adm.adm_user_tags.api_adm_user_tags import AdmUserTagsAPI
+from services.adm.adm_user_task_list_queries.api_adm_user_task_list_queries import AdmUserTaskListQueriesAPI
+from services.adm.adm_user_warehouses.api_adm_user_warehouses import AdmUserWarehousesAPI
 
 
 class BaseTest:
@@ -265,4 +267,5 @@ class BaseTest:
         self.api_pa_asset_assignments = PaAssetAssignmentsAPI()
         self.api_pa_user_skills = PaUserSkillsAPI()
         self.api_adm_user_tags = AdmUserTagsAPI()
-
+        self.api_adm_user_task_list_queries = AdmUserTaskListQueriesAPI()
+        self.api_adm_user_warehouses = AdmUserWarehousesAPI()

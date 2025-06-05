@@ -1161,6 +1161,26 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully get a list task queries to the user ID {user_id}, qty {len(model.root)}.')
         return model
 
+    @allure.step('Get a list user task queries (204 NO CONTENT).')
+    def get_list_task_queries_to_user_by_id_no_content(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_user_task_list_queries_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            (f'Expected status code {HTTPStatus.NO_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        logger.warning(f'Successfully get a list task queries to the user ID {user_id}, NO CONTENT.')
+        return None
+
     @allure.step('Get a list notifications to the current user.')
     def get_list_notifications_to_current_user(self):
         start = time.time()
@@ -1180,4 +1200,25 @@ class AdmUsersAPI(Helper):
              f'but got {response.status_code}. {data_response}.')
         model = UserDisabledNotificationsListResult(**response.json())
         logger.info(f'Successfully get a list notifications to the current user.')
+        return model
+
+    @allure.step('Get a list users warehouses.')
+    def get_list_users_warehouses_by_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_users_warehouses_by_user_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UsersWarehousesResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users ID {user_id} warehouses.')
         return model
