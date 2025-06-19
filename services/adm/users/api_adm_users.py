@@ -107,6 +107,16 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully add a user ID {model.userID} staff name {user_name}')
         return model
 
+    @allure.step("Create multiple staff users (20).")
+    def post_create_multiple_staff_users(self, count: int = 20) -> List[int]:
+        list_warehouses = []
+
+        for _ in range(count):
+            model_user = self.post_add_user_staff()
+            list_warehouses.append(model_user.userID)
+
+        return list_warehouses
+
     @allure.step("Delete user by ID.")
     def delete_user_by_id(self, user_id: int):
         start = time.time()
@@ -144,6 +154,26 @@ class AdmUsersAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete users with ids: {user_ids}.')
+
+    @allure.step("Delete stuff users by list users.")
+    def delete_stuff_users_by_list(self, list_users: list):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_users_by_list_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=list_users
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully delete users with qty ids: {len(list_users)}.')
 
     @allure.step('Get detail user info.')
     def get_user_info_by_id(self, user_id: int):
@@ -465,6 +495,32 @@ class AdmUsersAPI(Helper):
         model = UserShortResultResponseModel(root=response.json())
         logger.info(f'Successfully get list users short info, qty users: {len(model.root)}.')
         return model
+
+    @allure.step('Get non-existent user ID.')
+    def get_non_existent_user_id(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_users_short_list_endpoint,
+            headers=self.headers.basic_header_with_range(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f"Status code:{HTTPStatus.NO_CONTENT}, no list of users.")
+            return 1
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        UserShortResultResponseModel(root=response.json())
+        qty_items = int(response.headers["Content-Range"].split("/")[-1])
+        non_existent = qty_items + 1000
+        logger.info(f'Successfully get non-existent user ID {non_existent}.')
+        return non_existent
 
     @allure.step('Head users.')
     def head_users(self):

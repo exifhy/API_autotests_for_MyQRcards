@@ -128,3 +128,43 @@ class Helper:
         assert "ReceiptNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <ReceiptNotFound>, but got {response.headers["X-Application-Errors"]}'
         return None
+
+    @staticmethod
+    def assert_warehouse_deleted(response, model) -> None:
+        assert model.list_model[0].code == "WarehouseDeleted", \
+            f'Expected <WarehouseDeleted>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Склад удален", \
+            f'Expected <Склад удален>, but got {model.list_model[0].message}'
+        assert "WarehouseDeleted" in response.headers["X-Application-Errors"], \
+            f'Expected <WarehouseDeleted>, but got {response.headers["X-Application-Errors"]}'
+        return None
+
+    @staticmethod
+    def assert_warehouse_not_found(response, model) -> None:
+        assert model.list_model[0].code == "WarehouseNotFound", \
+            f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Склад не найден", \
+            f'Expected <Склад не найден>, but got {model.list_model[0].message}'
+        assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
+        return None
+
+    @staticmethod
+    def assert_user_deleted(response, model) -> None:
+        assert model.list_model[0].code == "UserDeleted", \
+            f'Expected <UserDeleted>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Пользователь удалён", \
+            f'Expected <Пользователь удалён>, but got {model.list_model[0].message}'
+        assert "UserDeleted" in response.headers["X-Application-Errors"], \
+            f'Expected <UserDeleted>, but got {response.headers["X-Application-Errors"]}'
+        return None
+
+    @staticmethod
+    def assert_user_not_found(response, model) -> None:
+        assert model.list_model[0].code == "UserNotFound", \
+            f'Expected <UserNotFound>, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Пользователь не найден", \
+            f'Expected <Пользователь не найден>, but got {model.list_model[0].message}'
+        assert "UserNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected <UserNotFound>, but got {response.headers["X-Application-Errors"]}'
+        return None

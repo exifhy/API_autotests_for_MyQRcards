@@ -105,7 +105,7 @@ class AdmInvitationsAPI(Helper):
 
     @allure.step("Add invitation.")
     def post_add_invitation(self, user_template_id: int):
-        from_date = datetime.now().strftime("%Y-%m-%d")
+        from_date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
         till_date = (datetime.now() + timedelta(days=10)).strftime("%Y-%m-%d")
         data = {
             "userTemplateID": f"{user_template_id}",

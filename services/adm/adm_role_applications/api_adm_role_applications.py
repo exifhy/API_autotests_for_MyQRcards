@@ -45,6 +45,32 @@ class AdmRoleApplicationsAPI(Helper):
         logger.info(f'Successfully add role applications.')
         return model
 
+    @allure.step("Add list role applications.")
+    def post_add_list_role_applications(self, role_id: int, list_app_ids: list):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_role_applications_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_role_applications_with_list_payload(
+                role_id,
+                list_app_ids
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            (f'Expected status code {HTTPStatus.CREATED}, '
+             f'but got {response.status_code}, {data_response}')
+        model = RoleApplicationsListResponseModel(results=response.json())
+        logger.info(f'Successfully add role ID {role_id} list applications {list_app_ids}.')
+        return model
+
     @allure.step("Delete role applications.")
     def delete_role_applications(self, role_id: int, *app_ids: int or tuple):
         start = time.time()

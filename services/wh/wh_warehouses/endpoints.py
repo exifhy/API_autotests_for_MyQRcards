@@ -1,8 +1,4 @@
 from config.config import HOST
-# import os
-#
-#
-# HOST = os.getenv('URL_DEV_HUBEX') if os.environ["ENVIRON"] == 'qa' else os.getenv('URL_PROD_HUBEX')
 
 
 class Endpoints:
@@ -26,3 +22,18 @@ class Endpoints:
     @staticmethod
     def put_restore_warehouses_by_id_endpoint(wh_id: int) -> str:
         return f'{HOST}/WH/Warehouses/{wh_id}/restore'
+
+    @staticmethod
+    def get_list_users_warehouses_by_wh_id_endpoint(wh_id: int) -> str:
+        return f'{HOST}/WH/Warehouses/{wh_id}/users'
+
+    @staticmethod
+    def post_add_users_to_warehouse_by_wh_id_endpoint(wh_id: int) -> str:
+        return f'{HOST}/WH/Warehouses/{wh_id}/users'
+
+    @staticmethod
+    def delete_users_from_warehouse_by_wh_id_endpoint(wh_id: int) -> str:
+        return f'{HOST}/WH/Warehouses/{wh_id}/users'
+
+    post_add_users_to_warehouses_by_list_endpoint = f'{HOST}/WH/Warehouses/users'
+    delete_users_from_warehouses_by_list_endpoint = f'{HOST}/WH/Warehouses/users'

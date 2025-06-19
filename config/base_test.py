@@ -131,6 +131,7 @@ from services.pa.pa_user_skills.api_pa_user_skills import PaUserSkillsAPI
 from services.adm.adm_user_tags.api_adm_user_tags import AdmUserTagsAPI
 from services.adm.adm_user_task_list_queries.api_adm_user_task_list_queries import AdmUserTaskListQueriesAPI
 from services.adm.adm_user_warehouses.api_adm_user_warehouses import AdmUserWarehousesAPI
+from services.wh.wh_user_warehouses.api_wh_user_warehouses import WhUserWarehousesAPI
 
 
 class BaseTest:
@@ -269,3 +270,4 @@ class BaseTest:
         self.api_adm_user_tags = AdmUserTagsAPI()
         self.api_adm_user_task_list_queries = AdmUserTaskListQueriesAPI()
         self.api_adm_user_warehouses = AdmUserWarehousesAPI()
+        self.api_wh_user_warehouses = WhUserWarehousesAPI()

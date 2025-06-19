@@ -8,7 +8,7 @@ import subprocess
 from allure_commons.types import AttachmentType
 from loguru import logger
 from config.headers import Headers
-from dotenv import load_dotenv, set_key, unset_key
+from dotenv import load_dotenv
 import requests
 import re
 import traceback
@@ -89,6 +89,45 @@ def bearer_token_power_user():
             json={
                 "tenantID": TENANT_ID,
                 "tenantMemberID": TENANT_MEMBER_ID
+            }
+        )
+        logger.info("Tenant authorization by power user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token_bearer = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token_bearer}")
+        return token_bearer
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+@allure.step("Authorization API by cross tenant admin (power user) with tenantMemberID.")
+@pytest.fixture(scope='module')
+def token_power_user_with_tenant_member_id():
+    return bearer_token_power_user_with_tenant_member_id
+
+
+def bearer_token_power_user_with_tenant_member_id(tenant_member_id: int):
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=POWER_USER_TOKEN, app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(token, APP_ID),
+            json={
+                "tenantID": TENANT_ID,
+                "tenantMemberID": tenant_member_id
             }
         )
         logger.info("Tenant authorization by power user.")
@@ -261,6 +300,7 @@ def setup_allure_history():
 
         # Выполнение команды "allure generate allure-results --clean"
         allure_path = os.path.join(os.environ['USERPROFILE'], 'scoop', 'shims', 'allure.cmd')
+        # logger.debug(f"JAVA_HOME at runtime: {os.environ.get('JAVA_HOME')}")
         subprocess.run([allure_path, 'generate', 'allure-results', '--clean'], check=True)
 
     except FileNotFoundError as err:

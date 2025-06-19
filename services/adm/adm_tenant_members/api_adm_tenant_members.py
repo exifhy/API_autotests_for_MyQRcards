@@ -152,6 +152,32 @@ class AdmTenantMembersAPI(Helper):
         logger.info(f'Successfully get list tenant members.')
         return model
 
+    @allure.step("Get list tenant members return tenant member ID.")
+    def get_list_tenant_members_return_tenant_member_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_tenant_members_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f"Status code:{HTTPStatus.NO_CONTENT}, no list of tenant members.")
+            return None
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
+        model = TenantMembersListResponseModel(root=response.json())
+        logger.info(f'Successfully get list tenant members.')
+        for key, value in model.root.items():
+            if value.user.id == user_id:
+                return value.id
+
     @allure.step("Add tenant member.")
     def post_add_tenant_member(self, account_id: int, user_id: int, invitation_id: str):
         data = {

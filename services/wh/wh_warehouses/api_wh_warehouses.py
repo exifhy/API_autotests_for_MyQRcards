@@ -73,11 +73,43 @@ class WhWarehousesAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        model = SuccessAddWarehousesModel(result=response.json())
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddWarehousesModel(result=response.json())
         logger.info(f'Successfully created two warehouses with IDs:{model.result[0]}, {model.result[1]}.')
         return model
+
+    @allure.step("Create multiple warehouses.")
+    def post_add_multiple_warehouses(self, count: int = 300) -> List[int]:
+        warehouses_data = []
+
+        for _ in range(count):
+            data = {
+                "Name": f"Склад {random.randint(99999, 9999999999999999)}",
+                "ErpID": f"WHErpID {random.randint(99999, 9999999999999999)}",
+                "isDefault": False
+            }
+            warehouses_data.append(data)
+
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_warehouses_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=warehouses_data
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddWarehousesModel(result=response.json())
+        logger.info(f'Successfully created 300 warehouses.')
+        return model.result
 
     @allure.step("Create default warehouse.")
     def post_add_default_warehouse(self):
@@ -183,6 +215,26 @@ class WhWarehousesAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete warehouse with ID:{wh_ids}.')
+
+    @allure.step("Delete list warehouses.")
+    def delete_list_warehouses(self, list_whs: list):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_warehouses_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=list_whs
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully delete list warehouses, qty {len(list_whs)}.')
 
     @allure.step("Delete warehouses by list (undeleted, deleted).")
     def delete_warehouses_by_list_undeleted_deleted(self, *wh_ids: int):
@@ -421,6 +473,29 @@ class WhWarehousesAPI(Helper):
         assert response.status_code == HTTPStatus.NO_CONTENT, \
             f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {response.json()}'
         logger.info(f'Successfully get non-existing warehouse.')
+
+    @allure.step("Get list warehouse v2, return non-existent ID.")
+    def get_non_existent_warehouse_return_id(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_warehouses_v2_endpoint,
+            headers=self.headers.basic_header_with_range(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
+        GetListWarehousesModel(root=response.json())
+        qty_items = int(response.headers["Content-Range"].split("/")[-1])
+        non_existent_wh = qty_items + 1
+        logger.info(f'Successfully get non-existing warehouse ID {non_existent_wh}.')
+        return non_existent_wh
 
     @allure.step("Get list warehouses.")
     def get_list_warehouses(self):
