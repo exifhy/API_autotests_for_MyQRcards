@@ -27,3 +27,11 @@ class Payloads:
     @staticmethod
     def delete_warehouses_by_list(*wh_ids: tuple) -> list:
         return [*wh_ids]
+
+    @staticmethod
+    def post_add_many_users_to_warehouse_by_list(*user_ids: tuple) -> list:
+        return [*user_ids]
+
+    @staticmethod
+    def delete_many_users_from_warehouse_by_list(*user_ids: tuple) -> list:
+        return [*user_ids]

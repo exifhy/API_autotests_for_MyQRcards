@@ -32,3 +32,16 @@ class WarehousesModel(StrictBaseModel):
 
 class GetListWarehousesModel(RootModel):
     root: Dict[str, WarehousesModel]
+
+
+class UsersToWarehousesResponseModel(RootModel):
+    root: Dict[str, List[int]]
+
+
+class UsersWarehousesGetResponseModel(StrictBaseModel):
+    userFullName: str
+    userID: int
+
+
+class UsersWarehousesGetListResponseModel(StrictBaseModel):
+    results: List[UsersWarehousesGetResponseModel]

@@ -890,3 +890,95 @@ class WhWarehousesAPI(Helper):
             f'Expected <WarehouseNotFound>, but got {response.headers["X-Application-Errors"]}'
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
+
+    @allure.step("Get list stuff users added to warehouse.")
+    def get_list_stuff_users_added_to_warehouse(self, wh_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_users_warehouses_by_wh_id_endpoint(wh_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info('Users not added to warehouse.')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = UsersWarehousesGetListResponseModel(results=response.json())
+        logger.info(f'Successfully get list stuff users added to warehouse.')
+        return model
+
+    @allure.step("Add many users to warehouse, by warehouses ID.")
+    def post_add_many_users_to_warehouse_by_warehouses_id(self, wh_id: int, *users_ids: int or tuple):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_users_to_warehouse_by_wh_id_endpoint(wh_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_many_users_to_warehouse_by_list(*users_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = UsersToWarehousesResponseModel(root=response.json())
+        logger.info(f'Successfully add many users {users_ids} to warehouse, by warehouses ID:{wh_id}.')
+        return model
+
+    @allure.step("Add many users to warehouse, by list ID.")
+    def post_add_many_users_to_warehouse_by_list_id(self, wh_id: int, list_users: list):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_users_to_warehouse_by_wh_id_endpoint(wh_id),
+            headers=self.headers.basic_header(get_token()),
+            json=list_users
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = UsersToWarehousesResponseModel(root=response.json())
+        logger.info(f'Successfully add many users {list} to warehouse, by warehouses ID:{wh_id}.')
+        return model
+
+    @allure.step("Add all stuff users to warehouse, by warehouses ID.")
+    def post_add_all_stuff_users_to_warehouse(self, wh_id: int, list_users: list):
+        param = {
+            "isRelatedToAnyUser": True
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_users_to_warehouse_by_wh_id_endpoint(wh_id), params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = UsersToWarehousesResponseModel(root=response.json())
+        missing_ids = [id_ for id_ in list_users if str(id_) not in model.root]
+        assert not missing_ids, f"User ID {missing_ids} not added to warehouses {wh_id}"
+        logger.info(f'Successfully add all stuff users qty IDs{len(list_users)} to warehouse ID: {wh_id}.')
+        return model

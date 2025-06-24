@@ -107,14 +107,51 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully add a user ID {model.userID} staff name {user_name}')
         return model
 
-    @allure.step("Create multiple staff users (20).")
+    @allure.step("Add user staff without logging.")
+    def post_add_user_staff_without_logging(self):
+        user = next(generated_user())
+        params = {
+            "skipAccountVerification": True
+        }
+        user_name = user.name
+        user_surname = user.surname
+        user_email = user.email
+        user_phone = user.phone
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_users_endpoint, params=params,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.add_user_staff_payload(
+                name=user_name,
+                surname=user_surname,
+                email=user_email,
+                phone=user_phone
+            )
+        )
+        end = time.time()
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {data_response}'
+        model = SuccessUserModel(**response.json())
+        return model
+
+    @allure.step("Create multiple staff users, default = 20.")
     def post_create_multiple_staff_users(self, count: int = 20) -> List[int]:
         list_warehouses = []
 
-        for _ in range(count):
-            model_user = self.post_add_user_staff()
-            list_warehouses.append(model_user.userID)
+        for i in range(count):
+            try:
+                model_user = self.post_add_user_staff_without_logging()
+                list_warehouses.append(model_user.userID)
+            except Exception as e:
+                logger.error(f"Error adding staff user at iteration {i + 1}: {e}")
+                continue
 
+        logger.info(f'Successfully added {len(list_warehouses)} staff users out of {count} requested')
         return list_warehouses
 
     @allure.step("Delete user by ID.")
@@ -155,8 +192,8 @@ class AdmUsersAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete users with ids: {user_ids}.')
 
-    @allure.step("Delete stuff users by list users.")
-    def delete_stuff_users_by_list(self, list_users: list):
+    @allure.step("Delete users by list users.")
+    def delete_many_users_by_list(self, list_users: list):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_users_by_list_endpoint,

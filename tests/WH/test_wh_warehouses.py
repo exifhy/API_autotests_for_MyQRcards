@@ -262,3 +262,47 @@ class TestWhWarehouses(BaseTest):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
         self.api_wh_warehouses.put_restore_warehouses_by_list_deleted_nonexistent(model_wh[0].result[0])
+
+    @allure.title('Test add many users to warehouse, by warehouses ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26226")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26226)
+    def test_post_add_many_users_to_warehouse_by_warehouses_id(self):
+        model_stuff = self.api_adm_users.post_add_user_staff()
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        self.api_wh_warehouses.post_add_many_users_to_warehouse_by_warehouses_id(
+            model_wh[0].result[0],
+            model_stuff.userID
+        )
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+        self.api_adm_users.delete_user_by_id(model_stuff.userID)
+
+    @allure.title('Test add 30 users to warehouse, by warehouses ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_post_add_30_users_to_warehouse_by_list_id(self):
+        list_stuff_users = self.api_adm_users.post_create_multiple_staff_users(30)
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        self.api_wh_warehouses.post_add_many_users_to_warehouse_by_list_id(
+            model_wh[0].result[0],
+            list_stuff_users
+        )
+        self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+        self.api_adm_users.delete_many_users_by_list(list_stuff_users)
+
+    @allure.title('Test add all stuff users to warehouse, by warehouses ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id()
+    def test_post_add_all_stuff_users_to_warehouse(self):
+        list_stuff_users = self.api_adm_users.post_create_multiple_staff_users(30)
+        model_wh = self.api_wh_warehouses.post_add_warehouses()
+        try:
+            self.api_wh_warehouses.post_add_all_stuff_users_to_warehouse(
+                model_wh[0].result[0],
+                list_stuff_users
+            )
+        finally:
+            self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+            self.api_adm_users.delete_many_users_by_list(list_stuff_users)

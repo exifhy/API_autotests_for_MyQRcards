@@ -119,7 +119,7 @@ class TestWhUserWarehouses(BaseTest):
             list_stuff,
             [list_warehouses for _ in range(len(list_stuff))]
         )
-        self.api_adm_users.delete_stuff_users_by_list(list_stuff)
+        self.api_adm_users.delete_many_users_by_list(list_stuff)
         self.api_wh_warehouses.delete_list_warehouses(list_warehouses)
 
     @allure.title('Test delete 300 warehouses to 20 users.')
@@ -137,7 +137,7 @@ class TestWhUserWarehouses(BaseTest):
             list_stuff,
             [list_warehouses for _ in range(len(list_stuff))]
         )
-        self.api_adm_users.delete_stuff_users_by_list(list_stuff)
+        self.api_adm_users.delete_many_users_by_list(list_stuff)
         self.api_wh_warehouses.delete_list_warehouses(list_warehouses)
 
     @allure.title('Test add 300 warehouses to the user, by user ID.')

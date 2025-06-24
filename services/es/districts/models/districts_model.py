@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 from typing import List, Optional, Dict
 
@@ -39,8 +40,10 @@ class SuccessGetInfoDistrictModel(StrictBaseModel):
     isDefault: Optional[bool] = None
     name: Optional[str] = None
     id: Optional[int] = None
+    tenantID: Optional[int] = None
+    createdBy: Optional[int] = None
+    created: Optional[datetime] = None
 
 
 class SuccessGetListInfoDistrictsModel(StrictBaseModel):
     result: List[SuccessGetInfoDistrictModel]
-
