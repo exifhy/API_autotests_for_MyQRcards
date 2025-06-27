@@ -8,7 +8,7 @@ class StrictBaseModel(BaseModel):
 
 class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
-    code: str
+    code: Optional[str] = None
     message: str
     arguments: Optional[Dict[str, str]] = None
 

@@ -39,6 +39,7 @@ class TestAuthnAccounts(BaseTest):
     @allure.title('Test generating code for authorization via SMS.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23442")
     @pytest.mark.regress
+    @pytest.mark.skip(reason="Disabled, paid sms.")
     @pytest.mark.test_case_id(23442)
     def test_post_generating_code_for_authorization_by_sms(self):
         self.api_authn_accounts.post_generating_code_for_authorization_by_sms()

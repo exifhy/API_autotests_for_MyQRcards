@@ -112,7 +112,7 @@ class Helper:
     @staticmethod
     def assert_already_done(response, model) -> None:
         assert model.list_model[0].code == "AlreadyDone", \
-            f'Expected <AlreadyDone>, but got {model.list_model[0].code}'
+            f'Expected <AlreadyDone>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Операция была выполнена ранее", \
             f'Expected <Операция была выполнена ранее>, but got {model.list_model[0].message}'
         assert "AlreadyDone" in response.headers["X-Application-Errors"], \
@@ -122,7 +122,7 @@ class Helper:
     @staticmethod
     def assert_receipt_not_found(response, model) -> None:
         assert model.list_model[0].code == "ReceiptNotFound", \
-            f'Expected <ReceiptNotFound>, but got {model.list_model[0].code}'
+            f'Expected <ReceiptNotFound>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Документ оприходывания не найден", \
             f'Expected <Документ оприходывания не найден>, but got {model.list_model[0].message}'
         assert "ReceiptNotFound" in response.headers["X-Application-Errors"], \
@@ -132,7 +132,7 @@ class Helper:
     @staticmethod
     def assert_warehouse_deleted(response, model) -> None:
         assert model.list_model[0].code == "WarehouseDeleted", \
-            f'Expected <WarehouseDeleted>, but got {model.list_model[0].code}'
+            f'Expected <WarehouseDeleted>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Склад удален", \
             f'Expected <Склад удален>, but got {model.list_model[0].message}'
         assert "WarehouseDeleted" in response.headers["X-Application-Errors"], \
@@ -142,7 +142,7 @@ class Helper:
     @staticmethod
     def assert_warehouse_not_found(response, model) -> None:
         assert model.list_model[0].code == "WarehouseNotFound", \
-            f'Expected <WarehouseNotFound>, but got {model.list_model[0].code}'
+            f'Expected <WarehouseNotFound>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Склад не найден", \
             f'Expected <Склад не найден>, but got {model.list_model[0].message}'
         assert "WarehouseNotFound" in response.headers["X-Application-Errors"], \
@@ -152,7 +152,7 @@ class Helper:
     @staticmethod
     def assert_user_deleted(response, model) -> None:
         assert model.list_model[0].code == "UserDeleted", \
-            f'Expected <UserDeleted>, but got {model.list_model[0].code}'
+            f'Expected <UserDeleted>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Пользователь удалён", \
             f'Expected <Пользователь удалён>, but got {model.list_model[0].message}'
         assert "UserDeleted" in response.headers["X-Application-Errors"], \
@@ -162,7 +162,7 @@ class Helper:
     @staticmethod
     def assert_user_not_found(response, model) -> None:
         assert model.list_model[0].code == "UserNotFound", \
-            f'Expected <UserNotFound>, but got {model.list_model[0].code}'
+            f'Expected <UserNotFound>, but got <{model.list_model[0].code}>'
         assert model.list_model[0].message == "Пользователь не найден", \
             f'Expected <Пользователь не найден>, but got {model.list_model[0].message}'
         assert "UserNotFound" in response.headers["X-Application-Errors"], \
