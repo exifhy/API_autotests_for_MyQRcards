@@ -263,6 +263,9 @@ class TestWhWarehouses(BaseTest):
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
         self.api_wh_warehouses.put_restore_warehouses_by_list_deleted_nonexistent(model_wh[0].result[0])
 
+
+class TestWhWarehousesUsers(BaseTest):
+
     @allure.title('Test add many users to warehouse, by warehouses ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26226")
     @pytest.mark.regress
@@ -278,9 +281,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_users.delete_user_by_id(model_stuff.userID)
 
     @allure.title('Test add 30 users to warehouse, by warehouses ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26510")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26510)
     def test_post_add_30_users_to_warehouse_by_list_id(self):
         list_stuff_users = self.api_adm_users.post_create_multiple_staff_users(30)
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -292,9 +295,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_users.delete_many_users_by_list(list_stuff_users)
 
     @allure.title('Test add all stuff users to warehouse, by warehouses ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26511")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26511)
     def test_post_add_all_stuff_users_to_warehouse(self):
         list_stuff_users = self.api_adm_users.post_create_multiple_staff_users(30)
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -308,9 +311,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_many_users_by_list(list_stuff_users)
 
     @allure.title('Test add valid user to deleted from sys warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26512")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26512)
     def test_post_add_user_to_deleted_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -324,9 +327,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add deleted from sys user to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26513")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26513)
     def test_post_add_deleted_user_to_valid_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         self.api_adm_users.delete_user_by_id(model_users.userID)
@@ -340,9 +343,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add deleted and valid users to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26515")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26515)
     def test_post_add_deleted_and_valid_user_to_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -358,9 +361,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add deleted and non-existent users to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26518")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26518)
     def test_post_add_deleted_and_non_existent_user_to_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
@@ -375,9 +378,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid, deleted and non-existent users to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26519")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26519)
     def test_post_add_valid_deleted_and_non_existent_user_to_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -394,9 +397,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add empty list to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26520")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26520)
     def test_post_add_empty_list_to_warehouse_by_wh_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -407,24 +410,24 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid, abc, null to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26521")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26521)
     def test_post_add_valid_abc_null_to_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
             self.api_wh_warehouses.post_add_valid_abc_null_to_warehouse_by_wh_id(
-                model_wh[0].result[0], "abc", None
+                model_wh[0].result[0], model_users.userID, "abc", None
             )
         finally:
             self.api_adm_users.delete_user_by_id(model_users.userID)
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid user to already added warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26523")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26523)
     def test_post_add_valid_user_to_already_added_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -440,9 +443,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid user to unavailable warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26524")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26524)
     def test_post_add_valid_user_to_unavailable_warehouse_by_wh_id(self, token_power_user_with_tenant_member_id):
         list_app = self.api_common_applications.get_and_return_list_applications()
         model_role = self.api_adm_roles.post_add_role()
@@ -472,9 +475,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
 
     @allure.title('Test add unavailable user to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26525")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26525)
     def test_post_add_unavailable_user_to_valid_warehouse_by_wh_id(self, token_power_user_with_tenant_member_id):
         list_app = self.api_common_applications.get_and_return_list_applications()
         model_role = self.api_adm_roles.post_add_role()
@@ -506,9 +509,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
 
     @allure.title('Test add valid user to non-existent warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26526")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26526)
     def test_post_add_valid_user_to_non_existent_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_wh = self.api_wh_warehouses.get_non_existent_warehouse_return_id()
@@ -520,9 +523,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add non-existent user to valid warehouse, by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26527")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26527)
     def test_post_add_non_existent_user_to_valid_warehouse_by_wh_id(self):
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -534,9 +537,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid user to valid warehouse, without token.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26528")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26528)
     def test_post_add_user_to_warehouse_without_token(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -549,9 +552,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid users to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26228")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26228)
     def test_post_add_valid_users_to_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -564,9 +567,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid users to deleted warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26530")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26530)
     def test_post_add_valid_users_to_deleted_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -579,9 +582,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add 20 users to 50 warehouses, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26533")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26533)
     def test_post_add_20_users_to_50_warehouse_by_list(self):
         list_stuff = self.api_adm_users.post_create_multiple_staff_users()
         list_warehouses = self.api_wh_warehouses.post_add_multiple_warehouses(50)
@@ -593,9 +596,9 @@ class TestWhWarehouses(BaseTest):
         self.api_wh_warehouses.delete_list_warehouses(list_warehouses)
 
     @allure.title('Test add valid users to valid warehouse, without token, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26534")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26534)
     def test_post_add_user_to_warehouse_without_token_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -608,9 +611,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add all users to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26535")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26535)
     def test_post_add_all_users_to_warehouse_by_list(self):
         list_users_ids = self.api_adm_users.post_create_multiple_staff_users(10)
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -623,9 +626,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_many_users_by_list(list_users_ids)
 
     @allure.title('Test add all users with user ID to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26536")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26536)
     def test_post_add_all_users_with_user_id_to_warehouse_by_list(self):
         list_users_ids = self.api_adm_users.post_create_multiple_staff_users(10)
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -638,9 +641,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_many_users_by_list(list_users_ids)
 
     @allure.title('Test add deleted users to vali warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26537")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26537)
     def test_post_add_deleted_user_to_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -653,9 +656,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid user to non-existent warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26538")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26538)
     def test_post_add_user_to_non_existent_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_wh = self.api_wh_warehouses.get_non_existent_warehouse_return_id()
@@ -667,9 +670,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add non-existent user to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26539")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26539)
     def test_post_add_non_existent_user_to_valid_warehouse_by_list(self):
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -681,9 +684,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid and deleted from sys user to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26540")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26540)
     def test_post_add_valid_and_deleted_user_to_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -698,9 +701,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add valid and non-existent user to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26541")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26541)
     def test_post_add_valid_and_non_existent_user_to_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
@@ -714,9 +717,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add valid user to valid and deleted warehouses, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26542")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26542)
     def test_post_add_valid_user_to_valid_and_deleted_warehouses_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -732,9 +735,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_users_by_list(model_users.userID, model_users2.userID)
 
     @allure.title('Test add valid user to valid and non-existent warehouses, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26543")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26543)
     def test_post_add_valid_user_to_valid_and_non_existent_warehouses_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -750,9 +753,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_users_by_list(model_users.userID, model_users2.userID)
 
     @allure.title('Test add valid user to null warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26544")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26544)
     def test_post_add_valid_user_to_warehouse_null_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         try:
@@ -764,9 +767,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add empty list users to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26545")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26545)
     def test_post_add_empty_list_users_to_warehouse_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -777,9 +780,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add null users to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26546")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26546)
     def test_post_add_null_user_to_warehouse_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -790,9 +793,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test add valid user to already added warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26547")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26547)
     def test_post_add_user_to_already_added_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -809,9 +812,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test add valid user to unavailable warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26548")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26548)
     def test_post_add_user_to_unavailable_warehouse_by_list(self, token_power_user_with_tenant_member_id):
         list_app = self.api_common_applications.get_and_return_list_applications()
         model_role = self.api_adm_roles.post_add_role()
@@ -841,9 +844,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
 
     @allure.title('Test add unavailable user to valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26549")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26549)
     def test_post_add_unavailable_user_to_valid_warehouse_by_list(self, token_power_user_with_tenant_member_id):
         list_app = self.api_common_applications.get_and_return_list_applications()
         model_role = self.api_adm_roles.post_add_role()
@@ -875,9 +878,9 @@ class TestWhWarehouses(BaseTest):
         self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
 
     @allure.title('Test delete user from warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26227")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26227)
     def test_delete_users_from_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -893,9 +896,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete user from already deleted warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26550")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26550)
     def test_delete_users_from_already_deleted_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -914,9 +917,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete user from non-existent warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26551")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26551)
     def test_delete_user_from_non_existent_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_wh = self.api_wh_warehouses.get_non_existent_warehouse_return_id()
@@ -928,9 +931,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete non-existent user from warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26553")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26553)
     def test_delete_non_existent_user_from_valid_warehouse_by_wh_id(self):
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -942,9 +945,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete empty list users from valid warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26554")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26554)
     def test_delete_empty_list_users_from_warehouse_by_wh_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -955,9 +958,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete users=null from valid warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26555")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26555)
     def test_delete_null_from_warehouse_by_wh_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -968,9 +971,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete valid user from deleted from sys warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26556")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26556)
     def test_delete_valid_user_from_deleted_from_sys_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -983,9 +986,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete deleted from sys user from valid warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26557")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26557)
     def test_delete_deleted_user_from_valid_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -998,9 +1001,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete 30 user from valid warehouse by warehouse ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26558")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26558)
     def test_delete_30_users_from_valid_warehouse_by_wh_id(self):
         list_stuff_users = self.api_adm_users.post_create_multiple_staff_users(30)
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1017,9 +1020,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_many_users_by_list(list_stuff_users)
 
     @allure.title('Test delete all users from valid warehouse by warehouse ID. isRelatedToAnyUser=true.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26559")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26559)
     def test_delete_all_users_from_valid_warehouse_by_wh_id(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1036,9 +1039,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete valid user from valid warehouse by warehouse ID, without authorization.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26560")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26560)
     def test_delete_users_from_warehouse_without_authorization(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1055,9 +1058,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete all users from valid warehouse, Warehouses/users. isRelatedToAnyUser=true.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26562")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26562)
     def test_delete_all_users_from_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1074,9 +1077,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete valid user from valid warehouse, Warehouses/users, without authorization.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26565")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26565)
     def test_delete_users_from_warehouse_by_list_without_authorization(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1093,9 +1096,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete 20 users from 100 warehouses, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26229")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26229)
     def test_delete_20_users_from_100_warehouse_by_list(self):
         list_users = self.api_adm_users.post_create_multiple_staff_users()
         list_wh = self.api_wh_warehouses.post_add_multiple_warehouses(100)
@@ -1113,33 +1116,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_many_users_by_list(list_users)
 
     @allure.title('Test delete valid user from already deleted warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26566")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
-    def test_delete_users_from_already_deleted_warehouse_by_list(self):
-        model_users = self.api_adm_users.post_add_user_staff()
-        model_wh = self.api_wh_warehouses.post_add_warehouses()
-        try:
-            self.api_wh_warehouses.post_add_many_users_to_warehouse_by_warehouses_id(
-                model_wh[0].result[0],
-                model_users.userID
-            )
-            self.api_wh_warehouses.delete_users_from_warehouse_by_wh_id(
-                model_wh[0].result[0],
-                model_users.userID
-            )
-            self.api_wh_warehouses.delete_users_from_already_deleted_warehouse_by_list(
-                [model_wh[0].result[0]],
-                [[model_users.userID]]
-            )
-        finally:
-            self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
-            self.api_adm_users.delete_user_by_id(model_users.userID)
-
-    @allure.title('Test delete valid user from already deleted warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26566)
     def test_delete_users_from_already_deleted_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1161,9 +1140,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete valid user from non-existent warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26567")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26567)
     def test_delete_users_from_non_existent_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         non_existent_wh = self.api_wh_warehouses.get_non_existent_warehouse_return_id()
@@ -1176,9 +1155,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete non-existent user from warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26568")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26568)
     def test_delete_non_existent_users_from_warehouse_by_list(self):
         non_existent_user = self.api_adm_users.get_non_existent_user_id()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1191,9 +1170,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete valid, deleted, non-existent users from warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26569")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26569)
     def test_delete_valid_non_existent_deleted_users_from_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -1210,9 +1189,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete deleted, non-existent users from deleted warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26570")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26570)
     def test_delete_non_existent_deleted_users_from_deleted_warehouse_by_list(self):
         model_users2 = self.api_adm_users.post_add_user_staff()
         self.api_adm_users.delete_user_by_id(model_users2.userID)
@@ -1225,9 +1204,9 @@ class TestWhWarehouses(BaseTest):
         )
 
     @allure.title('Test delete (deleted, non-existent), (valid) users from valid warehouses, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26571")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26571)
     def test_delete_non_existent_deleted_and_valid_users_from_warehouses_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_users2 = self.api_adm_users.post_add_user_staff()
@@ -1244,9 +1223,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_list_warehouses(model_wh.result)
 
     @allure.title('Test delete valid users from deleted from sys warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26572")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26572)
     def test_delete_valid_users_from_deleted_from_sys_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1260,9 +1239,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete deleted from sys users from valid warehouse, Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26573")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26573)
     def test_delete_deleted_from_sys_user_from_valid_warehouse_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         self.api_adm_users.delete_user_by_id(model_users.userID)
@@ -1276,9 +1255,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete valid user from warehouse=null. Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26574")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26574)
     def test_delete_valid_user_from_warehouse_null_by_list(self):
         model_users = self.api_adm_users.post_add_user_staff()
         try:
@@ -1289,9 +1268,9 @@ class TestWhWarehouses(BaseTest):
             self.api_adm_users.delete_user_by_id(model_users.userID)
 
     @allure.title('Test delete empty list users from valid warehouse. Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26575")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26575)
     def test_delete_empty_list_users_from_valid_warehouse_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -1302,9 +1281,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test delete user=null from valid warehouse. Warehouses/users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26576")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26576)
     def test_delete_user_is_null_from_valid_warehouse_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         try:
@@ -1315,9 +1294,9 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test get list stuff users added to warehouse.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26225")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26225)
     def test_get_list_stuff_users_added_to_warehouse(self):
         model_users = self.api_adm_users.post_add_user_staff()
         model_wh = self.api_wh_warehouses.post_add_warehouses()
@@ -1336,17 +1315,17 @@ class TestWhWarehouses(BaseTest):
             self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
 
     @allure.title('Test get list of users of the non-existent warehouse.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26577")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26577)
     def test_get_list_users_of_non_existent_warehouse(self):
         non_existent_wh = self.api_wh_warehouses.get_non_existent_warehouse_return_id()
         self.api_wh_warehouses.get_list_users_of_non_existent_warehouse(non_existent_wh)
 
     @allure.title('Test get checking that no users have been added to the warehouse.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/")
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26578")
     @pytest.mark.regress
-    @pytest.mark.test_case_id()
+    @pytest.mark.test_case_id(26578)
     def test_get_no_users_added_to_warehouse(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         self.api_wh_warehouses.get_no_users_added_to_warehouse(model_wh[0].result[0])

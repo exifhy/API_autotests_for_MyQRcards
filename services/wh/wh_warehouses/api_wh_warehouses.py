@@ -452,12 +452,7 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("Get warehouse a non-existent ID.")
     def get_non_existent_warehouses(self):
-        warehouses_list = self.get_list_warehouses_v2()
-        if warehouses_list is None:
-            non_existent_wh = 1
-        else:
-            wh_id = int(max(warehouses_list.root.keys(), key=int))
-            non_existent_wh = wh_id + 1
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_warehouses_by_id_endpoint(non_existent_wh),
@@ -522,7 +517,7 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("Head warehouses.")
     def head_warehouses(self):
-        model_wh = self.get_list_warehouses_v2()
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         start = time.time()
         response = requests.head(
             url=self.endpoints.get_list_warehouses_endpoint,
@@ -538,7 +533,7 @@ class WhWarehousesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {response.json()}'
         qty_wh = response.headers["Content-Range"].split("/")[-1]
-        qty_wh_get = len(model_wh.root)
+        qty_wh_get = non_existent_wh - 1
         assert int(qty_wh) == qty_wh_get, "Head request returns an incorrect number of warehouses."
         logger.info(f'Successfully get head warehouses. Number of warehouses {qty_wh}, {qty_wh_get}')
 
@@ -559,8 +554,9 @@ class WhWarehousesAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.info('Tenant has no warehouses.')
             return None
-        assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {response.json()}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {response.json()}')
         model = GetListWarehousesModel(root=response.json())
         logger.info(f'Successfully get list warehouses v2.')
         return model
@@ -602,12 +598,7 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("Update a non-existent warehouse.")
     def put_update_non_existent_warehouse(self) -> None:
-        warehouses_list = self.get_list_warehouses_v2()
-        if warehouses_list is None:
-            non_existent_wh = 1
-        else:
-            wh_id = int(max(warehouses_list.root.keys(), key=int))
-            non_existent_wh = wh_id + 1
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         number = random.randint(1, 99999)
         data = {
             "name": f"Измененный склад {number}",
@@ -752,12 +743,7 @@ class WhWarehousesAPI(Helper):
     @allure.step("PUT restore warehouses by list (undeleted, nonexistent).")
     def put_restore_warehouses_by_list_undeleted_nonexistent(self, undeleted_wh_id: int):
         """Первый ID неудаленный, второй несозданный."""
-        warehouses_list = self.get_list_warehouses_v2()
-        if warehouses_list is None:
-            non_existent_wh = 1
-        else:
-            wh_id = int(max(warehouses_list.root.keys(), key=int))
-            non_existent_wh = wh_id + 1
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_warehouses_endpoint,
@@ -787,12 +773,7 @@ class WhWarehousesAPI(Helper):
     @allure.step("PUT restore warehouses by list (deleted, nonexistent).")
     def put_restore_warehouses_by_list_deleted_nonexistent(self, deleted_wh_id: int):
         """Первый ID удаленный, второй несозданный."""
-        warehouses_list = self.get_list_warehouses_v2()
-        if warehouses_list is None:
-            non_existent_wh = 1
-        else:
-            wh_id = int(max(warehouses_list.root.keys(), key=int))
-            non_existent_wh = wh_id + 1
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_warehouses_endpoint,
@@ -861,12 +842,7 @@ class WhWarehousesAPI(Helper):
 
     @allure.step("PUT restore nonexistent warehouse by ID.")
     def put_restore_nonexistent_warehouses_by_id(self):
-        warehouses_list = self.get_list_warehouses_v2()
-        if warehouses_list is None:
-            non_existent_wh = 1
-        else:
-            wh_id = int(max(warehouses_list.root.keys(), key=int))
-            non_existent_wh = wh_id + 1
+        non_existent_wh = self.get_non_existent_warehouse_return_id()
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_warehouses_by_id_endpoint(non_existent_wh),
@@ -2254,6 +2230,29 @@ class WhWarehousesAPI(Helper):
             f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}, {data_response}'
         model = ErrorModel(list_model=response.json())
         self.assert_user_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step("Delete deleted, non-existent users from deleted warehouse, Warehouses/users.")
+    def delete_non_existent_deleted_users_from_deleted_warehouse_by_list(self, list_wh: list, list_users: list):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_users_from_warehouses_by_list_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_multiple_users_from_warehouses_payload(list_wh, list_users)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = ErrorModel(list_model=response.json())
+        self.assert_warehouse_deleted(response, model)
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
         return None
 
