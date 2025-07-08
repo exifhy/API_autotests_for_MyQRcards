@@ -169,6 +169,7 @@ class MaterialsListResult(StrictBaseModel):
     id: int
     name: str
     erpID: Optional[str] = None
+    description: Optional[str] = None
     cost: Optional[float] = None
     currency: Optional[CurrencyResult] = None
     warehouse: Optional[WarehouseResult] = None
@@ -189,6 +190,7 @@ class MaterialsListRequiredResult(StrictBaseModel):
     id: int
     name: str
     erpID: Optional[str] = None
+    description: Optional[str] = None
     cost: float
     currency: Optional[CurrencyResult] = None
     warehouse: Optional[WarehouseResult] = None

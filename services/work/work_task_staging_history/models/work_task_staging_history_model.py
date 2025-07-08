@@ -31,3 +31,9 @@ class TaskStagingHistoryMultipleModel(StrictBaseModel):
 
 class SuccessTaskStagingHistoryModel(StrictBaseModel):
     history: List[TaskStagingHistoryModel]
+
+
+class TaskStagingHistoryBatchModel(StrictBaseModel):
+    isSuccessed: bool
+    batchID: str
+    error: Optional[str] = None

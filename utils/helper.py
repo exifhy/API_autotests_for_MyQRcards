@@ -4,9 +4,36 @@ import allure
 import json
 from allure_commons.types import AttachmentType
 from requests.structures import CaseInsensitiveDict
+import time
+import logging
+import sys
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 
 class Helper:
+
+    @staticmethod
+    def sleep_with_progress_bar(seconds: int):
+        bar_length = seconds
+        try:
+            while seconds >= 0:
+                remaining_bars = int((seconds / bar_length) * bar_length)
+                current_bar = "|" * remaining_bars + " " * (bar_length - remaining_bars)
+                sys.stdout.write("\r{} {} sec  ".format(current_bar, int(seconds)))
+                sys.stdout.flush()
+                time.sleep(1)
+                seconds -= 1
+        except KeyboardInterrupt:
+            logging.info("\nПрервано пользователем")
+        finally:
+            print()
 
     @classmethod
     def attach_response(cls, response):

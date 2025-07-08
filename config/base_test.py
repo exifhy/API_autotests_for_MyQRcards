@@ -132,6 +132,7 @@ from services.adm.adm_user_tags.api_adm_user_tags import AdmUserTagsAPI
 from services.adm.adm_user_task_list_queries.api_adm_user_task_list_queries import AdmUserTaskListQueriesAPI
 from services.adm.adm_user_warehouses.api_adm_user_warehouses import AdmUserWarehousesAPI
 from services.wh.wh_user_warehouses.api_wh_user_warehouses import WhUserWarehousesAPI
+from services.msg.msg_notifications.api_msg_notifications import MSGNotificationsAPI
 
 
 class BaseTest:
@@ -271,3 +272,4 @@ class BaseTest:
         self.api_adm_user_task_list_queries = AdmUserTaskListQueriesAPI()
         self.api_adm_user_warehouses = AdmUserWarehousesAPI()
         self.api_wh_user_warehouses = WhUserWarehousesAPI()
+        self.api_msg_notifications = MSGNotificationsAPI()

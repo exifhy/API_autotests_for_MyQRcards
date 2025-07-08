@@ -93,6 +93,51 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully add a empty task ID {model.id}')
         return model
 
+    @allure.step("Add empty task without logging.")
+    def post_add_empty_task_without_logging(self, task_type_id: str):
+        data = {
+            "RequestMethodID": 1,
+            "TaskTypeID": task_type_id
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=data
+        )
+        end = time.time()
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksModel(**response.json())
+        return model
+
+    @allure.step("Create multiple empty tasks.")
+    def post_create_multiple_tasks(self, task_type_id: str, count: int) -> List[int]:
+        """
+        Создает множество пустых заявок
+        :param count: количество созданных заявок
+        :param task_type_id: тип заявки строкой
+        :return: список заявок
+        """
+        list_tasks = []
+
+        for i in range(count):
+            try:
+                model_tasks = self.post_add_empty_task_without_logging(task_type_id)
+                list_tasks.append(model_tasks.id)
+            except Exception as e:
+                logger.error(f"Error creating tasks at iteration {i + 1}: {e}")
+                continue
+
+        logger.info(f'Successfully added {len(list_tasks)} tasks out of {count} requested')
+        return list_tasks
+
     @allure.step("Add task with number params.")
     def post_add_task_with_number(
             self,
@@ -296,6 +341,42 @@ class WorkTasksAPI(Helper):
         model = SuccessDetailedInfoModel(**response.json())
         logger.info(f'Successfully get detailed information on the task ID {task_id}.')
         return model
+
+    @allure.step("Get info task by id.")
+    def get_task_by_id(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_detailed_info_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessDetailedInfoModel(**response.json())
+        return model
+
+    @allure.step("Check of movement at the task stage.")
+    def check_movement_at_the_task_stage(self, list_tasks: List[int], task_stage_id: int, time_sleep: int):
+        """
+        Проверка перехода заявки на определенную стадию
+        :param list_tasks: список tskID, например [1, 2, 3]
+        :param task_stage_id: стадия на которую совершается переход
+        :param time_sleep: время паузы в секундах зависит от количества заявок, например, 50 заявок 30 секунд.
+        :return: None
+        """
+        self.sleep_with_progress_bar(time_sleep)
+        for task_id in list_tasks:
+            model_task = self.get_task_by_id(task_id)
+            assert model_task.taskStage.id == task_stage_id, \
+                (f"Expected {task_stage_id}, but got {model_task.taskStage.id}, "
+                 f"the task has not moved to the stage {task_stage_id}")
+
+        logger.info(f'Successfully movement of the task to the stage {task_stage_id}')
 
     @allure.step("Update task by id.")
     def put_update_task_by_id(self, task_id: int):
@@ -2320,6 +2401,28 @@ class WorkTasksAPI(Helper):
         logger.warning(f'Successfully delete task IDs {task_ids}.')
         return model
 
+    @allure.step("Delete mass tasks by list.")
+    def delete_mass_tasks_by_list(self, list_tasks_ids: List[int]):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_task_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=list_tasks_ids
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        model = SuccessDeleteTaskModel(list=response.json())
+        logger.warning(f'Successfully delete mass tasks qty IDs {len(list_tasks_ids)}.')
+        return model
+
     @allure.step("Get info the company code is used when generating the task number.")
     def get_info_check_company_code_used(self, task_id: int):
         start = time.time()
@@ -2705,10 +2808,29 @@ class WorkTasksAPI(Helper):
         return model
 
     @allure.step("Get list of available stages to which tasks from the list can be transferred.")
-    def get_task_stages_next(self, task_id: int):
-        param = {
-            "id": task_id
-        }
+    def get_task_stages_next(self, *task_ids: int):
+        param = [('id', task_id) for task_id in task_ids]
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_available_next_stages_to_task_from_list_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+        model = SuccessGetListStagesNextModel(results=response.json())
+        logger.info(f'Successfully get list of available stages to which tasks from the list can be transferred.')
+        return model
+
+    @allure.step("Get list of available stages to which tasks from the list can be transferred by list tasks.")
+    def get_task_stages_next_by_list(self, list_tasks: List[int]):
+        param = [('id', task_id) for task_id in list_tasks]
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_available_next_stages_to_task_from_list_endpoint, params=param,

@@ -9,6 +9,7 @@ from services.work.work_task_staging_history.models.work_task_staging_history_mo
 import time
 from http import HTTPStatus
 from utils.token_utils import get_token
+import uuid
 
 
 class WorkTaskStagingHistoryAPI(Helper):
@@ -65,4 +66,31 @@ class WorkTaskStagingHistoryAPI(Helper):
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessTaskStagingHistoryModel(history=response.json())
         logger.info(f'Successfully mass movement of task ID {task_ids} by stages.')
+        return model
+
+    @allure.step("Mass movement of task by stages. Batch.")
+    def post_multiple_add_task_staging_history_batch(self, task_stage_ids: list[int], list_task_ids: list[list[int]]):
+        guid = uuid.uuid4()
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_mass_movement_of_task_by_stage_batch_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_mass_movement_of_task_by_stage_batch_payload(
+                str(guid),
+                task_stage_ids,
+                list_task_ids
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        model = TaskStagingHistoryBatchModel(**response.json())
+        logger.info(f'Successfully mass movement of tasks qty IDs {len(list_task_ids[0])} by stages. Batch.')
         return model

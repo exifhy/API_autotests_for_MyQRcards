@@ -43,6 +43,8 @@ class SuccessGetInfoDistrictModel(StrictBaseModel):
     tenantID: Optional[int] = None
     createdBy: Optional[int] = None
     created: Optional[datetime] = None
+    modifiedBy: Optional[int] = None
+    modified: Optional[datetime] = None
 
 
 class SuccessGetListInfoDistrictsModel(StrictBaseModel):

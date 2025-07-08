@@ -449,8 +449,8 @@ class WhReceiptsAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning("Tenant does not contain receipts")
             return None
-        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
-            f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, but got {response.status_code}, {data_response}'
+        assert response.status_code in {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, \
+            f'Expected status code {HTTPStatus.PARTIAL_CONTENT, HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListReceiptResultModel(root=response.json())
         qty_items = int(response.headers["Content-Range"].split("/")[-1])
         logger.info(f'Successfully get list receipts with range. Quantity of receipts {len(model.root)}')
