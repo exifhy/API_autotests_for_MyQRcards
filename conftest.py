@@ -230,7 +230,7 @@ def pytest_runtest_setup(item):
             # set_key('.env', 'API_TOKEN', new_token)  # Обновляем .env
             os.environ["API_TOKEN"] = new_token  # Обновляем переменные окружения
             logger.debug(f"New token set in pytest cache and .env - {os.environ["API_TOKEN"]}")
-            print(f"::set-output name=API_TOKEN::{new_token}")
+            # print(f"::set-output name=API_TOKEN::{new_token}")
 
 
 # def pytest_sessionfinish(session, exitstatus):

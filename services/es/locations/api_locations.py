@@ -29,6 +29,7 @@ class EsLocationsAPI(Helper):
             json=self.payloads.add_location_payload(
                 address=f"Невский проспект, {randint(1, 300)}, Санкт-Петербург, Россия",
                 coordinate="59.932741:30.349137",
+                description=f"Описание {randint(1, 999)}",
                 timezoneUtcOffsetMinutes=180,
                 countryTwoSymbolCode="RU"
             )

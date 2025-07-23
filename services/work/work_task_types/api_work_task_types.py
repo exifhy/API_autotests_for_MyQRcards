@@ -105,7 +105,7 @@ class WorkTaskTypesAPI(Helper):
     def post_add_task_types(self):
         data = {
             "name": f"Тип заявки - {randint(1, 99999)}",
-            "numberMask": "[{Now.Day}][{Now.Month}][0-9][0-9][0-9]",
+            "numberMask": "[{Now.Day}][{Now.Month}][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",
             "closeMinutes": None,
             "isDefault": False
         }

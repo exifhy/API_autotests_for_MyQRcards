@@ -67,6 +67,48 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully add a task ID {model.id}')
         return model
 
+    @allure.step("Add task with parent task.")
+    def post_add_task_with_parent_task(
+            self, asset_id: int, company_id: int, work_type_id: str,
+            criticality_id: str, task_type_id: str, parent_id: str
+    ):
+        additional_data = {
+            "AssetID": asset_id,
+            "WorkTypeID": work_type_id,
+            "companyID": company_id,
+            "ParentID": parent_id
+        }
+        date = datetime.now(timezone.utc).isoformat(timespec='milliseconds')
+        current_time_iso = date.replace('+00:00', 'Z')
+        task_number = str(random.randint(9999, 999999999999))
+        note_task = f'Заявка создана авто-тестом'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.add_task_payload(
+                criticality_id=criticality_id,
+                task_type_id=task_type_id,
+                number=task_number,
+                note=note_task,
+                date=current_time_iso,
+                **additional_data
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksModel(**response.json())
+        logger.info(f'Successfully add a task ID {model.id} with parent task {parent_id}')
+        return model
+
     @allure.step("Add empty task.")
     def post_add_empty_task(self, task_type_id: str):
         data = {

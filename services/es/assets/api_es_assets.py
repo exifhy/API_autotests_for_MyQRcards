@@ -112,6 +112,40 @@ class EsAssetsAPI(Helper):
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
 
+    @allure.step("Object creation with responsible person.")
+    def post_add_object_with_responsible(
+            self, company_id: int, asset_type_id: int, asset_class_id: int, responsible_id: int
+    ):
+        name = fake_ru.company()
+        notes_text = 'Объект создан авто-тестом'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.create_object_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.object_creation_with_responsible_payload(
+                parent_id=None,
+                name=name,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
+                notes=notes_text,
+                responsible_id=responsible_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = IdNameResultModel(**response.json())
+        logger.info(f'Successfully add object without parent object and with responsible person, name object: {name}')
+        return model
+
     @allure.step("Add child asset.")
     def post_add_child_asset(self, company_id: int, asset_type_id: int, asset_class_id: int, parent_id: int):
         name = fake_ru.company()
@@ -878,8 +912,9 @@ class EsAssetsAPI(Helper):
             json=self.payloads.put_restores_deleted_assets_by_list_payload(*args)
         )
         end = time.time()
-        data_response = self.response_content(response)
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
@@ -897,10 +932,8 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \

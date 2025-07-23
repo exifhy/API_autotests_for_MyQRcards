@@ -1,3 +1,5 @@
+import random
+
 
 class Payloads:
 
@@ -26,7 +28,39 @@ class Payloads:
             "isSkipForEscalation": False,
             "isStopEscalation": False,
             "isAutoPublish": True,
-            "positionOnSchema": None
+            "positionOnSchema": None,
+            "serialNumber": f"{random.randint(10000000000, 999999999999)}"
+        }
+        return payload
+
+    @staticmethod
+    def object_creation_with_responsible_payload(
+            parent_id: int or None,
+            name: str,
+            company_id: int,
+            asset_type_id: int,
+            asset_class_id: int,
+            notes: str,
+            responsible_id: int
+    ) -> dict:
+        payload = {
+            "parentID": parent_id,
+            "name": name,
+            "companyID": company_id,
+            "assetTypeID": asset_type_id,
+            "assetClassID": asset_class_id,
+            "checkListID": None,
+            "responsiblePerson": responsible_id,
+            "scheduleRuleID": None,
+            "warrantyTill": None,
+            "notes": notes,
+            "isMobileAsset": False,
+            "isInheritParentDistricts": True,
+            "isSkipForEscalation": False,
+            "isStopEscalation": False,
+            "isAutoPublish": True,
+            "positionOnSchema": None,
+            "serialNumber": f"{random.randint(10000000000, 999999999999)}"
         }
         return payload
 
