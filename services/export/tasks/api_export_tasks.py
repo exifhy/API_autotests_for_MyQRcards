@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.export.tasks.payloads import Payloads
 from services.export.tasks.endpoints import Endpoints
@@ -35,6 +34,7 @@ class ExportTasksAPI(Helper):
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \

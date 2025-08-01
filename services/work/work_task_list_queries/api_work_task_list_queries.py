@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.work.work_task_list_queries.payloads import Payloads
 from services.work.work_task_list_queries.endpoints import Endpoints
@@ -29,14 +28,16 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning('NO CONTENT (204)')
+            return None
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetTaskListQueryResultModel(root=response.json())
         logger.info(f'Successfully get task list queries.')
         return model
@@ -54,15 +55,14 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTaskListQueryResultModel(result=response.json())
         logger.info(f'Successfully add task list queries (district, work type).')
         return model
@@ -80,15 +80,14 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTaskListQueryResultModel(result=response.json())
         logger.info(f'Successfully add task list queries (district, work type).')
         return model
@@ -105,15 +104,14 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully update task list queries.')
 
     @allure.step("Delete list task queries by list.")
@@ -166,15 +164,14 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully delete task list queries by list with IDs: {query_ids}.')
 
     @allure.step("Get list task queries by id.")
@@ -186,14 +183,13 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = TaskListQueryResultModel(**response.json())
         logger.info(f'Successfully get task list queries with ID: {query_id}.')
         return model
@@ -207,14 +203,13 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully delete task list queries with ID: {query_id}.')
 
     @allure.step("Delete list task queries by id (remove).")
@@ -226,12 +221,11 @@ class WorkTaskListQueriesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully delete (remove) task list queries with ID: {query_id}.')

@@ -8,6 +8,7 @@ from config.base_test import BaseTest
     "The administration service provides methods for working with users, "
     "tenant, tenant creation requests, permissions, roles, etc."
 )
+@pytest.mark.xdist_group(name="many_users")
 class TestAdmUserWarehouses(BaseTest):
 
     @allure.title('Test add warehouses to user (deprecated).')

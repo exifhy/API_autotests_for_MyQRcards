@@ -5,8 +5,8 @@ from requests import JSONDecodeError
 from utils.helper import Helper
 from services.es.asset_districts.payloads import Payloads
 from services.es.asset_districts.endpoints import Endpoints
+from services.es.districts.api_districts import EsDistrictsAPI
 from config.headers import Headers
-from services.es.asset_districts.models.asset_districts_model import *
 import time
 from http import HTTPStatus
 from utils.token_utils import get_token
@@ -19,6 +19,7 @@ class EsAssetDistrictsAPI(Helper):
         self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
+        self.districts = EsDistrictsAPI()
 
     @allure.step("Adds a districts to an object.")
     def add_district_to_object(self, asset_id: int, district_id: int):
@@ -82,11 +83,16 @@ class EsAssetDistrictsAPI(Helper):
 
     @allure.step("Adds a default districts to an object.")
     def add_default_district_to_object(self, asset_id: int):
+        default_district = None
+        model_get_districts = self.districts.get_list_districts()
+        for district in model_get_districts.result:
+            if district.isDefault is True:
+                default_district = district.id
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_district_to_object_endpoint,
             headers=self.headers.basic_header(get_token()),
-            json=self.payloads.add_default_districts_payload(asset_id)
+            json=self.payloads.add_default_districts_payload(asset_id, default_district)
         )
         end = time.time()
         logger.info(response.headers)

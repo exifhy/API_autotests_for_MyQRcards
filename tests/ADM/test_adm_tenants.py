@@ -126,17 +126,20 @@ class TestAdmTenants(BaseTest):
     @allure.title('Test add a package by cross tenant admin to database with str in ResourceID filed.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25643")
     @pytest.mark.regress
-    @pytest.mark.xfail(reason="Добавляет плагин со строкой в поле ResourceID.")
+    @pytest.mark.xfail(reason="Добавляет плагин со строкой в поле ResourceID, по схеме поле integer($int32).")
     @pytest.mark.test_case_id(25643)
     def test_post_add_packages_to_sys_tenant_admin_with_str_in_resource_id_field(self, bearer_token_power_user):
-        model_package = self.api_adm_tenants.post_add_packages_to_sys_cross_tenant_admin_with_str_in_resource_id_field(
-            bearer_token_power_user
-        )
-        self.api_adm_tenants.delete_packages_from_system(
-            bearer_token_power_user,
-            model_package.results[0].package.id,
-            model_package.results[0].package.version
-        )
+        model_package = None
+        try:
+            model_package = self.api_adm_tenants.post_add_packages_to_sys_cross_tenant_admin_with_str_in_resource_id_field(
+                bearer_token_power_user
+            )
+        finally:
+            self.api_adm_tenants.delete_packages_from_system(
+                bearer_token_power_user,
+                model_package.results[0].package.id,
+                model_package.results[0].package.version
+            )
 
     @allure.title('Test add a package without Authorization header.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25644")

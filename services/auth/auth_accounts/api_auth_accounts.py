@@ -345,10 +345,6 @@ class AuthAccountsAPI(Helper):
 
     @allure.step("List of notifications from the log.")
     def get_list_notifications_from_log(self):
-        # params = {
-        #     "offset": 10,
-        #     "fetch": 10
-        # }
         start = time.time()
         response = requests.get(
             url=self.endpoints.get_list_notifications_from_log_endpoint,
@@ -356,19 +352,17 @@ class AuthAccountsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        if response.status_code != HTTPStatus.OK:
-            assert response.status_code == HTTPStatus.NO_CONTENT, \
-                f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning(f'No data of notifications from the log, status code: {response.status_code}.')
-        else:
-            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {response.json()}'
-            model = SuccessNotificationListResultModel(result=response.json())
-            logger.warning(f'Successfully list of notifications from the log.')
-            return model
+            return None
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
+        model = SuccessNotificationListResultModel(result=response.json())
+        logger.warning(f'Successfully list of notifications from the log.')
+        return model

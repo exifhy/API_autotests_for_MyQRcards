@@ -1315,3 +1315,27 @@ class AdmUsersAPI(Helper):
         model = UsersWarehousesResponseModel(results=response.json())
         logger.info(f'Successfully get a list users ID {user_id} warehouses.')
         return model
+
+    @allure.step('Add attributes to users.')
+    def post_add_attributes_to_users(self, user_id: int, attribute_id: int, value):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_users_payload(
+                user_id, attribute_id, value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
+        model = SuccessCreatedApiUserModel(**response.json())
+        logger.info(f'Successfully add attributes to users.')
+        return model

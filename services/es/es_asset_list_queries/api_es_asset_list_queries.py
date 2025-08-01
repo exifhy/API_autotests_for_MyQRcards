@@ -131,7 +131,7 @@ class EsAssetListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        model = AssetListQueryResult(**response.json())
+        model = AssetListQueryFixedResult(**response.json())
         logger.info(f'Successfully get saved query by ID.')
         return model
 

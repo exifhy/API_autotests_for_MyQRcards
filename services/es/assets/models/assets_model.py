@@ -164,6 +164,7 @@ class AssetDetailedInfoResult(StrictBaseModel):
     parentID: Optional[int] = None
     name: str
     id: int
+    isInheritParentDistricts: bool
 
 
 class UserResult(StrictBaseModel):

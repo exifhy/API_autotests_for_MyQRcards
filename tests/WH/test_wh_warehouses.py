@@ -6,6 +6,7 @@ from src.enums.params_enums import Params
 
 @allure.epic("Administration")
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
+@pytest.mark.xdist_group(name="many_users")
 class TestWhWarehouses(BaseTest):
 
     @allure.title('Test add warehouses.')

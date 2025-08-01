@@ -9,6 +9,7 @@ class TestAuthMessages(BaseTest):
 
     @allure.title('Test sends a mail verification e-mail to the specified e-mail address.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23427")
+    @pytest.mark.skip(reason='Timeout for re-sending the verification message.')
     @pytest.mark.regress
     @pytest.mark.test_case_id(23427)
     def test_post_message_verify_email(self):

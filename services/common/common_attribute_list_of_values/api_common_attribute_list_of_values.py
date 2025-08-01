@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.common.common_attribute_list_of_values.payloads import Payloads
 from services.common.common_attribute_list_of_values.endpoints import Endpoints
@@ -52,14 +51,14 @@ class CommonAttributeListOfValuesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, bot got {response.status_code}, {data_response}'
         logger.warning(f'Successfully add attribute the list of available values.')
         result = {item['key']: item['value'] for item in values}
         return result

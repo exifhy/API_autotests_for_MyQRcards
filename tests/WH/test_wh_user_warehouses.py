@@ -5,6 +5,7 @@ from config.base_test import BaseTest
 
 @allure.epic("Administration")
 @allure.feature("Service offers application programming interface for warehouses.")
+@pytest.mark.xdist_group(name="many_users")
 class TestWhUserWarehouses(BaseTest):
 
     @allure.title('Test get list of user warehouses.')

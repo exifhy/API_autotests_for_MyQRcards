@@ -113,3 +113,24 @@ class Endpoints:
     @staticmethod
     def get_users_warehouses_by_user_id_endpoint(user_id: int) -> str:
         return f'{HOST}/ADM//Users/{user_id}/warehouses'
+
+    post_add_attributes_to_users_endpoint = f'{HOST}/ADM/Users/attributes'
+    get_attributes_from_users_endpoint = f'{HOST}/ADM/Users/attributes'
+    put_update_users_attributes_endpoint = f'{HOST}/ADM/Users/attributes'
+    delete_attributes_from_users_endpoint = f'{HOST}/ADM/Users/attributes'
+
+    @staticmethod
+    def post_add_attributes_to_user_by_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM//Users/{user_id}/attributes'
+
+    @staticmethod
+    def get_attributes_from_user_by_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM//Users/{user_id}/attributes'
+
+    @staticmethod
+    def put_update_user_attributes_by_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM//Users/{user_id}/attributes'
+
+    @staticmethod
+    def delete_attributes_from_user_by_id_endpoint(user_id: int) -> str:
+        return f'{HOST}/ADM//Users/{user_id}/attributes'

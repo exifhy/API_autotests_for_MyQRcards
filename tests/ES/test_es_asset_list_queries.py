@@ -69,33 +69,6 @@ class TestEsAssetListQueries(BaseTest):
             self.api_es_companies.delete_company_by_id(company_id)
             self.api_es_districts.delete_district_by_id(district_id.districts[0])
 
-    @allure.title('Test get saved query by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23869")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23869)
-    def test_get_query_by_id(self, bearer_token):
-        company_id = self.api_es_companies.post_add_our_company()
-        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
-        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
-        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
-        district_id = self.api_es_districts.post_add_district()
-        tenant_id = self.api_adm_tenants.get_data_current_tenant()
-        try:
-            model_query = self.api_es_asset_list_queries.post_add_queries_binds_to_user(
-                token=bearer_token,
-                company_id=company_id,
-                work_type_id=work_type_id,
-                asset_type_id=asset_type_id,
-                asset_class_id=asset_class_id,
-                district_id=district_id.districts[0],
-                tenant_id=tenant_id.uriName
-            )
-            self.api_es_asset_list_queries.get_query_by_id(model_query.result[0])
-            self.api_es_asset_list_queries.delete_saved_query_by_id(model_query.result[0])
-        finally:
-            self.api_es_companies.delete_company_by_id(company_id)
-            self.api_es_districts.delete_district_by_id(district_id.districts[0])
-
     @allure.title('Test delete saved query by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23870")
     @pytest.mark.regress

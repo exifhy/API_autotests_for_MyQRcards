@@ -123,5 +123,14 @@ class AssetListQueryResult(StrictBaseModel):
     queryString: Optional[str] = None
 
 
+class AssetListQueryFixedResult(StrictBaseModel):
+    name: Optional[str] = None
+    filterList: Optional[AssetFilterData] = None
+    searchText: Optional[str] = None
+    range: Optional[RangeData] = None
+    sort: Optional[SortData] = None
+    queryString: Optional[str] = None
+
+
 class SuccessGetAssetListQueryResultModel(RootModel):
     root: Dict[str, AssetListQueryResult]

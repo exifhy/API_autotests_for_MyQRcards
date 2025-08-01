@@ -30,6 +30,24 @@ class Payloads:
         return payload
 
     @staticmethod
+    def post_add_attribute_to_user_payloads(
+            attribute_name: str,
+            attribute_type_id: int,
+            customer: bool,
+            stuff: bool
+    ) -> list:
+        payload = [
+            {
+                "name": attribute_name,
+                "attributeTypeID": attribute_type_id,
+                "isPublic": False,
+                "IsRelevantForCustomer": customer,
+                "IsRelevantForTechnician": stuff,
+            }
+        ]
+        return payload
+
+    @staticmethod
     def put_update_method_attributes_payloads(
             attribute_id: int,
             attribute_name: str,

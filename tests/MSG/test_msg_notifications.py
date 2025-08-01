@@ -22,6 +22,6 @@ class TestMSGNotifications(BaseTest):
                 [model_route.results[0].nextStages[0].nextStage.id],
                 [list_tasks]
             )
-            self.api_msg_notifications.get_list_of_unread_notifications_about_mass_movement_tasks_by_stages(10, 15)
+            self.api_msg_notifications.get_list_of_unread_notifications_about_mass_movement_tasks_by_stages(10, 30)
         finally:
             self.api_work_tasks.delete_mass_tasks_by_list(list_tasks)

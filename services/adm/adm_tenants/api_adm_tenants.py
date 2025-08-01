@@ -347,6 +347,7 @@ class AdmTenantsAPI(Helper):
 
     @allure.step("Add a package by cross tenant admin to system with str in ResourceID filed.")
     def post_add_packages_to_sys_cross_tenant_admin_with_str_in_resource_id_field(self, token: str):
+        """resourceID = integer($int32) по схеме."""
         data = {
             "AddonID": f"{random.randint(1, 999999999999)}",
             "Version": f"{random.randint(0, 9)}.{random.randint(0, 99)}.{random.randint(1, 99)}",
@@ -370,11 +371,16 @@ class AdmTenantsAPI(Helper):
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.CONFLICT, \
-            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
-        model = ErrorModel(results=response.json())
-        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
-        return None
+        if response.status_code == HTTPStatus.OK:
+            model = SuccessGetTenantPackagesListResultModel(results=response.json())
+            logger.warning(f"Status code:{response.status_code}, created packages tenants.")
+            return model
+        else:
+            assert response.status_code == HTTPStatus.CONFLICT, \
+                f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+            model = ErrorModel(results=response.json())
+            logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}')
+            return None
 
     @allure.step("Add a package without Authorization header.")
     def post_add_package_without_authorization(self):

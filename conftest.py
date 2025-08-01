@@ -200,7 +200,7 @@ def pytest_sessionstart(session):
         # set_key('.env', 'API_TOKEN', token)
         # logger.debug('Token set in .env file')
         os.environ["API_TOKEN"] = token
-        print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
+        # print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
 
 @allure.step("SYSTEM check of access token lifetime before each test.")

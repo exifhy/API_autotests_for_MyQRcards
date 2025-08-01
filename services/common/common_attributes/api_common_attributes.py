@@ -1,7 +1,6 @@
 import allure
 import requests
 from loguru import logger
-from requests import JSONDecodeError
 from utils.helper import Helper
 from services.common.common_attributes.payloads import Payloads
 from services.common.common_attributes.endpoints import Endpoints
@@ -30,16 +29,17 @@ class CommonAttributesAPI(Helper):
     def post_add_method_attributes_only_for_contract(self):
         """
         Attribute type ID
-        1 строка
-        2 Целое число
-        3
-        4
-        5
-        6 Значение из списка
-        7 Множественный выбор из списка
-        8 Многострочный текст
-        9
-        10 Вложенный файл
+        1. Строка
+        2. Целое число
+        3. Дробное число
+        4. Дата
+        5. Дата и время
+        6. Значение из списка
+        7. Множественный выбор из списка
+        8. Многострочный текст
+        9. Переключатель
+        10. Вложенный файл
+        11. Редактируемый рисунок
         """
         attribute_name = f'Доп поле - {randint(1, 999)}'
         start = time.time()
@@ -59,14 +59,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.info(f'Successfully attribute creation method only for contract with name: {attribute_name}.')
         return model
@@ -91,14 +91,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.info(f'Successfully attribute type str creation method only for asset with name: {attribute_name}.')
         return model
@@ -123,6 +123,35 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type attachment only for checklist with name: {attribute_name}.')
+        return model
+
+    @allure.step("Attribute creation method for customer.")
+    def post_add_attribute_only_for_customer(self):
+        attribute_name = f'Поле для заказчика - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=randint(1, 11),
+                customer=True,
+                stuff=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
@@ -131,7 +160,91 @@ class CommonAttributesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.info(f'Successfully add attribute type attachment only for checklist with name: {attribute_name}.')
+        logger.info(f'Successfully add attribute type 2 only for customer with name: {attribute_name}.')
+        return model
+
+    @allure.step("Attribute creation method for stuff.")
+    def post_add_attribute_only_for_stuff(self):
+        attribute_name = f'Поле для сотрудника - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=randint(1, 11),
+                customer=False,
+                stuff=True
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type 2 only for stuff with name: {attribute_name}.')
+        return model
+
+    @allure.step("Attribute creation method for stuff and customer.")
+    def post_add_attribute_for_stuff_and_customer(self):
+        attribute_name = f'Поле для сотрудника и заказчика - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=randint(1, 11),
+                customer=True,
+                stuff=True
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type 2 only for stuff and customer with name: {attribute_name}.')
+        return model
+
+    @allure.step("Attribute creation method stuff false and customer false.")
+    def post_add_attribute_stuff_and_customer_false(self):
+        attribute_name = f'Поле бзе привязки - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=randint(1, 11),
+                customer=False,
+                stuff=False
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type 2 stuff and customer false with name: {attribute_name}.')
         return model
 
     @allure.step("Attribute creation method for complete work, type attachment.")
@@ -154,11 +267,12 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
@@ -185,11 +299,12 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
@@ -216,15 +331,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.info(f'Successfully attribute type str creation method only for task with name: {attribute_name}.')
         return model
@@ -249,14 +363,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.info(f'Successfully attribute type str creation method only for company with name: {attribute_name}.')
         return model
@@ -285,14 +399,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
         logger.warning(
             f'Successfully attribute creation method for all relevant essence with type '
@@ -308,9 +422,9 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
@@ -326,14 +440,14 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetAttributesModel(root=response.json())
         logger.warning(f'Successfully get list attributes.')
         return model
@@ -350,6 +464,7 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
@@ -383,6 +498,7 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
@@ -413,36 +529,36 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = AttributeResultList(**response.json())
         logger.warning(f'Successfully get attribute by ID.')
         return model
 
-    @allure.step("Delete mass attributes.")
-    def delete_mass_method_attribute(self, attribute_id: int):
+    @allure.step("Delete mass attributes by list.")
+    def delete_attributes_by_list(self, *attribute_ids: int or tuple):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_mass_attributes_endpoint,
-            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID),
-            json=self.delete_mass_method_attribute(attribute_id)
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_method_attribute_payload(*attribute_ids)
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.warning(f'Successfully attribute deletion method by ID.')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        logger.warning(f'Successfully mass delete attributes method by list.')
 
     @allure.step("Get available values for an attribute.")
     def get_available_values_for_attribute(self, attribute_id: int):
@@ -453,10 +569,9 @@ class CommonAttributesAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.error("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
@@ -464,7 +579,8 @@ class CommonAttributesAPI(Helper):
             return None
 
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'{response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessAvailableValuesForAttributeModel(**response.json())
         logger.warning(f'Successfully get available values for an attribute by ID.')
         return model, response.json()
