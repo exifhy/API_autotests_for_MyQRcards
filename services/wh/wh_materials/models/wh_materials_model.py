@@ -22,18 +22,41 @@ class SuccessAddMaterialsModel(StrictBaseModel):
     result: List[int]
 
 
+class CostCurrencyModel(StrictBaseModel):
+    id: int
+    shortName: str
+    asciiCode: str
+
+
+class PurchaseCostCurrencyModel(StrictBaseModel):
+    id: int
+    shortName: str
+    asciiCode: str
+
+
+class MeasurementUnitModel(StrictBaseModel):
+    id: int
+    name: str
+    abbreviation: str
+    designation: str
+
+
 class MaterialModel(StrictBaseModel):
     erpID: Optional[str] = None
     vendorCode: Optional[str] = None
     description: Optional[str] = None
     measurementUnitID: Optional[int] = None
+    measurementUnit: Optional[MeasurementUnitModel] = None
     cost: Optional[float] = None
     costCurrencyID: Optional[int] = None
+    costCurrency: Optional[CostCurrencyModel] = None
     purchaseCost: Optional[float] = None
     purchaseCostCurrencyID: Optional[int] = None
+    purchaseCostCurrency: Optional[PurchaseCostCurrencyModel] = None
     deleted: Optional[str] = None
     name: str
     id: int
+    sortOrder: Optional[int] = None
 
 
 class SuccessGetListMaterialsV2Model(RootModel):

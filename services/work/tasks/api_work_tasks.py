@@ -327,6 +327,29 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully returns a list of tasks available to the user.')
         return model
 
+    @allure.step("Get list of tasks by taskID.")
+    def get_list_of_tasks_by_task_id(self, task_list: List[int]):
+        params = {
+            "taskID": task_list,
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_task_endpoint, params=params,
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        model = SuccessTaskListResultModel(**response.json())
+        logger.info(f'Successfully get a list of tasks by taskID.')
+        return model
+
     @allure.step("Get list tasks return list.")
     def get_list_tasks_list(self):
         list_users = []
@@ -411,13 +434,14 @@ class WorkTasksAPI(Helper):
         :param time_sleep: время паузы в секундах зависит от количества заявок, например, 50 заявок 30 секунд.
         :return: None
         """
+        failed_tasks = []
         self.sleep_with_progress_bar(time_sleep)
-        for task_id in list_tasks:
-            model_task = self.get_task_by_id(task_id)
-            assert model_task.taskStage.id == task_stage_id, \
-                (f"Expected {task_stage_id}, but got {model_task.taskStage.id}, "
-                 f"the task has not moved to the stage {task_stage_id}")
-
+        model_tasks = self.get_list_of_tasks_by_task_id(list_tasks)
+        for task_id, task in model_tasks.root.items():
+            if task.taskStage.id != task_stage_id:
+                failed_tasks.append(task_id)
+        if len(failed_tasks) > 0:
+            raise AssertionError(f'Tasks {failed_tasks} has not moved to the stage {task_stage_id}')
         logger.info(f'Successfully movement of the task to the stage {task_stage_id}')
 
     @allure.step("Update task by id.")
@@ -2555,6 +2579,7 @@ class WorkTasksAPI(Helper):
 
     @allure.step("Marks the task as completed.")
     def put_task_completed(self, task_id: int, token):
+        self.sleep_with_progress_bar(15)
         now = datetime.now(timezone.utc)
         date_now = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         closed_date = date_now

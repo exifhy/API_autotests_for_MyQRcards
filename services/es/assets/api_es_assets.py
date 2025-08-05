@@ -37,9 +37,10 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(get_token())
         )
         end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
@@ -65,9 +66,10 @@ class EsAssetsAPI(Helper):
             headers=self.headers.basic_header(get_token())
         )
         end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        logger.info(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
@@ -195,14 +197,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
         return model
@@ -221,14 +223,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully update assets with name: {args}')
 
     @allure.step("Delete object by ID.")
@@ -240,9 +242,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the object with ID: {asset_id}.')
 
     @allure.step("Delete assets by list.")
@@ -254,12 +260,15 @@ class EsAssetsAPI(Helper):
             json=self.payloads.delete_assets_by_list_payload(*args)
         )
         end = time.time()
-        data_response = self.response_content(response)
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
+        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Expected status code {HTTPStatus.ACCEPTED}, {data_response}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the assets with IDs: {args}.')
 
     @allure.step("Returns the header of a user query with the amount of data that satisfies the filter.")
@@ -367,9 +376,9 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
-        self.attach_response_headers(response.headers)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
@@ -385,13 +394,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'status code: {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successful unpublish of an asset with ID: {asset_id}.')
 
     @allure.step("Method of publishing an object without bind location.")
@@ -403,15 +412,21 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-            model = ErrorModel(list_model=response.json())
-            assert model.list_model[0].code == 'InvalidOperation'
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.CONFLICT, f'{response.json()}, status code: {response.status_code}'
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code},{data_response}'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == 'InvalidOperation', \
+            f'Expected InvalidOperation, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Недопустимая операция: Хост-объект должен иметь локацию", \
+            f'Expected Недопустимая операция: Хост-объект должен иметь локацию, but got {model.list_model[0].message}'
+        assert "InvalidOperation" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidOperation, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
 
     @allure.step("Update the object by ID.")
     def put_update_object_by_id(self, asset_id: int, company_id: int, asset_type_id: int, asset_class_id: int):
@@ -432,14 +447,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successful update the object, new name object: {new_name}')
 
     @allure.step("Get the list of assignments of the specified asset to users.")
@@ -451,18 +466,16 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning(f'Status code: {response.status_code}')
         else:
             assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT, HTTPStatus.NO_CONTENT}, \
-                f'Status code {response.status_code}, {response.json()}'
+                f'Status code {response.status_code}, {data_response}'
             model = SuccessGetListAttachmentResultModel(**response.json())
             logger.info(f'Successfully get the list of assignments of the specified asset to users.')
             return model
@@ -476,14 +489,17 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT, HTTPStatus.NO_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning("Tenant does not contain list asset attachments")
+            return None
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetListAttachmentResultModel(root=response.json())
         logger.info(f'Successfully get the list asset attachments.')
         return model
@@ -497,14 +513,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
@@ -523,14 +539,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetListAssetAttributeResultModel(result=response.json())
         logger.info(f'Successfully get the list asset attributes.')
         return model
@@ -616,9 +632,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the avatar from asset with ID: {asset_id}.')
 
     @allure.step("Delete avatar from asset by list.")
@@ -631,10 +651,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the avatar from asset with ID: {args}.')
 
     @allure.step("Get the list asset checklists.")
@@ -646,14 +670,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetAssetChecklistsModel(root=response.json())
         logger.info(f'Successfully get the list asset checklists.')
         return model
@@ -668,14 +692,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully add checklists to asset by list with iD {args}.')
 
     @allure.step("Delete checklists from asset by list.")
@@ -688,14 +711,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete checklists from asset by list with iD {args}.')
 
     @allure.step("Add checklist to asset by ID.")
@@ -707,14 +729,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully add checklist to asset with iD {checklist_id}.')
 
     @allure.step("Delete checklists from asset by ID.")
@@ -726,14 +747,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete checklist from asset with iD {checklist_id}.')
 
     @allure.step("Get a list of valid contacts for the asset.")
@@ -745,14 +765,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetAssetContactsResultModel(**response.json())
         logger.info(f'Successfully get a list of valid contacts for the asset with ID: {asset_id}.')
         return model
@@ -766,14 +786,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.OK, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetAssetContactByIdResult(**response.json())
         logger.info(f'Successfully get valid contact for the asset with ID: {contact_id}.')
         return model
@@ -787,14 +806,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessListContactAssetResultModel(result=response.json())
         logger.info(f'Successfully add a contact person for the asset with ID: {contact_id}.')
         return model
@@ -808,14 +826,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete contact person from the asset with ID: {contact_id}.')
 
     @allure.step("Add a contact persons for asset by list.")
@@ -828,15 +845,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessListContactAssetResultModel(result=response.json())
         logger.warning(f'Successfully add contact personas for the asset with ID: {args}.')
         return model
@@ -851,15 +866,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete contact persons from the asset with ID: {args}.')
 
     @allure.step("Delete the asset and all child assets by ID.")
@@ -871,14 +884,13 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the asset and all child assets with ID: {asset_id}.')
 
     @allure.step("Delete the assets and all child assets by list.")
@@ -891,15 +903,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Status code {response.status_code}, {response.json()}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete the assets and all child assets with ID: {args}.')
 
     @allure.step("Restores deleted assets by list.")
@@ -931,12 +942,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessAssetDistrictResultModel(root=response.json())
         logger.info(f'Successfully get the list of districts for the asset with ID: {asset_id}.')
         return model
@@ -950,15 +963,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
-        model = LocationResult(**response.json())
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         logger.info(f'Successfully get the current location of the asset with ID: {asset_id}.')
         return model
 
@@ -971,14 +983,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessAssetSkillResultModel(root=response.json())
         logger.info(f'Successfully get a list of the asset skills with ID: {asset_id}.')
         return model
@@ -992,20 +1004,20 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning("Status code - NO CONTENT(204)")
-        else:
-            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-                f'Status code {response.status_code}, {response.json()}'
-            model = SuccessGetTagsAssetsModel(result=response.json())
-            logger.info(f'Successfully get a list of active (not deleted) tags by asset with ID: {asset_id}.')
-            return model
+            return None
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
+        model = SuccessGetTagsAssetsModel(result=response.json())
+        logger.info(f'Successfully get a list of active (not deleted) tags by asset with ID: {asset_id}.')
+        return model
 
     @allure.step("Get a list of work types available for the asset.")
     def get_list_asset_work_types(self, asset_id: int):
@@ -1016,14 +1028,14 @@ class EsAssetsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetAssetWorkTypesResult(root=response.json())
         logger.info(f'Successfully get a list of work types available for the asset with ID: {asset_id}.')
         return model

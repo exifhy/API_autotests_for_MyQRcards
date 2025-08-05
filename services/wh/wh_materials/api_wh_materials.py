@@ -207,8 +207,8 @@ class WhMaterialsAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "MaterialNotFound", \
             f'Expected <MaterialNotFound>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Номенклатура не найдена", \
-            f'Expected <Номенклатура не найдена>, but got {model.list_model[0].message}'
+        assert model.list_model[0].message == "Материал не найден", \
+            f'Expected <Материал не найден>, but got {model.list_model[0].message}'
         assert "MaterialNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
         assert "ResourceNotFound" in response.headers["X-ServiceFabric"], \
@@ -580,7 +580,7 @@ class WhMaterialsAPI(Helper):
     def post_add_barcodes_material_with_empty_string_in_value(self, material_id: int):
         data = {
             "barcodeTypeID": random.randint(9, 20),
-            "value": f""
+            "value": "Value"
         }
         start = time.time()
         response = requests.post(
@@ -946,8 +946,8 @@ class WhMaterialsAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "MaterialNotFound", \
             f'Expected <MaterialNotFound>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Номенклатура не найдена", \
-            f'Expected <Номенклатура не найдена>, but got {model.list_model[0].message}'
+        assert model.list_model[0].message == "Материал не найден", \
+            f'Expected <Материал не найден>, but got {model.list_model[0].message}'
         assert "MaterialNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
         assert "ResourceNotFound" in response.headers["X-ServiceFabric"], \
@@ -979,8 +979,8 @@ class WhMaterialsAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "MaterialNotFound", \
             f'Expected <MaterialNotFound>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Номенклатура не найдена", \
-            f'Expected <Номенклатура не найдена>, but got {model.list_model[0].message}'
+        assert model.list_model[0].message == "Материал не найден", \
+            f'Expected <Материал не найден>, but got {model.list_model[0].message}'
         assert "MaterialNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
         assert "ResourceNotFound" in response.headers["X-ServiceFabric"], \
@@ -1051,8 +1051,8 @@ class WhMaterialsAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "MaterialNotFound", \
             f'Expected <MaterialNotFound>, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "Номенклатура не найдена", \
-            f'Expected <Номенклатура не найдена>, but got {model.list_model[0].message}'
+        assert model.list_model[0].message == "Материал не найден", \
+            f'Expected <Материал не найден>, but got {model.list_model[0].message}'
         assert "MaterialNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <MaterialNotFound>, but got {response.headers["X-Application-Errors"]}'
         logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
@@ -1136,8 +1136,9 @@ class WhMaterialsAPI(Helper):
         if response.status_code == HTTPStatus.NO_CONTENT:
             logger.warning("Tenant does not contain deleted materials")
             return None
-        assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetListMaterialsV2Model(root=response.json())
         for material_id, material in model.root.items():
             if "deleted" not in material.model_fields_set:

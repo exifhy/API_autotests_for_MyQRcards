@@ -1,23 +1,27 @@
 from typing import Optional, Dict, List
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class CodeMessageModel(BaseModel):
+class StrictBaseModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class CodeMessageModel(StrictBaseModel):
     traceIdentifier: str
     code: str
     message: str
     arguments: Optional[Dict[str, str]] = None
 
 
-class ErrorModel(BaseModel):
+class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
-class ResultModel(BaseModel):
+class ResultModel(StrictBaseModel):
     code: Optional[str] = None
     description: Optional[str] = None
 
 
-class SuccessTasksResultModel(BaseModel):
-    list: Optional[List[ResultModel]] = None
+class SuccessTasksResultModel(StrictBaseModel):
+    list: List[ResultModel]
 

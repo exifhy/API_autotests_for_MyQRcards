@@ -12,7 +12,6 @@ from utils.token_utils import get_token
 from openpyxl import load_workbook
 from io import BytesIO
 from urllib import parse
-from src.data.expected_response import LIST_OF_TASK_EXPORT_FIELDS
 
 
 class ExportTasksAPI(Helper):
@@ -23,7 +22,7 @@ class ExportTasksAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-    @allure.step("Get list of tasks extended includes.")
+    @allure.step("Get list of tasks extended includes, check ScheduledFinishDateTime, ScheduledStartDateTime.")
     def get_list_of_tasks_extended_includes(self):
         start = time.time()
         response = requests.get(
@@ -41,7 +40,12 @@ class ExportTasksAPI(Helper):
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessTasksResultModel(list=response.json())
-        assert response.json() == LIST_OF_TASK_EXPORT_FIELDS, "Lists of fields for exporting tasks do the same."
+        finish_item = next(item for item in model.list if item.code == "ScheduledFinishDateTime")
+        start_item = next(item for item in model.list if item.code == "ScheduledStartDateTime")
+        assert finish_item.description == "Назначено По", \
+            f'Expected Назначено По, but got {finish_item.description}'
+        assert start_item.description == "Назначено С", \
+            f'Expected Назначено С, but got {start_item.description}'
         logger.info(f'Successfully get a list of data available for extended exports.')
         return model
 

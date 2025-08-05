@@ -300,7 +300,7 @@ class TestEsAssetTemplates(BaseTest):
             skill_id
         )
         try:
-            self.api_es_asset_templates.get_list_skills_from_asset_templates(model_template.result[0])
+            self.api_es_asset_templates.get_list_skills_from_asset_templates(model_template.result[0], False)
         finally:
             self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
 
