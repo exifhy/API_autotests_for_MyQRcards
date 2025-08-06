@@ -7,6 +7,7 @@ from config.base_test import BaseTest
 
 @allure.epic("Administration")
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
+@pytest.mark.xdist_group(name="work_group")
 class TestWorkTasks(BaseTest):
 
     @allure.title('Test get task assignments history.')

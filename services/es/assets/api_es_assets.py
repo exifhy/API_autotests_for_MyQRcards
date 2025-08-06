@@ -971,6 +971,7 @@ class EsAssetsAPI(Helper):
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
              f'but got {response.status_code}, {data_response}')
+        model = LocationResult(**response.json())
         logger.info(f'Successfully get the current location of the asset with ID: {asset_id}.')
         return model
 
