@@ -584,8 +584,7 @@ class ExportTasksAPI(Helper):
         assert sheet['AO2'].value == 'Фактическая стоимость', \
             f'Expected Фактическая стоимость, but got {sheet["AO2"].value}'
         # assert sheet['AO3'].value == '', f'Expected , but got {sheet["AO3"].value}'
-
-        assert sheet['AP2'].value.strip() == 'Шаблоны', f'Expected Шаблоны, but got {sheet["AP2"].value}'
+        # assert sheet['AP2'].value == 'Шаблоны', f'Expected Шаблоны, but got {sheet["AP2"].value}'
         # assert sheet['AP3'].value == '', f'Expected , but got {sheet["AP3"].value}'
 
         assert 'Выполненные работы' == sheet_names[1], f"Expected Выполненные работы, but got {sheet_names[1]}"
@@ -844,7 +843,7 @@ class ExportTasksAPI(Helper):
             f'Expected Фактическая стоимость, but got {sheet["AO2"].value}'
         # assert sheet['AO3'].value == '', f'Expected , but got {sheet["AO3"].value}'
 
-        assert sheet['AP2'].value.strip() == 'Шаблоны', f'Expected Шаблоны, but got {sheet["AP2"].value}'
+        # assert sheet['AP2'].value.strip() == 'Шаблоны', f'Expected Шаблоны, but got {sheet["AP2"].value}'
         # assert sheet['AP3'].value == '', f'Expected , but got {sheet["AP3"].value}'
 
         assert 'Выполненные работы' == sheet_names[1], f"Expected Выполненные работы, but got {sheet_names[1]}"

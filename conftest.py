@@ -14,23 +14,49 @@ import re
 import traceback
 from utils.helper import Helper
 from config.config import HOST, ENVIRON
+from utils.env import get_tenant_id, get_tenant_owner_token, get_api_user_token, get_power_user_token
 
 
 load_dotenv()
 
 
-# Определение HOST на основе переменной окружения ENVIRON
-# ENVIRON = os.environ.get("ENVIRON", "prod")  # Если STAGE не задан, используем "prod" по умолчанию
-# HOST = os.getenv('URL_DEV_HUBEX') if ENVIRON == 'qa' else os.getenv('URL_PROD_HUBEX')
+logger.debug(f'TENANT_ID from env at startup: {get_tenant_id()}')
+# API_USER_TOKEN = os.getenv('API_USER_TOKEN')
+# BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
+# POWER_USER_TOKEN = os.getenv('POWER_USER_TOKEN')
+# TENANT_ID = os.getenv('TENANT_ID')
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-API_USER_TOKEN = os.getenv('API_USER_TOKEN')
-BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
-POWER_USER_TOKEN = os.getenv('POWER_USER_TOKEN')
-TENANT_ID = os.getenv('TENANT_ID')
 TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
 APP_ID = os.getenv('APP_ID')
 TOKEN_EXPIRATION_TIME = datetime.min.replace(tzinfo=UTC)
 BEARER_TOKEN = None
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--env", action="store", default=None, help="Optional env file suffix (e.g. dev121, stage405)"
+    )
+    parser.addoption(
+        "--report", action="store", default="false", help="Run fixture if --report=true"
+    )
+    parser.addoption(
+        "--runs",
+        action="store",
+        default=1,
+        help="Number of times to run the test scenario"
+    )
+
+
+def pytest_configure(config):
+    # Если указан конкретный --env, загружаем .env.<env> с override=True
+    env_name = config.getoption("--env")
+    if env_name:
+        env_name_path = f".env.{env_name}"
+        if os.path.exists(env_name_path):
+            logger.debug(f"[pytest_configure] Loading override env file: {env_name_path}")
+            load_dotenv(dotenv_path=env_name_path, override=True)
+        else:
+            raise FileNotFoundError(f"Environment file '{env_name_path}' not found.")
 
 
 @allure.step("Authorization via API by Email | Password.")
@@ -39,7 +65,7 @@ def bearer_token():
     try:
         response_authentication = requests.post(
             url=f'{HOST}/AUTHN/accounts/login',
-            headers=Headers.authentication_header(token=BASIC_TOKEN, app_id=APP_ID)
+            headers=Headers.authentication_header(token=get_tenant_owner_token(), app_id=APP_ID)
         )
         logger.info("Send basic token")
         if response_authentication.status_code != 200:
@@ -52,7 +78,7 @@ def bearer_token():
             url=f"{HOST}/AUTHZ/accounts/authorize",
             headers=Headers.authorization_header(bearer_token, APP_ID),
             json={
-                "tenantID": TENANT_ID,
+                "tenantID": get_tenant_id(),
                 "tenantMemberID": TENANT_MEMBER_ID
             }
         )
@@ -74,7 +100,7 @@ def bearer_token_power_user():
     try:
         response_authentication = requests.post(
             url=f'{HOST}/AUTHN/accounts/login',
-            headers=Headers.authentication_header(token=POWER_USER_TOKEN, app_id=APP_ID)
+            headers=Headers.authentication_header(token=get_power_user_token(), app_id=APP_ID)
         )
         logger.info("Send basic token")
         if response_authentication.status_code != 200:
@@ -87,7 +113,7 @@ def bearer_token_power_user():
             url=f"{HOST}/AUTHZ/accounts/authorize",
             headers=Headers.authorization_header(token, APP_ID),
             json={
-                "tenantID": TENANT_ID,
+                "tenantID": get_tenant_id(),
                 "tenantMemberID": TENANT_MEMBER_ID
             }
         )
@@ -113,7 +139,7 @@ def bearer_token_power_user_with_tenant_member_id(tenant_member_id: int):
     try:
         response_authentication = requests.post(
             url=f'{HOST}/AUTHN/accounts/login',
-            headers=Headers.authentication_header(token=POWER_USER_TOKEN, app_id=APP_ID)
+            headers=Headers.authentication_header(token=get_power_user_token(), app_id=APP_ID)
         )
         logger.info("Send basic token")
         if response_authentication.status_code != 200:
@@ -126,7 +152,7 @@ def bearer_token_power_user_with_tenant_member_id(tenant_member_id: int):
             url=f"{HOST}/AUTHZ/accounts/authorize",
             headers=Headers.authorization_header(token, APP_ID),
             json={
-                "tenantID": TENANT_ID,
+                "tenantID": get_tenant_id(),
                 "tenantMemberID": tenant_member_id
             }
         )
@@ -170,7 +196,7 @@ def get_api_user_access_token():
             url=f"{HOST}/AUTHZ/AccessTokens/",
             headers=Headers.basic_content_type,
             json={
-                "serviceToken": API_USER_TOKEN,
+                "serviceToken": get_api_user_token(),
             }
         )
         if response_authorization.status_code != 200:
@@ -233,34 +259,15 @@ def pytest_runtest_setup(item):
             # print(f"::set-output name=API_TOKEN::{new_token}")
 
 
-# def pytest_sessionfinish(session, exitstatus):
-#     """Вызывается после выполнения тестов."""
-#     logger.debug("pytest_sessionfinish called")
-#     unset_key('.env', 'API_TOKEN')
-#     logger.debug("API_TOKEN unset in .env file")
-
-
 @allure.step("Attach host information")
 @pytest.fixture(autouse=True, scope='session')
 def attach_host_info():
     info = {
         "STAGE": ENVIRON,
         "HOST": HOST,
-        "TENANT ID": TENANT_ID
+        "TENANT ID": get_tenant_id()
     }
     allure.attach(body=json.dumps(info, indent=4), name='Host Info', attachment_type=AttachmentType.JSON)
-
-
-def pytest_addoption(parser):
-    parser.addoption(
-        "--report", action="store", default="false", help="Run fixture if --report=true"
-    )
-    parser.addoption(
-        "--runs",
-        action="store",
-        default=1,
-        help="Number of times to run the test scenario"
-    )
 
 
 @pytest.fixture(scope="session", autouse=True)

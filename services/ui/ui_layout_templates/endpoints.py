@@ -3,7 +3,7 @@ from config.config import HOST
 
 class Endpoints:
 
-    post_add_default_template_endpoint = f'{HOST}/UI//LayoutTemplates/default'
+    post_add_default_template_endpoint = f'{HOST}/UI/LayoutTemplates/default'
 
     @staticmethod
     def put_reset_template_to_default_condition_endpoint(template_id: int) -> str:

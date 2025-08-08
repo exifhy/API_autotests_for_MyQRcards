@@ -315,14 +315,14 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessTaskListResultModel(**response.json())
         logger.info(f'Successfully returns a list of tasks available to the user.')
         return model
@@ -368,14 +368,14 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessTaskListResultModel(**response.json())
         for ids, data in model.root.items():
             int_id = int(ids)
@@ -462,14 +462,14 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.info(f'Successfully update information on the task by id.')
         return task_number, note_task
 
@@ -660,15 +660,13 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
         self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}.'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}.'
         assert response.content, "Response content is empty, expected file data"
         assert response.headers.get("Content-Type") is not None, "Content-Type header is missing"
         assert "application/octet-stream" in response.headers["Content-Type"] or "application/" in response.headers[
@@ -2579,7 +2577,7 @@ class WorkTasksAPI(Helper):
 
     @allure.step("Marks the task as completed.")
     def put_task_completed(self, task_id: int, token):
-        self.sleep_with_progress_bar(15)
+        self.sleep_with_progress_bar(5)
         now = datetime.now(timezone.utc)
         date_now = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         closed_date = date_now

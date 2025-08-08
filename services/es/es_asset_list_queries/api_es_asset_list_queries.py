@@ -163,7 +163,7 @@ class EsAssetListQueriesAPI(Helper):
 
     @allure.step("Delete saved queries by list.")
     def delete_saved_queries_by_list(self, query_id: str):
-        self.sleep_with_progress_bar(10)
+        self.sleep_with_progress_bar(5)
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_queries_endpoint,
@@ -202,7 +202,7 @@ class EsAssetListQueriesAPI(Helper):
 
     @allure.step("Delete saved query by ID.")
     def delete_saved_query_by_id(self, query_id: int):
-        self.sleep_with_progress_bar(10)
+        self.sleep_with_progress_bar(5)
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_query_by_id(query_id),
