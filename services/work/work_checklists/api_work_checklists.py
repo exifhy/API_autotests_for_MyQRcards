@@ -36,15 +36,14 @@ class WorkChecklistsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddChecklistsToAssetModel(result=response.json())
         logger.info(f'Successfully add checklists with name {name}.')
         return model
@@ -58,15 +57,22 @@ class WorkChecklistsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully delete checklist with ID: {checklist_id}.')
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED} but got {response.status_code}, {data_response}'
+        model_id = self.get_checklist_by_id(checklist_id)
+        model_list = self.get_list_checklists()
+        assert "deleted" in model_id.model_fields_set, f'Checklist with id {checklist_id} not deleted.'
+        if model_list is None:
+            logger.warning(f'Successfully delete checklist with ID: {checklist_id}.')
+        else:
+            assert str(checklist_id) not in model_list.root, \
+                f'Checklist with id {checklist_id} not deleted.'
+            logger.warning(f'Successfully delete checklist with ID: {checklist_id}.')
 
     @allure.step("Get checklist by ID.")
     def get_checklist_by_id(self, checklist_id: int):
@@ -86,7 +92,7 @@ class WorkChecklistsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetChecklistByIdResultModel(**response.json())
-        logger.warning(f'Successfully get checklist by ID: {checklist_id}.')
+        logger.info(f'Successfully get checklist by ID: {checklist_id}.')
         return model
 
     @allure.step("Delete checklist by list.")
@@ -130,7 +136,7 @@ class WorkChecklistsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
         model = SuccessGetListChecklistsModel(root=response.json())
-        logger.warning(f'Successfully get checklists by list.')
+        logger.info(f'Successfully get checklists by list.')
         return model
 
     @allure.step("Update checklists.")

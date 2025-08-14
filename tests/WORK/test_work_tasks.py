@@ -463,7 +463,7 @@ class TestWorkTasks(BaseTest):
             self.api_es_companies.delete_company_by_id(company_id)
             self.api_es_locations.delete_location_by_id(created_location_id)
 
-    @allure.title('Test adds checklists to the task by id.')
+    @allure.title('Test add checklists to the task by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24728")
     @pytest.mark.regress
     @pytest.mark.test_case_id(24728)
@@ -2251,7 +2251,7 @@ class TestWorkTasks(BaseTest):
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(created_location_id)
 
-    @allure.title('Test delete materials task completed work by completed work Id.')
+    @allure.title('Test delete materials task completed work by completed work Id with GET check.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24953")
     @pytest.mark.regress
     @pytest.mark.test_case_id(24953)
@@ -3858,6 +3858,7 @@ class TestWorkTasks(BaseTest):
             asset_id=object_model.id,
             location_id=created_location_id
         )
+        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
         self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
         criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
@@ -3873,7 +3874,7 @@ class TestWorkTasks(BaseTest):
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
 
-    @allure.title('Test delete task.')
+    @allure.title('Test delete task with GET verification.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23231")
     @pytest.mark.test_case_id(23231)
     @pytest.mark.smoke
@@ -3912,7 +3913,7 @@ class TestWorkTasks(BaseTest):
             work_type_id=work_type_id,
             company_id=company_id
         )
-        self.api_work_tasks.delete_task_by_id(model_task.id)
+        self.api_work_tasks.delete_task_by_id_with_get(model_task.id)
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
@@ -4061,65 +4062,16 @@ class TestWorkTasks(BaseTest):
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(created_location_id)
 
-    @allure.title('Test restore deleted task by list.')
+    @allure.title('Test restore deleted tasks by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25091")
     @pytest.mark.regress
     @pytest.mark.test_case_id(25091)
     def test_put_restore_deleted_tasks_by_list(self):
-        created_location_id = self.api_es_locations.post_add_location()
-        company_id = self.api_es_companies.post_add_our_company()
-        self.api_es_company_locations.post_add_company_locations(
-            company_id=company_id,
-            location_id=created_location_id
-        )
-        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
-        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
-        work_type_id = self.api_work_work_types.get_list_work_type_return_id_first_published_type()
-        object_model = self.api_es_assets.post_add_object(
-            company_id=company_id,
-            asset_class_id=asset_class_id,
-            asset_type_id=asset_type_id
-        )
-        self.api_es_assetlocations.add_location_to_object(
-            asset_id=object_model.id,
-            location_id=created_location_id
-        )
-        self.api_es_asset_work_types.post_add_work_type_to_asset(
-            asset_id=object_model.id,
-            work_type_id=work_type_id
-        )
-        self.api_es_asset_districts.add_default_district_to_object(object_model.id)
-        self.api_es_assets.put_method_of_publishing_an_object_by_id(object_model.id)
-        criticality_id = self.api_sla_criticalities.get_list_criticalities_return_first_id()
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
-        model_task = self.api_work_tasks.post_add_task(
-            criticality_id=criticality_id,
-            task_type_id=task_type_id[0],
-            asset_id=object_model.id,
-            work_type_id=work_type_id,
-            company_id=company_id
-        )
-        model_task1 = self.api_work_tasks.post_add_task(
-            criticality_id=criticality_id,
-            task_type_id=task_type_id[0],
-            asset_id=object_model.id,
-            work_type_id=work_type_id,
-            company_id=company_id
-        )
-        model_task2 = self.api_work_tasks.post_add_task(
-            criticality_id=criticality_id,
-            task_type_id=task_type_id[0],
-            asset_id=object_model.id,
-            work_type_id=work_type_id,
-            company_id=company_id
-        )
-        model_task3 = self.api_work_tasks.post_add_task(
-            criticality_id=criticality_id,
-            task_type_id=task_type_id[0],
-            asset_id=object_model.id,
-            work_type_id=work_type_id,
-            company_id=company_id
-        )
+        model_task = self.api_work_tasks.post_add_empty_task(task_type_id[0])
+        model_task1 = self.api_work_tasks.post_add_empty_task(task_type_id[0])
+        model_task2 = self.api_work_tasks.post_add_empty_task(task_type_id[0])
+        model_task3 = self.api_work_tasks.post_add_empty_task(task_type_id[0])
         self.api_work_tasks.delete_task_by_list(
             model_task.id, model_task1.id, model_task2.id, model_task3.id
         )
@@ -4129,9 +4081,6 @@ class TestWorkTasks(BaseTest):
         self.api_work_tasks.delete_task_by_list(
             model_task.id, model_task1.id, model_task2.id, model_task3.id
         )
-        self.api_es_assets.delete_object_by_id(object_model.id)
-        self.api_es_companies.delete_company_by_id(company_id)
-        self.api_es_locations.delete_location_by_id(created_location_id)
 
     @allure.title('Test get count list tasks by day (yesterday, now).')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25092")
@@ -4688,6 +4637,18 @@ class TestWorkTasks(BaseTest):
         self.api_es_assets.delete_object_by_id(object_model.id)
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
+
+    @allure.title('Test add a child task, delete child task with GET check.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27060")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27060)
+    def test_add_child_task_delete_with_get_check(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_empty_task(task_type_id[0])
+        model_child_task = self.api_work_tasks.post_add_empty_child_task(model_task.id, task_type_id[0])
+        self.api_work_tasks.delete_task_by_id(model_child_task.id)
+        self.api_work_tasks.get_deleted_list_of_child_tasks_by_parent_id(model_task.id)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
 
     class TestRequirement24586(BaseTest):
 

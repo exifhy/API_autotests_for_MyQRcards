@@ -12,6 +12,7 @@ from http import HTTPStatus
 from utils.token_utils import get_token
 from random import randint
 from datetime import datetime, timedelta
+from services.work.tasks.api_work_tasks import WorkTasksAPI
 
 
 class WorkCompletedWorksAPI(Helper):
@@ -21,6 +22,7 @@ class WorkCompletedWorksAPI(Helper):
         self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
+        self.work_tasks = WorkTasksAPI()
 
     @allure.step("Creates completed work on task.")
     def post_add_completed_works(self, task_id: int, asset_id: int, work_type_id: int):
@@ -91,7 +93,7 @@ class WorkCompletedWorksAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
         logger.info(f'Successfully update completed work on task with ID: {completed_work_id}.')
 
-    @allure.step("Delete completed work from task by list.")
+    @allure.step("Delete task completed work by list with GET check.")
     def delete_completed_works_by_list(self, task_id: int, *completed_work_ids: int):
         start = time.time()
         response = requests.delete(
@@ -109,4 +111,5 @@ class WorkCompletedWorksAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete completed works from task with ID: {completed_work_ids}.')
+        self.work_tasks.get_deleted_list_task_completed_work(task_id)
+        logger.warning(f'Successfully delete completed works {completed_work_ids} from task ID: {task_id}.')

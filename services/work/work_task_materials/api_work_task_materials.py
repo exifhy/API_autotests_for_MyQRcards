@@ -10,6 +10,7 @@ from services.work.work_task_materials.models.work_task_materials_model import *
 import time
 from http import HTTPStatus
 from utils.token_utils import get_token
+from services.work.tasks.api_work_tasks import WorkTasksAPI
 
 
 class WorkTaskMaterialsAPI(Helper):
@@ -18,6 +19,7 @@ class WorkTaskMaterialsAPI(Helper):
         self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
+        self.work_tasks = WorkTasksAPI()
 
     @allure.step("Update task materials.")
     def put_task_materials(self, task_id: int, task_material_id: int, warehouse_id: int):
@@ -75,7 +77,7 @@ class WorkTaskMaterialsAPI(Helper):
         logger.info(f'Successfully add task materials.')
         return model
 
-    @allure.step("Delete task materials.")
+    @allure.step("Delete task materials with GET check.")
     def delete_task_materials(self, task_id: int, *material_ids: int):
         start = time.time()
         response = requests.delete(
@@ -93,6 +95,7 @@ class WorkTaskMaterialsAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        self.work_tasks.get_deleted_list_materials_task(task_id)
         logger.warning(f'Successfully delete task materials with IDs: {material_ids}.')
 
     @allure.step("Update task materials taken by user On.")

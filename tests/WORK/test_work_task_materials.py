@@ -79,7 +79,7 @@ class TestWorkTaskMaterials(BaseTest):
             self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
             self.api_wh_warehouses.delete_warehouses_by_list(model_wh[0].result[0])
 
-    @allure.title('Test delete task materials.')
+    @allure.title('Test delete task materials with GET check.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24462")
     @pytest.mark.regress
     @pytest.mark.test_case_id(24462)

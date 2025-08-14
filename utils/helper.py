@@ -177,6 +177,16 @@ class Helper:
         return None
 
     @staticmethod
+    def assert_data_not_found(response, model) -> None:
+        assert model.list_model[0].code == "NoDataFound", \
+            f'Expected NoDataFound, but got <{model.list_model[0].code}>'
+        assert model.list_model[0].message == "Запрошенные данные не найдены.", \
+            f'Expected Запрошенные данные не найдены., but got {model.list_model[0].message}'
+        assert "NoDataFound" in response.headers["X-Application-Errors"], \
+            f'Expected NoDataFound, but got {response.headers["X-Application-Errors"]}'
+        return None
+
+    @staticmethod
     def assert_user_deleted(response, model) -> None:
         assert model.list_model[0].code == "UserDeleted", \
             f'Expected <UserDeleted>, but got <{model.list_model[0].code}>'

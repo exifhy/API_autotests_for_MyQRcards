@@ -159,6 +159,32 @@ class WorkTasksAPI(Helper):
         model = SuccessAddTasksModel(**response.json())
         return model
 
+    @allure.step("Add empty child task.")
+    def post_add_empty_child_task(self, task_id: int, task_type_id: str):
+        data = {
+            "parentID": task_id,
+            "TaskTypeID": task_type_id,
+            "requestMethodID": 1
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=data
+        )
+        end = time.time()
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksModel(**response.json())
+        logger.info(f'Successfully add a empty child task ID {model.id}')
+        return model
+
     @allure.step("Create multiple empty tasks.")
     def post_create_multiple_tasks(self, task_type_id: str, count: int) -> List[int]:
         """
@@ -287,14 +313,38 @@ class WorkTasksAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         model = SuccessDeleteTaskModel(list=response.json())
+        logger.warning(f'Successfully delete the task with id: {model.list[0].taskID}.')
+        return model
+
+    @allure.step("Delete the task by ID with GET verification.")
+    def delete_task_by_id_with_get(self, task_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        model = SuccessDeleteTaskModel(list=response.json())
+        model_id = self.get_task_by_id(task_id)
+        assert 'deleted' in model_id.model_fields_set, f'Task ID {task_id} not deleted.'
+        model_list = self.get_list_of_tasks_by_task_id([task_id])
+        assert 'deleted' in model_list.root[str(task_id)].model_fields_set, f'Task ID {task_id} not deleted.'
         logger.warning(f'Successfully delete the task with id: {model.list[0].taskID}.')
         return model
 
@@ -349,6 +399,29 @@ class WorkTasksAPI(Helper):
         model = SuccessTaskListResultModel(**response.json())
         logger.info(f'Successfully get a list of tasks by taskID.')
         return model
+
+    @allure.step("Get deleted list of child tasks by parentID.")
+    def get_deleted_list_of_child_tasks_by_parent_id(self, task_id: int):
+        params = {
+            "isDeleted": False,
+            "parentID": task_id,
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_task_endpoint, params=params,
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info(f'Child task deleted from task ID {task_id}.')
+        return None
 
     @allure.step("Get list tasks return list.")
     def get_list_tasks_list(self):
@@ -423,6 +496,7 @@ class WorkTasksAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessDetailedInfoModel(**response.json())
+        logger.info(f'Successfully get task by ID {task_id}.')
         return model
 
     @allure.step("Check of movement at the task stage.")
@@ -624,6 +698,31 @@ class WorkTasksAPI(Helper):
             logger.info(f'Successfully get the list task ID {task_id} attachment ID {model_attachment.attachmentID}.')
             return model
 
+    @allure.step("Get deleted list task attachments.")
+    def get_deleted_list_task_attachments(self, task_id: int, attach_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_task_attachments_endpoint(task_id),
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'Attach ID {attach_id} deleted from task ID {task_id}.')
+            return None
+        else:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            model = SuccessGetListAttachmentResultModel(root=response.json())
+            assert str(attach_id) not in model.root, \
+                f'Attachment ID {attach_id} not deleted from task.'
+            logger.info(f'Attach ID {attach_id} deleted from task ID {task_id}.')
+            return model
+
     @allure.step("Get task attachment by ID.")
     def get_task_attachment_by_id(self, task_id: int, model_attachment):
         start = time.time()
@@ -647,6 +746,25 @@ class WorkTasksAPI(Helper):
             f'Expected {model_attachment.fileName}, but got {model.fileName}'
         logger.info(f'Successfully get task ID {task_id} attachment ID {model_attachment.attachmentID}.')
         return model
+
+    @allure.step("Get deleted task attachment by ID.")
+    def get_deleted_task_attachment_by_id(self, task_id: int, attach_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_task_attachment_by_id_endpoint(task_id, attach_id),
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response_headers(response.headers)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info(f'Attach ID {attach_id} deleted from task ID {task_id}.')
+        return None
 
     @allure.step("Method to get TemporaryRedirect to a temporary link for downloading the attachment file from task.")
     def get_downloading_attachment_file_from_task(self, task_id: int, model_attachment):
@@ -794,6 +912,31 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully get list of checklists in the task with ID {task_id}.')
         return model
 
+    @allure.step("Get deleted list of task checklists.")
+    def get_deleted_list_task_checklists(self, task_id: int, checklist_id: str):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_task_checklists_endpoint(task_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'Checklist ID {checklist_id} deleted from task ID {task_id}.')
+            return None
+        else:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}. {data_response}'
+            model = SuccessGetListTaskCheckListResultModel(root=response.json())
+            assert checklist_id not in model.root, f'Checklist ID {checklist_id} not deleted from task {task_id}'
+            logger.info(f'Checklist ID {checklist_id} deleted from task ID {task_id}.')
+            return model
+
     @allure.step("Adds checklists to the task by list.")
     def post_add_checklists_to_task_by_list(self, task_id: int, checklist_id: int):
         start = time.time()
@@ -854,6 +997,8 @@ class WorkTasksAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        for item in checklist_ids:
+            self.get_deleted_list_task_checklists(task_id, item)
         logger.warning(f'Successfully delete checklists IDs {checklist_ids} from task with ID {task_id}.')
 
     @allure.step("Delete checklist from task by ID.")
@@ -872,6 +1017,7 @@ class WorkTasksAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        self.get_deleted_list_task_checklists(task_id, str(checklist_id))
         logger.warning(f'Successfully delete checklist ID {checklist_id} from task with ID {task_id}.')
 
     @allure.step("Upload file to server and bind to task checklist, data from form.")
@@ -1420,6 +1566,24 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully get list task ID {task_id} completed work.')
         return model
 
+    @allure.step("Get deleted list task completed work.")
+    def get_deleted_list_task_completed_work(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_completed_work_from_task_endpoint(task_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, f'Task ID {task_id} completed work not deleted.'
+        logger.info(f'Successfully get deleted list task ID {task_id} completed work.')
+        return None
+
     @allure.step("Get task completed work by ID.")
     def get_task_completed_work_id(self, task_id: int, completed_work_id: int):
         start = time.time()
@@ -1693,6 +1857,25 @@ class WorkTasksAPI(Helper):
                     f'completed work by ID {model.completedWorkID}.')
         return model
 
+    @allure.step("Get deleted list materials task completed work.")
+    def get_deleted_list_materials_task_completed_work(self, task_id: int, completed_work_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_from_completed_work_by_id_task_endpoint(task_id, completed_work_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Material task ID {task_id} completed work ID {completed_work_id} not deleted.'
+        logger.info(f'Successfully get deleted list materials task ID {task_id} completed work ID {completed_work_id}.')
+        return None
+
     @allure.step("Delete materials task completed work by completed work ID.")
     def delete_materials_task_completed_work(
             self,
@@ -1722,6 +1905,7 @@ class WorkTasksAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        self.get_deleted_list_materials_task_completed_work(task_id, completed_work_id)
         logger.warning(f'Successfully delete materials {material_id} '
                        f'from task {task_id} completed work {completed_work_id}.')
 
@@ -2600,7 +2784,7 @@ class WorkTasksAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
         logger.info(f'Successfully marks the task ID {task_id} as completed.')
 
-    @allure.step("Restore deleted task by list.")
+    @allure.step("Restore deleted task by list with GET check.")
     def put_restore_deleted_tasks_by_list(self, *task_ids: int):
         start = time.time()
         response = requests.put(
@@ -2618,7 +2802,12 @@ class WorkTasksAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
-        logger.info(f'Successfully restore deleted task ID {task_ids} by list.')
+        for item in task_ids:
+            model_id = self.get_task_by_id(item)
+            assert 'deleted' not in model_id.model_fields_set, f'Task ID {item} not restored.'
+            model_list = self.get_list_of_tasks_by_task_id([item])
+            assert 'deleted' not in model_list.root[str(item)].model_fields_set, f'Task ID {item} not restored.'
+            logger.info(f'Successfully restore deleted task ID {item} by list.')
 
     @allure.step("Get count list tasks by day (yesterday, now).")
     def get_count_list_tasks_by_day(self):
@@ -2700,6 +2889,25 @@ class WorkTasksAPI(Helper):
         model = SuccessTaskMaterialsModel(root=response.json())
         logger.info(f'Successfully get list materials of task.')
         return model
+
+    @allure.step("Get deleted list materials of task.")
+    def get_deleted_list_materials_task(self, task_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_for_task_endpoint(task_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Task ID {task_id} materials not deleted.'
+        logger.info(f'Successfully get deleted list materials of task ID {task_id}.')
+        return None
 
     @allure.step("Get metadata for the task form.")
     def get_metadata_for_task_form(self, task_id: int):

@@ -54,6 +54,10 @@ class TestWorkTaskAttachmentsAPI(BaseTest):
                 attachment_id.attachmentID
             )
         finally:
+            self.api_work_task_attachments.delete_task_attachments(
+                model_task.id,
+                attachment_id.attachmentID
+            )
             self.api_work_tasks.delete_task_by_id(model_task.id)
             self.api_common_attachments.delete_attachment_by_id(attachment_id.attachmentID)
             # self.api_es_assets.delete_object_by_id(object_model.id)
@@ -209,6 +213,10 @@ class TestWorkTaskAttachmentsAPI(BaseTest):
         try:
             attachment_id = self.api_work_task_attachments.post_upload_bind_attachment_to_task_data_from_body(
                 model_task.id
+            )
+            self.api_work_task_attachments.delete_task_attachments(
+                model_task.id,
+                attachment_id.attachmentID
             )
             self.api_common_attachments.delete_attachment_by_id(attachment_id.attachmentID)
         finally:

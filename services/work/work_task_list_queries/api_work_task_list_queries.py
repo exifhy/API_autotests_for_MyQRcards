@@ -210,13 +210,19 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete task list queries with ID: {query_id}.')
+        model_list = self.get_task_list_queries()
+        if model_list is None:
+            logger.warning(f'Successfully delete task list queries with ID: {query_id}.')
+        else:
+            assert str(query_id) not in model_list.root, \
+                f'Task list queries with id {query_id} not deleted.'
+            logger.warning(f'Successfully delete task list queries with ID: {query_id}.')
 
     @allure.step("Delete list task queries by id (remove).")
     def delete_task_list_queries_by_id_remove(self, query_id: int):
         start = time.time()
         response = requests.delete(
-            url=self.endpoints.delete_task_list_queries_by_id_endpoint(query_id),
+            url=self.endpoints.delete_remove_task_list_queries_by_id_endpoint(query_id),
             headers=self.headers.basic_header(get_token())
         )
         end = time.time()

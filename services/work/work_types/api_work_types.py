@@ -85,7 +85,7 @@ class WorkWorkTypesAPI(Helper):
             f'{model_before.description} is equal {model_after.description}.'
         logger.info(f'Successfully update work type ID {work_type_name}')
 
-    @allure.step("Delete the work type by ID.")
+    @allure.step("Delete the work type by ID with GET check.")
     def delete_marks_work_type_by_id(self, work_type_id: int):
         start = time.time()
         response = requests.delete(
@@ -93,17 +93,18 @@ class WorkWorkTypesAPI(Helper):
             headers=self.headers.basic_header(get_token()),
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        self.get_deleted_list_work_type(work_type_id)
         logger.warning(f'Successfully delete the work type with id: {work_type_id}.')
 
-    @allure.step("Delete the work types by list.")
+    @allure.step("Delete the work types by list with GET check.")
     def delete_marks_work_types_by_list(self, *work_type_ids: int):
         start = time.time()
         response = requests.delete(
@@ -121,6 +122,8 @@ class WorkWorkTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        for item in work_type_ids:
+            self.get_deleted_list_work_type(item)
         logger.warning(f'Successfully delete the work types with IDs {work_type_ids} by list.')
 
     @allure.step("Get the data for the type of work by id.")
@@ -164,6 +167,26 @@ class WorkWorkTypesAPI(Helper):
         model = SuccessGetWorkTypesModel(root=response.json())
         logger.info(f'Successfully get list a work type.')
         return model
+
+    @allure.step("Get deleted list work types.")
+    def get_deleted_list_work_type(self, work_type_id: int):
+        param = {
+            "workTypeID": work_type_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_work_types_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, f'Work types ID {work_type_id} not deleted.'
+        logger.info(f'Successfully get deleted list a work type.')
+        return None
 
     @allure.step("Get list a type of work from asset by ID and return name work types.")
     def get_list_work_type_from_asset_by_id(self, asset_id: int):

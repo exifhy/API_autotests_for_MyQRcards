@@ -167,7 +167,12 @@ class TestWorkCompletedWorks(BaseTest):
                 asset_id=object_model.id,
                 work_type_id=work_type_id
             )
+            self.api_work_completed_works.delete_completed_works_by_list(
+                model_task.id,
+                completed_work_id.result[0].id
+            )
         finally:
+
             self.api_work_tasks.delete_task_by_id(model_task.id)
             self.api_es_assets.delete_object_by_id(object_model.id)
             self.api_es_companies.delete_company_by_id(company_id)

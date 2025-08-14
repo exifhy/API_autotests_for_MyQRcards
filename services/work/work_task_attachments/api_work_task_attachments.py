@@ -15,6 +15,7 @@ from requests_toolbelt import MultipartEncoder
 from PIL import Image
 import io
 import base64
+from services.work.tasks.api_work_tasks import WorkTasksAPI
 
 
 class WorkTaskAttachmentsAPI(Helper):
@@ -24,6 +25,7 @@ class WorkTaskAttachmentsAPI(Helper):
         self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
+        self.work_tasks = WorkTasksAPI()
 
     @allure.step("Adds a uploaded attachments file to a task.")
     def post_task_attachments(self, task_id: int, *attachment_ids: int):
@@ -52,7 +54,7 @@ class WorkTaskAttachmentsAPI(Helper):
                     f' file to a task with ID: {task_id}.')
         return model
 
-    @allure.step("Delete a uploaded attachments file from task.")
+    @allure.step("Delete a uploaded attachments file from task with GET check.")
     def delete_task_attachments(self, task_id: int, *attachment_ids: int):
         start = time.time()
         response = requests.delete(
@@ -65,15 +67,17 @@ class WorkTaskAttachmentsAPI(Helper):
         )
         end = time.time()
         logger.info(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
-        self.attach_url(response.request.url)
         self.attach_request(response.request.body)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        for item in attachment_ids:
+            self.work_tasks.get_deleted_list_task_attachments(task_id, item)
+            self.work_tasks.get_deleted_task_attachment_by_id(task_id, item)
         logger.warning(f'Successfully delete uploaded attachments file with ID: {attachment_ids}'
                        f' from task with ID: {task_id}.')
 

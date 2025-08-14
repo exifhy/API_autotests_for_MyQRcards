@@ -100,19 +100,41 @@ class WorkTaskTemplatesAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            f'Status code {response.status_code}, {response.json()}'
+            (f'Export status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
         model = SuccessGetTaskTemplatesModel(**response.json())
         logger.info(f'Successfully received list task templates with id: {model.root[task_templates_id].id}')
         logger.info(f'Successfully received list task templates with name: {model.root[task_templates_id].name}')
         logger.info(f'Successfully received list task templates with notes: {model.root[task_templates_id].notes}')
         return model
+
+    @allure.step("Get a list of deleted task template by ID.")
+    def get_list_deleted_task_template_by_id(self, task_templates_id: str):
+        params = {
+            "taskTemplateID": task_templates_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_task_templates_endpoint, params=params,
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            (f'Export status code {HTTPStatus.NO_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
+        logger.info(f'Successfully get list deleted task template with ID: {task_templates_id}')
+        return None
 
     @allure.step("Get a list of task templates.")
     def get_list_task_templates(self):
@@ -153,6 +175,25 @@ class WorkTaskTemplatesAPI(Helper):
         model = TaskTemplatesGetResultModel(**response.json())
         logger.info(f'Successfully get task template by ID {task_template_id}.')
         return model
+
+    @allure.step("Get deleted task template by ID.")
+    def get_deleted_task_template_by_id(self, task_template_id: str):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_task_template_by_id_endpoint(task_template_id),
+            headers=self.headers.basic_header(get_token()),
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}, {data_response}'
+        logger.info(f'Successfully get deleted task template by ID {task_template_id}.')
+        return None
 
     @allure.step("Head task templates.")
     def head_task_templates(self):
@@ -233,14 +274,15 @@ class WorkTaskTemplatesAPI(Helper):
         end = time.time()
         logger.info(response.headers)
         self.attach_response_headers(response.headers)
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.ACCEPTED, f'Status code {response.status_code}, {response.json()}'
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED},but got {response.status_code}, {data_response}'
+        self.get_list_deleted_task_template_by_id(task_templates_id)
+        self.get_deleted_task_template_by_id(task_templates_id)
         logger.warning(f'Successfully delete task templates by ID {task_templates_id}.')
 
     @allure.step("Publishes task template.")

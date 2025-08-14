@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict, constr
-from typing import List, Optional, Dict, Literal
+from typing import List, Optional, Dict
 
 
 class StrictBaseModel(BaseModel):
@@ -50,3 +50,35 @@ class LayoutTemplateDtoModel(StrictBaseModel):
 
 class LayoutTemplateDtoListModel(StrictBaseModel):
     result: List[LayoutTemplateDtoModel]
+
+
+class LayoutTaskTypeDtoModel(StrictBaseModel):
+    id: int
+    name: str
+
+
+class LayoutTaskTypeDtoListModel(StrictBaseModel):
+    result: List[LayoutTaskTypeDtoModel]
+
+
+class ComponentDtoModel(StrictBaseModel):
+    id: int
+    code: str
+    description: Optional[str] = None
+    isRequired: Optional[bool] = None
+    isInUse: Optional[bool] = None
+
+
+class ComponentDtoListModel(StrictBaseModel):
+    result: List[ComponentDtoModel]
+
+
+class AttributeDtoModel(StrictBaseModel):
+    id: int
+    name: str
+    isInUse: Optional[bool] = None
+
+
+class AttributeDtoListModel(StrictBaseModel):
+    result: List[AttributeDtoModel]
+
