@@ -13,14 +13,13 @@ class TestWorkTaskTypeDistrict(BaseTest):
     @pytest.mark.test_case_id(25348)
     def test_put_update_task_type_district(self):
         model_district = self.api_es_districts.post_add_three_districts()
-        model_task_type = self.api_work_task_types.post_add_task_types()
+        model_task_type = self.api_work_task_types.get_list_task_types_return_first_id()
         self.api_work_task_type_district.put_update_task_type_district(
-            model_task_type.results[0],
+            model_task_type[0],
             model_district.districts[0],
             model_district.districts[1],
             model_district.districts[2]
         )
-        self.api_work_task_types.delete_task_types_by_id(model_task_type.results[0])
         self.api_es_districts.delete_districts_by_list(
             model_district.districts[0],
             model_district.districts[1],

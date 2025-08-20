@@ -20,7 +20,6 @@ from utils.env import get_tenant_id, get_tenant_owner_token, get_api_user_token,
 load_dotenv()
 
 
-logger.debug(f'TENANT_ID from env at startup: {get_tenant_id()}')
 # API_USER_TOKEN = os.getenv('API_USER_TOKEN')
 # BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
 # POWER_USER_TOKEN = os.getenv('POWER_USER_TOKEN')
@@ -54,6 +53,7 @@ def pytest_configure(config):
         env_name_path = f".env.{env_name}"
         if os.path.exists(env_name_path):
             logger.debug(f"[pytest_configure] Loading override env file: {env_name_path}")
+
             load_dotenv(dotenv_path=env_name_path, override=True)
         else:
             raise FileNotFoundError(f"Environment file '{env_name_path}' not found.")
@@ -217,15 +217,16 @@ def get_api_user_access_token():
 @allure.step("Вызывается перед выполнением тестов.")
 def pytest_sessionstart(session):
     """Вызывается перед выполнением тестов."""
-    logger.debug("pytest_session start called")
+    logger.debug("[pytest_session] GET API TOKEN")
     token = get_api_user_access_token()
     if token:
         cache = session.config.cache
         cache.set("api_token", token)
-        logger.debug("Cache set for api_token")
+        logger.debug("[pytest_session] Cache set for API TOKEN")
         # set_key('.env', 'API_TOKEN', token)
         # logger.debug('Token set in .env file')
         os.environ["API_TOKEN"] = token
+        logger.debug(f'[pytest_session] TENANT ID from env at startup: {get_tenant_id()}')
         # print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
 
 

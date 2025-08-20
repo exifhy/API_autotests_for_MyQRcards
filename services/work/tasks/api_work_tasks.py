@@ -370,6 +370,9 @@ class WorkTasksAPI(Helper):
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f'Successfully get list task, tenant does not contain any tasks. Status code 204.')
+            return None
         assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
              f'but got {response.status_code}, {data_response}')

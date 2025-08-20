@@ -47,6 +47,8 @@ class RelevantAttributeResult(StrictBaseModel):
     completedWork: Optional[bool] = None
     contract: Optional[bool] = None
     company: Optional[bool] = None
+    customer: Optional[bool] = None
+    technician: Optional[bool] = None
 
 
 class AttributeResultList(StrictBaseModel):

@@ -30,7 +30,7 @@ class LayoutFieldDto(StrictBaseModel):
 class LayoutBlockDto(StrictBaseModel):
     id: Optional[int] = None
     index: Optional[int] = None
-    name: constr(min_length=1)
+    name: Optional[str] = None
     fields: List[LayoutFieldDto] = []
 
 
@@ -81,4 +81,3 @@ class AttributeDtoModel(StrictBaseModel):
 
 class AttributeDtoListModel(StrictBaseModel):
     result: List[AttributeDtoModel]
-

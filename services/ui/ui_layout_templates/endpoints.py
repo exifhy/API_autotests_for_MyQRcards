@@ -26,8 +26,8 @@ class Endpoints:
         return f'{HOST}/UI/LayoutTemplates/{template_id}'
 
     @staticmethod
-    def get_templates_by_type_endpoint(template_id: int) -> str:
-        return f'{HOST}/UI/LayoutTemplates/bytype/{template_id}'
+    def get_templates_by_type_endpoint(task_type_id: int) -> str:
+        return f'{HOST}/UI/LayoutTemplates/bytype/{task_type_id}'
 
     @staticmethod
     def get_task_types_layout_template_by_id_endpoint(template_id: int) -> str:

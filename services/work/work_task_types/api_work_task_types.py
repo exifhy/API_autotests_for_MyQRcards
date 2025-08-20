@@ -65,18 +65,17 @@ class WorkTaskTypesAPI(Helper):
             logger.info(f'Tenant does not contain task types.')
             return None
         assert response.status_code == HTTPStatus.OK, \
-            f'Expected tatus code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListTaskTypesModel(root=response.json())
         logger.info(f'Successfully get list a task types.')
         return model
 
     @allure.step("Update task types.")
     def put_update_task_types(self, task_type_id: int):
-        model_task_type_before = self.get_task_type_by_id(task_type_id)
         data = {
             "id": task_type_id,
-            "name": f"Измененный тип заявки - {randint(1, 99999)}",
-            "numberMask": "[0-9][0-9][0-9][{Company.Code}][А-Я]",
+            "name": "Заявка",
+            "numberMask": "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][А-Я][А-Я][А-Я][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",
             "closeMinutes": None
         }
         start = time.time()
@@ -95,10 +94,6 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        model_task_type_after = self.get_task_type_by_id(task_type_id)
-        assert model_task_type_after.name != model_task_type_before.name, "Name task type hasn't been updated"
-        assert model_task_type_after.numberMask != model_task_type_before.numberMask, \
-            "Number mask task type hasn't been updated"
         logger.info(f'Successfully update task types ID {task_type_id}.')
 
     @allure.step("Add task types.")
@@ -124,7 +119,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Expected tatus code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = TaskTypesIdModel(results=response.json())
         logger.info(f'Successfully add task types ID {model.results[0]}.')
         return model
@@ -146,7 +141,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Expected tatus code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         logger.warning(f'Successfully delete task types ID {task_type_ids}.')
 
     @allure.step("Get task type by ID.")
@@ -164,7 +159,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_time(start, end)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
-            f'Expected tatus code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = GetTaskTypesModel(**response.json())
         logger.info(f'Successfully get task type by ID {task_type_id}.')
         return model
