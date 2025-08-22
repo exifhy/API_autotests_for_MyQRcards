@@ -341,8 +341,8 @@ class Payloads:
         return payload
 
     @staticmethod
-    def put_add_task_types_to_layout_template_payload(*task_types_ids: int or tuple) -> list:
-        return [*task_types_ids]
+    def put_add_task_types_to_layout_template_payload(*task_types_ids: int or tuple or None) -> list:
+        return [] if task_types_ids is None else [*task_types_ids]
 
     @staticmethod
     def delete_task_types_from_layout_template_payload(*task_types_ids: int or tuple) -> list:

@@ -29,6 +29,7 @@ class TestUILayoutTemplates(BaseTest):
 
     @allure.title('Test create layout template with taskTypeID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27098")
+    @pytest.mark.skip("Тест проходит в - test_post_add_layout_template_task_type_is_already_in_use")
     @pytest.mark.regress
     @pytest.mark.test_case_id(27098)
     def test_post_add_layout_template_with_task_type_id(self):
@@ -61,9 +62,7 @@ class TestUILayoutTemplates(BaseTest):
     @pytest.mark.test_case_id(27081)
     def test_get_list_task_layout_templates_with_task_type_id(self):
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
-        model_template = self.api_ui_layout_templates.post_add_layout_template(False, task_type_id[0])
-        self.api_ui_layout_templates.get_list_task_layout_templates_with_task_type_id(task_type_id[0])
-        self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
+        self.api_ui_layout_templates.return_list_task_layout_templates_with_task_type_id(task_type_id[0])
 
     @allure.title('Test get list task layout templates with isDefault.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27038")
@@ -113,7 +112,7 @@ class TestUILayoutTemplates(BaseTest):
     def test_post_add_layout_template_with_deleted_task_type(self):
         model_task_type = self.api_work_task_types.get_list_task_types()
         self.api_ui_layout_templates.post_add_layout_template_with_deleted_task_type(
-            max(map(int, model_task_type.root.keys())) + 1
+            False, max(map(int, model_task_type.root.keys())) + 1
         )
 
     @allure.title('Test create layout template with nonexistent taskTypeID.')
@@ -152,9 +151,8 @@ class TestUILayoutTemplates(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(26980)
     def test_put_update_layout_template(self):
-        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         model_template = self.api_ui_layout_templates.post_add_layout_template_without_fields(False)
-        self.api_ui_layout_templates.put_update_layout_template(model_template.id, False, task_type_id[0])
+        self.api_ui_layout_templates.put_update_layout_template(model_template.id, False, None)
         self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
 
     @allure.title('Test update deleted layout template.')
@@ -233,3 +231,128 @@ class TestUILayoutTemplates(BaseTest):
         self.api_ui_layout_templates.get_deleted_layout_template_by_type_by_id(
             max(map(int, model_task_type.root.keys())) + 1
         )
+
+    @allure.title('Test get task type layout template by template ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26983")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26983)
+    def test_get_task_type_layout_template_by_id(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.return_layout_template_task_types_by_template_id(int(task_type_id[0]))
+
+    @allure.title('Test get deleted task type layout template by template ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27132")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27132)
+    def test_get_deleted_task_type_layout_template_by_id(self):
+        model_template = self.api_ui_layout_templates.post_add_layout_template(False, None)
+        self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
+        self.api_ui_layout_templates.get_invalid_task_type_layout_template_by_template_id(model_template.id)
+
+    @allure.title('Test get nonexistent task type layout template by template ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27133")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27133)
+    def test_get_nonexistent_task_type_layout_template_by_id(self):
+        self.api_ui_layout_templates.get_invalid_task_type_layout_template_by_template_id(999999)
+
+    @allure.title('Test add task types by list to layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26984")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26984)
+    def test_put_add_task_types_by_list_to_layout_template_by_id(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.update_add_task_types_by_list_to_layout_template_by_id(int(task_type_id[0]))
+
+    @allure.title('Test add of the task types is already in use to layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27141")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27141)
+    def test_update_add_task_types_is_already_in_use_to_layout_template_by_id(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.update_add_task_types_is_already_in_use_to_layout_template_by_id(
+            int(task_type_id[0])
+        )
+
+    @allure.title('Test add deleted task types by list to layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27165")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27165)
+    def test_put_add_deleted_task_types_by_list_to_layout_template_by_id(self):
+        model_task_type = self.api_work_task_types.get_list_task_types()
+        model_template = self.api_ui_layout_templates.post_add_layout_template(False, None)
+        self.api_ui_layout_templates.put_add_deleted_task_types_by_list_to_layout_template_by_id(
+            model_template.id, max(map(int, model_task_type.root.keys())) + 1
+        )
+        self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
+
+    @allure.title('Test add task types by list to deleted layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27166")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27166)
+    def test_put_add_task_types_by_list_to_deleted_layout_template_by_id(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.update_add_task_types_by_list_to_deleted_layout_template_by_id(
+            int(task_type_id[0])
+        )
+
+    @allure.title('Test delete task types from layout template.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26986")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26986)
+    def test_delete_task_types_from_layout_template(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.remove_task_types_from_layout_template(
+            int(task_type_id[0])
+        )
+
+    @allure.title('Test delete task types from deleted layout template.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27167")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27167)
+    def test_delete_task_types_from_deleted_layout_template(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_template = self.api_ui_layout_templates.post_add_layout_template(False, None)
+        self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
+        self.api_ui_layout_templates.delete_task_types_from_invalid_layout_template(
+            model_template.id, int(task_type_id[0])
+        )
+
+    @allure.title('Test delete task types from nonexistent layout template.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27168")
+    @pytest.mark.ng
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27168)
+    def test_delete_task_types_from_nonexistent_layout_template(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        self.api_ui_layout_templates.delete_task_types_from_invalid_layout_template(
+            999999, int(task_type_id[0])
+        )
+
+    @allure.title('Test get list components layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26987")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26987)
+    def test_get_list_components_layout_template_by_id(self):
+        model_template = self.api_ui_layout_templates.get_list_task_layout_templates()
+        self.api_ui_layout_templates.get_list_components_layout_template_by_id(model_template.result[0].id)
+
+    @allure.title('Test get list components default layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27169")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27169)
+    def test_get_list_components_default_layout_template_by_id(self):
+        self.api_ui_layout_templates.receive_list_components_layout_template_by_id(True)
+
+    @allure.title('Test get list components custom layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27170")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27170)
+    def test_get_list_components_custom_layout_template_by_id(self):
+        self.api_ui_layout_templates.receive_list_components_layout_template_by_id(False)

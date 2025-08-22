@@ -57,6 +57,10 @@ class LayoutTaskTypeDtoModel(StrictBaseModel):
     name: str
 
 
+class ListLayoutTaskTypeDtoModel(StrictBaseModel):
+    results: List[LayoutTaskTypeDtoModel]
+
+
 class LayoutTaskTypeDtoListModel(StrictBaseModel):
     result: List[LayoutTaskTypeDtoModel]
 
