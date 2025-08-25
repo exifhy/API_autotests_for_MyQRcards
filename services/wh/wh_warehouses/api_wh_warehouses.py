@@ -492,6 +492,68 @@ class WhWarehousesAPI(Helper):
         logger.info(f'Successfully get non-existing warehouse ID {non_existent_wh}.')
         return non_existent_wh
 
+    @allure.step("Verify that Content-Range header equals the total number of warehouses when Fetch = count.")
+    def get_list_warehouse_v2_content_range_equals_total_when_fetch_equals_count(self):
+        warehouses_plus_one = self.get_non_existent_warehouse_return_id()
+        param = {
+            "Fetch": warehouses_plus_one - 1,
+            "offset": 0
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_warehouses_v2_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            (f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {"List warehouses" if response.status_code == 200 else data_response}')
+        GetListWarehousesModel(root=response.json())
+        assert "Content-Range" in response.headers, \
+            f'Expected Content-Range in headers {response.headers}'
+        assert f'items=1-{warehouses_plus_one - 1}/{warehouses_plus_one - 1}' == response.headers['Content-Range'], \
+            (f'Expected - items=1-{warehouses_plus_one - 1}/{warehouses_plus_one - 1}, '
+             f'but got {response.headers["Content-Range"]}')
+        logger.info(f'Successfully verify that Content-Range equals the total number of warehouses when Fetch = count.')
+        return None
+
+    @allure.step("Verify that Content-Range header is greater than the total number of warehouses when Fetch > count.")
+    def get_list_warehouse_v2_content_range_equals_total_when_fetch_greater(self):
+        warehouses_plus_one = self.get_non_existent_warehouse_return_id()
+        param = {
+            "Fetch": warehouses_plus_one,
+            "offset": 0
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_warehouses_v2_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            (f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {"List warehouses" if response.status_code == 200 else data_response}')
+        GetListWarehousesModel(root=response.json())
+        assert "Content-Range" in response.headers, \
+            f'Expected Content-Range in headers {response.headers}'
+        assert f'items=1-{warehouses_plus_one}/{warehouses_plus_one - 1}' == response.headers['Content-Range'], \
+            (f'Expected - items=1-{warehouses_plus_one}/{warehouses_plus_one - 1}, '
+             f'but got {response.headers["Content-Range"]}')
+        logger.info(f'Successfully verify Content-Range is greater than total number of warehouses when Fetch > count.')
+        return None
+
     @allure.step("Get list warehouses.")
     def get_list_warehouses(self):
         start = time.time()

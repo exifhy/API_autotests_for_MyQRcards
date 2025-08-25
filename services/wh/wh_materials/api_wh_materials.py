@@ -1272,3 +1272,67 @@ class WhMaterialsAPI(Helper):
         model = SuccessGetListMaterialsV2Model(root=response.json())
         logger.info(f"Successfully get material by name {model_material.name}, V2.")
         return model
+
+    @allure.step("Verify that Content-Range header is greater than the total number of materials when Fetch > count.")
+    def get_list_materials_v2_content_range_equals_total_when_fetch_greater(self):
+        material = self.get_list_materials_v2_content_range()
+        param = {
+            "Fetch": material + 1,
+            "offset": 0
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_v2_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            (f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {"List materials" if response.status_code == 200 else data_response}')
+        SuccessGetListMaterialsV2Model(root=response.json())
+        assert "Content-Range" in response.headers, \
+            f'Expected Content-Range in headers {response.headers}'
+        assert f'items=1-{material + 1}/{material}' == response.headers['Content-Range'], \
+            (f'Expected - items=1-{material + 1}/{material}, '
+             f'but got {response.headers["Content-Range"]}')
+        logger.info(f'Successfully verify Content-Range is greater than total number of materials when Fetch > count.')
+        return None
+
+    @allure.step("Verify that Content-Range header equals the total number of materials when Fetch = count.")
+    def get_list_materials_v2_content_range_equals_total_when_fetch_equals_count(self):
+        material = self.get_list_materials_v2_content_range()
+        param = {
+            "Fetch": material,
+            "offset": 0
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_materials_v2_endpoint,
+            params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            (f'Expected status code {HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}, {"List materials" if response.status_code == 200 else data_response}')
+        SuccessGetListMaterialsV2Model(root=response.json())
+        assert "Content-Range" in response.headers, \
+            f'Expected Content-Range in headers {response.headers}'
+        assert f'items=1-{material}/{material}' == response.headers['Content-Range'], \
+            (f'Expected - items=1-{material}/{material}, '
+             f'but got {response.headers["Content-Range"]}')
+        logger.info(f'Successfully verify Content-Range is greater than total number of materials when Fetch > count.')
+        return None

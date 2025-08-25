@@ -47,6 +47,7 @@ class TestUILayoutTemplates(BaseTest):
 
     @allure.title('Test create a default layout template.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27080")
+    @pytest.mark.ng
     @pytest.mark.regress
     @pytest.mark.test_case_id(27080)
     def test_post_default_layout_template(self):
@@ -345,6 +346,7 @@ class TestUILayoutTemplates(BaseTest):
 
     @allure.title('Test get list components default layout template by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27169")
+    @pytest.mark.skip(reason="Логика ручки пока не используется.")
     @pytest.mark.regress
     @pytest.mark.test_case_id(27169)
     def test_get_list_components_default_layout_template_by_id(self):
@@ -352,7 +354,16 @@ class TestUILayoutTemplates(BaseTest):
 
     @allure.title('Test get list components custom layout template by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27170")
+    @pytest.mark.skip(reason="Логика ручки пока не используется.")
     @pytest.mark.regress
     @pytest.mark.test_case_id(27170)
     def test_get_list_components_custom_layout_template_by_id(self):
         self.api_ui_layout_templates.receive_list_components_layout_template_by_id(False)
+
+    @allure.title('Test get list attributes layout template by ID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26988")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26988)
+    def test_get_list_attributes_layout_template_by_id(self):
+        model_template = self.api_ui_layout_templates.get_list_task_layout_templates()
+        self.api_ui_layout_templates.get_list_attributes_layout_template_by_id(model_template.result[0].id)

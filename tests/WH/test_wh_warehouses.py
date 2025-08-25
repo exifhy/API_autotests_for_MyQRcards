@@ -1331,3 +1331,20 @@ class TestWhWarehousesUsers(BaseTest):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         self.api_wh_warehouses.get_no_users_added_to_warehouse(model_wh[0].result[0])
         self.api_wh_warehouses.delete_warehouse_by_id(model_wh[0].result[0])
+
+    @allure.title('Test verify that Content-Range header equals the total number of warehouses when Fetch = count.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27175")
+    @pytest.mark.xfail(reason="https://dev.azure.com/melston/HubEx/_workitems/edit/26584")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27175)
+    def test_get_list_warehouse_v2_content_range_equals_total_when_fetch_equals_count(self):
+        self.api_wh_warehouses.get_list_warehouse_v2_content_range_equals_total_when_fetch_equals_count()
+
+    @allure.title('Test Verify Content-Range header is greater than the total number of warehouses when Fetch > count.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27176")
+    @pytest.mark.xfail(reason="https://dev.azure.com/melston/HubEx/_workitems/edit/26584")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27176)
+    def test_get_list_warehouse_v2_content_range_equals_total_when_fetch_greater(self):
+        self.api_wh_warehouses.get_list_warehouse_v2_content_range_equals_total_when_fetch_greater()
+

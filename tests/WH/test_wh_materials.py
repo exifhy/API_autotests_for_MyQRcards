@@ -490,3 +490,19 @@ class TestWhMaterials(BaseTest):
         model_materials = self.api_wh_materials.post_add_materials()
         self.api_wh_materials.get_list_materials_v2_search_text_name(model_materials.result[0])
         self.api_wh_materials.delete_material_by_id(model_materials.result[0])
+
+    @allure.title('Test verify that Content-Range header equals the total number of materials when Fetch = count.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27178")
+    @pytest.mark.xfail(reason="https://dev.azure.com/melston/HubEx/_workitems/edit/26584")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27178)
+    def test_get_list_materials_v2_content_range_equals_total_when_fetch_equals_count(self):
+        self.api_wh_materials.get_list_materials_v2_content_range_equals_total_when_fetch_equals_count()
+
+    @allure.title('Test verify that Content-Range is greater than the total number of materials when Fetch > count.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27177")
+    @pytest.mark.xfail(reason="https://dev.azure.com/melston/HubEx/_workitems/edit/26584")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27177)
+    def test_get_list_materials_v2_content_range_equals_total_when_fetch_greater(self):
+        self.api_wh_materials.get_list_materials_v2_content_range_equals_total_when_fetch_greater()

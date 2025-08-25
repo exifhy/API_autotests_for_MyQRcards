@@ -380,14 +380,12 @@ class UILayoutTemplatesAPI(Helper):
             )
             self.delete_layout_template_by_id(model_template.id)
         else:
-            for item in model_list_template.result:
-                if not item.taskTypes:
-                    self.put_update_layout_template(item.id, False, task_type)
-                    self.put_update_layout_template_task_type_is_already_in_use(
-                        item.id, False, task_type
-                    )
-                    self.put_reset_layout_template_to_default_state(item.id)
-                    break
+            self.put_update_layout_template(model_list_template.result[0].id, False, task_type)
+            model_template = self.post_add_layout_template(False, None)
+            self.put_update_layout_template_task_type_is_already_in_use(
+                model_template.id, False, task_type
+            )
+            self.delete_layout_template_by_id(model_template.id)
 
     @allure.step("Return layout template task types by template ID.")
     def return_layout_template_task_types_by_template_id(self, task_type: int):
@@ -766,7 +764,9 @@ class UILayoutTemplatesAPI(Helper):
         )
 
     @allure.step("PUT add deleted task types by list to layout template by ID.")
-    def put_add_deleted_task_types_by_list_to_layout_template_by_id(self, template_id: int, *task_types_ids: int or tuple):
+    def put_add_deleted_task_types_by_list_to_layout_template_by_id(
+            self, template_id: int, *task_types_ids: int or tuple
+    ):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_set_task_types_to_layout_template_by_id_endpoint(template_id),
@@ -982,7 +982,7 @@ class UILayoutTemplatesAPI(Helper):
     def get_list_attributes_layout_template_by_id(self, template_id: int):
         start = time.time()
         response = requests.get(
-            url=self.endpoints.get_components_layout_templates_endpoint(template_id),
+            url=self.endpoints.get_attributes_layout_templates_endpoint(template_id),
             headers=self.headers.basic_header(get_token())
         )
         end = time.time()
