@@ -72,10 +72,12 @@ class WorkTaskTypesAPI(Helper):
 
     @allure.step("Update task types.")
     def put_update_task_types(self, task_type_id: int):
+        name = f"Тип обновлен авто-тестом {randint(999, 99999)}"
+        mask = "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][А-Я][А-Я][А-Я][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"
         data = {
             "id": task_type_id,
-            "name": "Заявка",
-            "numberMask": "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][А-Я][А-Я][А-Я][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",
+            "name": name,
+            "numberMask": mask,
             "closeMinutes": None
         }
         start = time.time()
@@ -94,6 +96,9 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        model_task_type = self.get_task_type_by_id(task_type_id)
+        assert name == model_task_type.name, "Task type is not updated"
+        assert mask == model_task_type.numberMask, "Task type is not updated"
         logger.info(f'Successfully update task types ID {task_type_id}.')
 
     @allure.step("Add task types.")

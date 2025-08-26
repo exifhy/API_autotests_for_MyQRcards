@@ -9,6 +9,7 @@ class TestWorkTaskTypeDistrict(BaseTest):
 
     @allure.title('Test changing the binding of task types to district.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25348")
+    @pytest.mark.skip(reason="Тест проходит в - test_get_list_districts_task_type")
     @pytest.mark.regress
     @pytest.mark.test_case_id(25348)
     def test_put_update_task_type_district(self):

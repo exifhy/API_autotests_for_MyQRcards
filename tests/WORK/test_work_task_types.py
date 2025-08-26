@@ -16,6 +16,7 @@ class TestWorkTaskTypes(BaseTest):
 
     @allure.title('Test update task types.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25334")
+    @pytest.mark.skip(reason="Тест проходит в - test_delete_task_types_by_id")
     @pytest.mark.regress
     @pytest.mark.test_case_id(25334)
     def test_put_update_task_types(self):
@@ -36,6 +37,7 @@ class TestWorkTaskTypes(BaseTest):
     @pytest.mark.test_case_id(25339)
     def test_delete_task_types_by_id(self):
         model_task_type = self.api_work_task_types.post_add_task_types()
+        self.api_work_task_types.put_update_task_types(model_task_type.results[0])
         self.api_work_task_types.delete_task_types_by_id(model_task_type.results[0])
 
     @allure.title('Test delete task type by list.')
