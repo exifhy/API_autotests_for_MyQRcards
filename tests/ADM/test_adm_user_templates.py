@@ -17,14 +17,14 @@ class TestAdmUserTemplates(BaseTest):
     def test_get_list_user_templates(self):
         self.api_adm_user_templates.get_list_user_templates()
 
-    @allure.title('Test add user template.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25791")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25791)
-    @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_user_template_by_id")
-    def test_post_add_user_template(self):
-        model_template = self.api_adm_user_templates.post_add_user_template()
-        self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
+    # @allure.title('Test add user template.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25791")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25791)
+    # @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_user_template_by_id")
+    # def test_post_add_user_template(self):
+    #     model_template = self.api_adm_user_templates.post_add_user_template()
+    #     self.api_adm_user_templates.delete_user_template_by_id(model_template.results[0])
 
     @allure.title('Test delete user template by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25792")

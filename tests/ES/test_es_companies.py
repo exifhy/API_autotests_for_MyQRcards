@@ -15,13 +15,13 @@ from config.base_test import BaseTest
 )
 class TestEsCompanies(BaseTest):
 
-    @pytest.mark.skip(reason='Company is created in test - test_delete_company_by_id.')
-    @allure.title('Test add our company.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23050")
-    @pytest.mark.smoke
-    @pytest.mark.test_case_id(23050)
-    def test_add_our_company(self):
-        self.api_es_companies.post_add_our_company()
+    # @pytest.mark.skip(reason='Company is created in test - test_delete_company_by_id.')
+    # @allure.title('Test add our company.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23050")
+    # @pytest.mark.smoke
+    # @pytest.mark.test_case_id(23050)
+    # def test_add_our_company(self):
+    #     self.api_es_companies.post_add_our_company()
 
     @allure.title('Test delete company by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23058")

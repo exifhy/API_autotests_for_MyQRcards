@@ -13,13 +13,13 @@ from config.base_test import BaseTest
 )
 class TestEsDistricts(BaseTest):
 
-    @pytest.mark.smoke
-    @pytest.mark.test_case_id(23087)
-    @pytest.mark.skip(reason='District is created in test - test_delete_district_by_id.')
-    @allure.title('Test add district.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23087")
-    def test_post_add_district(self):
-        self.api_es_districts.post_add_district()
+    # @pytest.mark.smoke
+    # @pytest.mark.test_case_id(23087)
+    # @pytest.mark.skip(reason='District is created in test - test_delete_district_by_id.')
+    # @allure.title('Test add district.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23087")
+    # def test_post_add_district(self):
+    #     self.api_es_districts.post_add_district()
 
     @allure.title('Test delete the district.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23088")
@@ -70,21 +70,21 @@ class TestEsDistricts(BaseTest):
         assert district_before != district_after, f'{district_before} is equal {district_after}'
         self.api_es_districts.delete_district_by_id(district_id.districts[0])
 
-    @allure.title('Test update parent district.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24291")
-    @pytest.mark.skip(reason="Ручка не используется, описана на будущее.")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(24291)
-    def test_put_update_parent_district(self):
-        pass
+    # @allure.title('Test update parent district.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24291")
+    # @pytest.mark.skip(reason="Ручка не используется, описана на будущее.")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(24291)
+    # def test_put_update_parent_district(self):
+    #     pass
 
-    @allure.title('Test update district sorted.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24292")
-    @pytest.mark.skip(reason="Ручка не используется, описана на будущее.")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(24292)
-    def test_put_update_district_sorted(self):
-        pass
+    # @allure.title('Test update district sorted.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24292")
+    # @pytest.mark.skip(reason="Ручка не используется, описана на будущее.")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(24292)
+    # def test_put_update_district_sorted(self):
+    #     pass
 
 
 @pytest.mark.test_scripts_suites_es_districts

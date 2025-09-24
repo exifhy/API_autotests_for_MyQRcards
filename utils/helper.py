@@ -205,3 +205,13 @@ class Helper:
         assert "UserNotFound" in response.headers["X-Application-Errors"], \
             f'Expected <UserNotFound>, but got {response.headers["X-Application-Errors"]}'
         return None
+
+    @staticmethod
+    def assert_parameter_null(response, model) -> None:
+        assert model.list_model[0].code == "ParameterNull", \
+            f'Expected ParameterNull, but got <{model.list_model[0].code}>'
+        assert model.list_model[0].message == "Параметр [data] не может быть пустым.", \
+            f'Expected Параметр [data] не может быть пустым., but got {model.list_model[0].message}'
+        assert "ParameterNull" in response.headers["X-Application-Errors"], \
+            f'Expected ParameterNull, but got {response.headers["X-Application-Errors"]}'
+        return None

@@ -27,24 +27,24 @@ class TestWhUserWarehouses(BaseTest):
             model_warehouses.result[1]
         )
 
-    @allure.title('Test add multiple warehouses to the user, by user ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26221")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(26221)
-    @pytest.mark.skip(reason="Тест проходит в - test_delete_multiple_warehouses_from_user_by_user_id.")
-    def test_post_add_multiple_warehouses_to_user_by_user_id(self):
-        model_stuff = self.api_adm_users.post_add_user_staff()
-        model_warehouses = self.api_wh_warehouses.post_add_two_warehouses()
-        self.api_wh_user_warehouses.post_add_multiple_warehouses_to_user_by_user_id(
-            model_stuff.userID,
-            model_warehouses.result[0],
-            model_warehouses.result[1]
-        )
-        self.api_adm_users.delete_user_by_id(model_stuff.userID)
-        self.api_wh_warehouses.delete_warehouses_by_list(
-            model_warehouses.result[0],
-            model_warehouses.result[1]
-        )
+    # @allure.title('Test add multiple warehouses to the user, by user ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26221")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(26221)
+    # @pytest.mark.skip(reason="Тест проходит в - test_delete_multiple_warehouses_from_user_by_user_id.")
+    # def test_post_add_multiple_warehouses_to_user_by_user_id(self):
+    #     model_stuff = self.api_adm_users.post_add_user_staff()
+    #     model_warehouses = self.api_wh_warehouses.post_add_two_warehouses()
+    #     self.api_wh_user_warehouses.post_add_multiple_warehouses_to_user_by_user_id(
+    #         model_stuff.userID,
+    #         model_warehouses.result[0],
+    #         model_warehouses.result[1]
+    #     )
+    #     self.api_adm_users.delete_user_by_id(model_stuff.userID)
+    #     self.api_wh_warehouses.delete_warehouses_by_list(
+    #         model_warehouses.result[0],
+    #         model_warehouses.result[1]
+    #     )
 
     @allure.title('Test delete multiple warehouses from user, by user ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26222")
@@ -69,31 +69,31 @@ class TestWhUserWarehouses(BaseTest):
             model_warehouses.result[1]
         )
 
-    @allure.title('Test add multiple warehouses to the users.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26223")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(26223)
-    @pytest.mark.skip(reason="Тест проходит в - test_delete_multiple_warehouses_from_users.")
-    def test_post_add_multiple_warehouses_to_users(self):
-        model_stuff = self.api_adm_users.post_add_user_staff()
-        model_stuff2 = self.api_adm_users.post_add_user_staff()
-        model_stuff3 = self.api_adm_users.post_add_user_staff()
-        model_warehouses = self.api_wh_warehouses.post_add_two_warehouses()
-        self.api_wh_user_warehouses.post_add_multiple_warehouses_to_users(
-            [model_stuff.userID, model_stuff2.userID, model_stuff3.userID],
-            [model_warehouses.result[0], model_warehouses.result[1]],
-            [model_warehouses.result[0], model_warehouses.result[1]],
-            [model_warehouses.result[0], model_warehouses.result[1]]
-        )
-        self.api_adm_users.delete_users_by_list(
-            model_stuff.userID,
-            model_stuff2.userID,
-            model_stuff3.userID
-        )
-        self.api_wh_warehouses.delete_warehouses_by_list(
-            model_warehouses.result[0],
-            model_warehouses.result[1]
-        )
+    # @allure.title('Test add multiple warehouses to the users.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26223")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(26223)
+    # @pytest.mark.skip(reason="Тест проходит в - test_delete_multiple_warehouses_from_users.")
+    # def test_post_add_multiple_warehouses_to_users(self):
+    #     model_stuff = self.api_adm_users.post_add_user_staff()
+    #     model_stuff2 = self.api_adm_users.post_add_user_staff()
+    #     model_stuff3 = self.api_adm_users.post_add_user_staff()
+    #     model_warehouses = self.api_wh_warehouses.post_add_two_warehouses()
+    #     self.api_wh_user_warehouses.post_add_multiple_warehouses_to_users(
+    #         [model_stuff.userID, model_stuff2.userID, model_stuff3.userID],
+    #         [model_warehouses.result[0], model_warehouses.result[1]],
+    #         [model_warehouses.result[0], model_warehouses.result[1]],
+    #         [model_warehouses.result[0], model_warehouses.result[1]]
+    #     )
+    #     self.api_adm_users.delete_users_by_list(
+    #         model_stuff.userID,
+    #         model_stuff2.userID,
+    #         model_stuff3.userID
+    #     )
+    #     self.api_wh_warehouses.delete_warehouses_by_list(
+    #         model_warehouses.result[0],
+    #         model_warehouses.result[1]
+    #     )
 
     @allure.title('Test add 300 warehouses to the users.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26458")

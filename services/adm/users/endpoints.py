@@ -115,7 +115,7 @@ class Endpoints:
         return f'{HOST}/ADM//Users/{user_id}/warehouses'
 
     post_add_attributes_to_users_endpoint = f'{HOST}/ADM/Users/attributes'
-    get_attributes_from_users_endpoint = f'{HOST}/ADM/Users/attributes'
+    get_list_attributes_from_users_endpoint = f'{HOST}/ADM/Users/attributes'
     put_update_users_attributes_endpoint = f'{HOST}/ADM/Users/attributes'
     delete_attributes_from_users_endpoint = f'{HOST}/ADM/Users/attributes'
 

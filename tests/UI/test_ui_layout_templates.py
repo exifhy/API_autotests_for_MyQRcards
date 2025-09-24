@@ -27,15 +27,15 @@ class TestUILayoutTemplates(BaseTest):
         model_template = self.api_ui_layout_templates.post_add_layout_template(False, None)
         self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
 
-    @allure.title('Test create layout template with taskTypeID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27098")
-    @pytest.mark.skip("Тест проходит в - test_post_add_layout_template_task_type_is_already_in_use")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(27098)
-    def test_post_add_layout_template_with_task_type_id(self):
-        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
-        model_template = self.api_ui_layout_templates.post_add_layout_template(False, task_type_id[0])
-        self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
+    # @allure.title('Test create layout template with taskTypeID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27098")
+    # @pytest.mark.skip("Тест проходит в - test_post_add_layout_template_task_type_is_already_in_use")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(27098)
+    # def test_post_add_layout_template_with_task_type_id(self):
+    #     task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+    #     model_template = self.api_ui_layout_templates.post_add_layout_template(False, task_type_id[0])
+    #     self.api_ui_layout_templates.delete_layout_template_by_id(model_template.id)
 
     @allure.title('Test delete layout template by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26981")
@@ -344,21 +344,21 @@ class TestUILayoutTemplates(BaseTest):
         model_template = self.api_ui_layout_templates.get_list_task_layout_templates()
         self.api_ui_layout_templates.get_list_components_layout_template_by_id(model_template.result[0].id)
 
-    @allure.title('Test get list components default layout template by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27169")
-    @pytest.mark.skip(reason="Логика ручки пока не используется.")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(27169)
-    def test_get_list_components_default_layout_template_by_id(self):
-        self.api_ui_layout_templates.receive_list_components_layout_template_by_id(True)
+    # @allure.title('Test get list components default layout template by ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27169")
+    # @pytest.mark.skip(reason="Логика ручки пока не используется.")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(27169)
+    # def test_get_list_components_default_layout_template_by_id(self):
+    #     self.api_ui_layout_templates.receive_list_components_layout_template_by_id(True)
 
-    @allure.title('Test get list components custom layout template by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27170")
-    @pytest.mark.skip(reason="Логика ручки пока не используется.")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(27170)
-    def test_get_list_components_custom_layout_template_by_id(self):
-        self.api_ui_layout_templates.receive_list_components_layout_template_by_id(False)
+    # @allure.title('Test get list components custom layout template by ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27170")
+    # @pytest.mark.skip(reason="Логика ручки пока не используется.")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(27170)
+    # def test_get_list_components_custom_layout_template_by_id(self):
+    #     self.api_ui_layout_templates.receive_list_components_layout_template_by_id(False)
 
     @allure.title('Test get list attributes layout template by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26988")

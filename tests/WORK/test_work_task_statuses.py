@@ -7,13 +7,13 @@ from config.base_test import BaseTest
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkTaskStatuses(BaseTest):
 
-    @allure.title('Test add task status.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25205")
-    @pytest.mark.skip(reason='Тест на создание статуса заявки проходит в - test_delete_task_statuses_by_list')
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25205)
-    def test_post_add_task_statuses(self):
-        self.api_work_task_statuses.post_add_task_statuses()
+    # @allure.title('Test add task status.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25205")
+    # @pytest.mark.skip(reason='Тест на создание статуса заявки проходит в - test_delete_task_statuses_by_list')
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25205)
+    # def test_post_add_task_statuses(self):
+    #     self.api_work_task_statuses.post_add_task_statuses()
 
     @allure.title('Test delete task statuses by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25206")

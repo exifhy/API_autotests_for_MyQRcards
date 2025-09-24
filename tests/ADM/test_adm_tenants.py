@@ -148,21 +148,21 @@ class TestAdmTenants(BaseTest):
     def test_post_add_package_without_authorization(self):
         self.api_adm_tenants.post_add_package_without_authorization()
 
-    @allure.title('Test delete packages from system.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25645")
-    @pytest.mark.regress
-    @pytest.mark.skip(reason="Удаление плагина из системы проходит "
-                             "в - test_post_add_package_to_tenant_with_all_resource.")
-    @pytest.mark.test_case_id(25645)
-    def test_delete_packages_from_system(self, bearer_token_power_user):
-        model_package = self.api_adm_tenants.post_add_packages_to_data_base_cross_tenant_admin_with_is_mobile_field(
-            bearer_token_power_user
-        )
-        self.api_adm_tenants.delete_packages_from_system(
-            bearer_token_power_user,
-            model_package.results[0].package.id,
-            model_package.results[0].package.version
-        )
+    # @allure.title('Test delete packages from system.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25645")
+    # @pytest.mark.regress
+    # @pytest.mark.skip(reason="Удаление плагина из системы проходит "
+    #                          "в - test_post_add_package_to_tenant_with_all_resource.")
+    # @pytest.mark.test_case_id(25645)
+    # def test_delete_packages_from_system(self, bearer_token_power_user):
+    #     model_package = self.api_adm_tenants.post_add_packages_to_data_base_cross_tenant_admin_with_is_mobile_field(
+    #         bearer_token_power_user
+    #     )
+    #     self.api_adm_tenants.delete_packages_from_system(
+    #         bearer_token_power_user,
+    #         model_package.results[0].package.id,
+    #         model_package.results[0].package.version
+    #     )
 
     @allure.title('Test delete packages from system without Version field.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25646")
@@ -257,13 +257,13 @@ class TestAdmTenants(BaseTest):
     def test_get_list_variables_from_tenant(self):
         self.api_adm_tenants.get_list_variables_from_tenant()
 
-    @allure.title('Test add variables to tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25947")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25947)
-    @pytest.mark.skip(reason="Тест на создание переменных проходит в - test_delete_variable_from_tenant_by_name")
-    def test_post_add_variables_to_tenant(self):
-        self.api_adm_tenants.post_add_variables_to_tenant()
+    # @allure.title('Test add variables to tenant.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25947")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25947)
+    # @pytest.mark.skip(reason="Тест на создание переменных проходит в - test_delete_variable_from_tenant_by_name")
+    # def test_post_add_variables_to_tenant(self):
+    #     self.api_adm_tenants.post_add_variables_to_tenant()
 
     @allure.title('Test delete variable from tenant by name.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25951")

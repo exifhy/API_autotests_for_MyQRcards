@@ -131,6 +131,120 @@ class Payloads:
         return payload
 
     @staticmethod
+    def post_add_attribute_to_two_users_payload(user_id: int, user2_id: int, attribute_id: int, value) -> list:
+        payload = [
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user_id
+            },
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user2_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def put_update_user_attribute_payload(user_id: int, attribute_id: int, value) -> list:
+        payload = [
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def put_update_user_attribute_empty_value_payload(user_id: int, attribute_id: int) -> list:
+        payload = [
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def post_add_two_attributes_to_user_payload(user_id: int, attribute_id: int, attribute2_id: int, value) -> list:
+        payload = [
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    },
+                    {
+                        "attributeID": attribute2_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def post_add_two_attributes_to_two_users_payload(user_id: int, user2_id: int, attribute_id: int, attribute2_id: int, value) -> list:
+        payload = [
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    },
+                    {
+                        "attributeID": attribute2_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user_id
+            },
+            {
+                "data": [
+                    {
+                        "attributeID": attribute_id,
+                        "value": value,
+                        "sortOrder": 1
+                    },
+                    {
+                        "attributeID": attribute2_id,
+                        "value": value,
+                        "sortOrder": 1
+                    }
+                ],
+                "userID": user2_id
+            }
+        ]
+        return payload
+
+    @staticmethod
     def post_add_attributes_to_user_by_id_payload(attribute_id: int, value) -> list:
         payload = [
             {
@@ -154,5 +268,44 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_attributes_from_user_by_id_payload(*attribute_ids: int or tuple) -> list:
+    def delete_attributes_from_two_users_payload(user_id: int, user2_id: int, attribute_id: int, attribute2_id: int) -> list:
+        payload = [
+            {
+                "data": [
+                    attribute_id, attribute2_id
+                ],
+                "userID": user_id
+            },
+            {
+                "data": [
+                    attribute_id, attribute2_id
+                ],
+                "userID": user2_id
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def delete_attributes_from_user_by_user_id_payload(*attribute_ids: int) -> list:
         return [*attribute_ids]
+
+    @staticmethod
+    def put_update_user_attribute_by_user_id_payload(attribute_id: int, value) -> list:
+        payload = [
+            {
+                "attributeID": attribute_id,
+                "value": value,
+                "sortOrder": 1
+            }
+        ]
+        return payload
+
+    @staticmethod
+    def put_update_user_attribute_by_user_id_without_value_payload(attribute_id: int) -> list:
+        payload = [
+            {
+                "attributeID": attribute_id,
+                "sortOrder": 1
+            }
+        ]
+        return payload

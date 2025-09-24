@@ -25,14 +25,14 @@ class TestAdmRoles(BaseTest):
         model_role = self.api_adm_roles.get_list_roles()
         self.api_adm_roles.get_list_applications_role_by_role_id(model_role.results[0].id)
 
-    @allure.title('Test get list attachments role by role ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25864")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25864)
-    @pytest.mark.skip(reason="Ручка отключена.")
-    def test_get_list_attachments_role_by_role_id(self):
-        model_role = self.api_adm_roles.get_list_roles()
-        self.api_adm_roles.get_list_attachments_role_by_role_id(model_role.results[0].id)
+    # @allure.title('Test get list attachments role by role ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25864")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25864)
+    # @pytest.mark.skip(reason="Ручка отключена.")
+    # def test_get_list_attachments_role_by_role_id(self):
+    #     model_role = self.api_adm_roles.get_list_roles()
+    #     self.api_adm_roles.get_list_attachments_role_by_role_id(model_role.results[0].id)
 
     @allure.title('Test get role by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25865")
@@ -50,14 +50,14 @@ class TestAdmRoles(BaseTest):
         model_role = self.api_adm_roles.post_add_role()
         self.api_adm_roles.delete_role_by_id(model_role.results[0])
 
-    @allure.title('Test add role.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25867")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25867)
-    @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_role_by_id")
-    def test_post_add_role(self):
-        model_role = self.api_adm_roles.post_add_role()
-        self.api_adm_roles.delete_roles_by_list(model_role.results[0])
+    # @allure.title('Test add role.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25867")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25867)
+    # @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_role_by_id")
+    # def test_post_add_role(self):
+    #     model_role = self.api_adm_roles.post_add_role()
+    #     self.api_adm_roles.delete_roles_by_list(model_role.results[0])
 
     @allure.title('Test update role.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25869")

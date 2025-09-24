@@ -7,13 +7,13 @@ from config.base_test import BaseTest
 @allure.feature("Common service offers various methods for managing common and auxiliary dictionaries.")
 class TestCommonContacts(BaseTest):
 
-    @allure.title('Test add contacts.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23744")
-    @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_contract_by_id")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23744)
-    def test_post_add_contacts(self):
-        self.api_common_contacts.post_add_contacts()
+    # @allure.title('Test add contacts.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23744")
+    # @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_contract_by_id")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(23744)
+    # def test_post_add_contacts(self):
+    #     self.api_common_contacts.post_add_contacts()
 
     @allure.title('Test delete contact by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23748")

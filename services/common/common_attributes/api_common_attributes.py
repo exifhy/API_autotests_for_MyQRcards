@@ -144,7 +144,7 @@ class CommonAttributesAPI(Helper):
             headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_attribute_to_user_payloads(
                 attribute_name=attribute_name,
-                attribute_type_id=randint(1, 11),
+                attribute_type_id=1,
                 customer=True,
                 stuff=False
             )
@@ -160,7 +160,7 @@ class CommonAttributesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.info(f'Successfully add attribute type 2 only for customer with name: {attribute_name}.')
+        logger.info(f'Successfully add attribute type 1 only for customer with name: {attribute_name}.')
         return model
 
     @allure.step("Attribute creation method for stuff.")
@@ -172,7 +172,7 @@ class CommonAttributesAPI(Helper):
             headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_attribute_to_user_payloads(
                 attribute_name=attribute_name,
-                attribute_type_id=randint(1, 11),
+                attribute_type_id=1,
                 customer=False,
                 stuff=True
             )
@@ -188,19 +188,20 @@ class CommonAttributesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.info(f'Successfully add attribute type 2 only for stuff with name: {attribute_name}.')
+        logger.info(f'Successfully add attribute type 1 only for stuff with name: {attribute_name}.')
         return model
 
     @allure.step("Attribute creation method for stuff and customer.")
     def post_add_attribute_for_stuff_and_customer(self):
         attribute_name = f'Поле для сотрудника и заказчика - {randint(1, 999)}'
+        attribute_type_id = randint(1, 8)
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
             headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_attribute_to_user_payloads(
                 attribute_name=attribute_name,
-                attribute_type_id=randint(1, 11),
+                attribute_type_id=attribute_type_id,
                 customer=True,
                 stuff=True
             )
@@ -216,19 +217,111 @@ class CommonAttributesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.info(f'Successfully add attribute type 2 only for stuff and customer with name: {attribute_name}.')
+        logger.info(f'Successfully add attribute type {attribute_type_id} only for stuff and customer with name: {attribute_name}.')
         return model
 
-    @allure.step("Attribute creation method stuff false and customer false.")
-    def post_add_attribute_stuff_and_customer_false(self):
-        attribute_name = f'Поле бзе привязки - {randint(1, 999)}'
+    @allure.step("Attribute string creation method for stuff and customer.")
+    def post_add_string_attribute_for_stuff_and_customer(self):
+        attribute_name = f'Поле для сотрудника и заказчика - {randint(1, 999)}'
+        attribute_type_id = 1
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_method_attributes_endpoint,
             headers=self.headers.basic_header(get_token()),
             json=self.payloads.post_add_attribute_to_user_payloads(
                 attribute_name=attribute_name,
-                attribute_type_id=randint(1, 11),
+                attribute_type_id=attribute_type_id,
+                customer=True,
+                stuff=True
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add attribute type {attribute_type_id} only for stuff and customer with name: {attribute_name}.')
+        return model
+
+    @allure.step("Add different attributes for stuff and customer.")
+    def post_add_different_attributes_for_stuff_and_customer(self, attribute_type_id: int):
+        attribute_name = f'Поле для сотрудника и заказчика - {randint(1, 999)}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=attribute_type_id,
+                customer=True,
+                stuff=True
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddAttributeModel(values=response.json())
+        logger.info(f'Successfully add different attributes types ID {attribute_type_id} for stuff and customer with name: {attribute_name}.')
+        return model
+
+    @allure.step("Users attribute update method.")
+    def put_update_users_attribute(self, attribute_id: int, customer: bool, stuff: bool):
+        attribute_name = f'Обновленное поле - {randint(1, 999)}'
+        attribute_type_id = randint(1, 8)
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_method_attributes_payloads(
+                attribute_id=attribute_id,
+                attribute_name=attribute_name,
+                attribute_type_id=attribute_type_id,
+                customer=customer,
+                stuff=stuff
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code{HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
+        model_after = self.get_attribute_by_id(attribute_id)
+        assert attribute_name == model_after.name, "Attribute name has not changed"
+        assert attribute_type_id == model_after.type.id, "Attribute type has not changed"
+        assert customer is model_after.relevantFor.customer, "User attribute has not changed"
+        assert stuff is model_after.relevantFor.technician, "User attribute has not changed"
+        logger.info(f'Successfully update users attribute name: {attribute_name}.')
+        return None
+
+    @allure.step("Attribute creation method stuff false and customer false.")
+    def post_add_attribute_stuff_and_customer_false(self):
+        attribute_name = f'Поле бзе привязки - {randint(1, 999)}'
+        attribute_type_id = randint(1, 8)
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_method_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attribute_to_user_payloads(
+                attribute_name=attribute_name,
+                attribute_type_id=attribute_type_id,
                 customer=False,
                 stuff=False
             )
@@ -244,7 +337,7 @@ class CommonAttributesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code{HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddAttributeModel(values=response.json())
-        logger.info(f'Successfully add attribute type 2 stuff and customer false with name: {attribute_name}.')
+        logger.info(f'Successfully add attribute type {attribute_type_id} stuff and customer false with name: {attribute_name}.')
         return model
 
     @allure.step("Attribute creation method for complete work, type attachment.")
@@ -449,8 +542,70 @@ class CommonAttributesAPI(Helper):
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetAttributesModel(root=response.json())
-        logger.warning(f'Successfully get list attributes.')
+        logger.info(f'Successfully get list attributes.')
         return model
+
+    @allure.step("Get list attributes isDeleted=false.")
+    def get_list_attributes_deleted_false(self):
+        param = {
+            "isDeleted": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_endpoint, params=param,
+            headers=self.headers.auth_header(bearer_token=get_token(), app_id=APP_ID)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
+        model = SuccessGetAttributesModel(root=response.json())
+        logger.info(f'Successfully get list attributes.')
+        return model
+
+    @allure.step("Get list attributes and return non existent attributeID.")
+    def get_list_attributes_return_non_existent_attribute_id(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_endpoint,
+            headers=self.headers.basic_header_with_range(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.PARTIAL_CONTENT, \
+            (f'Expected status code {HTTPStatus.PARTIAL_CONTENT},'
+             f'but got {response.status_code}, {data_response}')
+        model = SuccessGetAttributesModel(root=response.json())
+        qty_items = int(response.headers["Content-Range"].split("/")[-1])
+        logger.info(f'Successfully get list attributes.')
+        return qty_items + 1
+
+    @allure.step("Deleting attributes, customer=true, technician=false.")
+    def deleting_attributes_customer_true_technician_false(self):
+        model_attribute = self.get_list_attributes_deleted_false()
+        list_ids_technician_true = [
+            int(key) for key, attribute in model_attribute.root.items()
+            if model_attribute.root and
+                attribute.relevantFor and 
+                (attribute.relevantFor.customer is True and attribute.relevantFor.technician is False)
+        ] if model_attribute.root else []
+        if len(list_ids_technician_true) > 0:
+            self.delete_attributes_by_list(*list_ids_technician_true)
+            logger.warning(f'Successfully delete technician attributes {list_ids_technician_true}.')
+        else:
+            logger.info("Tenant does not contain technician attributes")
+
 
     @allure.step("Get list attributes and return id attribute 'Attachment' for checklist.")
     def get_list_attributes_return_id_attribute_attachment_for_checklist(self):
@@ -538,11 +693,11 @@ class CommonAttributesAPI(Helper):
             (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
              f'but got {response.status_code}, {data_response}')
         model = AttributeResultList(**response.json())
-        logger.warning(f'Successfully get attribute by ID.')
+        logger.info(f'Successfully get attribute by ID.')
         return model
 
     @allure.step("Delete mass attributes by list.")
-    def delete_attributes_by_list(self, *attribute_ids: int or tuple):
+    def delete_attributes_by_list(self, *attribute_ids: int):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_mass_attributes_endpoint,
@@ -555,10 +710,11 @@ class CommonAttributesAPI(Helper):
         data_response = self.response_content(response)
         self.attach_response(data_response)
         self.attach_time(start, end)
+        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully mass delete attributes method by list.')
+        logger.warning(f'Successfully mass delete attributes {attribute_ids} method by list.')
 
     @allure.step("Get available values for an attribute.")
     def get_available_values_for_attribute(self, attribute_id: int):

@@ -20,13 +20,13 @@ class TestEsAssetTypes(BaseTest):
     def test_get_list_asset_types(self):
         self.api_es_asset_types.get_all_list_asset_types()
 
-    @allure.title('Test add asset types.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23589")
-    @pytest.mark.skip(reason="Тест на создание типа объекта проходит - test_delete_asset_type_by_id")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23589)
-    def test_post_add_asset_types(self):
-        self.api_es_asset_types.post_add_asset_types(False)
+    # @allure.title('Test add asset types.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23589")
+    # @pytest.mark.skip(reason="Тест на создание типа объекта проходит - test_delete_asset_type_by_id")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(23589)
+    # def test_post_add_asset_types(self):
+    #     self.api_es_asset_types.post_add_asset_types(False)
 
     @allure.title('Test delete asset type by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23591")

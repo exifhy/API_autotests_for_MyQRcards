@@ -1,6 +1,8 @@
+import os
 import allure
 import pytest
 from config.base_test import BaseTest
+from src.enums.params_enums import Params
 
 
 @allure.epic("Administration")
@@ -269,14 +271,14 @@ class TestAdmUsers(BaseTest):
             model_districts.districts[2]
         )
 
-    @allure.title('Test resend the invitation to the user.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26080")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(26080)
-    @pytest.mark.skip(reason="Отправка повторно письма и смс.")
-    def test_put_user_resend_invitation(self):
-        model_user = self.api_adm_tenants.get_data_current_tenant()
-        self.api_adm_users.put_user_resend_invitation(model_user.owner.userID)
+    # @allure.title('Test resend the invitation to the user.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26080")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(26080)
+    # @pytest.mark.skip(reason="Отправка повторно письма и смс.")
+    # def test_put_user_resend_invitation(self):
+    #     model_user = self.api_adm_tenants.get_data_current_tenant()
+    #     self.api_adm_users.put_user_resend_invitation(model_user.owner.userID)
 
     @allure.title('Test get user permissions ui.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26081")
@@ -527,3 +529,838 @@ class TestAdmUsers(BaseTest):
         )
         self.api_adm_users.get_list_users_warehouses_by_id(model_owner_user.owner.userID)
         self.api_wh_warehouses.delete_warehouse_by_id(model_warehouses[0].result[0])
+
+    @allure.title('Test get list users attributes.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26827")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26827)
+    def test_get_list_users_attributes(self):
+        self.api_adm_users.get_list_users_attributes()
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26828")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26828)
+    @pytest.mark.parametrize('attribute_type_id, attribute_value', Params.params_user_attributes_body.value)
+    def test_post_add_different_attributes_to_user(self, attribute_type_id, attribute_value, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(attribute_type_id)
+        try:
+            if attribute_type_id in [6, 7]:
+                self.api_common_attribute_list_of_values.post_add_attribute_list_of_value_with_five_fields(model_attribute.values[0])
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                    )
+            else:
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                )
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute to stuff.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27566")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27566)
+    def test_post_add_attribute_to_stuff(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute to customer.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27565")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27565)
+    def test_post_add_attribute_to_customer(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.post_add_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to customer.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27568")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27568)
+    def test_post_add_attribute_technician_false_customer_false_to_customer(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_stuff_and_customer_false()
+        self.api_adm_users.post_add_attribute_technician_false_customer_false_to_user(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to stuff.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27572")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27572)
+    def test_post_add_attribute_technician_false_customer_false_to_stuff(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_stuff_and_customer_false()
+        self.api_adm_users.post_add_attribute_technician_false_customer_false_to_user(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add deleted attribute to user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27567")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27567)
+    def test_post_add_deleted_attribute_to_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+        self.api_adm_users.post_add_deleted_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test add attribute to deleted user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27571")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27571)
+    def test_post_add_attribute_to_deleted_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_attribute_to_deleted_user(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute with empty body to user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27569")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27569)
+    def test_post_add_empty_body_to_user(self):
+        self.api_adm_users.post_add_empty_body_to_user()
+
+    @allure.title('Test add already added attribute to user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27570")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27570)
+    def test_post_add_already_added_attribute_to_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.post_add_already_added_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add two attributes to user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27589")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27589)
+    def test_post_add_two_attributes_to_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        model_attribute2 = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_two_attributes_to_user(
+            model_user.userID,
+            model_attribute.values[0],
+            model_attribute2.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute2.values[0])
+
+    @allure.title('Test add two attributes to two users.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27590")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27590)
+    def test_post_add_two_attributes_to_two_users(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_user2 = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        model_attribute2 = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_two_attributes_to_two_users(
+            model_user.userID,
+            model_user2.userID,
+            model_attribute.values[0],
+            model_attribute2.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user2.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute2.values[0])
+
+    @allure.title('Test get list users attributes, IsRelevantForTechnician=true.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27593")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27593)
+    def test_get_list_users_attributes_technician_true(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.get_list_users_attributes_technician_true()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get list users attributes, IsRelevantForTechnician=false.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27594")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27594)
+    def test_get_list_users_attributes_technician_false(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.get_list_users_attributes_technician_false()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get list users attributes, IsRelevantForCustomer=true.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27591")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27591)
+    def test_get_list_users_attributes_customer_true(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.get_list_users_attributes_customer_true()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get list users attributes, IsRelevantForCustomer=false.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27592")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27592)
+    def test_get_list_users_attributes_customer_false(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.get_list_users_attributes_customer_false()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get list users attributes by attributeID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27595")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27595)
+    def test_get_list_users_attributes_by_attribute_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.get_list_users_attributes_by_attribute_id(model_attribute.values[0])
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get list users attributes by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27596")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27596)
+    def test_get_list_users_attributes_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.get_list_users_attributes_by_user_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update customer attributes.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27597")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27597)
+    def test_put_update_customer_attribute(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.put_update_user_attribute(model_user.userID, model_attribute.values[0])
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update technician attributes.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27598")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27598)
+    def test_put_update_technician_attribute(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.put_update_user_attribute(model_user.userID, model_attribute.values[0])
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update user attribute with non existent attribute.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27599")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27599)
+    def test_put_update_user_attribute_with_non_existent_attribute(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        non_existent_attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
+        try:
+            self.api_adm_users.put_update_user_attribute_with_non_existent_attribute(model_user.userID, non_existent_attribute_id)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test update user attribute with empty body.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27600")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27600)
+    def test_put_update_user_attribute_with_empty_body(self):
+        self.api_adm_users.put_update_user_attribute_with_empty_body()
+
+    @allure.title('Test update technician attribute send empty value field.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27601")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27601)
+    def test_put_update_user_attribute_with_empty_value_field(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        try:
+            self.api_adm_users.put_update_user_attribute_with_empty_value_field(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27602")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27602)
+    @pytest.mark.parametrize('attribute_type_id, attribute_value, new_attribute_value', Params.params_update_user_attributes_body.value)
+    def test_put_update_different_users_attributes(self, attribute_type_id, attribute_value, new_attribute_value, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(attribute_type_id)
+        try:
+            if attribute_type_id in [6, 7]:
+                self.api_common_attribute_list_of_values.post_add_attribute_list_of_value_with_five_fields(model_attribute.values[0])
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                    )
+                self.api_adm_users.put_update_user_attributes(model_user.userID, model_attribute.values[0], new_attribute_value)
+                
+            else:
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                )
+                self.api_adm_users.put_update_user_attributes(model_user.userID, model_attribute.values[0], new_attribute_value)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update deleted user attribute.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27605")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27605)
+    def test_put_update_deleted_user_attribute(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        try:
+            self.api_adm_users.put_update_deleted_user_attribute(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test delete attribute from user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27622")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27622)
+    def test_delete_attribute_from_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        try:
+            self.api_adm_users.delete_attribute_from_user(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test delete attribute from two users.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27679")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27679)
+    def test_delete_attribute_from_two_users(self):
+        model_technician = self.api_adm_users.post_add_user_staff()
+        model_customer = self.api_adm_users.post_add_user_customer()
+        model_attribute_first = self.api_common_attributes.post_add_string_attribute_for_stuff_and_customer()
+        model_attribute_second = self.api_common_attributes.post_add_string_attribute_for_stuff_and_customer()
+        self.api_adm_users.post_add_two_attributes_to_two_users(
+            model_technician.userID,
+            model_customer.userID,
+            model_attribute_first.values[0],
+            model_attribute_second.values[0],
+            "sting"
+            )
+        try:
+            self.api_adm_users.delete_two_attributes_from_two_user(
+                model_technician.userID,
+                model_customer.userID,
+                model_attribute_first.values[0],
+                model_attribute_second.values[0]
+                )
+        finally:
+            self.api_adm_users.delete_users_by_list(model_technician.userID, model_customer.userID)
+            self.api_common_attributes.delete_attributes_by_list(model_attribute_first.values[0], model_attribute_second.values[0])
+
+    @allure.title('Test delete attribute from user with empty body.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27623")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27623)
+    def test_delete_attribute_from_user_with_empty_body(self):
+        self.api_adm_users.delete_attribute_from_user_with_empty_body()
+
+    @allure.title('Test delete non existent attribute from user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27624")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27624)
+    def test_delete_non_existent_attribute_from_user(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        non_existent_attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
+        self.api_adm_users.delete_non_existent_attribute_from_user(model_user.userID, non_existent_attribute_id)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test delete attribute from non existent user.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27625")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27625)
+    def test_delete_attribute_from_non_existent_user(self):
+        non_existent_user_id = self.api_adm_users.get_non_existent_user_id()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.delete_attribute_from_non_existent_user(non_existent_user_id, model_attribute.values[0])
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27632")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27632)
+    @pytest.mark.parametrize('attribute_type_id, attribute_value', Params.params_user_attributes_by_id_body.value)
+    def test_post_add_different_attributes_to_user_by_user_id(self, attribute_type_id, attribute_value, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(attribute_type_id)
+        try:
+            if attribute_type_id in [6, 7]:
+                self.api_common_attribute_list_of_values.post_add_attribute_list_of_value_with_five_fields(model_attribute.values[0])
+                self.api_adm_users.post_add_attribute_to_user_by_user_id(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                    )
+            else:
+                self.api_adm_users.post_add_attribute_to_user_by_user_id(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                )
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute to stuff by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27633")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27633)
+    def test_post_add_attribute_to_stuff_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute to customer by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27634")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27634)
+    def test_post_add_attribute_to_customer_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.post_add_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add deleted attribute to user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27635")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27635)
+    def test_post_add_deleted_attribute_to_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+        self.api_adm_users.post_add_deleted_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test add attribute to deleted user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27640")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27640)
+    def test_post_add_attribute_to_deleted_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_attribute_to_deleted_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute with empty body to user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27638")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27638)
+    def test_post_add_attribute_with_empty_body_to_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.post_add_attribute_with_empty_body_to_user_by_user_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test add already added attribute to user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27639")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27639)
+    def test_post_add_already_added_attribute_to_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(1)
+        self.api_adm_users.post_add_attribute_to_user(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.post_add_already_added_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to customer by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27637")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27637)
+    def test_post_add_attribute_technician_false_customer_false_to_customer_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_stuff_and_customer_false()
+        self.api_adm_users.post_add_attribute_technician_false_customer_false_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to stuff by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27636")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27636)
+    def test_post_add_attribute_technician_false_customer_false_to_stuff_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_stuff_and_customer_false()
+        self.api_adm_users.post_add_attribute_technician_false_customer_false_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0]
+        )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get user attribute by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26831")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26831)
+    def test_get_user_attributes_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_for_stuff_and_customer()
+        self.api_adm_users.post_add_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.get_user_attributes_by_user_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get user attributes by userID with IsRelevantForTechnician=true.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27663")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27663)
+    def test_get_user_attributes_by_user_id_with_IsRelevantForTechnician_true(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        self.api_adm_users.get_user_attributes_by_user_id_with_IsRelevantForTechnician_true(
+            model_user.userID, model_attribute.values[0], "string"
+            )
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get user attributes by userID with IsRelevantForTechnician=false.')
+    @pytest.mark.skipif(
+        os.environ.get('TENANT_ID') not in ['121', '66', '405'],
+        reason="Test only for tenants 121, 66, 405"
+        )
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27664")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27664)
+    def test_get_user_attributes_by_user_id_with_IsRelevantForTechnician_false(self):
+        self.api_common_attributes.deleting_attributes_customer_true_technician_false()
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.get_user_attributes_by_user_id_with_IsRelevantForTechnician_false(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test get user attributes by userID with attributeID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27665")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27665)
+    def test_get_user_attributes_by_user_id_with_attribute_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user_by_user_id(
+            model_user.userID,
+            model_attribute.values[0],
+            "string"
+        )
+        try:
+            self.api_adm_users.get_user_attributes_by_user_id_with_attribute_id(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test get user attributes by userID with non existent attributeID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27666")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27666)
+    def test_get_user_attributes_by_user_id_with_non_existent_attribute_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
+        try:
+            self.api_adm_users.get_user_attributes_by_user_id_with_non_existent_attribute_id(model_user.userID, attribute_id)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27685")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27685)
+    @pytest.mark.parametrize('attribute_type_id, attribute_value, new_attribute_value', Params.params_update_user_attributes_body.value)
+    def test_put_update_different_users_attributes_by_user_id(self, attribute_type_id, attribute_value, new_attribute_value, request):
+        allure.dynamic.title(f"{request.node.callspec.id}")
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_different_attributes_for_stuff_and_customer(attribute_type_id)
+        try:
+            if attribute_type_id in [6, 7]:
+                self.api_common_attribute_list_of_values.post_add_attribute_list_of_value_with_five_fields(model_attribute.values[0])
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                    )
+                self.api_adm_users.put_update_user_attributes_by_user_id(model_user.userID, model_attribute.values[0], new_attribute_value)
+            else:
+                self.api_adm_users.post_add_attribute_to_user(
+                    model_user.userID,
+                    model_attribute.values[0],
+                    attribute_value
+                )
+                self.api_adm_users.put_update_user_attributes_by_user_id(model_user.userID, model_attribute.values[0], new_attribute_value)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update customer attribute by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27680")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27680)
+    def test_put_update_customer_attribute_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_customer()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_customer()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.put_update_user_attribute_by_user_id(model_user.userID, model_attribute.values[0])
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update technician attribute by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27681")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(27681)
+    def test_put_update_technician_attribute_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.put_update_user_attribute_by_user_id(model_user.userID, model_attribute.values[0])
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update user attribute with non existent attribute.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27682")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27682)
+    def test_put_update_user_attribute_with_non_existent_attribute_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        non_existent_attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
+        try:
+            self.api_adm_users.put_update_user_attribute_with_non_existent_attribute_by_user_id(model_user.userID, non_existent_attribute_id)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test update user attribute with empty body by UserID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27683")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27683)
+    def test_put_update_user_attribute_with_empty_body_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        self.api_adm_users.put_update_user_attribute_with_empty_body_by_user_id(model_user.userID)
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+
+    @allure.title('Test update technician attribute send empty value field by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27684")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27684)
+    def test_put_update_user_attribute_with_empty_value_field_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        try:
+            self.api_adm_users.put_update_user_attribute_with_empty_value_field_by_user_id(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test update deleted user attribute by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27606")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27606)
+    def test_put_update_deleted_user_attribute_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(model_user.userID, model_attribute.values[0], "sting")
+        self.api_adm_users.delete_user_by_id(model_user.userID)
+        try:
+            self.api_adm_users.put_update_deleted_user_attribute_by_user_id(model_user.userID, model_attribute.values[0])
+        finally:
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test delete two attributes from user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26834")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26834)
+    def test_delete_two_attribute_from_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        model_attribute_second = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_two_attributes_to_user(
+            model_user.userID, 
+            model_attribute.values[0],
+            model_attribute_second.values[0],
+            "string"
+            )
+        try:
+            self.api_adm_users.delete_two_attribute_from_user_by_user_id(
+                model_user.userID,
+                model_attribute.values[0],
+                model_attribute_second.values[0]
+                )
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_attributes_by_list(model_attribute.values[0], model_attribute_second.values[0])
+
+    @allure.title('Test delete attribute from user with empty body by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27687")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27687)
+    def test_delete_attribute_from_user_with_empty_body_by_user_id(self):
+        self.api_adm_users.delete_attribute_from_user_with_empty_body_by_user_id()
+
+    @allure.title('Test delete attribute from user with empty list by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27688")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27688)
+    def test_delete_attribute_from_user_with_empty_list_by_user_id(self):
+        self.api_adm_users.delete_attribute_from_user_with_empty_list_by_user_id()
+
+    @allure.title('Test delete attribute from non existent user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27689")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27689)
+    def test_delete_attribute_from_non_existent_user_by_user_id(self):
+        non_existent_user_id = self.api_adm_users.get_non_existent_user_id()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.delete_attribute_from_non_existent_user_by_user_id(non_existent_user_id, model_attribute.values[0])
+        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+
+    @allure.title('Test delete already deleted attribute from user by userID.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27691")
+    @pytest.mark.regress
+    @pytest.mark.ng
+    @pytest.mark.test_case_id(27691)
+    def test_delete_already_deleted_attribute_from_user_by_user_id(self):
+        model_user = self.api_adm_users.post_add_user_staff()
+        model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        self.api_adm_users.post_add_attribute_to_user(
+            model_user.userID, 
+            model_attribute.values[0],
+            "string"
+            )
+        try:
+            self.api_adm_users.delete_attribute_from_user(
+                model_user.userID,
+                model_attribute.values[0],
+                )
+            self.api_adm_users.delete_already_deleted_attribute_from_user_by_user_id(
+                model_user.userID,
+                model_attribute.values[0],
+                )
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
+            self.api_common_attributes.delete_attributes_by_list(model_attribute.values[0])

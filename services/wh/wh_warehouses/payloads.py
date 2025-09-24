@@ -29,7 +29,7 @@ class Payloads:
         return [*wh_ids]
 
     @staticmethod
-    def delete_list_users_from_warehouse_by_id_payload(*users_ids: int or tuple) -> list:
+    def delete_list_users_from_warehouse_by_id_payload(*users_ids: int) -> list:
         return [*users_ids]
 
     @staticmethod

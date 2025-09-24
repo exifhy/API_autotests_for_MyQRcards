@@ -59,6 +59,6 @@ class CommonAttributeListOfValuesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, bot got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully add attribute the list of available values.')
+        logger.info(f'Successfully add attribute the list of available values.')
         result = {item['key']: item['value'] for item in values}
         return result

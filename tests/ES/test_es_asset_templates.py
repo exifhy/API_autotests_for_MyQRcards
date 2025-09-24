@@ -30,22 +30,22 @@ class TestEsAssetTemplates(BaseTest):
         finally:
             self.api_es_locations.delete_location_by_id(location_id)
 
-    @allure.title('Test delete asset templates by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24152")
-    @pytest.mark.skip(reason="Тест на удаление шаблона списком проходит в - test_post_add_asset_templates")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(24152)
-    def test_delete_asset_templates_by_list(self):
-        location_id = self.api_es_locations.post_add_location()
-        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
-        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
-        try:
-            model_template = self.api_es_asset_templates.post_add_asset_templates(
-                asset_type_id, asset_class_id, location_id
-            )
-            self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
-        finally:
-            self.api_es_locations.delete_location_by_id(location_id)
+    # @allure.title('Test delete asset templates by list.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24152")
+    # @pytest.mark.skip(reason="Тест на удаление шаблона списком проходит в - test_post_add_asset_templates")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(24152)
+    # def test_delete_asset_templates_by_list(self):
+    #     location_id = self.api_es_locations.post_add_location()
+    #     asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+    #     asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+    #     try:
+    #         model_template = self.api_es_asset_templates.post_add_asset_templates(
+    #             asset_type_id, asset_class_id, location_id
+    #         )
+    #         self.api_es_asset_templates.delete_asset_templates_by_list(model_template.result[0])
+    #     finally:
+    #         self.api_es_locations.delete_location_by_id(location_id)
 
     @allure.title('Test delete asset template by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24154")

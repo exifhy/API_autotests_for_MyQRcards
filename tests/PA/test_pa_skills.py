@@ -9,13 +9,13 @@ from config.base_test import BaseTest
 )
 class TestPaSkills(BaseTest):
 
-    @allure.title('Test add skills to this tenant.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24008")
-    @pytest.mark.skip(reason="Тест на создание навыка проходит в - test_delete_skill_by_id")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(24008)
-    def test_post_add_skills_to_tenant(self):
-        self.api_pa_skills.post_add_skills_to_tenant()
+    # @allure.title('Test add skills to this tenant.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24008")
+    # @pytest.mark.skip(reason="Тест на создание навыка проходит в - test_delete_skill_by_id")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(24008)
+    # def test_post_add_skills_to_tenant(self):
+    #     self.api_pa_skills.post_add_skills_to_tenant()
 
     @allure.title('Test delete skill by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24013")

@@ -7,13 +7,13 @@ from config.base_test import BaseTest
 @allure.feature("Common service offers various methods for managing common and auxiliary dictionaries.")
 class TestCommonAttachments(BaseTest):
 
-    @allure.title('Test upload file to server, data from form.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23805")
-    @pytest.mark.skip(reason="Тест на загрузку вложения проходит в - test_delete_attachment_by_id")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23805)
-    def test_post_upload_attachments_to_server_data_from_form(self):
-        self.api_common_attachments.post_upload_attachments_to_server_data_from_form()
+    # @allure.title('Test upload file to server, data from form.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23805")
+    # @pytest.mark.skip(reason="Тест на загрузку вложения проходит в - test_delete_attachment_by_id")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(23805)
+    # def test_post_upload_attachments_to_server_data_from_form(self):
+    #     self.api_common_attachments.post_upload_attachments_to_server_data_from_form()
 
     @allure.title('Test delete attachment by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23807")
@@ -33,17 +33,17 @@ class TestCommonAttachments(BaseTest):
             model_attach.results[0].attachmentID, model_attach.results[1].attachmentID
         )
 
-    @allure.title('Test delete attachments by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25675")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25675)
-    @pytest.mark.skip(reason="Тест на массовое удаление вложения проходит "
-                             "в - test_post_upload_attachments_to_server_data_from_form_v2")
-    def test_delete_attachments_by_list(self):
-        model_attach = self.api_common_attachments.post_upload_attachments_to_server_data_from_form_v2()
-        self.api_common_attachments.delete_attachments_by_list(
-            model_attach.results[0].attachmentID, model_attach.results[1].attachmentID
-        )
+    # @allure.title('Test delete attachments by list.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25675")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25675)
+    # @pytest.mark.skip(reason="Тест на массовое удаление вложения проходит "
+    #                          "в - test_post_upload_attachments_to_server_data_from_form_v2")
+    # def test_delete_attachments_by_list(self):
+    #     model_attach = self.api_common_attachments.post_upload_attachments_to_server_data_from_form_v2()
+    #     self.api_common_attachments.delete_attachments_by_list(
+    #         model_attach.results[0].attachmentID, model_attach.results[1].attachmentID
+    #     )
 
     @allure.title('Test upload file to server, data from body.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25663")
@@ -110,15 +110,15 @@ class TestCommonAttachments(BaseTest):
         self.api_common_attachments.get_attachment_data_by_id(model_attach)
         self.api_common_attachments.delete_attachment_by_id(model_attach.attachmentID)
 
-    @allure.title('Test publish attachment by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25672")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25672)
-    @pytest.mark.skip(reason="Тест на публикацию проходит в - test_post_unpublish_attachment_by_id.")
-    def test_post_publish_attachment_by_id(self):
-        model_attach = self.api_common_attachments.post_upload_attachment_data_from_body()
-        self.api_common_attachments.post_publish_attachment_by_id(model_attach.attachmentID)
-        self.api_common_attachments.delete_attachment_by_id(model_attach.attachmentID)
+    # @allure.title('Test publish attachment by ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25672")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25672)
+    # @pytest.mark.skip(reason="Тест на публикацию проходит в - test_post_unpublish_attachment_by_id.")
+    # def test_post_publish_attachment_by_id(self):
+    #     model_attach = self.api_common_attachments.post_upload_attachment_data_from_body()
+    #     self.api_common_attachments.post_publish_attachment_by_id(model_attach.attachmentID)
+    #     self.api_common_attachments.delete_attachment_by_id(model_attach.attachmentID)
 
     @allure.title('Test unpublish attachment by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25673")

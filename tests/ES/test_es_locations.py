@@ -13,13 +13,13 @@ from config.base_test import BaseTest
 )
 class TestLocations(BaseTest):
 
-    @pytest.mark.skip(reason='Location is created in test - test_delete_location_by_id.')
-    @pytest.mark.smoke
-    @pytest.mark.test_case_id(23060)
-    @allure.title('Test add location.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23060")
-    def test_post_add_location(self):
-        self.api_es_locations.post_add_location()
+    # @pytest.mark.skip(reason='Location is created in test - test_delete_location_by_id.')
+    # @pytest.mark.smoke
+    # @pytest.mark.test_case_id(23060)
+    # @allure.title('Test add location.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23060")
+    # def test_post_add_location(self):
+    #     self.api_es_locations.post_add_location()
 
     @pytest.mark.regress
     @pytest.mark.test_case_id(24293)

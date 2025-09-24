@@ -491,3 +491,40 @@ class Params(Enum):
                      "Add package with ResourceID=26", True,
                      id="Test add package with ResourceID=26, NewSubitemTaskListMA."),
     ]
+
+    params_user_attributes_body = [
+        pytest.param(1, "Строка", id="Test add string attribute to user."),
+        pytest.param(2, 123, id="Test add Int attribute to user."),
+        pytest.param(3, 1.2, id="Test add Decimal attribute to user."),
+        pytest.param(4, "2030-09-18T12:00:00", id="Test add Date attribute to user."),
+        pytest.param(5, "2030-09-18T20:59:00.000Z", id="Test add Datetime attribute to user."),
+        pytest.param(6, "1", id="Test add Select attribute to user"),
+        pytest.param(7, "1|2|3", id="Test add MultiSelect attribute to user."),
+        pytest.param(8, "Объективное\nизложение\nфактов\nбез\nэмоциональной\nокраски\nи\nсубъективных\nпредпочтений", 
+                     id="Test add Text attribute to user.")
+    ]
+
+    params_user_attributes_by_id_body = [
+        pytest.param(1, "Строка", id="Test add string attribute to user, by userID."),
+        pytest.param(2, 123, id="Test add Int attribute to user, by userID."),
+        pytest.param(3, 1.2, id="Test add Decimal attribute to user, by userID."),
+        pytest.param(4, "2030-09-18T12:00:00", id="Test add Date attribute to user, by userID."),
+        pytest.param(5, "2030-09-18T20:59:00.000Z", id="Test add Datetime attribute to user, by userID."),
+        pytest.param(6, "1", id="Test add Select attribute to user, by userID."),
+        pytest.param(7, "1|2|3", id="Test add MultiSelect attribute to user, by userID."),
+        pytest.param(8, "Объективное\nизложение\nфактов\nбез\nэмоциональной\nокраски\nи\nсубъективных\nпредпочтений", 
+                     id="Test add Text attribute to user, by userID.")
+    ]
+
+    params_update_user_attributes_body = [
+        pytest.param(1, "Строка", "Изменено авто-тестом", id="Test update string users attribute."),
+        pytest.param(2, 123, "987", id="Test update Int users attribute."),
+        pytest.param(3, 1.2, "3.4", id="Test update Decimal users attribute."),
+        pytest.param(4, "2030-09-18T12:00:00", "2031-10-18T12:00:00", id="Test update Date users attribute."),
+        pytest.param(5, "2030-09-18T20:59:00.000Z", "2031-10-18T21:59:10.000Z", id="Test update Datetime users attribute."),
+        pytest.param(6, "1", "2", id="Test update Select users attribute"),
+        pytest.param(7, "1|2", "3|4", id="Test update MultiSelect users attribute."),
+        pytest.param(8, "Объективное\nизложение\nфактов\nбез\nэмоциональной\nокраски\nи\nсубъективных\nпредпочтений",
+                     "Текст\nизменен\nавто-тестом\nбыстро\nи без ошибок", 
+                     id="Test update Text users attribute.")
+    ]

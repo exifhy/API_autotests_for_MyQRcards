@@ -9,13 +9,13 @@ from config.base_test import BaseTest
 )
 class TestEsAssetClasses(BaseTest):
 
-    @allure.title('Test add asset class.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23598")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23598)
-    @pytest.mark.skip(reason='Asset class is created in test - test_delete_asset_classes_by_id.')
-    def test_post_add_asset_class(self):
-        self.api_es_asset_classes.post_add_asset_class()
+    # @allure.title('Test add asset class.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23598")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(23598)
+    # @pytest.mark.skip(reason='Asset class is created in test - test_delete_asset_classes_by_id.')
+    # def test_post_add_asset_class(self):
+    #     self.api_es_asset_classes.post_add_asset_class()
 
     @allure.title('Test delete asset class by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23603")

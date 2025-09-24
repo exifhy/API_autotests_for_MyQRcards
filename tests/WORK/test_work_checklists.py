@@ -7,13 +7,13 @@ from config.base_test import BaseTest
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkChecklists(BaseTest):
 
-    @allure.title('Test add checklists.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23908")
-    @pytest.mark.skip(reason="Тест на создание чек-листа проходит в - test_delete_checklist_by_id")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23908)
-    def test_post_add_checklists(self):
-        self.api_work_checklists.post_add_checklists()
+    # @allure.title('Test add checklists.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23908")
+    # @pytest.mark.skip(reason="Тест на создание чек-листа проходит в - test_delete_checklist_by_id")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(23908)
+    # def test_post_add_checklists(self):
+    #     self.api_work_checklists.post_add_checklists()
 
     @allure.title('Test delete checklist by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23910")

@@ -8,14 +8,14 @@ from src.enums.params_enums import Params
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkWorkTypes(BaseTest):
 
-    @pytest.mark.skip(reason='Тест на добавление типа работ есть в test_delete_marks_work_type_by_id')
-    @allure.title('Test add work types.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23104")
-    @pytest.mark.smoke
-    @pytest.mark.test_case_id(23104)
-    @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_post_add_work_type(self, param):
-        self.api_work_work_types.post_add_work_type(param)
+    # @pytest.mark.skip(reason='Тест на добавление типа работ есть в test_delete_marks_work_type_by_id')
+    # @allure.title('Test add work types.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23104")
+    # @pytest.mark.smoke
+    # @pytest.mark.test_case_id(23104)
+    # @pytest.mark.parametrize('param', Params.params_work_types.value)
+    # def test_post_add_work_type(self, param):
+    #     self.api_work_work_types.post_add_work_type(param)
 
     @allure.title('Test update work type.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25190")
@@ -163,20 +163,20 @@ class TestWorkWorkTypes(BaseTest):
         self.api_work_work_types.delete_check_list_from_work_type_by_id(work_type_id, model_check_lists.result[0])
         self.api_work_checklists.delete_checklist_by_id(model_check_lists.result[0])
 
-    @allure.title('Test add task types to work type by ID.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25197")
-    @pytest.mark.skip(reason='Тест на добавление типа задач к виду работ проходит в - '
-                             'test_delete_task_types_from_work_types_by_list')
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25197)
-    @pytest.mark.parametrize('param', Params.params_work_types.value)
-    def test_post_add_task_types_to_work_types(self, param):
-        work_type_id = self.api_work_work_types.post_add_work_type(param)
-        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
-        self.api_work_work_types.post_add_task_types_to_work_types(
-            work_type_id.type[0], task_type_id[0]
-        )
-        self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
+    # @allure.title('Test add task types to work type by ID.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25197")
+    # @pytest.mark.skip(reason='Тест на добавление типа задач к виду работ проходит в - '
+    #                          'test_delete_task_types_from_work_types_by_list')
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25197)
+    # @pytest.mark.parametrize('param', Params.params_work_types.value)
+    # def test_post_add_task_types_to_work_types(self, param):
+    #     work_type_id = self.api_work_work_types.post_add_work_type(param)
+    #     task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+    #     self.api_work_work_types.post_add_task_types_to_work_types(
+    #         work_type_id.type[0], task_type_id[0]
+    #     )
+    #     self.api_work_work_types.delete_marks_work_type_by_id(work_type_id=work_type_id.type[0])
 
     @allure.title('Test delete task types from work type by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25198")

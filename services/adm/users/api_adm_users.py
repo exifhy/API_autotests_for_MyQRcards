@@ -701,7 +701,7 @@ class AdmUsersAPI(Helper):
         return model
 
     @allure.step('Change users to customer.')
-    def post_change_to_customer_users(self, *user_ids: int or tuple):
+    def post_change_to_customer_users(self, *user_ids: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_change_to_customer_endpoint,
@@ -724,7 +724,7 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully change users {user_ids} to customer {model_user.isCustomer}.')
 
     @allure.step('Change users to stuff.')
-    def post_change_to_stuff_users(self, *user_ids: int or tuple):
+    def post_change_to_stuff_users(self, *user_ids: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_change_to_staff_endpoint,
@@ -768,7 +768,7 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully restore user {user_id}.')
 
     @allure.step('Restore users by list.')
-    def put_restore_users_by_list(self, *user_ids: int or tuple):
+    def put_restore_users_by_list(self, *user_ids: int):
         start = time.time()
         response = requests.put(
             url=self.endpoints.put_restore_users_endpoint,
@@ -1076,7 +1076,7 @@ class AdmUsersAPI(Helper):
         return None
 
     @allure.step('Delete users avatar by list.')
-    def delete_users_avatar_by_list(self, *users_ids: int or tuple):
+    def delete_users_avatar_by_list(self, *users_ids: int):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_users_avatar_endpoint,
@@ -1316,8 +1316,173 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully get a list users ID {user_id} warehouses.')
         return model
 
-    @allure.step('Add attributes to users.')
-    def post_add_attributes_to_users(self, user_id: int, attribute_id: int, value):
+    @allure.step('Get list users attributes.')
+    def get_list_users_attributes(self):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes.')
+        return model
+
+    @allure.step('Get list users attributes by attributeID.')
+    def get_list_users_attributes_by_attribute_id(self, attribute_id: int):
+        param = {
+            "attributeID": attribute_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes by attributeID {attribute_id}.')
+        return model
+
+    @allure.step('Get list users attributes by userID.')
+    def get_list_users_attributes_by_user_id(self, user_id: int):
+        param = {
+            "userID": user_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes by userID {user_id}.')
+        return model
+
+    @allure.step('Get list users attributes, IsRelevantForTechnician=true.')
+    def get_list_users_attributes_technician_true(self):
+        param = {
+            "IsRelevantForTechnician": True
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes, IsRelevantForTechnician=true.')
+        return model
+
+    @allure.step('Get list users attributes, IsRelevantForTechnician=false.')
+    def get_list_users_attributes_technician_false(self):
+        param = {
+            "IsRelevantForTechnician": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes, IsRelevantForTechnician=false.')
+        return model
+
+    @allure.step('Get list users attributes, IsRelevantForCustomer=true.')
+    def get_list_users_attributes_customer_true(self):
+        param = {
+            "IsRelevantForCustomer": True
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes, IsRelevantForCustomer=True.')
+        return model
+
+    @allure.step('Get list users attributes, IsRelevantForCustomer=false.')
+    def get_list_users_attributes_customer_false(self):
+        param = {
+            "IsRelevantForCustomer": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_list_attributes_from_users_endpoint, params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get a list users attributes, IsRelevantForCustomer=False.')
+        return model
+
+    @allure.step('Add attribute to user.')
+    def post_add_attribute_to_user(self, user_id: int, attribute_id: int, value):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_attributes_to_users_endpoint,
@@ -1336,6 +1501,1046 @@ class AdmUsersAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
-        model = SuccessCreatedApiUserModel(**response.json())
-        logger.info(f'Successfully add attributes to users.')
+        logger.info(f'Successfully add attribute ID {attribute_id} to userID {user_id}.')
+        return None
+
+    @allure.step('Add two attributes to user.')
+    def post_add_two_attributes_to_user(self, user_id: int, attribute_id: int, attribute2_id: int, value):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_two_attributes_to_user_payload(
+                user_id, attribute_id, attribute2_id, value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
+        logger.info(f'Successfully add two attributes ID {attribute_id, attribute2_id} to userID {user_id}.')
+        return None
+
+    @allure.step('Add two attributes to two users.')
+    def post_add_two_attributes_to_two_users(self, user_id: int, user2_id: int, attribute_id: int, attribute2_id: int, value):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_two_attributes_to_two_users_payload(
+                user_id, user2_id, attribute_id, attribute2_id, value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
+        logger.info(f'Successfully add two attributes ID {attribute_id, attribute2_id} to userID {user_id, user2_id,}.')
+        return None
+
+    @allure.step('Add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to user.')
+    def post_add_attribute_technician_false_customer_false_to_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_users_payload(
+                user_id, attribute_id, "AttributeIsNotRelevant"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: AttributeIsNotRelevant", \
+            (f'Expected Неверные данные: AttributeIsNotRelevant, '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Add deleted attribute to user.')
+    def post_add_deleted_attribute_to_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_users_payload(
+                user_id, attribute_id, "Атрибут удалён"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: Атрибут удалён", \
+            (f'Expected Неверные данные: Атрибут удалён, '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Add attribute to deleted user.')
+    def post_add_attribute_to_deleted_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_users_payload(
+                user_id, attribute_id, "Пользователь удалён"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.FORBIDDEN, \
+            f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_deleted(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Add already added attribute to user.')
+    def post_add_already_added_attribute_to_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_users_payload(
+                user_id, attribute_id, "Операция была выполнена ранее"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Add empty body to user.')
+    def post_add_empty_body_to_user(self):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_users_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Get user attributes by userID.')
+    def get_user_attributes_by_user_id(self, user_id: int):
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        logger.info(f'Successfully get attributes from user by userID {user_id}.')
         return model
+
+    @allure.step('Update user attribute.')
+    def put_update_user_attribute(self, user_id: int, attribute_id: int):
+        value = "Изменено авто-тестом"
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_payload(user_id, attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        model_after = self.get_user_attributes_by_user_id(user_id)
+        for item in model_after.results:
+            if item.attributeID == attribute_id:
+                assert value == item.value, f"Expected {value}, but got {item.value}."
+                logger.info(f'Successfully update user attributes by userID {user_id}.')
+                return None
+
+    @allure.step('Update user attributes.')
+    def put_update_user_attributes(self, user_id: int, attribute_id: int, value):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_payload(user_id, attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        model_after = self.get_user_attributes_by_user_id(user_id)
+        for item in model_after.results:
+            if item.attributeID == attribute_id:
+                assert value == item.value, f"Expected {value}, but got {item.value}."
+                logger.info(f'Successfully update user attributes by userID {user_id}.')
+                return None
+
+    @allure.step('Update user attribute with non existent attribute.')
+    def put_update_user_attribute_with_non_existent_attribute(self, user_id: int, attribute_id: int):
+        value = "Изменено авто-тестом"
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_payload(user_id, attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+        f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}. {data_response}.'
+        logger.warning(f'Expected result: {response.status_code}')
+        return None
+
+    @allure.step('Update user attribute send empty body.')
+    def put_update_user_attribute_with_empty_body(self):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Update user attribute send empty value field.')
+    def put_update_user_attribute_with_empty_value_field(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_empty_value_payload(user_id, attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: AttributeNotFound\r\nWarning: Null value is eliminated by an aggregate or other SET operation.", \
+            (f'Expected Неверные данные: AttributeNotFound\r\nWarning: Null value is eliminated by an aggregate or other SET operation., '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Update non existent user attribute.')
+    def put_update_non_existent_user_attribute(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_payload(
+                user_id, attribute_id, "Несуществующий пользователь"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_not_found(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Update deleted user attribute.')
+    def put_update_deleted_user_attribute(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_users_attributes_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_payload(
+                user_id, attribute_id, "Удаленный пользователь"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.FORBIDDEN, \
+            f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_deleted(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete attribute from user.')
+    def delete_attribute_from_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_users_payload(
+                user_id, attribute_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        logger.warning(f'Successfully delete attribute ID {attribute_id} from user with id: {user_id}.')
+        return None
+    
+    @allure.step('Delete attributes from two users.')
+    def delete_two_attributes_from_two_user(self, user_id: int, user2_id: int, attribute_id: int, attribute2_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_two_users_payload(
+                user_id, user2_id, attribute_id, attribute2_id
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        logger.warning(f'Successfully delete two attributes ID {attribute_id, attribute2_id} from two users with id: {user_id, user2_id}.')
+        return None
+    
+    @allure.step('Delete attribute from user with empty body.')
+    def delete_attribute_from_user_with_empty_body(self):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete non existent attribute from user.')
+    def delete_non_existent_attribute_from_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_users_payload(user_id, attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "Untyped", \
+            f'Expected Untyped, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "AttributeNotFound", \
+            (f'Expected AttributeNotFound, '
+             f'but got {model.list_model[0].message}')
+        assert "Untyped" in response.headers["X-Application-Errors"], \
+            f'Expected Untyped, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete attribute from non existent user.')
+    def delete_attribute_from_non_existent_user(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_users_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_users_payload(user_id, attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "Untyped", \
+            f'Expected Untyped, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "AttributeNotFound", \
+            (f'Expected AttributeNotFound, '
+             f'but got {model.list_model[0].message}')
+        assert "Untyped" in response.headers["X-Application-Errors"], \
+            f'Expected Untyped, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Add attribute to user by userID.')
+    def post_add_attribute_to_user_by_user_id(self, user_id: int, attribute_id: int, value):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_user_by_id_payload(
+                attribute_id, value
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}. {data_response}.'
+        logger.info(f'Successfully add attribute ID {attribute_id} to userID {user_id}.')
+        return None
+    
+    @allure.step('Add deleted attribute to user by userID.')
+    def post_add_deleted_attribute_to_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_user_by_id_payload(
+                attribute_id, "Атрибут удалён"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: Атрибут удалён", \
+            (f'Expected Неверные данные: Атрибут удалён, '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Add attribute to deleted user by userID.')
+    def post_add_attribute_to_deleted_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_user_by_id_payload(
+                attribute_id, "Пользователь удалён"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.FORBIDDEN, \
+            f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_deleted(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Add attribute with empty body to user by userID.')
+    def post_add_attribute_with_empty_body_to_user_by_user_id(self, user_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Add already added attribute to user by userID.')
+    def post_add_already_added_attribute_to_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_user_by_id_payload(
+                attribute_id, "Операция была выполнена ранее"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Add attribute (IsRelevantForTechnician=false, IsRelevantForCustomer=false) to user by userID.')
+    def post_add_attribute_technician_false_customer_false_to_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_attributes_to_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.post_add_attributes_to_user_by_id_payload(
+                attribute_id, "AttributeIsNotRelevant"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: AttributeIsNotRelevant", \
+            (f'Expected Неверные данные: AttributeIsNotRelevant, '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Get user attributes by userID with IsRelevantForTechnician=true.')
+    def get_user_attributes_by_user_id_with_IsRelevantForTechnician_true(self, user_id: int, attribute_id: int, value):
+        param = {
+            "IsRelevantForTechnician": True
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_user_by_id_endpoint(user_id), params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        for item in model.results:
+            if item.attributeID == attribute_id:
+                assert value == item.value, f"Expected {value}, but got {item.value}."
+                logger.info(f'Successfully get attributes from user by userID {user_id} with IsRelevantForTechnician true.')
+                return model
+    
+    @allure.step('Get user attributes by userID with IsRelevantForTechnician=false.')
+    def get_user_attributes_by_user_id_with_IsRelevantForTechnician_false(self, user_id: int):
+
+        param = {
+            "IsRelevantForTechnician": False
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_user_by_id_endpoint(user_id), params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            (f'Expected status code {HTTPStatus.NO_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        logger.info(f'Successfully get user attributes by userID, IsRelevantForTechnician=false, NO CONTENT.')
+        return None    
+    
+    @allure.step('Get user attributes by userID with attributeID.')
+    def get_user_attributes_by_user_id_with_attribute_id(self, user_id: int, attribute_id: int):
+        param = {
+            "attributeID": attribute_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_user_by_id_endpoint(user_id), params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.OK, \
+            (f'Expected status code {HTTPStatus.OK}, '
+             f'but got {response.status_code}. {data_response}.')
+        model = UserAttributesListResponseModel(results=response.json())
+        assert model.results[0].attributeID == attribute_id, f'Expected {model.results[0].attributeID}, but got {attribute_id}'
+        assert model.results[0].userID == user_id, f'Expected {model.results[0].userID}, but got {user_id}'
+        logger.info(f'Successfully get user attributes by userID {user_id}, attributeID={attribute_id}.')
+        return model    
+    
+    @allure.step('Get user attributes by userID with non existent attributeID.')
+    def get_user_attributes_by_user_id_with_non_existent_attribute_id(self, user_id: int, attribute_id: int):
+        param = {
+            "attributeID": attribute_id
+        }
+        start = time.time()
+        response = requests.get(
+            url=self.endpoints.get_attributes_from_user_by_id_endpoint(user_id), params=param,
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+            (f'Expected status code {HTTPStatus.NO_CONTENT}, '
+             f'but got {response.status_code}. {data_response}.')
+        logger.info(f'Successfully get user attributes by userID {user_id}, attributeID=non existent attribute. NO CONTENT.')
+        return None    
+
+    @allure.step('Update user attributes by userID.')
+    def put_update_user_attributes_by_user_id(self, user_id: int, attribute_id: int, value):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_by_user_id_payload(attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        model_after = self.get_user_attributes_by_user_id(user_id)
+        for item in model_after.results:
+            if item.attributeID == attribute_id:
+                assert value == item.value, f"Expected {value}, but got {item.value}."
+                logger.info(f'Successfully update user attributes by userID {user_id}.')
+                return None
+
+    @allure.step('Update user attribute by userID.')
+    def put_update_user_attribute_by_user_id(self, user_id: int, attribute_id: int):
+        value = "Изменено авто-тестом"
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_by_user_id_payload(attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        model_after = self.get_user_attributes_by_user_id(user_id)
+        for item in model_after.results:
+            if item.attributeID == attribute_id:
+                assert value == item.value, f"Expected {value}, but got {item.value}."
+                logger.info(f'Successfully update user attributes by userID {user_id}.')
+                return None
+
+    @allure.step('Update user attribute with non existent attribute by userID.')
+    def put_update_user_attribute_with_non_existent_attribute_by_user_id(self, user_id: int, attribute_id: int):
+        value = "Изменено авто-тестом"
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_by_user_id_payload(attribute_id, value)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.NO_CONTENT, \
+        f'Expected status code {HTTPStatus.NO_CONTENT}, but got {response.status_code}. {data_response}.'
+        logger.warning(f'Expected result: {response.status_code}')
+        return None
+
+    @allure.step('Update user attribute send empty body by userID.')
+    def put_update_user_attribute_with_empty_body_by_user_id(self, user_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+
+    @allure.step('Update user attribute send empty value field by UserID.')
+    def put_update_user_attribute_with_empty_value_field_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_by_user_id_without_value_payload(attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "InvalidData", \
+            f'Expected InvalidData, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Неверные данные: AttributeNotFound\r\nWarning: Null value is eliminated by an aggregate or other SET operation.", \
+            (f'Expected Неверные данные: AttributeNotFound\r\nWarning: Null value is eliminated by an aggregate or other SET operation., '
+             f'but got {model.list_model[0].message}')
+        assert "InvalidData" in response.headers["X-Application-Errors"], \
+            f'Expected InvalidData, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+        
+    @allure.step('Update deleted user attribute by userID.')
+    def put_update_deleted_user_attribute_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_update_user_attributes_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_update_user_attribute_by_user_id_payload(
+                attribute_id, "Удаленный пользователь"
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.FORBIDDEN, \
+            f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_deleted(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+        
+    @allure.step('Delete two attributes from user by userID.')
+    def delete_two_attribute_from_user_by_user_id(self, user_id: int, *attribute_ids: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_user_by_user_id_payload(*attribute_ids)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}.'
+        logger.warning(f'Successfully delete two attribute ID {attribute_ids} from user with id: {user_id}.')
+        return None
+    
+    @allure.step('Delete attribute from user with empty body by userID.')
+    def delete_attribute_from_user_with_empty_body_by_user_id(self):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(1),
+            headers=self.headers.basic_header(get_token())
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete attribute from user with empty list by userID.')
+    def delete_attribute_from_user_with_empty_list_by_user_id(self):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(1),
+            headers=self.headers.basic_header(get_token()),
+            json=[]
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_parameter_null(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete attribute from deleted user by userID.')
+    def delete_attribute_from_deleted_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_user_by_user_id_payload(attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_user_deleted(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete already deleted attribute from user by userID.')
+    def delete_already_deleted_attribute_from_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_user_by_user_id_payload(attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        self.assert_already_done(response, model)
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None
+    
+    @allure.step('Delete attribute from non existent user by userID.')
+    def delete_attribute_from_non_existent_user_by_user_id(self, user_id: int, attribute_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_attributes_from_user_by_id_endpoint(user_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.delete_attributes_from_user_by_user_id_payload(attribute_id)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.FORBIDDEN, \
+            f'Expected status code {HTTPStatus.FORBIDDEN}, but got {response.status_code}. {data_response}.'
+        model = ErrorModel(list_model=response.json())
+        assert model.list_model[0].code == "UserNotFound", \
+            f'Expected UserNotFound, but got {model.list_model[0].code}'
+        assert model.list_model[0].message == "Пользователь не найден: Обрабатываемый пользователь", \
+            (f'Expected Пользователь не найден: Обрабатываемый пользователь, '
+             f'but got {model.list_model[0].message}')
+        assert "UserNotFound" in response.headers["X-Application-Errors"], \
+            f'Expected UserNotFound, but got {response.headers["X-Application-Errors"]}'
+        logger.warning(f'Expected result: error {response.status_code}, message: {model.list_model[0].message}.')
+        return None

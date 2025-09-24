@@ -17,14 +17,14 @@ class TestScServiceContract(BaseTest):
         def test_head_method_total_count_of_contract(self):
             self.api_sc_service_contract.head_method_total_count_of_contract()
 
-        @allure.title('Test method for creating or updating service contract(s).')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23508")
-        @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_contract_by_id")
-        @pytest.mark.regress
-        @pytest.mark.test_case_id(23508)
-        def test_post_method_for_add_contract(self):
-            company_id = self.api_es_companies.post_add_our_company()
-            self.api_sc_service_contract.post_method_for_add_contract(company_id)
+        # @allure.title('Test method for creating or updating service contract(s).')
+        # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23508")
+        # @pytest.mark.skip(reason="Тест на создание проходит в - test_delete_contract_by_id")
+        # @pytest.mark.regress
+        # @pytest.mark.test_case_id(23508)
+        # def test_post_method_for_add_contract(self):
+        #     company_id = self.api_es_companies.post_add_our_company()
+        #     self.api_sc_service_contract.post_method_for_add_contract(company_id)
 
         @allure.title('Test method for deleting a contract by ID.')
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23577")
@@ -135,36 +135,36 @@ class TestScServiceContract(BaseTest):
     @allure.story('Story: Contracts and assets')
     class TestContractAssets(BaseTest):
 
-        @allure.title('Test add a list of objects to the contract.')
-        @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23572")
-        @pytest.mark.skip(reason="Тест проходит в - test_delete_objects_related_to_contracts_by_id")
-        @pytest.mark.regress
-        @pytest.mark.test_case_id(23572)
-        def test_post_add_list_object_to_contract(self):
-            company_id = self.api_es_companies.post_add_our_company()
-            location_id = self.api_es_locations.post_add_location()
-            self.api_es_company_locations.post_add_company_locations(
-                company_id=company_id,
-                location_id=location_id
-            )
-            asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
-            asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
-            asset_id = self.api_es_assets.post_add_object(
-                company_id=company_id,
-                asset_class_id=asset_class_id,
-                asset_type_id=asset_type_id
-            )
-            contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id=company_id)
-            try:
-                self.api_sc_service_contract.post_add_list_object_to_contract(
-                    contract_id=contract_id.contract[0],
-                    asset_id=asset_id.id
-                )
-            finally:
-                self.api_sc_service_contract.delete_contract_by_id(contract_id.contract[0])
-                self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
-                self.api_es_companies.delete_company_by_id(company_id)
-                self.api_es_locations.delete_location_by_id(location_id)
+        # @allure.title('Test add a list of objects to the contract.')
+        # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23572")
+        # @pytest.mark.skip(reason="Тест проходит в - test_delete_objects_related_to_contracts_by_id")
+        # @pytest.mark.regress
+        # @pytest.mark.test_case_id(23572)
+        # def test_post_add_list_object_to_contract(self):
+        #     company_id = self.api_es_companies.post_add_our_company()
+        #     location_id = self.api_es_locations.post_add_location()
+        #     self.api_es_company_locations.post_add_company_locations(
+        #         company_id=company_id,
+        #         location_id=location_id
+        #     )
+        #     asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        #     asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        #     asset_id = self.api_es_assets.post_add_object(
+        #         company_id=company_id,
+        #         asset_class_id=asset_class_id,
+        #         asset_type_id=asset_type_id
+        #     )
+        #     contract_id = self.api_sc_service_contract.post_method_for_add_contract(company_id=company_id)
+        #     try:
+        #         self.api_sc_service_contract.post_add_list_object_to_contract(
+        #             contract_id=contract_id.contract[0],
+        #             asset_id=asset_id.id
+        #         )
+        #     finally:
+        #         self.api_sc_service_contract.delete_contract_by_id(contract_id.contract[0])
+        #         self.api_es_assets.delete_object_by_id(asset_id=asset_id.id)
+        #         self.api_es_companies.delete_company_by_id(company_id)
+        #         self.api_es_locations.delete_location_by_id(location_id)
 
         @allure.title('Test method of mass deleting objects related with a service contract.')
         @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23690")

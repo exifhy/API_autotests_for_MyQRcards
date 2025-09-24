@@ -683,3 +683,26 @@ class IdNameErpIdModel(StrictBaseModel):
 
 class UsersWarehousesResponseModel(StrictBaseModel):
     results: List[IdNameErpIdModel]
+
+
+class DomainResult(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    code: Optional[str] = None
+
+
+class UserAttributesResultModel(BaseModel):
+    tenantID: Optional[int] = None
+    userID: Optional[int] = None
+    attributeID: Optional[int] = None
+    attributeName: Optional[str] = None
+    sortOrder: Optional[int] = None
+    value: Optional[str] = None
+    domain: Optional[DomainResult] = None
+    listOfValues: Optional[Dict[str, str]] = None
+    isExistsUserAttribute: Optional[bool] = None
+
+
+class UserAttributesListResponseModel(BaseModel):
+    results: List[UserAttributesResultModel]
+

@@ -7,14 +7,14 @@ from config.base_test import BaseTest
 @allure.feature("Work service offers various methods for managing tasks and their corresponding attributes.")
 class TestWorkTemplateQuickResponse(BaseTest):
 
-    @allure.title('Test add template quick response.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25318")
-    @pytest.mark.skip(reason="Тест на создание быстрого ответа проходит "
-                             "в - test_delete_template_quick_response_by_list")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25318)
-    def test_post_template_quick_response(self):
-        self.api_work_template_quick_response.post_template_quick_response()
+    # @allure.title('Test add template quick response.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25318")
+    # @pytest.mark.skip(reason="Тест на создание быстрого ответа проходит "
+    #                          "в - test_delete_template_quick_response_by_list")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25318)
+    # def test_post_template_quick_response(self):
+    #     self.api_work_template_quick_response.post_template_quick_response()
 
     @allure.title('Test delete template quick response by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25320")

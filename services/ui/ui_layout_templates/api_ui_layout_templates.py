@@ -199,7 +199,7 @@ class UILayoutTemplatesAPI(Helper):
                 'Default layout template has changed after reset.'
 
     @allure.step("Create layout template.")
-    def post_add_layout_template(self, default: bool, task_type: int or None):
+    def post_add_layout_template(self, default: bool, task_type: int):
         name = 'Шаблон создан авто-тестом'
         start = time.time()
         response = requests.post(
@@ -245,7 +245,7 @@ class UILayoutTemplatesAPI(Helper):
         return model
 
     @allure.step("Create layout template with deleted taskTypeID.")
-    def post_add_layout_template_with_deleted_task_type(self, default: bool, task_type: int or None):
+    def post_add_layout_template_with_deleted_task_type(self, default: bool, task_type: int):
         name = 'Шаблон создан авто-тестом'
         start = time.time()
         response = requests.post(
@@ -276,7 +276,7 @@ class UILayoutTemplatesAPI(Helper):
         return None
 
     @allure.step("Create layout template with nonexistent taskTypeID.")
-    def post_add_layout_template_with_nonexistent_task_type(self, default: bool, task_type: int or None):
+    def post_add_layout_template_with_nonexistent_task_type(self, default: bool, task_type: int):
         name = 'Шаблон создан авто-тестом'
         start = time.time()
         response = requests.post(
@@ -300,7 +300,7 @@ class UILayoutTemplatesAPI(Helper):
         return None
 
     @allure.step("Post layout template task types is already in use.")
-    def post_add_layout_template_task_type_is_already_in_use(self, default: bool, task_type: int or None):
+    def post_add_layout_template_task_type_is_already_in_use(self, default: bool, task_type: int):
         name = 'Шаблон создан авто-тестом'
         start = time.time()
         response = requests.post(
@@ -331,7 +331,7 @@ class UILayoutTemplatesAPI(Helper):
         return None
 
     @allure.step("Create layout template task types is already in use.")
-    def create_layout_template_task_type_is_already_in_use(self, task_type: int or None):
+    def create_layout_template_task_type_is_already_in_use(self, task_type: int):
         model_list_template = self.get_list_task_layout_templates()
         task_type_status = False
         for item in model_list_template.result:
@@ -348,7 +348,7 @@ class UILayoutTemplatesAPI(Helper):
             self.delete_layout_template_by_id(model_template.id)
 
     @allure.step("Create layout template with task types.")
-    def create_layout_template_with_task_type(self, task_type: int or None):
+    def create_layout_template_with_task_type(self, task_type: int):
         model_list_template = self.get_list_task_layout_templates()
         task_type_status = False
         for item in model_list_template.result:
@@ -365,7 +365,7 @@ class UILayoutTemplatesAPI(Helper):
             self.delete_layout_template_by_id(model_template.id)
 
     @allure.step("Update layout template task types is already in use.")
-    def update_layout_template_task_type_is_already_in_use(self, task_type: int or None):
+    def update_layout_template_task_type_is_already_in_use(self, task_type: int):
         model_list_template = self.get_list_task_layout_templates()
         task_type_status = False
         for item in model_list_template.result:
@@ -468,7 +468,7 @@ class UILayoutTemplatesAPI(Helper):
         return None
 
     @allure.step("Update layout template.")
-    def put_update_layout_template(self, template_id: int, default: bool, task_type: int or None):
+    def put_update_layout_template(self, template_id: int, default: bool, task_type: int):
         name = 'Обновленный шаблон'
         start = time.time()
         response = requests.put(
@@ -491,7 +491,7 @@ class UILayoutTemplatesAPI(Helper):
         return model
 
     @allure.step("Update deleted layout template.")
-    def put_update_deleted_layout_template(self, template_id: int, default: bool, task_type: int or None):
+    def put_update_deleted_layout_template(self, template_id: int, default: bool, task_type: int):
         name = 'Обновленный шаблон'
         start = time.time()
         response = requests.put(
@@ -516,7 +516,7 @@ class UILayoutTemplatesAPI(Helper):
 
     @allure.step("PUT layout template task types is already in use.")
     def put_update_layout_template_task_type_is_already_in_use(
-            self, template_id: int, default: bool, task_type: int or None
+            self, template_id: int, default: bool, task_type: int
     ):
         name = 'Обновленный шаблон'
         start = time.time()
@@ -765,7 +765,7 @@ class UILayoutTemplatesAPI(Helper):
 
     @allure.step("PUT add deleted task types by list to layout template by ID.")
     def put_add_deleted_task_types_by_list_to_layout_template_by_id(
-            self, template_id: int, *task_types_ids: int or tuple
+            self, template_id: int, *task_types_ids: int
     ):
         start = time.time()
         response = requests.put(

@@ -7,13 +7,12 @@ from config.base_test import BaseTest
 @allure.feature("Common service offers various methods for managing common and auxiliary dictionaries.")
 class TestCommonAttributes(BaseTest):
 
-    @allure.title('Test attribute creation method for contract only.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23548")
-    @pytest.mark.skip(reason='Тест на создание атрибута для договора есть в тесте - test_delete_attribute_by_id')
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(23548)
-    def test_post_add_method_attributes_only_for_contract(self):
-        self.api_common_attributes.post_add_method_attributes_only_for_contract()
+    # @allure.title('Test attribute creation method for contract only.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23548")
+    # @pytest.mark.skip(reason='Тест на создание атрибута для договора есть в тесте - test_delete_attribute_by_id')
+    # @pytest.mark.test_case_id(23548)
+    # def test_post_add_method_attributes_only_for_contract(self):
+    #     self.api_common_attributes.post_add_method_attributes_only_for_contract()
 
     @allure.title('Test delete attribute by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23549")
@@ -61,7 +60,7 @@ class TestCommonAttributes(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(26866)
     def test_post_add_attribute_for_stuff_and_customer(self):
-        attribute_id = self.api_common_attributes.post_add_attribute_only_for_stuff()
+        attribute_id = self.api_common_attributes.post_add_attribute_for_stuff_and_customer()
         self.api_common_attributes.delete_method_attribute_by_id(attribute_id=attribute_id.values[0])
 
     @allure.title('Test attribute creation method stuff false and customer false.')
@@ -79,13 +78,24 @@ class TestCommonAttributes(BaseTest):
     def test_get_list_attributes(self):
         self.api_common_attributes.get_list_attributes()
 
+    @allure.title('Test put users attribute update method.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26872")
+    @pytest.mark.regress
+    @pytest.mark.test_case_id(26872)
+    def test_put_update_users_attribute(self):
+        attribute_id = self.api_common_attributes.post_add_attribute_for_stuff_and_customer()
+        self.api_common_attributes.put_update_users_attribute(
+            attribute_id.values[0], False, False
+        )
+        self.api_common_attributes.delete_method_attribute_by_id(attribute_id=attribute_id.values[0])
+
     @allure.title('Test get attribute by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26873")
     @pytest.mark.regress
     @pytest.mark.test_case_id(26873)
     def test_get_attribute_by_id(self):
         attribute_id = self.api_common_attributes.post_add_attribute_only_for_stuff()
-        self.api_common_attributes.get_list_attributes()
+        self.api_common_attributes.get_attribute_by_id(attribute_id=attribute_id.values[0])
         self.api_common_attributes.delete_method_attribute_by_id(attribute_id=attribute_id.values[0])
 
     @allure.title('Test delete mass attributes by list.')

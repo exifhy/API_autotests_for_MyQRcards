@@ -9,13 +9,13 @@ from src.enums.params_enums import Params
 @pytest.mark.xdist_group(name="many_users")
 class TestWhWarehouses(BaseTest):
 
-    @allure.title('Test add warehouses.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24495")
-    @pytest.mark.regress
-    @pytest.mark.skip(reason="Тест на создание склада проходит в - test_delete_warehouses_by_list")
-    @pytest.mark.test_case_id(24495)
-    def test_post_add_warehouses(self):
-        self.api_wh_warehouses.post_add_warehouses()
+    # @allure.title('Test add warehouses.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24495")
+    # @pytest.mark.regress
+    # @pytest.mark.skip(reason="Тест на создание склада проходит в - test_delete_warehouses_by_list")
+    # @pytest.mark.test_case_id(24495)
+    # def test_post_add_warehouses(self):
+    #     self.api_wh_warehouses.post_add_warehouses()
 
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25353")
     @pytest.mark.regress
@@ -25,14 +25,14 @@ class TestWhWarehouses(BaseTest):
         allure.dynamic.title(f"Test creating a warehouse - {request.node.callspec.id}")
         self.api_wh_warehouses.post_add_warehouse_parameterized_test(data, value_code, value_message, log_info)
 
-    @allure.title('Test delete warehouses by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24496")
-    @pytest.mark.regress
-    @pytest.mark.skip(reason="Тест на удаление склада проходит в - test_get_warehouses_by_id")
-    @pytest.mark.test_case_id(24496)
-    def test_delete_warehouses_by_list(self):
-        model_wh = self.api_wh_warehouses.post_add_warehouses()
-        self.api_wh_warehouses.delete_warehouses_by_list(model_wh[0].result[0])
+    # @allure.title('Test delete warehouses by list.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24496")
+    # @pytest.mark.regress
+    # @pytest.mark.skip(reason="Тест на удаление склада проходит в - test_get_warehouses_by_id")
+    # @pytest.mark.test_case_id(24496)
+    # def test_delete_warehouses_by_list(self):
+    #     model_wh = self.api_wh_warehouses.post_add_warehouses()
+    #     self.api_wh_warehouses.delete_warehouses_by_list(model_wh[0].result[0])
 
     @allure.title('Test delete warehouse by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25363")

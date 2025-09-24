@@ -9,22 +9,22 @@ from src.enums.params_enums import Params
 @pytest.mark.xdist_group(name="materials")
 class TestWhMaterials(BaseTest):
 
-    @allure.title('Test add materials.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24497")
-    @pytest.mark.regress
-    @pytest.mark.skip(reason="Тест на создание материала проходит в - test_delete_materials_by_list")
-    @pytest.mark.test_case_id(24497)
-    def test_post_add_materials(self):
-        self.api_wh_materials.post_add_materials()
+    # @allure.title('Test add materials.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24497")
+    # @pytest.mark.regress
+    # @pytest.mark.skip(reason="Тест на создание материала проходит в - test_delete_materials_by_list")
+    # @pytest.mark.test_case_id(24497)
+    # def test_post_add_materials(self):
+    #     self.api_wh_materials.post_add_materials()
 
-    @allure.title('Test delete materials by list.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24498")
-    @pytest.mark.regress
-    @pytest.mark.skip(reason="Тест на удаление материала проходит в - test_get_material_by_id")
-    @pytest.mark.test_case_id(24498)
-    def test_delete_materials_by_list(self):
-        model_materials = self.api_wh_materials.post_add_materials()
-        self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
+    # @allure.title('Test delete materials by list.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24498")
+    # @pytest.mark.regress
+    # @pytest.mark.skip(reason="Тест на удаление материала проходит в - test_get_material_by_id")
+    # @pytest.mark.test_case_id(24498)
+    # def test_delete_materials_by_list(self):
+    #     model_materials = self.api_wh_materials.post_add_materials()
+    #     self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test get material by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24507")
@@ -167,17 +167,17 @@ class TestWhMaterials(BaseTest):
         self.api_common_attachments.delete_attachment_by_id(attachment_id.attachmentID)
         self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
-    @allure.title('Test add barcodes to material.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25492")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(25492)
-    @pytest.mark.skip(reason="Тест на создание barcode проходит в - test_delete_barcode_from_material_by_id")
-    def test_post_add_barcodes_material(self):
-        model_materials = self.api_wh_materials.post_add_materials()
-        self.api_wh_materials.post_add_barcodes_material(
-            model_materials.result[0]
-        )
-        self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
+    # @allure.title('Test add barcodes to material.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25492")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(25492)
+    # @pytest.mark.skip(reason="Тест на создание barcode проходит в - test_delete_barcode_from_material_by_id")
+    # def test_post_add_barcodes_material(self):
+    #     model_materials = self.api_wh_materials.post_add_materials()
+    #     self.api_wh_materials.post_add_barcodes_material(
+    #         model_materials.result[0]
+    #     )
+    #     self.api_wh_materials.delete_materials_by_list(model_materials.result[0])
 
     @allure.title('Test delete barcode from material by ID.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25493")

@@ -21,25 +21,25 @@ class TestEsAssets(BaseTest):
     def test_get_directory_of_objects_available_to_user(self, param):
         self.api_es_assets.get_all_asset_available_to_user(param)
 
-    @pytest.mark.smoke
-    @pytest.mark.skip(reason='Asset is created in test - test_delete_object_by_id.')
-    @pytest.mark.test_case_id(23026)
-    @allure.title('Test object creation.')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23026")
-    def test_post_add_object(self):
-        company_id = self.api_es_companies.post_add_our_company()
-        location_id = self.api_es_locations.post_add_location()
-        self.api_es_company_locations.post_add_company_locations(
-            company_id=company_id,
-            location_id=location_id
-        )
-        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
-        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
-        self.api_es_assets.post_add_object(
-            company_id=company_id,
-            asset_class_id=asset_class_id,
-            asset_type_id=asset_type_id
-        )
+    # @pytest.mark.smoke
+    # @pytest.mark.skip(reason='Asset is created in test - test_delete_object_by_id.')
+    # @pytest.mark.test_case_id(23026)
+    # @allure.title('Test object creation.')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23026")
+    # def test_post_add_object(self):
+    #     company_id = self.api_es_companies.post_add_our_company()
+    #     location_id = self.api_es_locations.post_add_location()
+    #     self.api_es_company_locations.post_add_company_locations(
+    #         company_id=company_id,
+    #         location_id=location_id
+    #     )
+    #     asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+    #     asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+    #     self.api_es_assets.post_add_object(
+    #         company_id=company_id,
+    #         asset_class_id=asset_class_id,
+    #         asset_type_id=asset_type_id
+    #     )
 
     @allure.title('Test marks the object as deleted.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23027")
