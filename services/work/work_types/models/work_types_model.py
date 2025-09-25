@@ -37,6 +37,7 @@ class SuccessResultWorkTypeModel(StrictBaseModel):
     parentID: Optional[int] = None
     hasChildren: Optional[bool] = None
     normalWorkingHours: Optional[int] = None
+    normalWorkingMinutes: Optional[int] = None
     closeMinutes: Optional[int] = None
     isDefault: Optional[bool] = None
     published: Optional[datetime] = None

@@ -240,6 +240,7 @@ class CounterResult(StrictBaseModel):
 
 class TaskWorkTypeGetResult(StrictBaseModel):
     normalWorkingHours: Optional[int] = None
+    normalWorkingMinutes: Optional[int] = None
     deleted: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None

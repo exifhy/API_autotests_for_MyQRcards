@@ -112,7 +112,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_all_users_from_warehouses_payload(wh_ids: int, *user_ids: int or tuple) -> list:
+    def delete_all_users_from_warehouses_payload(wh_ids: int, *user_ids: int) -> list:
         payload = [
             {
                 "warehouseID": wh_ids,
