@@ -589,7 +589,7 @@ class CommonAttributesAPI(Helper):
         model = SuccessGetAttributesModel(root=response.json())
         qty_items = int(response.headers["Content-Range"].split("/")[-1])
         logger.info(f'Successfully get list attributes.')
-        return qty_items + 1
+        return qty_items + 10
 
     @allure.step("Deleting attributes, customer=true, technician=false.")
     def deleting_attributes_customer_true_technician_false(self):

@@ -269,9 +269,17 @@ class TestWorkTasks(BaseTest):
     @pytest.mark.regress
     @pytest.mark.test_case_id(24700)
     def test_get_task_attributes(self):
+        new_task_stage_id = self.api_tstg_task_stages.get_list_task_stages_in_tenant_return_new_id()
+        model_api_user = self.api_adm_tenant_members.get_api_user_in_current_tenant()
+        model_role_api_user = self.api_adm_users.get_users_roles_by_id(model_api_user.user.id)
         created_location_id = self.api_es_locations.post_add_location()
         company_id = self.api_es_companies.post_add_our_company()
         attribute_id = self.api_common_attributes.post_add_method_attributes_only_for_task_str()
+        self.api_tstg_task_stage_components.post_task_stage_components_rw(
+            task_stage_id=new_task_stage_id,
+            attribute_id=attribute_id.values[0],
+            role_id=model_role_api_user.root[next(iter(model_role_api_user.root))][0].id
+        )
         model_attribute = self.api_common_attributes.get_attribute_by_id(attribute_id.values[0])
         self.api_es_company_locations.post_add_company_locations(
             company_id=company_id,

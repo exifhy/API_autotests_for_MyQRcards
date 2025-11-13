@@ -135,6 +135,7 @@ from services.wh.wh_user_warehouses.api_wh_user_warehouses import WhUserWarehous
 from services.msg.msg_notifications.api_msg_notifications import MSGNotificationsAPI
 from services.ui.ui_layout_templates.api_ui_layout_templates import UILayoutTemplatesAPI
 from services.ui.ui_components.api_ui_components import UIComponentsAPI
+from services.tstg.tstg_task_stage_components.api_tstg_task_stage_components import TstgTaskStagesComponentsAPI
 
 
 class BaseTest:
@@ -277,4 +278,5 @@ class BaseTest:
         self.api_msg_notifications = MSGNotificationsAPI()
         self.api_ui_layout_templates = UILayoutTemplatesAPI()
         self.api_ui_components = UIComponentsAPI()
+        self.api_tstg_task_stage_components = TstgTaskStagesComponentsAPI()
 

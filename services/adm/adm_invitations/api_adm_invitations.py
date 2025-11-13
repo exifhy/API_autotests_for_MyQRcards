@@ -242,7 +242,7 @@ class AdmInvitationsAPI(Helper):
         return None
 
     @allure.step("Delete invitations by list.")
-    def delete_invitations_by_list(self, *invitation_ids: str or tuple):
+    def delete_invitations_by_list(self, *invitation_ids: str):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_invitations_by_list_endpoint,

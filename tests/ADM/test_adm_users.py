@@ -945,9 +945,11 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.test_case_id(27624)
     def test_delete_non_existent_attribute_from_user(self):
         model_user = self.api_adm_users.post_add_user_staff()
-        non_existent_attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
-        self.api_adm_users.delete_non_existent_attribute_from_user(model_user.userID, non_existent_attribute_id)
-        self.api_adm_users.delete_user_by_id(model_user.userID)
+        try:
+            non_existent_attribute_id = self.api_common_attributes.get_list_attributes_return_non_existent_attribute_id()
+            self.api_adm_users.delete_non_existent_attribute_from_user(model_user.userID, non_existent_attribute_id)
+        finally:
+            self.api_adm_users.delete_user_by_id(model_user.userID)
 
     @allure.title('Test delete attribute from non existent user.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27625")
@@ -957,8 +959,10 @@ class TestAdmUsers(BaseTest):
     def test_delete_attribute_from_non_existent_user(self):
         non_existent_user_id = self.api_adm_users.get_non_existent_user_id()
         model_attribute = self.api_common_attributes.post_add_attribute_only_for_stuff()
-        self.api_adm_users.delete_attribute_from_non_existent_user(non_existent_user_id, model_attribute.values[0])
-        self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
+        try:
+            self.api_adm_users.delete_attribute_from_non_existent_user(non_existent_user_id, model_attribute.values[0])
+        finally:
+            self.api_common_attributes.delete_method_attribute_by_id(model_attribute.values[0])
 
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/27632")
     @pytest.mark.regress

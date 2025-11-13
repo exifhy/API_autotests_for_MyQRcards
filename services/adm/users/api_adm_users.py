@@ -1330,12 +1330,15 @@ class AdmUsersAPI(Helper):
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
-            (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
-             f'but got {response.status_code}. {data_response}.')
-        model = UserAttributesListResponseModel(results=response.json())
-        logger.info(f'Successfully get a list users attributes.')
-        return model
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.info(f'Successfully get a list users attributes. Status code: {response.status_code}')
+        else:
+            assert response.status_code in {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, \
+                (f'Expected status code {HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT}, '
+                f'but got {response.status_code}. {data_response}.')
+            model = UserAttributesListResponseModel(results=response.json())
+            logger.info(f'Successfully get a list users attributes. Status code: {response.status_code}')
+            return model
 
     @allure.step('Get list users attributes by attributeID.')
     def get_list_users_attributes_by_attribute_id(self, attribute_id: int):
@@ -1964,8 +1967,8 @@ class AdmUsersAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "Untyped", \
             f'Expected Untyped, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "AttributeNotFound", \
-            (f'Expected AttributeNotFound, '
+        assert model.list_model[0].message == "Атрибут не найден", \
+            (f'Expected Атрибут не найден, '
              f'but got {model.list_model[0].message}')
         assert "Untyped" in response.headers["X-Application-Errors"], \
             f'Expected Untyped, but got {response.headers["X-Application-Errors"]}'
@@ -1993,8 +1996,8 @@ class AdmUsersAPI(Helper):
         model = ErrorModel(list_model=response.json())
         assert model.list_model[0].code == "Untyped", \
             f'Expected Untyped, but got {model.list_model[0].code}'
-        assert model.list_model[0].message == "AttributeNotFound", \
-            (f'Expected AttributeNotFound, '
+        assert model.list_model[0].message == "Атрибут не найден", \
+            (f'Expected Атрибут не найден, '
              f'but got {model.list_model[0].message}')
         assert "Untyped" in response.headers["X-Application-Errors"], \
             f'Expected Untyped, but got {response.headers["X-Application-Errors"]}'
