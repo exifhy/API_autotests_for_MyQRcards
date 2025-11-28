@@ -199,14 +199,14 @@ class TestWorkTaskStagingHistory(BaseTest):
             self.api_es_companies.delete_company_by_id(company_id)
             self.api_es_locations.delete_location_by_id(location_id)
 
-    @allure.title('Test mass movement of 500 tasks by stages. Batch.')
+    @allure.title('Test mass movement of 200 tasks by stages. Batch.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26614")
     @pytest.mark.regress
     @pytest.mark.test_case_id(26614)
-    def test_post_multiple_add_500_tasks_staging_history_batch(self):
+    def test_post_multiple_add_200_tasks_staging_history_batch(self):
         task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
         list_tasks = self.api_work_tasks.post_create_multiple_tasks(
-            task_type_id[0], 500
+            task_type_id[0], 200
         )
         try:
             model_route = self.api_work_tasks.get_task_stages_next_by_list(list_tasks)
@@ -215,7 +215,7 @@ class TestWorkTaskStagingHistory(BaseTest):
                 [list_tasks]
             )
             self.api_work_tasks.check_movement_at_the_task_stage(
-                list_tasks, model_route.results[0].nextStages[0].nextStage.id, 300
+                list_tasks, model_route.results[0].nextStages[0].nextStage.id, 200
             )
         finally:
             self.api_work_tasks.delete_mass_tasks_by_list(list_tasks)

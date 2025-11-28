@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, UTC
+import platform
 import os
 import allure
 import pytest
@@ -29,6 +30,7 @@ TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
 APP_ID = os.getenv('APP_ID')
 TOKEN_EXPIRATION_TIME = datetime.min.replace(tzinfo=UTC)
 BEARER_TOKEN = None
+PYTHON_VERSION = platform.python_version()
 
 
 def pytest_addoption(parser):
@@ -266,7 +268,8 @@ def attach_host_info():
     info = {
         "STAGE": ENVIRON,
         "HOST": HOST,
-        "TENANT ID": get_tenant_id()
+        "TENANT ID": get_tenant_id(),
+        "USER": "API User"
     }
     allure.attach(body=json.dumps(info, indent=4), name='Host Info', attachment_type=AttachmentType.JSON)
 
@@ -313,3 +316,36 @@ def setup_allure_history():
 
     except FileNotFoundError as err:
         logger.error(err)
+
+def create_allure_environment_file():
+    """Создание environment.properties для Allure."""
+
+    allure_results = "allure-results"
+    env_file_path = os.path.join(allure_results, "environment.properties")
+
+    # Проверяем, существует ли allure-results, иначе создаём
+    if not os.path.exists(allure_results):
+        os.makedirs(allure_results)
+
+    # Если файл уже существует — удаляем
+    if os.path.exists(env_file_path):
+        os.remove(env_file_path)
+
+    data = {
+        "STAGE": ENVIRON,
+        "HOST": HOST,
+        "TENANT_ID": get_tenant_id(),
+        "USER": "API User",
+        "PYTHON_VERSION": PYTHON_VERSION,
+    }
+
+    # Создаём файл заново
+    with open(env_file_path, "w", encoding="utf-8") as f:
+        for key, value in data.items():
+            f.write(f"{key} = {value}\n")
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Хук выполняется после окончания всех тестов."""
+    create_allure_environment_file()
+    logger.debug("[pytest_session_finish] Allure environment.properties file created.")
