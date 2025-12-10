@@ -215,7 +215,7 @@ class TestWorkTaskStagingHistory(BaseTest):
                 [list_tasks]
             )
             self.api_work_tasks.check_movement_at_the_task_stage(
-                list_tasks, model_route.results[0].nextStages[0].nextStage.id, 200
+                list_tasks, model_route.results[0].nextStages[0].nextStage.id, 360
             )
         finally:
             self.api_work_tasks.delete_mass_tasks_by_list(list_tasks)

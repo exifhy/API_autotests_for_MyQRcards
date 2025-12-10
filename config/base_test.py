@@ -136,6 +136,8 @@ from services.msg.msg_notifications.api_msg_notifications import MSGNotification
 from services.ui.ui_layout_templates.api_ui_layout_templates import UILayoutTemplatesAPI
 from services.ui.ui_components.api_ui_components import UIComponentsAPI
 from services.tstg.tstg_task_stage_components.api_tstg_task_stage_components import TstgTaskStagesComponentsAPI
+from services.wh.wh_operation_types.api_wh_operation_types import WhOperationTypesAPI
+from services.wh.wh_document_types.api_wh_document_types import WhDocumentTypesAPI
 
 
 class BaseTest:
@@ -279,4 +281,6 @@ class BaseTest:
         self.api_ui_layout_templates = UILayoutTemplatesAPI()
         self.api_ui_components = UIComponentsAPI()
         self.api_tstg_task_stage_components = TstgTaskStagesComponentsAPI()
+        self.api_wh_operation_types = WhOperationTypesAPI()
+        self.api_wh_document_types = WhDocumentTypesAPI()
 

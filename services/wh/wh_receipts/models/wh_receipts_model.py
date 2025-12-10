@@ -18,6 +18,12 @@ class ErrorModel(StrictBaseModel):
     list_model: List[CodeMessageModel]
 
 
+class IdCodeNameResult(BaseModel):
+    id: int
+    code: Optional[str] = None
+    name: Optional[str] = None
+
+
 class SuccessAddReceiptsModel(StrictBaseModel):
     result: List[int]
 
@@ -26,27 +32,34 @@ class SuccessRestoreReceiptsModel(StrictBaseModel):
     result: List[int]
 
 
+class IdNameResult(StrictBaseModel):
+    id: int
+    name: Optional[str] = None
+
+
 class ReceiptResultModel(StrictBaseModel):
     id: int
     name: Optional[str] = None
     warehouseID: int
     warehouseName: Optional[str] = None
-    documentStatusID: int
+    documentStatus: IdCodeNameResult
     documentStatusName: Optional[str] = None
     documentDate: Optional[datetime] = None
     number: Optional[str] = None
     erpID: Optional[str] = None
     description: Optional[str] = None
     deleted: Optional[datetime] = None
+    operationType: IdNameResult
+    created: datetime
+    modified: Optional[datetime] = None
+    posted: Optional[datetime] = None
+    relatedTaskID: Optional[int] = None
+    taskNumber: Optional[str] = None
+    responsiblePerson: Optional[IdNameResult] = None
 
 
 class SuccessGetListReceiptResultModel(RootModel):
     root: Dict[str, ReceiptResultModel]
-
-
-class IdNameResult(StrictBaseModel):
-    id: int
-    name: Optional[str] = None
 
 
 class MaterialResult(StrictBaseModel):

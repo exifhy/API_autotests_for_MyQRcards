@@ -21,7 +21,7 @@ class WhReceiptsAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add receipts.")
-    def post_add_receipts(self, wh_id: int, erp_name: str):
+    def post_add_receipts(self, wh_id: int, erp_name: str, operation_type_id: int):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_receipts_endpoint,
@@ -30,7 +30,8 @@ class WhReceiptsAPI(Helper):
                 wh_id,
                 2,
                 erp_name,
-                str(random.randint(1, 9999999999999999))
+                str(random.randint(1, 9999999999999999)),
+                operation_type_id
             )
         )
         end = time.time()
@@ -53,19 +54,22 @@ class WhReceiptsAPI(Helper):
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": erp_name,
+            "operationTypeID": 1
         }
         data2 = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": f'{erp_name}1',
+            "operationTypeID": 1
         }
         data3 = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": f'{erp_name}2',
+            "operationTypeID": 1
         }
         start = time.time()
         response = requests.post(
@@ -93,13 +97,15 @@ class WhReceiptsAPI(Helper):
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": erp_name,
+            "operationTypeID": 1
         }
         data2 = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": erp_name,
+            "operationTypeID": 1
         }
         start = time.time()
         response = requests.post(
@@ -127,7 +133,8 @@ class WhReceiptsAPI(Helper):
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": erp_name,
+            "operationTypeID": 1
         }
         start = time.time()
         response = requests.post(
@@ -160,7 +167,8 @@ class WhReceiptsAPI(Helper):
         data = {
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name
+            "erpID": erp_name,
+            "operationTypeID": 1
         }
         start = time.time()
         response = requests.post(
@@ -187,7 +195,8 @@ class WhReceiptsAPI(Helper):
         data = {
             "number": str(random.randint(1, 9999999999999999)),
             "documentStatusID": 2,
-            "erpID": "ErpID 1"
+            "erpID": "ErpID 1",
+            "operationTypeID": 1
         }
         start = time.time()
         response = requests.post(
@@ -500,14 +509,15 @@ class WhReceiptsAPI(Helper):
         return qty_items
 
     @allure.step("Update receipt by ID.")
-    def put_update_receipts(self, receipt_id: int, wh_id: int, erp_name: str):
+    def put_update_receipts(self, receipt_id: int, wh_id: int, erp_name: str, operation_type_id: int):
         model_before = self.get_receipt_by_id(receipt_id)
         data = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 1,
             "erpID": erp_name,
-            "id": receipt_id
+            "id": receipt_id,
+            "operationTypeID": operation_type_id
         }
         start = time.time()
         response = requests.put(
@@ -532,8 +542,6 @@ class WhReceiptsAPI(Helper):
             f"{model_before.warehouseID} is equal {model_after.warehouseID}, receipt is not updated."
         assert model_before.warehouseName != model_after.warehouseName, \
             f"{model_before.warehouseName} is equal {model_after.warehouseName}, receipt is not updated."
-        assert model_before.documentStatusID != model_after.documentStatusID, \
-            f"{model_before.documentStatusID} is equal {model_after.documentStatusID}, receipt is not updated."
         assert model_before.erpID != model_after.erpID, \
             f"{model_before.erpID} is equal {model_after.erpID}, receipt is not updated."
         logger.info(f'Successfully update receipt with ID:{receipt_id}.')

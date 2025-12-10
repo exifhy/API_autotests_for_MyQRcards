@@ -15,7 +15,7 @@ class TestWhReceipts(BaseTest):
     # @pytest.mark.test_case_id(24499)
     # def test_post_add_receipts(self):
     #     model_wh = self.api_wh_warehouses.post_add_warehouses()
-    #     self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+    #     self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
 
     @allure.title('Test delete receipts by list.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/24502")
@@ -23,7 +23,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(24502)
     def test_delete_receipts_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipts = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipts = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         self.api_wh_receipts.delete_receipts_by_list(model_receipts.result[0])
         self.api_wh_warehouses.delete_warehouses_by_list(model_wh[0].result[0])
 
@@ -35,7 +35,7 @@ class TestWhReceipts(BaseTest):
     # def test_post_add_items_receipts(self):
     #     model_wh = self.api_wh_warehouses.post_add_warehouses()
     #     materials = self.api_wh_materials.post_add_materials()
-    #     model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+    #     model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
     #     try:
     #         self.api_wh_receipts.post_add_items_receipts(
     #             model_receipt.result[0],
@@ -53,7 +53,7 @@ class TestWhReceipts(BaseTest):
     def test_delete_items_receipts(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         materials = self.api_wh_materials.post_add_materials()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.post_add_items_receipts(
                 model_receipt.result[0],
@@ -75,7 +75,7 @@ class TestWhReceipts(BaseTest):
     def test_delete_item_receipt_by_material_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         materials = self.api_wh_materials.post_add_materials()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.post_add_items_receipts(
                 model_receipt.result[0],
@@ -103,7 +103,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25539)
     def test_get_receipt_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.get_receipt_by_id(
                 model_receipt.result[0]
@@ -118,7 +118,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25546)
     def test_delete_deleted_receipt_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         self.api_wh_receipts.delete_receipts_by_list(model_receipt.result[0])
         try:
             self.api_wh_receipts.delete_deleted_receipt_by_id(
@@ -140,7 +140,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25541)
     def test_delete_receipt_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.delete_receipt_by_id(
                 model_receipt.result[0]
@@ -176,12 +176,13 @@ class TestWhReceipts(BaseTest):
     def test_put_update_receipts(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         model_wh2 = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.put_update_receipts(
                 model_receipt.result[0],
                 model_wh2[0].result[0],
-                model_wh2[1]
+                model_wh2[1],
+                1
             )
         finally:
             self.api_wh_receipts.delete_receipts_by_list(model_receipt.result[0])
@@ -193,7 +194,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25562)
     def test_put_restore_receipts_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         self.api_wh_receipts.delete_receipt_by_id(model_receipt.result[0])
         try:
             self.api_wh_receipts.put_restore_receipts_by_id(model_receipt.result[0])
@@ -207,7 +208,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25564)
     def test_put_restore_undeleted_receipts_by_id(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.put_restore_undeleted_receipts_by_id(model_receipt.result[0])
         finally:
@@ -286,7 +287,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25571)
     def test_put_restore_nonexistent_undeleted_receipts_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.put_restore_nonexistent_undeleted_receipts_by_list(model_receipt.result[0])
         finally:
@@ -299,7 +300,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25573)
     def test_put_restore_nonexistent_deleted_receipts_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         self.api_wh_receipts.delete_receipt_by_id(model_receipt.result[0])
         try:
             self.api_wh_receipts.put_restore_nonexistent_deleted_receipts_by_list(model_receipt.result[0])
@@ -314,7 +315,7 @@ class TestWhReceipts(BaseTest):
     def test_get_list_receipt_items(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
         materials = self.api_wh_materials.post_add_materials()
-        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_receipts(model_wh[0].result[0], model_wh[1], 1)
         try:
             self.api_wh_receipts.post_add_items_receipts(
                 model_receipt.result[0],
