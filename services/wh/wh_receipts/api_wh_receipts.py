@@ -92,19 +92,17 @@ class WhReceiptsAPI(Helper):
         return model
 
     @allure.step("Add two receipts.")
-    def post_add_two_receipts(self, wh_id: int, erp_name: str):
+    def post_add_two_receipts(self, wh_id: int):
         data = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name,
             "operationTypeID": 1
         }
         data2 = {
             "number": str(random.randint(1, 9999999999999999)),
             "warehouseID": wh_id,
             "documentStatusID": 2,
-            "erpID": erp_name,
             "operationTypeID": 1
         }
         start = time.time()

@@ -75,6 +75,8 @@
 3. Для генерации отчета Allure(локально):
    
  - allure serve allure-results
+ 
+ - allure generate --clean --single-file allure-results -o allure-report  (генерация одного HTML файла с отчетом)
     
 4. Для создания истории запусков в Allure-report (ТОЛЬКО ЛОКАЛЬНО) запускать тесты с параметром --report="true":
    

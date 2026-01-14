@@ -254,7 +254,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25569)
     def test_put_restore_undeleted_deleted_receipts_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_two_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_two_receipts(model_wh[0].result[0])
         self.api_wh_receipts.delete_receipt_by_id(model_receipt.result[1])
         try:
             self.api_wh_receipts.put_restore_undeleted_deleted_receipts_by_list(
@@ -271,7 +271,7 @@ class TestWhReceipts(BaseTest):
     @pytest.mark.test_case_id(25570)
     def test_put_restore_undeleted_undeleted_receipts_by_list(self):
         model_wh = self.api_wh_warehouses.post_add_warehouses()
-        model_receipt = self.api_wh_receipts.post_add_two_receipts(model_wh[0].result[0], model_wh[1])
+        model_receipt = self.api_wh_receipts.post_add_two_receipts(model_wh[0].result[0])
         try:
             self.api_wh_receipts.put_restore_undeleted_undeleted_receipts_by_list(
                 model_receipt.result[0],
