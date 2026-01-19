@@ -138,6 +138,7 @@ from services.ui.ui_components.api_ui_components import UIComponentsAPI
 from services.tstg.tstg_task_stage_components.api_tstg_task_stage_components import TstgTaskStagesComponentsAPI
 from services.wh.wh_operation_types.api_wh_operation_types import WhOperationTypesAPI
 from services.wh.wh_document_types.api_wh_document_types import WhDocumentTypesAPI
+from services.cm.cm_clients.api_cm_clients import CmClientsAPI
 
 
 class BaseTest:
@@ -283,4 +284,5 @@ class BaseTest:
         self.api_tstg_task_stage_components = TstgTaskStagesComponentsAPI()
         self.api_wh_operation_types = WhOperationTypesAPI()
         self.api_wh_document_types = WhDocumentTypesAPI()
+        self.api_cm_clients =  CmClientsAPI()
 

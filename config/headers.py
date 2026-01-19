@@ -66,6 +66,18 @@ class Headers:
         return basic
 
     @staticmethod
+    def header_for_client_locations(client_id: str, client_offset: str) -> dict:
+        header = {
+            "Accept": "application/json",
+            "Accept-Language": "ru-RU",
+            "X-Application-ID": "1",
+            "Content-Type": "application/json",
+            "X-CLIENT-IDENTIFIER": client_id,
+            "X-CLIENT-UTC-OFFSET": client_offset
+        }
+        return header
+
+    @staticmethod
     def upload_file_header(token: str, cont_type: str) -> dict:
         basic = {
             "Accept": "application/json",
