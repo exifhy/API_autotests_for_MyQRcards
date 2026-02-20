@@ -18,6 +18,7 @@ import time
 from http import HTTPStatus
 from random import randint
 from utils.token_utils import get_token
+import uuid
 
 
 class WorkTasksAPI(Helper):
@@ -133,6 +134,59 @@ class WorkTasksAPI(Helper):
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTasksModel(**response.json())
         logger.info(f'Successfully add a empty task ID {model.id}')
+        return model
+
+    @allure.step("Add empty task with concurrency stamp.")
+    def post_add_empty_task_with_concurrency_stamp(self, task_type_id: str):
+        uuid_concurrency_stamp = str(uuid.uuid4())
+        data = {
+            "RequestMethodID": 1,
+            "TaskTypeID": task_type_id
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header_with_concurrency_stamp(get_token(), uuid_concurrency_stamp),
+            json=data
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksWithConcurrencyStampModel(**response.json())
+        logger.info(f'Successfully add a empty task ID {model.id}, concurrency stamp {model.concurrencyStamp}')
+        return model
+
+    @allure.step("Add empty task with existing concurrency stamp.")
+    def post_add_empty_task_with_existing_concurrency_stamp(self, task_type_id: str, concurrency_stamp: str):
+        data = {
+            "RequestMethodID": 1,
+            "TaskTypeID": task_type_id
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.post_add_task_endpoint,
+            headers=self.headers.basic_header_with_concurrency_stamp(get_token(), concurrency_stamp),
+            json=data
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = SuccessAddTasksWithConcurrencyStampModel(**response.json())
+        logger.warning(f'Not created a empty task with existing concurrency stamp {concurrency_stamp}.')
         return model
 
     @allure.step("Add empty task without logging.")

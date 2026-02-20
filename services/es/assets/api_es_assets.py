@@ -17,6 +17,7 @@ from http import HTTPStatus
 from utils.token_utils import get_token
 from faker import Faker
 from random import randint
+import uuid
 
 fake_ru = Faker('ru_RU')
 
@@ -112,6 +113,69 @@ class EsAssetsAPI(Helper):
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = IdNameResultModel(**response.json())
         logger.info(f'Successfully add object without parent object, name object: {name}')
+        return model
+
+    @allure.step("Object creation with concurrency stamp.")
+    def post_add_object_with_concurrency_stamp(self, company_id: int, asset_type_id: int, asset_class_id: int) -> tuple[IdNameResultModel, str]:
+        name = fake_ru.company()
+        concurrency_stamp = str(uuid.uuid4())
+        notes_text = f'Объект создан авто-тестом c concurrencyStamp {concurrency_stamp}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.create_object_endpoint,
+            headers=self.headers.basic_header_with_concurrency_stamp(get_token(), concurrency_stamp),
+            json=self.payloads.object_creation_payload(
+                parent_id=None,
+                name=name,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
+                notes=notes_text
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, \
+            f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
+        model = IdNameResultModel(**response.json())
+        logger.info(f'Successfully add object with concurrency stamp {concurrency_stamp}, name object: {name}')
+        return model, concurrency_stamp
+
+    @allure.step("Object creation with existing concurrency stamp {concurrency_stamp}.")
+    def post_add_object_with_existing_concurrency_stamp(self, company_id: int, asset_type_id: int, asset_class_id: int, concurrency_stamp: str):
+        name = fake_ru.company()
+        notes_text = f'Объект создан авто-тестом c concurrencyStamp {concurrency_stamp}'
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.create_object_endpoint,
+            headers=self.headers.basic_header_with_concurrency_stamp(get_token(), concurrency_stamp),
+            json=self.payloads.object_creation_payload(
+                parent_id=None,
+                name=name,
+                company_id=company_id,
+                asset_type_id=asset_type_id,
+                asset_class_id=asset_class_id,
+                notes=notes_text
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CONFLICT, \
+            f'Expected status code {HTTPStatus.CONFLICT}, but got {response.status_code}, {data_response}'
+        model = IdNameResultWithConcurrencyStampModel(**response.json())
+        logger.warning(f'Not created object with existing concurrency stamp {concurrency_stamp}, name object: {name}')
         return model
 
     @allure.step("Object creation with responsible person.")

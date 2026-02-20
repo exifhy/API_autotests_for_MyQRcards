@@ -92,6 +92,11 @@ class IdNameResultModel(StrictBaseModel):
     name: str
     id: int
 
+class IdNameResultWithConcurrencyStampModel(StrictBaseModel):
+    name: str
+    id: int
+    concurrencyStamp: str
+
 
 class AssetTypeResult(StrictBaseModel):
     isHostable: bool

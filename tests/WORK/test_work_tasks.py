@@ -4090,6 +4090,17 @@ class TestWorkTasks(BaseTest):
             model_task.id, model_task1.id, model_task2.id, model_task3.id
         )
 
+    @allure.title('Test add task with existing concurrency stamp.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/29748")
+    @pytest.mark.regress
+    @pytest.mark.smoke
+    @pytest.mark.test_case_id(29748)
+    def test_post_add_task_with_existing_concurrency_stamp(self):
+        task_type_id = self.api_work_task_types.get_list_task_types_return_first_id()
+        model_task = self.api_work_tasks.post_add_empty_task_with_concurrency_stamp(task_type_id[0])
+        self.api_work_tasks.post_add_empty_task_with_existing_concurrency_stamp(task_type_id[0], model_task.concurrencyStamp)
+        self.api_work_tasks.delete_task_by_id(model_task.id)
+
     @allure.title('Test get count list tasks by day (yesterday, now).')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/25092")
     @pytest.mark.regress

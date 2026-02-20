@@ -992,8 +992,12 @@ class UILayoutTemplatesAPI(Helper):
         self.attach_response(data_response)
         self.attach_time(start, end)
         self.attach_url(response.request.url)
-        assert response.status_code == HTTPStatus.OK, \
-            f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        model = AttributeDtoListModel(result=response.json())
-        logger.info(f'Successfully get list attributes layout template by ID {template_id}.')
-        return model
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            logger.warning(f'Successfully get list attributes layout template. No content.')
+            return None
+        else:
+            assert response.status_code == HTTPStatus.OK, \
+                f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
+            model = AttributeDtoListModel(result=response.json())
+            logger.info(f'Successfully get list attributes layout template by ID {template_id}.')
+            return model

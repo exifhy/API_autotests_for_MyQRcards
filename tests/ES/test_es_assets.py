@@ -63,6 +63,37 @@ class TestEsAssets(BaseTest):
         self.api_es_companies.delete_company_by_id(company_id)
         self.api_es_locations.delete_location_by_id(location_id)
 
+    @allure.title('Test add asset with existing concurrency stamp.')
+    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/29749")
+    @pytest.mark.smoke
+    @pytest.mark.xfail(
+        reason="Ошибка валидации: API возвращает `сoncurrencyStamp` с кириллической `с` вместо латинской `c`."
+        )
+    @pytest.mark.test_case_id(29749)
+    def test_add_asset_with_existing_concurrency_stamp(self):
+        company_id = self.api_es_companies.post_add_our_company()
+        location_id = self.api_es_locations.post_add_location()
+        self.api_es_company_locations.post_add_company_locations(
+            company_id=company_id,
+            location_id=location_id
+        )
+        asset_type_id = self.api_es_asset_types.get_list_asset_types_return_is_hostable_true()
+        asset_class_id = self.api_es_asset_classes.get_list_asset_classes_return_id_first_class()
+        object_model, concurrency_stamp = self.api_es_assets.post_add_object_with_concurrency_stamp(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id
+        )
+        self.api_es_assets.post_add_object_with_existing_concurrency_stamp(
+            company_id=company_id,
+            asset_class_id=asset_class_id,
+            asset_type_id=asset_type_id,
+            concurrency_stamp=concurrency_stamp
+        )
+        self.api_es_assets.delete_object_by_id(object_model.id)
+        self.api_es_companies.delete_company_by_id(company_id)
+        self.api_es_locations.delete_location_by_id(location_id)
+
     @allure.title('Test detailed information on the object by id.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23031")
     @pytest.mark.smoke

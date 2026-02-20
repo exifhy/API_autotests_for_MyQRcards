@@ -38,6 +38,20 @@ class Headers:
         return basic
 
     @staticmethod
+    def basic_header_with_concurrency_stamp(token: str, concurrency_stamp: str) -> dict:
+        basic = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
+            "Accept-Language": "ru-RU",
+            "X-Application-ID": f"{APP_ID}",
+            "X-CONCURRENCY-STAMP": f"{concurrency_stamp}",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Content-Type": "application/json"
+        }
+        return basic
+
+    @staticmethod
     def basic_header_with_range(token: str) -> dict:
         basic = {
             "Accept": "application/json",

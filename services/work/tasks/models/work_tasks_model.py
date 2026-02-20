@@ -23,6 +23,12 @@ class SuccessAddTasksModel(StrictBaseModel):
     number: str
 
 
+class SuccessAddTasksWithConcurrencyStampModel(StrictBaseModel):
+    id: int
+    number: str
+    concurrencyStamp: str
+
+
 class ResultDeleteModel(StrictBaseModel):
     tenantID: int
     taskID: int
