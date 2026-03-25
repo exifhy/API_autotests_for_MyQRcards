@@ -42,6 +42,7 @@ class MeasurementUnitModel(StrictBaseModel):
 
 
 class MaterialModel(StrictBaseModel):
+    isMarkable: Optional[bool] = None
     erpID: Optional[str] = None
     vendorCode: Optional[str] = None
     description: Optional[str] = None

@@ -710,12 +710,25 @@ class TakenByUserResult(StrictBaseModel):
     deleted: Optional[datetime] = None
 
 
+class MarkingCodeInfoItemResult(StrictBaseModel):
+    code: Optional[str] = None
+    scannedAtUtc: Optional[datetime] = None
+    receivedAtUtc: datetime
+    createdBy: int
+
+
+class MarkingCodesInfoResult(StrictBaseModel):
+    scannedCount: int
+    items: Optional[List[MarkingCodeInfoItemResult]] = None
+
+
 class MaterialResult(StrictBaseModel):
     inventoryID: Optional[int] = None
     materialID: Optional[int] = None
     materialName: Optional[str] = None
     materialErpID: Optional[str] = None
     materialDeleted: Optional[datetime] = None
+    materialIsMarkable: bool
     warehouse: Optional[IdNameErpIDResult] = None
     measurementUnit: Optional[IdNameResult] = None
     quantity: Optional[float] = None
@@ -724,6 +737,7 @@ class MaterialResult(StrictBaseModel):
     cost: Optional[float] = None
     costCurrencyID: Optional[int] = None
     sortOrder: Optional[int] = None
+    markingCodesInfo: Optional[MarkingCodesInfoResult] = None
 
 
 class SuccessGetListCompletedWorkMaterialResultModel(StrictBaseModel):
