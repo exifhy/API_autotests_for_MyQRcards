@@ -1,0 +1,44 @@
+name: Tests DEV
+
+on:
+  schedule:
+    - cron: '0 7 * * 1-5'   # 10:00 Moscow (UTC+3), Mon–Fri
+  workflow_dispatch:          # ручной запуск через GitHub UI
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create .env.dev
+        run: |
+          echo "LK_JWT=${{ secrets.LK_JWT }}" >> .env.dev
+          echo "APP_ID=${{ secrets.APP_ID }}" >> .env.dev
+
+      - name: Create data/ids.dev.json
+        run: echo '${{ secrets.IDS_DEV_JSON }}' > data/ids.dev.json
+
+      - name: Run tests
+        id: tests
+        continue-on-error: true
+        run: |
+          ENVIRON=dev python -m pytest tests/ --env=dev -m smoke \
+            -q --tb=line 2>&1 | tee pytest_output.txt
+          echo "outcome=$?" >> $GITHUB_OUTPUT
+
+      - name: Send Telegram notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/notify_telegram.py pytest_output.txt DEV

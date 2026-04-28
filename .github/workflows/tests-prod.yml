@@ -1,0 +1,43 @@
+name: Tests PROD
+
+on:
+  schedule:
+    - cron: '0 23 * * *'    # 02:00 Moscow (UTC+3), every night
+  workflow_dispatch:          # ручной запуск через GitHub UI
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create .env.prod
+        run: |
+          echo "LK_JWT=${{ secrets.LK_JWT_PROD }}" >> .env.prod
+          echo "APP_ID=${{ secrets.APP_ID }}" >> .env.prod
+
+      - name: Create data/ids.prod.json
+        run: echo '${{ secrets.IDS_PROD_JSON }}' > data/ids.prod.json
+
+      - name: Run tests
+        id: tests
+        continue-on-error: true
+        run: |
+          ENVIRON=prod python -m pytest tests/ --env=prod -m smoke \
+            -q --tb=line 2>&1 | tee pytest_output.txt
+
+      - name: Send Telegram notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/notify_telegram.py pytest_output.txt PROD
