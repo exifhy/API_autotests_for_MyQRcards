@@ -20,8 +20,8 @@ def parse_pytest_output(path: str) -> tuple[str, int, int]:
     match = re.search(r"(\d+) failed", text)
     failed = int(match.group(1)) if match else 0
 
-    summary_match = re.search(r"=+ (.+) =+\s*$", text, re.MULTILINE)
-    summary = summary_match.group(1).strip() if summary_match else "unknown"
+    matches = re.findall(r"=+ (.+?) =+", text)
+    summary = matches[-1].strip() if matches else "unknown"
 
     return summary, passed, failed
 
@@ -65,11 +65,15 @@ def main() -> None:
         icon = "⚠️"
         status = "NO RESULTS"
 
+    allure_url = os.environ.get("ALLURE_URL", "")
+
     lines = [
         f"{icon} <b>{env_label} smoke — {status}</b>",
         f"📊 {summary}",
         f"🕐 {now} (Moscow)",
     ]
+    if allure_url:
+        lines.append(f'📋 <a href="{allure_url}">Allure report</a>')
 
     if failed > 0:
         failures = failed_tests(output_file)
