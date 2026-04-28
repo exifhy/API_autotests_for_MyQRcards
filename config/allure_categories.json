@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Ограничение подписки / лимит визиток",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*SubscriptionConstraint|.*Нет доступных визиток.*",
+    "traceRegex": ".*SubscriptionConstraint|.*Нет доступных визиток.*"
+  },
+  {
+    "name": "Ошибки авторизации и доступа",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*401.*|.*403.*|.*Unauthorized.*|.*Forbidden.*|.*AccessDenied.*",
+    "traceRegex": ".*401.*|.*403.*|.*Unauthorized.*|.*Forbidden.*|.*AccessDenied.*"
+  },
+  {
+    "name": "Сетевые ошибки и таймауты",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*Connection.*|.*ConnectTimeout.*|.*ReadTimeout.*|.*Timeout.*|.*ProtocolError.*|.*ConnectionResetError.*",
+    "traceRegex": ".*Connection.*|.*ConnectTimeout.*|.*ReadTimeout.*|.*Timeout.*|.*ProtocolError.*|.*ConnectionResetError.*"
+  },
+  {
+    "name": "Серверные ошибки 5xx",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*500.*|.*502.*|.*503.*|.*504.*|.*Internal Server Error.*",
+    "traceRegex": ".*500.*|.*502.*|.*503.*|.*504.*|.*Internal Server Error.*"
+  },
+  {
+    "name": "Проблемы с данными запроса",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": ".*400.*|.*409.*|.*Bad Request.*|.*ParameterNull.*|.*InvalidData.*|.*Validation.*",
+    "traceRegex": ".*400.*|.*409.*|.*Bad Request.*|.*ParameterNull.*|.*InvalidData.*|.*Validation.*"
+  },
+  {
+    "name": "Контракт ответа / проверки assert",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*AssertionError.*|.*assert .*",
+    "traceRegex": ".*AssertionError.*|.*assert .*"
+  },
+  {
+    "name": "Прочие падения",
+    "matchedStatuses": ["failed", "broken"]
+  }
+]

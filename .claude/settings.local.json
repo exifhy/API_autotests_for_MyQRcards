@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/yaaak/Downloads/**)",
+      "Bash(ls -la HubEx.Test.Api.Cl.zip)",
+      "Bash(mkdir -p /tmp/hubex_ref)",
+      "Read(//tmp/**)",
+      "Bash(unzip -q \"/c/Users/yaaak/Downloads/HubEx.Test.Api.Cl.zip\" -d .)",
+      "Bash(python3 -c \"with open\\('/tmp/hubex_ref/requirements.txt', 'r', encoding='utf-8', errors='ignore'\\) as f: print\\(f.read\\(\\)\\)\")",
+      "Bash(xargs grep *)",
+      "Bash(.venv/Scripts/python.exe -c ' *)",
+      "Bash(/c/Users/yaaak/Desktop/autotests/api_autotests_new22/.venv/Scripts/python.exe -c ' *)",
+      "Bash(py --version)",
+      "Bash(where python *)",
+      "Read(//c/Users/yaaak/AppData/Local/Programs/Python//**)",
+      "Read(//c/Users/yaaak/AppData/Local//**)",
+      "Bash(/c/Users/yaaak/AppData/Local/Programs/Python/Python313/python.exe -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(/c/Users/yaaak/AppData/Local/Programs/Python/Python313/python.exe -c ' *)",
+      "Bash(/c/Users/yaaak/Desktop/autotests/api_autotests_new22/.venv/Scripts/pytest.exe --version)",
+      "Bash(/c/Users/yaaak/AppData/Local/Programs/Python/Python313/python.exe -m venv .venv)",
+      "Bash(.venv/Scripts/pip install *)",
+      "Bash(.venv/Scripts/pytest --version)",
+      "Bash(.venv/Scripts/pytest tests/tests_e2e_lk/auth/test_mobile_account_verification_email_flow.py -v -rs)",
+      "Bash(.venv/Scripts/pytest tests/tests_e2e_lk/auth/test_mobile_account_verification_email_flow.py -v)",
+      "PowerShell(cd \"c:\\\\Users\\\\yaaak\\\\Desktop\\\\autotests\\\\api_autotests_new22\"; $env:ENVIRON=\"dev\"; python -m pytest tests/api/cards/test_card_attribute_attachment_upload.py -v 2>&1 | Select-Object -Last 30)",
+      "PowerShell(cd \"c:\\\\Users\\\\yaaak\\\\Desktop\\\\autotests\\\\api_autotests_new22\"; $env:ENVIRON=\"dev\"; python -m pytest tests/api/cards/test_card_attribute_attachment_upload.py::TestCardAttributeAttachmentUpload::test_card_attribute_attachment_upload_200 -v 2>&1)",
+      "PowerShell(cd \"c:\\\\Users\\\\yaaak\\\\Desktop\\\\autotests\\\\api_autotests_new22\"; $env:ENVIRON = \"dev\"; $result = python -m pytest \"tests/api/cards/test_card_attribute_attachment_upload.py\" -v 2>&1; $result | Select-Object -Last 30; Write-Host \"Exit: $LASTEXITCODE\")",
+      "Bash(python migrate_to_call.py --dry)"
+    ]
+  }
+}
