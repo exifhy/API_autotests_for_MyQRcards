@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/Cards/customlink?offset=0&fetch=5",
-  "body": "[{\"customCardLinkUrl\":\"https://dev-s-card.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Визитка-чат\",\"id\":1},{\"customCardLinkUrl\":\"https://dev-card.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Электронная визитка\",\"id\":2},{\"customCardLinkUrl\":\"https://dev-ecard.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Ecard\",\"id\":3},{\"customCardLinkUrl\":\"https://dev-pet.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Визитка Питомец\",\"id\":67},{\"customCardLinkUrl\":\"https://dev-personalpages.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"PersonalPages\",\"id\":75}]"
-}

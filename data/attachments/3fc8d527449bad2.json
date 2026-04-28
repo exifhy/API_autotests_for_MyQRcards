@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/cardlinks/statistic/?DateFrom=2026-04-21T23%3A45%3A17&DateTill=2026-04-28T23%3A45%3A17",
+  "body": "[{\"day\":\"2026-04-23T00:00:00\",\"company\":{\"name\":\"TestComp\",\"id\":191940},\"accountID\":276041,\"card\":{\"personFullName\":\"Тест\",\"name\":\"Корпоративная:TestComp\",\"id\":1},\"viewCount\":4,\"downloadCount\":1}]"
+}
