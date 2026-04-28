@@ -3,7 +3,7 @@ name: Tests DEV
 on:
   schedule:
     - cron: '0 7 * * 1-5'   # 10:00 Moscow (UTC+3), Mon–Fri
-  workflow_dispatch:          # ручной запуск через GitHub UI
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -37,6 +37,11 @@ jobs:
           ENVIRON=dev python -m pytest tests/ --env=dev \
             -q --tb=line --alluredir=allure-results 2>&1 | tee pytest_output.txt
 
+      - name: Install Allure CLI
+        run: |
+          wget -q https://github.com/allure-framework/allure2/releases/download/2.27.0/allure_2.27.0-1_all.deb
+          sudo dpkg -i allure_2.27.0-1_all.deb
+
       - name: Get Allure history
         uses: actions/checkout@v4
         continue-on-error: true
@@ -44,19 +49,19 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
+      - name: Copy history from previous report
+        continue-on-error: true
+        run: cp -r gh-pages/history/. allure-results/history/ 2>/dev/null || true
+
       - name: Generate Allure report
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-          keep_reports: 30
+        run: allure generate allure-results -o allure-report --clean
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-report
 
       - name: Send Telegram notification
         if: always()

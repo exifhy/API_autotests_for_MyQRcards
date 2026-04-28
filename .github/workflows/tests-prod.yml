@@ -3,7 +3,10 @@ name: Tests PROD
 on:
   schedule:
     - cron: '0 23 * * *'    # 02:00 Moscow (UTC+3), every night
-  workflow_dispatch:          # ручной запуск через GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run-tests:
@@ -29,15 +32,41 @@ jobs:
         run: echo '${{ secrets.IDS_PROD_JSON }}' > data/ids.prod.json
 
       - name: Run tests
-        id: tests
         continue-on-error: true
         run: |
           ENVIRON=prod python -m pytest tests/ --env=prod -m smoke \
-            -q --tb=line 2>&1 | tee pytest_output.txt
+            -q --tb=line --alluredir=allure-results 2>&1 | tee pytest_output.txt
+
+      - name: Install Allure CLI
+        run: |
+          wget -q https://github.com/allure-framework/allure2/releases/download/2.27.0/allure_2.27.0-1_all.deb
+          sudo dpkg -i allure_2.27.0-1_all.deb
+
+      - name: Get Allure history
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy history from previous report
+        continue-on-error: true
+        run: cp -r gh-pages/history/. allure-results/history/ 2>/dev/null || true
+
+      - name: Generate Allure report
+        run: allure generate allure-results -o allure-report --clean
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
 
       - name: Send Telegram notification
         if: always()
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALLURE_URL: https://exifhy.github.io/API_autotests_for_MyQRcards/
         run: python scripts/notify_telegram.py pytest_output.txt PROD
