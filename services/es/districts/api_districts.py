@@ -48,7 +48,7 @@ class EsDistrictsAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddDistrictsModel(districts=response.json())
-        logger.info(f'Successfully add a non-default district, name district: {district_name}')
+        logger.success(f'Successfully add a non-default district, name district: {district_name}')
         return model
 
     @allure.step("Add three districts.")
@@ -74,7 +74,7 @@ class EsDistrictsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
         model = SuccessAddDistrictsModel(districts=response.json())
-        logger.info(f'Successfully add districts with ID: {model.districts}')
+        logger.success(f'Successfully add districts with ID: {model.districts}')
         return model
 
     @allure.step("Marks the district as deleted.")
@@ -112,7 +112,7 @@ class EsDistrictsAPI(Helper):
         assert response.status_code == HTTPStatus.OK,  \
             f'Expected {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetInfoDistrictModel(**response.json())
-        logger.info(f'Successfully received detail district info with ID {district_id}.')
+        logger.success(f'Successfully received detail district info with ID {district_id}.')
         return model
 
     @allure.step("Delete districts by list.")
@@ -151,7 +151,7 @@ class EsDistrictsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f"Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}"
         model = SuccessGetListInfoDistrictsModel(result=response.json())
-        logger.info(f'Successfully get list districts.')
+        logger.success(f'Successfully get list districts.')
         return model
 
     @allure.step("Get list districts with asserts.")
@@ -180,7 +180,7 @@ class EsDistrictsAPI(Helper):
                     raise AssertionError(f'District with ID {district_id} is not deleted.')
             elif deleted is False:
                 if item.id == district_id:
-                    logger.info(f'Successfully get list districts.')
+                    logger.success(f'Successfully get list districts.')
                     return model
 
     @allure.step("Update district.")
@@ -208,7 +208,7 @@ class EsDistrictsAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected {HTTPStatus.ACCEPTED}, but got {response.status_code}. Message {data_response}'
-        logger.info(f'Successfully update district with ID {district_id}')
+        logger.success(f'Successfully update district with ID {district_id}')
 
     @allure.step("Changes the parent district.")
     def put_update_parent_district(self, district_id, parent_id: int):
@@ -232,7 +232,7 @@ class EsDistrictsAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully changes the parent district.')
+        logger.success(f'Successfully changes the parent district.')
 
     @allure.step("Changes district sorting.")
     def put_update_district_sorting(self, district_id, sorted_order: int):
@@ -256,4 +256,4 @@ class EsDistrictsAPI(Helper):
         self.attach_url(response.request.url)
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
-        logger.info(f'Successfully changes district sorting')
+        logger.success(f'Successfully changes district sorting')

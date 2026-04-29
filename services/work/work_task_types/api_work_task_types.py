@@ -40,7 +40,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, f'Status code {response.status_code}, {response.json()}'
         model = SuccessGetListTaskTypesModel(root=response.json())
         for key, value in model.root.items():
-            logger.info(f'Successfully get list task types.')
+            logger.success(f'Successfully get list task types.')
             logger.info(f'Task type ID: {key}, name: {value.name}')
             if "{Company.Code}" in value.numberMask:
                 return key, value.name, True
@@ -67,7 +67,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListTaskTypesModel(root=response.json())
-        logger.info(f'Successfully get list a task types.')
+        logger.success(f'Successfully get list a task types.')
         return model
 
     @allure.step("Update task types.")
@@ -99,7 +99,7 @@ class WorkTaskTypesAPI(Helper):
         model_task_type = self.get_task_type_by_id(task_type_id)
         assert name == model_task_type.name, "Task type is not updated"
         assert mask == model_task_type.numberMask, "Task type is not updated"
-        logger.info(f'Successfully update task types ID {task_type_id}.')
+        logger.success(f'Successfully update task types ID {task_type_id}.')
 
     @allure.step("Add task types.")
     def post_add_task_types(self):
@@ -126,7 +126,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = TaskTypesIdModel(results=response.json())
-        logger.info(f'Successfully add task types ID {model.results[0]}.')
+        logger.success(f'Successfully add task types ID {model.results[0]}.')
         return model
 
     @allure.step("Delete task types by list.")
@@ -147,7 +147,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete task types ID {task_type_ids}.')
+        logger.success(f'Successfully delete task types ID {task_type_ids}.')
 
     @allure.step("Get task type by ID.")
     def get_task_type_by_id(self, task_type_id: int):
@@ -166,7 +166,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = GetTaskTypesModel(**response.json())
-        logger.info(f'Successfully get task type by ID {task_type_id}.')
+        logger.success(f'Successfully get task type by ID {task_type_id}.')
         return model
 
     @allure.step("Delete task types by ID.")
@@ -185,7 +185,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete task types ID {task_type_id}.')
+        logger.success(f'Successfully delete task types ID {task_type_id}.')
 
     @allure.step("Get list districts task type.")
     def get_list_districts_task_type(self, task_type_id: int):
@@ -204,7 +204,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetListDistrictsTaskTypesModel(**response.json())
-        logger.info(f'Successfully get route a task type.')
+        logger.success(f'Successfully get route a task type.')
         return model
 
     @allure.step("Get route a task type.")
@@ -227,7 +227,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetRouteResultModel(**response.json())
-        logger.info(f'Successfully get route a task type.')
+        logger.success(f'Successfully get route a task type.')
         return model
 
     @allure.step("Get list work types of task types.")
@@ -247,7 +247,7 @@ class WorkTaskTypesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = GetListWorkTypesTaskTypes(results=response.json())
-        logger.info(f'Successfully list work types of task types.')
+        logger.success(f'Successfully list work types of task types.')
         return model
 
     @allure.step("Add list work types to task type.")
@@ -268,7 +268,7 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully add list work types {work_types_ids} to task type {task_type_id}.')
+        logger.success(f'Successfully add list work types {work_types_ids} to task type {task_type_id}.')
 
     @allure.step("Delete work types from task type by list.")
     def delete_work_types_from_task_type_by_list(self, task_type_id: int, *work_types_ids: int):
@@ -288,4 +288,4 @@ class WorkTaskTypesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully add list work types {work_types_ids} to task type {task_type_id}.')
+        logger.success(f'Successfully add list work types {work_types_ids} to task type {task_type_id}.')

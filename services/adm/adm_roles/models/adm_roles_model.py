@@ -116,3 +116,33 @@ class RolePermissionsUiListResult(StrictBaseModel):
 
 class RolePermissionsUiListResponseModel(RootModel):
     root: Dict[str, List[RolePermissionsUiListResult]]
+
+
+class IdCodeNameResultOfByteModel(StrictBaseModel):
+    id: int
+    code: Optional[str] = None
+    name: Optional[str] = None
+
+
+class RolePackagesListResultModel(StrictBaseModel):
+    packageID: Optional[str] = None
+    packageVersion: Optional[str] = None
+    packageName: Optional[str] = None
+    isEnabled: bool
+    resource: Optional[IdCodeNameResultOfByteModel] = None
+
+
+class SuccessRolePackagesListResultModel(RootModel):
+    root: Dict[str, RolePackagesListResultModel]
+
+
+class RolePackagesPostModel(StrictBaseModel):
+    roleID: int
+    id: int
+    packageID: Optional[str] = None
+    packageVersion: Optional[str] = None
+
+
+class SuccessPostRolePackagesModel(StrictBaseModel):
+    results: List[RolePackagesPostModel]
+

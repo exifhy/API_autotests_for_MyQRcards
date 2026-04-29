@@ -31,15 +31,16 @@ class EsAssetTagsAPI(Helper):
             json=self.payloads.post_add_tags_to_asset_payload(asset_id, name)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
+        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            (f'Expected status code {HTTPStatus.CREATED}, '
+             f'but got {response.status_code}, {data_response}')
         model = SuccessAddTagsToAssetModel(result=response.json())
         logger.info(f'Successfully add tags to the asset with ID: {asset_id}.')
         return model
@@ -53,13 +54,14 @@ class EsAssetTagsAPI(Helper):
             json=self.payloads.delete_tags_from_asset_payload(asset_id, *name)
         )
         end = time.time()
-        try:
-            self.attach_response(response.json())
-        except JSONDecodeError:
-            logger.warning("Received response is not a valid JSON")
         logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
         self.attach_time(start, end)
+        self.attach_request(response.request.body)
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
-            f'Code:{response.status_code}.Message:{response.json()}'
+            (f'Expected status code {HTTPStatus.ACCEPTED}, '
+             f'but got {response.status_code}, {data_response}')
         logger.info(f'Successfully delete tags from asset with ID: {asset_id}.')

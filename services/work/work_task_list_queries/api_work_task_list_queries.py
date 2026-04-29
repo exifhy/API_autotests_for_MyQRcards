@@ -39,7 +39,7 @@ class WorkTaskListQueriesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetTaskListQueryResultModel(root=response.json())
-        logger.info(f'Successfully get task list queries.')
+        logger.success(f'Successfully get task list queries.')
         return model
 
     @allure.step("Add list task queries.")
@@ -64,7 +64,7 @@ class WorkTaskListQueriesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTaskListQueryResultModel(result=response.json())
-        logger.info(f'Successfully add task list queries (district, work type).')
+        logger.success(f'Successfully add task list queries (district, work type).')
         return model
 
     @allure.step("Add list task queries by owner user.")
@@ -89,7 +89,7 @@ class WorkTaskListQueriesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = SuccessAddTaskListQueryResultModel(result=response.json())
-        logger.info(f'Successfully add task list queries (district, work type).')
+        logger.success(f'Successfully add task list queries (district, work type).')
         return model
 
     @allure.step("Update list task queries.")
@@ -112,7 +112,7 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully update task list queries.')
+        logger.success(f'Successfully update task list queries.')
 
     @allure.step("Delete list task queries by list.")
     def delete_task_list_queries_by_list(self, *query_ids: int):
@@ -132,7 +132,7 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete task list queries by list with IDs: {query_ids}.')
+        logger.success(f'Successfully delete task list queries by list with IDs: {query_ids}.')
 
     @allure.step("Delete list task queries by list by owner user.")
     def delete_task_list_queries_by_list_by_owner_user(self, token: str,  *query_ids: int):
@@ -152,7 +152,7 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete task list queries by list with IDs: {query_ids}.')
+        logger.success(f'Successfully delete task list queries by list with IDs: {query_ids}.')
 
     @allure.step("Delete list task queries by list (remove).")
     def delete_remove_task_list_queries_by_list(self, *query_ids: int):
@@ -172,7 +172,7 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete task list queries by list with IDs: {query_ids}.')
+        logger.success(f'Successfully delete task list queries by list with IDs: {query_ids}.')
 
     @allure.step("Get list task queries by id.")
     def get_task_list_queries_by_id(self, query_id: int):
@@ -191,7 +191,7 @@ class WorkTaskListQueriesAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = TaskListQueryResultModel(**response.json())
-        logger.info(f'Successfully get task list queries with ID: {query_id}.')
+        logger.success(f'Successfully get task list queries with ID: {query_id}.')
         return model
 
     @allure.step("Delete list task queries by id.")
@@ -212,11 +212,11 @@ class WorkTaskListQueriesAPI(Helper):
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         model_list = self.get_task_list_queries()
         if model_list is None:
-            logger.warning(f'Successfully delete task list queries with ID: {query_id}.')
+            logger.success(f'Successfully delete task list queries with ID: {query_id}.')
         else:
             assert str(query_id) not in model_list.root, \
                 f'Task list queries with id {query_id} not deleted.'
-            logger.warning(f'Successfully delete task list queries with ID: {query_id}.')
+            logger.success(f'Successfully delete task list queries with ID: {query_id}.')
 
     @allure.step("Delete list task queries by id (remove).")
     def delete_task_list_queries_by_id_remove(self, query_id: int):
@@ -234,4 +234,4 @@ class WorkTaskListQueriesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete (remove) task list queries with ID: {query_id}.')
+        logger.success(f'Successfully delete (remove) task list queries with ID: {query_id}.')

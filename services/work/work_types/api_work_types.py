@@ -246,8 +246,8 @@ class WorkWorkTypesAPI(Helper):
             model = SuccessGetWorkTypesModel(root=response.json())
             for key, value in model.root.items():
                 if value.published is not None:
-                    logger.info(f'Successfully get list a work type.')
-                    logger.warning(f'First published work type found: {value.name}, Work Type id: {key}')
+                    logger.success(f'Successfully get list a work type.')
+                    logger.info(f'First published work type found: {value.name}, Work Type id: {key}')
                     return int(key)
 
     @allure.step("Publishes work types.")

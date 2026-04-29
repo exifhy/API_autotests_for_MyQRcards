@@ -40,7 +40,7 @@ class AdmTenantsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetCurrentOwnerTenantResult(**response.json())
-        logger.info(f'Successfully get data current tenant.')
+        logger.success(f'Successfully get data current tenant.')
         return model
 
     @allure.step("Get list of tenants to which the authorized user has access.")
@@ -64,7 +64,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetListTenantsListResult(results=response.json())
-        logger.info(f'Successfully get list of tenants to which the authorized user has access.')
+        logger.success(f'Successfully get list of tenants to which the authorized user has access.')
         return model
 
     @allure.step("Get list of template tenants to which the authenticated user has access.")
@@ -88,7 +88,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetListTemplatesITenantEntityModel(results=response.json())
-        logger.info(f'Successfully get list of templates tenants to which the authenticated user has access.')
+        logger.success(f'Successfully get list of templates tenants to which the authenticated user has access.')
         return model
 
     @allure.step("Get list of feature flags tenants.")
@@ -112,7 +112,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetListFeatureFlagsForTenantModel(results=response.json())
-        logger.info(f'Successfully get list of feature flags tenants.')
+        logger.success(f'Successfully get list of feature flags tenants.')
         return model
 
     @allure.step("Get list of licenses tenants.")
@@ -136,7 +136,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetListTenantLicenseResultModel(results=response.json())
-        logger.info(f'Successfully get list of licenses tenants.')
+        logger.success(f'Successfully get list of licenses tenants.')
         return model
 
     @allure.step("Add license and payment info to tenant.")
@@ -157,11 +157,11 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully add license and payment info to tenant.')
+        logger.success(f'Successfully add license and payment info to tenant.')
         return None
 
     @allure.step("Delete license from tenant by list.")
-    def delete_licenses_from_tenant_by_list(self, *licenses_ids: int or tuple):
+    def delete_licenses_from_tenant_by_list(self, *licenses_ids: int | tuple):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_licenses_from_tenant_by_list_endpoint,
@@ -178,7 +178,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete license from tenant by list {licenses_ids}.')
+        logger.success(f'Successfully delete license from tenant by list {licenses_ids}.')
         return None
 
     @allure.step("Delete license from tenant by id.")
@@ -197,7 +197,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully delete license from tenant by ID {licenses_id}.')
+        logger.success(f'Successfully delete license from tenant by ID {licenses_id}.')
         return None
 
     @allure.step("Sending a license renewal request.")
@@ -216,7 +216,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully sending a license renewal request.')
+        logger.success(f'Successfully sending a license renewal request.')
         return None
 
     @allure.step("Update a licenses for tenant.")
@@ -235,7 +235,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully sending a license renewal request.')
+        logger.success(f'Successfully sending a license renewal request.')
         return None
 
     @allure.step("Get a list meta from tenant.")
@@ -257,7 +257,7 @@ class AdmTenantsAPI(Helper):
             return None
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully get a list meta from tenant.')
+        logger.success(f'Successfully get a list meta from tenant.')
         return None
 
     @allure.step("Get list packages from tenant.")
@@ -281,7 +281,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetTenantPackagesListResultModel(results=response.json())
-        logger.info(f'Successfully get a list packages from tenant.')
+        logger.success(f'Successfully get a list packages from tenant.')
         return model
 
     @allure.step("Add a package by cross tenant admin to database with the isMobile field, ResourceID=24.")
@@ -292,7 +292,7 @@ class AdmTenantsAPI(Helper):
             "Name": f"Name {random.randint(1, 999999)}",
             "IconUrl": "https://239911.selcdn.ru/Plugins/default.png",
             "AddonUrl": "https://ya.ru/",
-            "ResourceID": 24,
+            "ResourceID": 23,
             "IsMobile": True
         }
         start = time.time()
@@ -312,7 +312,7 @@ class AdmTenantsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetTenantPackagesListResultModel(results=response.json())
-        logger.info(f'Successfully add packages ID {model.results[0].package.id} to data base with isMobile field.')
+        logger.success(f'Successfully add packages ID {model.results[0].package.id} to data base with isMobile field.')
         return model
 
     @allure.step("Add a package by cross tenant admin to database without the isMobile field.")
@@ -342,7 +342,7 @@ class AdmTenantsAPI(Helper):
         assert response.status_code == HTTPStatus.OK, \
             f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
         model = SuccessGetTenantPackagesListResultModel(results=response.json())
-        logger.info(f'Successfully add packages ID {model.results[0].package.id} to data base without isMobile field.')
+        logger.success(f'Successfully add packages ID {model.results[0].package.id} to data base without isMobile field.')
         return model
 
     @allure.step("Add a package by cross tenant admin to system with str in ResourceID filed.")
@@ -458,7 +458,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete packages from database ID {addon_id}.')
+        logger.success(f'Successfully delete packages from database ID {addon_id}.')
 
     @allure.step("Delete packages from system without Version field.")
     def delete_packages_from_system_without_version_field(self, token: str, addon_id: str):
@@ -551,7 +551,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully patch update system package ID {addon_id}.')
+        logger.success(f'Successfully patch update system package ID {addon_id}.')
 
     def post_add_package_to_database_with_all_resource(
             self, token: str, resource_id: int, name: str, name_step: str, mobile: bool):
@@ -582,7 +582,7 @@ class AdmTenantsAPI(Helper):
             assert response.status_code == HTTPStatus.OK, \
                 f'Expected status code {HTTPStatus.OK}, but got {response.status_code}, {data_response}'
             model = SuccessGetTenantPackagesListResultModel(results=response.json())
-            logger.info(f'Successfully add system package by cross tenant admin.')
+            logger.success(f'Successfully add system package by cross tenant admin.')
             return model
 
     @allure.step("Add a package to tenant.")
@@ -611,7 +611,7 @@ class AdmTenantsAPI(Helper):
         model = SuccessGetTenantPackagesListResultModel(results=response.json())
         assert model.results[0].package.id == addon_id, "Плагин не добавился к тенанту."
         assert model.results[0].package.version == version, "Плагин не добавился к тенанту."
-        logger.info(f'Successfully add package to tenant ID {addon_id}.')
+        logger.success(f'Successfully add package to tenant ID {addon_id}.')
         return model
 
     @allure.step("Delete a package from tenant.")
@@ -636,7 +636,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete package from tenant by ID {addon_id}.')
+        logger.success(f'Successfully delete package from tenant by ID {addon_id}.')
 
     @allure.step("Get a list variables from tenant.")
     def get_list_variables_from_tenant(self):
@@ -659,7 +659,7 @@ class AdmTenantsAPI(Helper):
             (f'Expected status code {(HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT)}, '
              f'but got {response.status_code}, {data_response}')
         model = SuccessGetListTenantVariablesResultModel(root=response.json())
-        logger.info(f'Successfully get a list variables from tenant.')
+        logger.success(f'Successfully get a list variables from tenant.')
         return model
 
     @allure.step("Add variables to tenant.")
@@ -686,7 +686,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
-        logger.info(f'Successfully add variables to tenant with name {name}.')
+        logger.success(f'Successfully add variables to tenant with name {name}.')
         return name
 
     @allure.step("Update variables tenant.")
@@ -721,10 +721,10 @@ class AdmTenantsAPI(Helper):
         assert model_before.root[name_variable].description != model_after.root[name_variable].description, \
             (f"{model_before.root[name_variable].description} is equal "
              f"{model_after.root[name_variable].description}. Variable not updated.")
-        logger.info(f'Successfully update variables tenant with name {name}.')
+        logger.success(f'Successfully update variables tenant with name {name}.')
 
     @allure.step("Delete variables from tenant by list.")
-    def delete_variables_from_tenant_by_list(self, *names: str or tuple):
+    def delete_variables_from_tenant_by_list(self, *names: str | tuple):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_variables_from_tenant_by_list_endpoint,
@@ -741,7 +741,7 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete variables from tenant by names:{names}.')
+        logger.success(f'Successfully delete variables from tenant by names:{names}.')
 
     @allure.step("Delete variable from tenant by name.")
     def delete_variable_from_tenant_by_name(self, name: str):
@@ -759,6 +759,6 @@ class AdmTenantsAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f'Successfully delete variables from tenant by name: {name}.')
+        logger.success(f'Successfully delete variables from tenant by name: {name}.')
 
 

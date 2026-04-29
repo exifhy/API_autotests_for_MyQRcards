@@ -139,6 +139,13 @@ from services.tstg.tstg_task_stage_components.api_tstg_task_stage_components imp
 from services.wh.wh_operation_types.api_wh_operation_types import WhOperationTypesAPI
 from services.wh.wh_document_types.api_wh_document_types import WhDocumentTypesAPI
 from services.cm.cm_clients.api_cm_clients import CmClientsAPI
+from services.msg.msg_triggers.api_msg_triggers import MsgTriggersAPI
+from services.msg.msg_message_templates.api_msg_message_templates import MsgMessageTemplatesAPI
+from services.msg.msg_recipient_selection_rules.api_msg_recipient_selection_rules import MsgRecipientSelectionRulesAPI
+from services.msg.msg_trigger_recipient_selection_rules.api_msg_trigger_recipient_selection_rules import MsgTriggerRecipientSelectionRulesAPI
+from services.adm.adm_geolocation_settings.api_adm_geolocation_settings import AdmGeolocationSettingsAPI
+from services.adm.adm_default_pages.api_adm_default_pages import AdmDefaultPagesAPI
+from services.adm.adm_role_task_list_queries.api_adm_role_task_list_queries import AdmRoleTaskListQueriesAPI
 
 
 class BaseTest:
@@ -285,4 +292,11 @@ class BaseTest:
         self.api_wh_operation_types = WhOperationTypesAPI()
         self.api_wh_document_types = WhDocumentTypesAPI()
         self.api_cm_clients =  CmClientsAPI()
-
+        self.api_msg_triggers = MsgTriggersAPI()
+        self.api_msg_message_templates = MsgMessageTemplatesAPI()
+        self.api_msg_recipient_selection_rules = MsgRecipientSelectionRulesAPI()
+        self.api_msg_trigger_recipient_selection_rules = MsgTriggerRecipientSelectionRulesAPI()
+        self.api_adm_geolocation_settings = AdmGeolocationSettingsAPI()
+        self.api_adm_default_pages = AdmDefaultPagesAPI()
+        self.api_adm_role_task_list_queries = AdmRoleTaskListQueriesAPI()
+        

@@ -107,6 +107,37 @@ class AdmUsersAPI(Helper):
         logger.info(f'Successfully add a user ID {model.userID} staff name {user_name}')
         return model
 
+    @allure.step("Add user staff is technician for notifications only email hubex.")
+    def post_add_user_staff_for_notifications(self):
+        """Сотрудник"""
+        user = next(generated_user())
+        params = {
+            "skipAccountVerification": True
+        }
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_users_endpoint, params=params,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.add_user_staff_payload(
+                name=f"Тест-{user.name}",
+                surname="Уведомлений",
+                email="test1@hubex.ru",
+                phone=None
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        self.attach_response_headers(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'Status code {response.status_code}, {data_response}'
+        model = SuccessUserModel(**response.json())
+        logger.success(f'Successfully add a user ID {model.userID}.')
+        return model
+
     @allure.step("Add user staff without logging.")
     def post_add_user_staff_without_logging(self):
         user = next(generated_user())
@@ -170,7 +201,7 @@ class AdmUsersAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}. but got {response.status_code}, {response.json()}'
-        logger.warning(f'Successfully delete user with id: {user_id}.')
+        logger.success(f'Successfully delete user with id: {user_id}.')
 
     @allure.step("Delete users by list.")
     def delete_users_by_list(self, *user_ids: int):

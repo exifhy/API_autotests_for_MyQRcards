@@ -22,7 +22,7 @@ class MSGNotificationsAPI(Helper):
     @allure.step("Get list of unread notifications.")
     def get_list_of_unread_notifications(self):
         param = {
-            "includeIsViewed": True
+            "includeIsViewed": False
         }
         start = time.time()
         response = requests.get(

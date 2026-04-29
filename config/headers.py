@@ -38,6 +38,15 @@ class Headers:
         return basic
 
     @staticmethod
+    def basic_header_content_type(token: str, content_type: str) -> dict:
+        basic = {
+            "Authorization": f"Bearer {token}",
+            "X-Application-ID": f"{APP_ID}",
+            "Content-Type": content_type
+        }
+        return basic
+
+    @staticmethod
     def basic_header_with_concurrency_stamp(token: str, concurrency_stamp: str) -> dict:
         basic = {
             "Accept": "application/json",

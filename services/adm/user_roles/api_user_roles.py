@@ -20,7 +20,7 @@ class AdmUserRolesAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add roles to a user.")
-    def post_add_roles_to_user(self, user_id: int, *roles_ids: int or tuple):
+    def post_add_roles_to_user(self, user_id: int, *roles_ids: int | tuple):
         start = time.time()
         response = requests.post(
             url=self.endpoints.add_roles_to_user_endpoint,
@@ -41,11 +41,11 @@ class AdmUserRolesAPI(Helper):
         assert response.status_code == HTTPStatus.CREATED, \
             f'Expected status code {HTTPStatus.CREATED}, but got {response.status_code}, {data_response}'
         model = UserRolesResponseModel(root=response.json())
-        logger.info(f'Successfully add a roles to user ID {user_id}.')
+        logger.success(f'Successfully add a roles to user ID {user_id}.')
         return model
 
     @allure.step("Delete user's roles.")
-    def delete_users_roles(self, user_id: int, *roles_ids: int or tuple):
+    def delete_users_roles(self, user_id: int, *roles_ids: int | tuple):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_users_roles_endpoint,
@@ -65,4 +65,4 @@ class AdmUserRolesAPI(Helper):
         self.attach_url(response.request.url)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
-        logger.warning(f"Successfully delete user's roles.")
+        logger.success(f"Successfully delete user's roles.")

@@ -18,7 +18,8 @@ class TestAdmUsers(BaseTest):
     @pytest.mark.smoke
     @pytest.mark.test_case_id(23168)
     def test_post_add_user_customer(self):
-        self.api_adm_users.post_add_user_customer()
+        model_user = self.api_adm_users.post_add_user_customer()
+        self.api_adm_users.delete_user_by_id(model_user.userID)
 
     @allure.title('Test add new user staff.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/23169")
@@ -516,19 +517,19 @@ class TestAdmUsers(BaseTest):
     def test_get_list_notifications_to_current_user(self):
         self.api_adm_users.get_list_notifications_to_current_user()
 
-    @allure.title('Test get a list users warehouses (deprecated).')
-    @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26180")
-    @pytest.mark.regress
-    @pytest.mark.test_case_id(26180)
-    def test_get_list_users_warehouses_by_id(self):
-        model_owner_user = self.api_adm_tenants.get_data_current_tenant()
-        model_warehouses = self.api_wh_warehouses.post_add_warehouses()
-        self.api_adm_user_warehouses.post_add_warehouses_to_user(
-            model_owner_user.owner.userID,
-            model_warehouses[0].result[0]
-        )
-        self.api_adm_users.get_list_users_warehouses_by_id(model_owner_user.owner.userID)
-        self.api_wh_warehouses.delete_warehouse_by_id(model_warehouses[0].result[0])
+    # @allure.title('Test get a list users warehouses (deprecated).')
+    # @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26180")
+    # @pytest.mark.regress
+    # @pytest.mark.test_case_id(26180)
+    # def test_get_list_users_warehouses_by_id(self):
+    #     model_owner_user = self.api_adm_tenants.get_data_current_tenant()
+    #     model_warehouses = self.api_wh_warehouses.post_add_warehouses()
+    #     self.api_adm_user_warehouses.post_add_warehouses_to_user(
+    #         model_owner_user.owner.userID,
+    #         model_warehouses[0].result[0]
+    #     )
+    #     self.api_adm_users.get_list_users_warehouses_by_id(model_owner_user.owner.userID)
+    #     self.api_wh_warehouses.delete_warehouse_by_id(model_warehouses[0].result[0])
 
     @allure.title('Test get list users attributes.')
     @allure.testcase("https://dev.azure.com/melston/HubEx/_workitems/edit/26827")

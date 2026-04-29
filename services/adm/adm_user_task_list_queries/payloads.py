@@ -3,7 +3,7 @@
 class Payloads:
 
     @staticmethod
-    def post_add_user_task_list_queries_payload(user_id: int, *task_list_queries_ids: int or tuple) -> list:
+    def post_add_user_task_list_queries_payload(user_id: int, *task_list_queries_ids: int | tuple) -> list:
         payload = [
             {
                 "data": [
@@ -15,7 +15,7 @@ class Payloads:
         return payload
 
     @staticmethod
-    def delete_user_task_list_queries_payload(user_id: int, *task_list_queries_ids: int or tuple) -> list:
+    def delete_user_task_list_queries_payload(user_id: int, *task_list_queries_ids: int | tuple) -> list:
         payload = [
             {
                 "data": [

@@ -20,7 +20,7 @@ class AdmUserTaskListQueriesAPI(Helper):
         self.headers = Headers()
 
     @allure.step("Add user task list queries.")
-    def post_add_user_task_list_queries(self, user_id: int, *task_list_queries_ids: int or tuple):
+    def post_add_user_task_list_queries(self, user_id: int, *task_list_queries_ids: int | tuple):
         start = time.time()
         response = requests.post(
             url=self.endpoints.post_add_user_task_list_queries_endpoint,
@@ -43,7 +43,7 @@ class AdmUserTaskListQueriesAPI(Helper):
         return model
 
     @allure.step("Delete user task list queries.")
-    def delete_user_task_list_queries(self, user_id: int, *task_list_queries_ids: int or tuple):
+    def delete_user_task_list_queries(self, user_id: int, *task_list_queries_ids: int | tuple):
         start = time.time()
         response = requests.delete(
             url=self.endpoints.delete_user_task_list_queries_endpoint,

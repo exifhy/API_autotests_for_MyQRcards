@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, UTC
+from datetime import datetime, timedelta, UTC, timezone
 import platform
 import os
 import allure
@@ -31,6 +31,12 @@ APP_ID = os.getenv('APP_ID')
 TOKEN_EXPIRATION_TIME = datetime.min.replace(tzinfo=UTC)
 BEARER_TOKEN = None
 PYTHON_VERSION = platform.python_version()
+
+
+@pytest.fixture
+def email_check_start_time():
+    """Фиксируем момент старта теста"""
+    return datetime.now(timezone.utc)
 
 
 def pytest_addoption(parser):

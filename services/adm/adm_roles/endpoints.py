@@ -26,6 +26,26 @@ class Endpoints:
     post_add_roles_endpoint = f'{HOST}/ADM/Roles'
 
     @staticmethod
+    def get_list_roles_packages_by_id_endpoint(role_id: int) -> str:
+        return f'{HOST}/ADM/Roles/{role_id}/packages'
+    
+    @staticmethod
+    def post_add_roles_packages_endpoint(role_id: int) -> str:
+        return f'{HOST}/ADM/Roles/{role_id}/packages'
+    
+    @staticmethod
+    def delete_roles_packages_by_id_endpoint(role_id: int) -> str:
+        return f'{HOST}/ADM/Roles/{role_id}/packages'
+    
+    @staticmethod
+    def put_roles_packages_activate_endpoint(role_id: int) -> str:
+        return f'{HOST}/ADM/Roles/{role_id}/packages/activate'
+    
+    @staticmethod
+    def put_roles_packages_deactivate_endpoint(role_id: int) -> str:
+        return f'{HOST}/ADM/Roles/{role_id}/packages/deactivate'
+
+    @staticmethod
     def get_list_roles_permissions_api_endpoint(role_id: int) -> str:
         return f'{HOST}/ADM/Roles/{role_id}/permissionsApi'
 

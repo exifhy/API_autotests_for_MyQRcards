@@ -528,3 +528,9 @@ class Params(Enum):
                      "Текст\nизменен\nавто-тестом\nбыстро\nи без ошибок", 
                      id="Test update Text users attribute.")
     ]
+
+    params_content_type_body = [
+        pytest.param("text/plain", id="Test get list geolocation settings with content type text/plain."),
+        pytest.param("application/json", id="Test get list geolocation settings with content type application/json."),
+        pytest.param("text/json", id="Test get list geolocation settings with content type text/json.")
+    ]

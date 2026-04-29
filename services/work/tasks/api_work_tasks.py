@@ -375,7 +375,7 @@ class WorkTasksAPI(Helper):
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}, {data_response}'
         model = SuccessDeleteTaskModel(list=response.json())
-        logger.warning(f'Successfully delete the task with id: {model.list[0].taskID}.')
+        logger.success(f'Successfully delete the task with id: {model.list[0].taskID}.')
         return model
 
     @allure.step("Delete the task by ID with GET verification.")
@@ -2640,11 +2640,32 @@ class WorkTasksAPI(Helper):
         logger.info(f'Successfully update (PATCH) Notes field in the task ID {task_id}.')
         return note
 
+    @allure.step("Update (PATCH) task by id.")
+    def patch_update_task_by_id(self, task_id: int, data: dict):
+        start = time.time()
+        response = requests.patch(
+            url=self.endpoints.patch_task_by_id_endpoint(task_id),
+            headers=self.headers.basic_header(get_token()),
+            json=[data]
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.success(f'Successfully update (PATCH) task with ID {task_id}.')
+        return None
+
     @allure.step("Update (PATCH) number field in the task by id.")
     def patch_update_field_number_in_task_by_id(
             self,
             task_id: int,
-            task_number: int or str,
+            task_number: int | str,
             status_code: int,
             len_task_number: int
     ) -> None:
@@ -2839,7 +2860,33 @@ class WorkTasksAPI(Helper):
         self.attach_request(response.request.body)
         assert response.status_code == HTTPStatus.ACCEPTED, \
             f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
-        logger.info(f'Successfully marks the task ID {task_id} as completed.')
+        logger.success(f'Successfully marks the task ID {task_id} as completed.')
+
+    @allure.step("Marks the task as completed for notification.")
+    def put_task_completed_by_id(self, task_id: int):
+        self.sleep_with_progress_bar(5)
+        now = datetime.now(timezone.utc)
+        date_now = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+        closed_date = date_now
+        completed_date = date_now
+        start = time.time()
+        response = requests.put(
+            url=self.endpoints.put_mark_task_as_completed_endpoint(task_id),
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.put_task_completed_payload(closed_date, completed_date)
+        )
+        end = time.time()
+        logger.info(response.headers)
+        data_response = self.response_content(response)
+        self.attach_response(data_response)
+        self.attach_response_headers(response.headers)
+        self.attach_time(start, end)
+        self.attach_url(response.request.url)
+        self.attach_request(response.request.body)
+        assert response.status_code == HTTPStatus.ACCEPTED, \
+            f'Expected status code {HTTPStatus.ACCEPTED}, but got {response.status_code}. {data_response}'
+        logger.success(f'Successfully marks the task ID {task_id} as completed.')
+        return None
 
     @allure.step("Restore deleted task by list with GET check.")
     def put_restore_deleted_tasks_by_list(self, *task_ids: int):
