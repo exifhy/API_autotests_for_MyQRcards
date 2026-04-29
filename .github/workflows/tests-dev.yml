@@ -44,15 +44,12 @@ jobs:
           sudo dpkg -i allure_2.27.0-1_all.deb
 
       - name: Get Allure history
-        uses: actions/checkout@v4
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Copy history from previous report
-        continue-on-error: true
-        run: cp -r gh-pages/history/. allure-results/history/ 2>/dev/null || true
+        run: |
+          git fetch origin gh-pages --depth=1 2>/dev/null \
+            && git checkout origin/gh-pages -- history 2>/dev/null \
+            && mkdir -p allure-results/history \
+            && cp -r history/. allure-results/history/ \
+            || echo "No previous history (first run)"
 
       - name: Generate Allure report
         run: allure generate allure-results -o allure-report --clean

@@ -12,6 +12,7 @@ class SubscriptionContactItemModel(StrictBaseModel):
     mobilePhone: Optional[str] = None
     position: Optional[str] = None
     created: Optional[str] = None
+    companyName: Optional[str] = None
 
 
 class SubscriptionContactsListModel(StrictBaseModel):

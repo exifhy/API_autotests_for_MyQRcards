@@ -14,7 +14,6 @@ from services.promotions.promotion_by_id.api_promotion_by_id import PromotionByI
 )
 class TestPromotionById:
     @allure.title("GET /promotions/{id} returns promotion")
-    @pytest.mark.smoke
     @pytest.mark.skip(reason="hardcoded promotion ID exists only on dev")
     def test_promotion_by_id_200(self):
         promotion_id = "ErfD4RtfDDTvvEDdErfD4RtfDDTvvEDd"
