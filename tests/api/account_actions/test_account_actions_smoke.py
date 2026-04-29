@@ -44,7 +44,8 @@ def _random_suffix() -> str:
 
 
 def _account_actions_url() -> str:
-    return (os.getenv("URL_DEV_API") or "https://dev-api.myqrcards.com").rstrip("/") + "/accountActions"
+    from config.config import HOST
+    return HOST.rstrip("/") + "/accountActions"
 
 
 @allure.epic("API")
