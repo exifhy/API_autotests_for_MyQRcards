@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/Subscriptions/536/contacts?accountID=7124",
-  "body": "[{\"accountID\":7124,\"cardID\":15,\"contactID\":3161,\"firstName\":\"Для авто тестов - не удалять ! Отчество\",\"lastName\":\"auto-tests\",\"mobilePhone\":\"+79999999999999\",\"position\":\"Механик\",\"created\":\"2026-02-10T11:36:53\"}]"
-}

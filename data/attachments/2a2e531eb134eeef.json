@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/powerbireports/",
+  "body": "[{\"reportID\":\"7d01dd00-5e87-44f3-981f-46c605a0c48c\",\"isCommon\":true,\"reportType\":{\"name\":\"Обычный отчет\",\"id\":1},\"reportServiceUrl\":\"https://pbi.myqrcards.com/Home?reportID=7d01dd00-5e87-44f3-981f-46c605a0c48c&reportTypeID=1\",\"name\":\"Корпоративный рейтинг\",\"id\":1},{\"reportID\":\"c21b1fd3-56fe-463a-971b-8a7efe0b8489\",\"isCommon\":true,\"reportType\":{\"name\":\"Обычный отчет\",\"id\":1},\"reportServiceUrl\":\"https://pbi.myqrcards.com/Home?reportID=c21b1fd3-56fe-463a-971b-8a7efe0b8489&reportTypeID=1\",\"name\":\"Отчет\",\"id\":2}]"
+}
