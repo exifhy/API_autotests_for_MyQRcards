@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/276040",
-  "body": "{\"email\":\"prod-kabinet137@bjedu.tech\",\"firstName\":\"AT_FN_dkgfck\",\"lastName\":\"AT_LN_edmkq9\",\"middleName\":\"AT_MN_ral6e9\",\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"card\":{\"url\":\"https://ecard.myqrcards.com/links/6WqRF0LXUeZ\",\"name\":\"AT_CardName_y6srgakv\",\"id\":1},\"position\":\"AT_Pos2_6je39i\",\"isReadOnly\":true,\"lockNewSubscribing\":true,\"invitationAccepted\":\"2026-01-23T12:45:20\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":true,\"id\":276040}"
-}
