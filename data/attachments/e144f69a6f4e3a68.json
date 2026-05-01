@@ -1,6 +1,0 @@
-{
-  "status_code": 202,
-  "reason": "Accepted",
-  "url": "https://dev-api.myqrcards.com/accounts/10255/cards/1/attributes",
-  "body": "[{\"accountID\":10255,\"cardID\":1,\"attributeID\":12,\"id\":3},{\"accountID\":10255,\"cardID\":1,\"attributeID\":15,\"id\":4}]"
-}
