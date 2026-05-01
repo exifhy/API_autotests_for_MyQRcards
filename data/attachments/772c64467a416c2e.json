@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/Locations?locationID=1",
-  "body": "{\"1\":{\"country\":\"Россия\",\"address\":\"Аптекарская наб. 20А, оф. 802 \",\"notes\":\"БЦ Авеню, 2 лестница\",\"latitude\":59.978279,\"longitude\":30.314753}}"
-}

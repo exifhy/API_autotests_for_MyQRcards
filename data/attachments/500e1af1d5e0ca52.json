@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://dev-api.myqrcards.com/MetricTypes",
+  "body": "[{\"id\":1,\"name\":\"YandexMetrika\",\"nameRu\":\"Яндекс Метрика\"},{\"id\":2,\"name\":\"VkPixel\",\"nameRu\":\"VK Пиксель\"}]"
+}
