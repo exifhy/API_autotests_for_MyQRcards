@@ -1,0 +1,41 @@
+{
+  "Name": "Api_tests_company_06movf2s",
+  "Phone": "+78129875643",
+  "Fax": "+78129875643",
+  "Email": "at_t4delam9zq@tt.tt",
+  "SiteUrl": "https://www.test.tt",
+  "FoundedYear": 2018,
+  "Activity": "Testing, Testing, Testing",
+  "Customers": "Testers, Testers",
+  "Location": {
+    "Country": "Russia",
+    "PostalCode": "198198",
+    "Region": "Leningradskaya oblast",
+    "Address": "Murino, Shuvalova 9",
+    "Notes": "13 app.",
+    "Latitude": "32.987656",
+    "Longitude": "32.987656"
+  },
+  "SocialNetworks": [
+    {
+      "SocialNetworkID": 1,
+      "ContactUrl": "https://cn.com/test"
+    },
+    {
+      "SocialNetworkID": 7,
+      "ContactUrl": "tg://resolve?domain=zdarova"
+    },
+    {
+      "SocialNetworkID": 8,
+      "ContactUrl": "https://wa.me/+89452342323"
+    },
+    {
+      "SocialNetworkID": 9,
+      "ContactUrl": "viber://chat?number=86767575676"
+    },
+    {
+      "SocialNetworkID": 19,
+      "ContactUrl": "86767575676"
+    }
+  ]
+}
