@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/Cards/lastupdate?offset=0&fetch=5",
-  "body": "[{\"accountID\":7124,\"cardID\":15,\"lastModified\":\"2026-03-25T15:38:29\"},{\"accountID\":7124,\"cardID\":16,\"lastModified\":\"2026-04-02T13:32:39\"},{\"accountID\":7124,\"cardID\":17,\"lastModified\":\"2026-04-22T08:43:04\"},{\"accountID\":7124,\"cardID\":18,\"lastModified\":\"2026-04-25T16:02:31\"}]"
-}
