@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/Cultures",
-  "body": "[{\"id\":1,\"language\":\"Russian\",\"code\":\"ru-RU\"},{\"id\":2,\"language\":\"English(US)\",\"code\":\"en-US\"}]"
-}
