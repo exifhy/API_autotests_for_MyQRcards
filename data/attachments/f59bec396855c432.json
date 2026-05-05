@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/powerbireports/1",
+  "body": "{\"reportID\":\"7d01dd00-5e87-44f3-981f-46c605a0c48c\",\"isCommon\":true,\"reportType\":{\"name\":\"Обычный отчет\",\"id\":1},\"reportServiceUrl\":\"https://dev-pbi.myqrcards.com/Home?reportID=7d01dd00-5e87-44f3-981f-46c605a0c48c&reportTypeID=1\",\"name\":\"Корпоративный рейтинг\",\"id\":1}"
+}

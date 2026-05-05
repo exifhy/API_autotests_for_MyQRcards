@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://dev-api.myqrcards.com/LeadGenFormFields?offset=0&fetch=20",
+  "body": "[{\"id\":1,\"name\":\"FirstName\",\"nameRu\":\"Имя\",\"nameEn\":\"First Name\"},{\"id\":2,\"name\":\"LastName\",\"nameRu\":\"Фамилия\",\"nameEn\":\"Last Name\"},{\"id\":3,\"name\":\"Email\",\"nameRu\":\"Email\",\"nameEn\":\"Email\"},{\"id\":4,\"name\":\"MobilePhone\",\"nameRu\":\"Номер телефона\",\"nameEn\":\"Phone Number\"},{\"id\":5,\"name\":\"CompanyName\",\"nameRu\":\"Компания\",\"nameEn\":\"Company\"},{\"id\":6,\"name\":\"Position\",\"nameRu\":\"Должность\",\"nameEn\":\"Job Title\"},{\"id\":7,\"name\":\"Description\",\"nameRu\":\"Комментарий\",\"nameEn\":\"Note\"}]"
+}
