@@ -46,9 +46,9 @@ jobs:
       - name: Get Allure history
         run: |
           git fetch origin gh-pages --depth=1 2>/dev/null \
-            && git checkout origin/gh-pages -- history 2>/dev/null \
+            && git checkout origin/gh-pages -- dev/history 2>/dev/null \
             && mkdir -p allure-results/history \
-            && cp -r history/. allure-results/history/ \
+            && cp -r dev/history/. allure-results/history/ \
             || echo "No previous history (first run)"
 
       - name: Generate Allure report
@@ -60,11 +60,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
+          destination_dir: dev
 
       - name: Send Telegram notification
         if: always()
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          ALLURE_URL: https://exifhy.github.io/API_autotests_for_MyQRcards/
+          ALLURE_URL: https://exifhy.github.io/API_autotests_for_MyQRcards/dev/
         run: python scripts/notify_telegram.py pytest_output.txt DEV
