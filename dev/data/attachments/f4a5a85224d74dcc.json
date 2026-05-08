@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/cardlinks/autotest3b1hsc76",
-  "body": "{\"isPublic\":true,\"isDefault\":false,\"url\":\"https://dev-ecard.myqrcards.com/links/autotest3b1hsc76\",\"cardLink\":{\"isAllowSelfRegistration\":false,\"name\":\"Кастомная ссылка\",\"id\":16},\"account\":{\"id\":7124},\"card\":{\"name\":\"AT_Card_1778146866\",\"id\":19}}"
-}
