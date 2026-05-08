@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/cardlinks/5jaGpLZ5Ani",
-  "body": "{\"isPublic\":true,\"isDefault\":true,\"url\":\"https://ecard.myqrcards.com/links/5jaGpLZ5Ani\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"Электронная\",\"id\":0},\"account\":{\"id\":276040},\"card\":{\"name\":\"AT_Card_1778197503\",\"id\":2}}"
-}

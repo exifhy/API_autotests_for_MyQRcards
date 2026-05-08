@@ -1,0 +1,6 @@
+{
+  "status_code": 201,
+  "reason": "Created",
+  "url": "https://api.myqrcards.com/cards/card/copy",
+  "body": "[{\"accountID\":294393,\"cardID\":2},{\"accountID\":294394,\"cardID\":2},{\"accountID\":294395,\"cardID\":2},{\"accountID\":294396,\"cardID\":2}]"
+}
