@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/cardLinks/6M3h7YJNCs9/short/card",
+  "body": "{\"accountID\":276040,\"id\":2,\"person\":{\"firstName\":\"FN_1778369834\",\"lastName\":\"LN_1778369834\",\"middleName\":\"MN_1778369834\"},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"cardLinkUrl\":\"https://ecard.myqrcards.com/links/6M3h7YJNCs9\"}"
+}
