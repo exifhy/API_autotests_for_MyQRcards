@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cards/19/attributes?attributeID=10",
+  "body": "[{\"accountID\":7124,\"cardID\":19,\"attribute\":{\"name\":\"Фото\",\"id\":10},\"cardAttribute\":{\"name\":\"Фотогалерея\",\"id\":1},\"sortOrder\":3,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Мультивыбор\",\"id\":2},\"attributeType\":{\"code\":\"Photo\",\"name\":\"Фото\",\"id\":10},\"attributeTypeGroupID\":2,\"attributeTypeIsPublic\":false,\"values\":[\"16806\",\"16807\",\"16808\",\"16809\",\"16810\"]}]"
+}

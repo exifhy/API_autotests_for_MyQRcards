@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/companies/3779/designsettings",
+  "body": "{\"companyID\":3779,\"accountID\":7124,\"color\":\"a56675\",\"qrColor\":\"631267\",\"backgroundImagePublicUrl\":\"https://api.selcdn.ru/v1/SEL_83360/Public/Sz4FYKKeLEWTaNDW3uKGWw.jpg\",\"backgroundAttachmentID\":16789}"
+}
