@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/accounts/contacts/3910",
-  "body": "{\"firstName\":\"Owner_1778665886\",\"lastName\":\"Contact_1778665886\",\"transliterateFullName\":\"Contact_1778665886_Owner_1778665886\",\"email\":\"owner_contact_1778665886@tt.tt\",\"mobilePhone\":\"+79778665886\",\"companyName\":\"Company_1778665886\",\"position\":\"Tester_1778665886\",\"description\":\"Desc_1778665886\",\"created\":\"2026-05-13T09:51:28\",\"accountID\":7124,\"contactID\":3910}"
-}

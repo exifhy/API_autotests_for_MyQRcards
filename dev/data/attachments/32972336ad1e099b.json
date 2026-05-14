@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/cards/19/attributes",
-  "body": "[{\"accountID\":7124,\"cardID\":19,\"attribute\":{\"name\":\"YouTube\",\"id\":39},\"cardAttribute\":{\"name\":\"YouTube\",\"id\":1},\"sortOrder\":1,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"YouTube\",\"name\":\"YouTube\",\"id\":40},\"attributeTypeGroupID\":3,\"attributeTypeIsPublic\":true,\"values\":[\"https://youtube.com/video_qz0yvedm79\"]}]"
-}

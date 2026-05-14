@@ -1,6 +1,0 @@
-{
-  "status_code": 201,
-  "reason": "Created",
-  "url": "https://dev-api.myqrcards.com/Cards/19/upload/fromForm",
-  "body": "{\"accountID\":7124,\"cardID\":19,\"attributeID\":7,\"attachments\":[{\"id\":16844,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/Ib-nLbDj7Eye6bZIrc2LeA.png\",\"fileName\":\"autotest_1778665929_65088388.png\"}]}"
-}
