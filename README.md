@@ -104,7 +104,11 @@ Scheduled runs via GitHub Actions:
 
 | Schedule | Environment | Scope |
 |---|---|---|
-| Mon–Fri 10:00 | dev | all tests |
-| Daily 02:00 | prod | smoke only |
+| Mon–Fri 10:00 Moscow | dev | all tests |
+| Daily 02:00 Moscow | prod | smoke only |
+| Sunday 23:00 Moscow | prod | all tests (full regression) |
 
 Results are sent to Telegram after each run.
+Allure reports on GitHub Pages:
+- DEV: https://exifhy.github.io/API_autotests_for_MyQRcards/dev/
+- PROD: https://exifhy.github.io/API_autotests_for_MyQRcards/prod/
