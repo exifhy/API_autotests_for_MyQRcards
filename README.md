@@ -56,8 +56,8 @@ class SomeAPI(Helper):
 **1. Clone and install dependencies:**
 
 ```bash
-git clone https://github.com/exifhy/API_autotests_for_MyQRcards.git
-cd API_autotests_for_MyQRcards
+git clone <repo-url>
+cd <repo-name>
 python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt
 ```
@@ -109,6 +109,4 @@ Scheduled runs via GitHub Actions:
 | Sunday 23:00 Moscow | prod | all tests (full regression) |
 
 Results are sent to Telegram after each run.
-Allure reports on GitHub Pages:
-- DEV: https://exifhy.github.io/API_autotests_for_MyQRcards/dev/
-- PROD: https://exifhy.github.io/API_autotests_for_MyQRcards/prod/
+Allure reports are published to GitHub Pages after every run.
