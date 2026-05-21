@@ -1,5 +1,0 @@
-{
-  "ID": 293,
-  "subjectTemplate": "AT updated subject template 1779272946",
-  "contentTemplate": "<h3>Обновленный шаблон 1779272946</h3><p>Здравствуйте, <b>@Model.ContactFirstName</b>, пишет @Model.UserFirstName.</p>"
-}
