@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/accounts/276040/cards",
+  "body": "[{\"subscription\":{\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"person\":{\"firstName\":\"AT_FN_dkgfck\",\"lastName\":\"AT_LN_edmkq9\",\"middleName\":\"AT_MN_ral6e9\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/6WqRF0LXUeZ?v=-6246\",\"name\":\"AT_CardName_y6srgakv\",\"id\":1},{\"subscription\":{\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"person\":{\"firstName\":\"FN_1779450089\",\"lastName\":\"LN_1779450089\",\"middleName\":\"MN_1779450089\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":false,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/6BlJPhyjJfU?v=-1979\",\"name\":\"AT_Card_1779450089\",\"id\":2}]"
+}
