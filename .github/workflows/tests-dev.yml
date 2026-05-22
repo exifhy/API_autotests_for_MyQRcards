@@ -27,6 +27,7 @@ jobs:
         run: |
           echo "LK_JWT=${{ secrets.LK_JWT }}" >> .env.dev
           echo "APP_ID=${{ secrets.APP_ID }}" >> .env.dev
+          echo "ACCOUNT_ACTIONS_BASIC_PASSWORD=${{ secrets.ACCOUNT_ACTIONS_BASIC_PASSWORD }}" >> .env.dev
 
       - name: Create data/ids.dev.json
         run: echo '${{ secrets.IDS_DEV_JSON }}' > data/ids.dev.json
