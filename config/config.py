@@ -3,24 +3,25 @@ import os
 from loguru import logger
 
 
-SUPPORTED_ENVS = ("dev", "prod")
+DEFAULT_URLS = {
+    "dev": "https://dev-api.myqrcards.com",
+    "prod": "https://api.myqrcards.com",
+}
 
 
 def get_host() -> str:
     environ = os.getenv("ENVIRON", "dev").lower()
-    if environ not in SUPPORTED_ENVS:
+    if environ not in DEFAULT_URLS:
         raise ValueError(f"Unsupported environment: {environ}")
 
     host = (
         os.getenv("HOST")
         or os.getenv(f"URL_{environ.upper()}_API")
-    )
+        or DEFAULT_URLS[environ]
+    ).rstrip("/")
     if not host:
-        raise ValueError(
-            f"HOST is not configured for environment '{environ}'. "
-            f"Set HOST or URL_{environ.upper()}_API, or add 'host' to data/ids.{environ}.json"
-        )
-    return host.rstrip("/")
+        raise ValueError(f"Invalid or missing URL for environment: {environ}")
+    return host
 
 
 ENVIRON = os.getenv("ENVIRON", "dev").lower()
