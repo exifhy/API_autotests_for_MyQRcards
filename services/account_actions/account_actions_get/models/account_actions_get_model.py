@@ -15,7 +15,7 @@ class AccountActionsGetModel(BaseModel):
     def access_jwt(self) -> str | None:
         for item in self.items:
             extras = item.model_extra or {}
-            for key in ("accessJWT", "accessJwt", "AccessJWT"):
+            for key in ("accessJWT", "accessJwt", "AccessJWT", "accessToken", "AccessToken"):
                 val = extras.get(key)
                 if val:
                     return str(val)

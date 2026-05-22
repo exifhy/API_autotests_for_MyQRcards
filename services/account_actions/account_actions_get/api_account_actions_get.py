@@ -34,8 +34,12 @@ class AccountActionsGetAPI(Helper):
             f"Expected HTTPStatus.OK/HTTPStatus.PARTIAL_CONTENT, got {response.status_code}: {response.text}"
         )
         data = response.json() if response.text else []
-        assert isinstance(data, list), f"Expected list, got {type(data)} / {data}"
-        raw_items = [item for item in data if isinstance(item, dict)]
+        if isinstance(data, dict):
+            raw_items = [data]
+        elif isinstance(data, list):
+            raw_items = [item for item in data if isinstance(item, dict)]
+        else:
+            raw_items = []
         return response, AccountActionsGetModel(
             items=[AccountActionItemModel(**item) for item in raw_items],
             raw=raw_items,
