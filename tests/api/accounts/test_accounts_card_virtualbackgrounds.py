@@ -17,7 +17,6 @@ from services.virtual_backgrounds.virtual_backgrounds_list.api_virtual_backgroun
 
 @allure.epic("API")
 @allure.feature("Accounts")
-@pytest.mark.api
 @pytest.mark.accounts
 @allure.description(
     """

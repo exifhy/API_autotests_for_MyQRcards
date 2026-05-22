@@ -8,7 +8,6 @@ from services.powerbi_reports.powerbi_reports_list.api_powerbi_reports_list impo
 
 @allure.epic("API")
 @allure.feature("PowerBIReports")
-@pytest.mark.api
 @allure.description(
     """
     GET /powerbireports/{id}

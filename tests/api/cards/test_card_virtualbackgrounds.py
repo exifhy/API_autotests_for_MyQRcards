@@ -11,7 +11,6 @@ from services.virtual_backgrounds.virtual_backgrounds_list.api_virtual_backgroun
 
 @allure.epic("API")
 @allure.feature("Cards")
-@pytest.mark.api
 @allure.description(
     """
     GET /Cards/{card_id}/virtualbackground
