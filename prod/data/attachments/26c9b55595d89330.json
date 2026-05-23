@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/Companies?searchText=test&offset=0&fetch=50",
-  "body": "[{\"isCorporate\":true,\"isReadOnly\":false,\"email\":\"prod-kabinet137@bjedu.tech\",\"name\":\"TestComp\",\"id\":191940}]"
-}
