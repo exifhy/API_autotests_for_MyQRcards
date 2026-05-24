@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/276040/cards/2/catalog/1",
-  "body": "[{\"images\":[],\"accountID\":276040,\"cardID\":2,\"catalogID\":1,\"id\":1,\"name\":\"Catalog_1779655320\",\"isEnabled\":false,\"sortOrder\":0}]"
-}
