@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/Cards/v2.0?offset=0&fetch=5&AllData=true",
+  "body": "[{\"subscription\":{\"subscriptionType\":{\"name\":\"CorporateBusiness\",\"id\":2},\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"person\":{\"firstName\":\"AT_FN_dkgfck\",\"lastName\":\"AT_LN_edmkq9\",\"middleName\":\"AT_MN_ral6e9\"},\"employment\":{\"position\":\"AT_Pos2_6je39i\"},\"color\":\"112233\",\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/6WqRF0LXUeZ?v=-6246\",\"name\":\"AT_CardName_y6srgakv\",\"id\":1}]"
+}
