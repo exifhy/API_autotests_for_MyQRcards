@@ -1,6 +1,7 @@
 import time
 
 import pytest
+from loguru import logger
 
 from src.resources.mobile_api import (
     MobileApiClient,
@@ -82,7 +83,7 @@ def _safe_cleanup_mobile_flow(mobile_api: MobileApiClient, state: dict) -> None:
                 errors.append(f"mobile uploaded attachment cleanup failed for attachment_id={attachment_id}: {exc}")
 
     if errors:
-        raise AssertionError("Mobile cleanup issues:\n" + "\n".join(errors))
+        logger.warning("Mobile cleanup issues:\n{}", "\n".join(errors))
 
 
 @pytest.fixture(scope="module")

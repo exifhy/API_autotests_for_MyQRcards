@@ -1,5 +1,7 @@
 from datetime import UTC, datetime, timedelta
 import os
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -37,6 +39,12 @@ def pytest_addoption(parser):
         help="Environment to run tests against",
     )
     parser.addoption("--runs", action="store", default=1, help="Number of scenario runs")
+    parser.addoption(
+        "--report",
+        action="store",
+        default="false",
+        help="Copy allure history and generate report locally (--report=true)",
+    )
 
 
 def pytest_configure(config):
@@ -180,3 +188,34 @@ def api_token():
     else:
         logger.debug("API token not acquired (API_USER_TOKEN is missing)")
     return token
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _allure_history_fixture(request):
+    if request.config.getoption("--report") == "true":
+        request.addfinalizer(_build_allure_history)
+
+
+def _build_allure_history() -> None:
+    root = Path(__file__).parent
+    history_src = root / "allure-report" / "history"
+    results_dir = root / "allure-results"
+    results_history = results_dir / "history"
+
+    if history_src.exists():
+        results_history.mkdir(parents=True, exist_ok=True)
+        for f in history_src.iterdir():
+            if f.is_file():
+                shutil.copy(f, results_history)
+        logger.debug("[allure] Copied history: {} → {}", history_src, results_history)
+
+    allure_bin = shutil.which("allure")
+    if not allure_bin:
+        logger.warning("[allure] 'allure' not found in PATH — skipping auto-generate. Run manually: allure generate allure-results --clean")
+        return
+
+    try:
+        subprocess.run([allure_bin, "generate", "allure-results", "--clean"], check=True)
+        logger.debug("[allure] Report generated successfully")
+    except subprocess.CalledProcessError as exc:
+        logger.error("[allure] Generate failed: {}", exc)

@@ -1,112 +1,119 @@
 # API Autotests — MyQRCards LK
 
-API autotest framework for MyQRCards personal account (LK) backend.
-Covers REST API endpoints: accounts, cards, companies, contacts, employees, subscriptions and more.
+### Инструкция написана для использования на машинах с ОС Windows.
 
-## Stack
+## Описание проекта
 
-- **Python 3.13** + **pytest**
-- **Allure** for reports
-- **Pydantic v2** for response validation
-- **requests** for HTTP
-- **GitHub Actions** for CI (scheduled runs on dev/prod)
+Проект предназначен для автоматического тестирования REST API личного кабинета MyQRCards.
+Покрывает эндпоинты: accounts, cards, companies, contacts, employees, subscriptions и другие.
 
-## Coverage
+## Технологии
 
-- ~385 tests across 170+ test files
-- `tests/api/` — unit-level API tests (per endpoint)
-- `tests/e2e/` — end-to-end flow tests (create → verify → delete)
-- Marks: `smoke`, `api`, `e2e`, `ng` (negative/auth)
+- Python 3.13 — основной язык программирования проекта.
+- pytest — тестовый фреймворк для написания и выполнения тестов.
+- requests — библиотека для взаимодействия с API.
+- pydantic v2 — библиотека для валидации ответов от API.
+- loguru — библиотека логирования.
+- python-dotenv — обработка переменных окружения.
+- Allure — инструмент для создания отчётов о тестировании.
+- GitHub Actions — CI/CD для автоматического запуска тестов по расписанию.
 
-## Project structure
+## Установка и настройка
+
+1. Клонируйте репозиторий:
+
+ - git clone <repo-url>
+ - cd <repo-name>
+
+2. Создайте виртуальное окружение и активируйте его:
+
+ - python -m venv .venv
+ - .venv/Scripts/activate
+
+3. Установите зависимости:
+
+ - pip install -r requirements.txt
+
+4. Установите Allure:
+
+ - https://allurereport.org/docs/install/
+
+5. Проект использует переменные окружения для конфигурации. Создайте файлы на основе примеров:
+
+ - copy .env.example .env.dev
+ - copy .env.example .env.prod
+ - copy data/ids.example.json data/ids.dev.json
+ - copy data/ids.example.json data/ids.prod.json
+
+   ### Обязательные переменные окружения:
+   - LK_JWT= (JWT токен личного кабинета для dev)
+   - LK_JWT_PROD= (JWT токен личного кабинета для prod)
+   - APP_ID= (X-APPLICATION-ID, одинаковый для dev/prod)
+   - ACCOUNT_ACTIONS_BASIC_PASSWORD= (пароль для AccountActions тестов)
+
+   ### Обязательные поля в ids.json:
+   - host — базовый URL API
+   - lk_account_id — ID аккаунта
+   - subscription_id — ID подписки
+   - company_id_create — ID компании для тестов
+
+## Запуск тестов
+
+1. Для запуска всех тестов на dev или prod:
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -v
+ - ENVIRON=prod .venv/Scripts/pytest tests/ --env=prod -v
+
+2. Для запуска только smoke-тестов:
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -m smoke -v
+
+3. Для запуска только e2e-тестов:
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/e2e/ --env=dev -v
+
+4. Для параллельного запуска тестов (ускорение):
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -n auto
+
+5. Для повторного запуска одного теста несколько раз:
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/path/to/test.py --env=dev --count=3
+
+6. Для запуска сценария N раз подряд (проверка стабильности):
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/e2e/test_script_runs.py --env=dev --runs=5 -v
+
+7. Для генерации отчёта Allure (локально):
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev --alluredir=allure-results
+ - allure generate allure-results -o allure-report --clean
+ - allure open allure-report
+
+8. Для локального накопления истории запусков в Allure-отчёте (запускать тесты с параметром --report=true):
+
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev --report=true
+
+   При наличии предыдущего отчёта (allure-report/history) история автоматически копируется в allure-results и генерируется новый отчёт.
+
+## Структура проекта
 
 ```
-services/        — API clients grouped by domain (accounts, cards, companies, ...)
-src/             — helpers, models, fixtures, waiter utils
-testkit/         — pytest fixtures
-tests/api/       — per-endpoint API tests
-tests/e2e/       — end-to-end flow tests
-config/          — environment config, headers
-data/            — ids templates (no secrets in repo)
+services/        — API-клиенты по доменам (accounts, cards, companies, ...)
+src/             — хелперы, модели, утилиты, waiter-функции
+testkit/         — pytest-фикстуры
+tests/api/       — unit/api тесты (проверка конкретных ручек)
+tests/e2e/       — e2e flow тесты (create → verify → delete)
+config/          — конфигурация окружений и заголовков
+data/            — шаблоны ids (секреты не хранятся в репо)
+scripts/         — вспомогательные скрипты (Telegram уведомления)
 ```
 
-## Architecture
+## CI/CD — GitHub Actions
 
-All HTTP calls go through `Helper._call()` which automatically attaches to Allure:
-- response time
-- request URL + method
-- response body
+Allure-отчёты публикуются на GitHub Pages после каждого прогона.
+Результаты отправляются в Telegram.
 
-Services follow a single pattern:
+## Зависимости
 
-```python
-class SomeAPI(Helper):
-    def get_something(self) -> SomeModel:
-        response = self._call(
-            "GET",
-            url=self.endpoints.some_endpoint,
-            headers=Headers.auth_header(bearer_token=get_token()),
-        )
-        assert response.status_code == HTTPStatus.OK
-        return SomeModel(**response.json())
-```
-
-## Setup (local)
-
-**1. Clone and install dependencies:**
-
-```bash
-git clone <repo-url>
-cd <repo-name>
-python -m venv .venv
-.venv/Scripts/pip install -r requirements.txt
-```
-
-**2. Create env files (do NOT commit):**
-
-```bash
-copy .env.example .env.dev
-copy .env.example .env.prod
-```
-
-Fill in `LK_JWT`, `APP_ID` and other variables.
-
-**3. Create ids files (do NOT commit):**
-
-```bash
-copy data/ids.example.json data/ids.dev.json
-copy data/ids.example.json data/ids.prod.json
-```
-
-Fill in `host`, `subscription_id`, `lk_account_id`, etc.
-
-## Run
-
-```bash
-# All tests on dev
-ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -v
-
-# Smoke only
-ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -m smoke -v
-
-# E2E only
-ENVIRON=dev .venv/Scripts/pytest tests/e2e/ --env=dev -v
-
-# With Allure report
-ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev --alluredir=allure-results
-allure generate allure-results -o allure-report --clean
-allure open allure-report
-```
-
-## CI — GitHub Actions
-
-Scheduled runs via GitHub Actions:
-
-| Schedule | Environment | Scope |
-|---|---|---|
-| Mon–Fri 10:00 Moscow | dev | all tests |
-| Daily 02:00 Moscow | prod | smoke only |
-| Sunday 23:00 Moscow | prod | all tests (full regression) |
-
-Results are sent to Telegram after each run.
-Allure reports are published to GitHub Pages after every run.
+Полный список зависимостей можно найти в requirements.txt.
