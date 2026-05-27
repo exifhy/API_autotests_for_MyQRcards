@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/276040/cards/links",
-  "body": "[{\"isPublic\":true,\"isDefault\":true,\"url\":\"https://ecard.myqrcards.com/links/6LDRNZv5ekN\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"Электронная\",\"id\":0},\"account\":{\"id\":276040},\"card\":{\"name\":\"AT_Card_1779802375\",\"id\":2}},{\"isPublic\":true,\"isDefault\":true,\"url\":\"https://ecard.myqrcards.com/links/6WqRF0LXUeZ\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"Электронная\",\"id\":0},\"account\":{\"id\":276040},\"card\":{\"name\":\"AT_CardName_y6srgakv\",\"id\":1}}]"
-}
