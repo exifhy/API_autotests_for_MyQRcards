@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://dev-api.myqrcards.com/cardlinks/faketoken/catalog/1",
+  "body": "[{\"traceIdentifier\":\"0HNLRQD49RID3:000001DB\",\"code\":\"InvalidData\",\"message\":\"Неверные данные: CardLinkInvalid.\",\"arguments\":{\"0\":\"CardLinkInvalid\"}}]"
+}
