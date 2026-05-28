@@ -1,124 +1,119 @@
-﻿# HubEx.Test.Api.CI
+# API Autotests — MyQRCards LK
 
 ### Инструкция написана для использования на машинах с ОС Windows.
 
 ## Описание проекта
 
-Этот проект предназначен для автоматического тестирования REST API приложения HubEx.
+Проект предназначен для автоматического тестирования REST API личного кабинета MyQRCards.
+Покрывает эндпоинты: accounts, cards, companies, contacts, employees, subscriptions и другие.
 
 ## Технологии
 
-- Python 3.12: Основной язык программирования проекта.
-- pytest: Тестовый фреймворк для написания и выполнения тестов.
-- requests: Библиотека для взаимодействия с API.
-- pydantic: Библиотека для валидации ответов от API.
-- loguru: Библиотека логирования.
-- Faker: Генерация тестовых данных.
-- python-dotenv: Обработка переменных окружения.
-- Allure: Инструмент для создания отчетов о тестировании.
+- Python 3.13 — основной язык программирования проекта.
+- pytest — тестовый фреймворк для написания и выполнения тестов.
+- requests — библиотека для взаимодействия с API.
+- pydantic v2 — библиотека для валидации ответов от API.
+- loguru — библиотека логирования.
+- python-dotenv — обработка переменных окружения.
+- Allure — инструмент для создания отчётов о тестировании.
+- GitHub Actions — CI/CD для автоматического запуска тестов по расписанию.
 
 ## Установка и настройка
 
 1. Клонируйте репозиторий:
-   
- - git clone https://melston@dev.azure.com/melston/HubEx/_git/HubEx.Test.Api.Cl
- - cd HubEx.Test.Api.Cl
-    
+
+ - git clone <repo-url>
+ - cd <repo-name>
+
 2. Создайте виртуальное окружение и активируйте его:
-   
- - python -m venv venv
- - venv/Scripts/activate
-    
+
+ - python -m venv .venv
+ - .venv/Scripts/activate
+
 3. Установите зависимости:
-   
+
  - pip install -r requirements.txt
 
 4. Установите Allure:
-    
+
  - https://allurereport.org/docs/install/
 
-5. Проект использует переменные окружения для конфигурации. Они могут быть заданы двумя способами: 
+5. Проект использует переменные окружения для конфигурации. Создайте файлы на основе примеров:
 
- - Через файл .env в корне проекта.
- - Через переменные окружения операционной системы (например, в CI/CD)
+ - copy .env.example .env.dev
+ - copy .env.example .env.prod
+ - copy data/ids.example.json data/ids.dev.json
+ - copy data/ids.example.json data/ids.prod.json
+
    ### Обязательные переменные окружения:
-   - API_USER_TOKEN=
-   - SECOND_BASIC_TOKEN= (base64 login:password хозяина тенанта)
-   - POWER_USER_TOKEN=
-   - TENANT_ID=
-   - TENANT_MEMBER_ID=
-   - APP_ID=
-   - URL_DEV_HUBEX="https://dev-api.hubex.ru/fsm"
-   - URL_PROD_HUBEX="https://api.hubex.ru/fsm"
-   - URL_STAGE_HUBEX="https://stg-api.hubex.ru/fsm"
-   - USER_EMAIL=
-   - USER_PHONE=
+   - LK_JWT= (JWT токен личного кабинета для dev)
+   - LK_JWT_PROD= (JWT токен личного кабинета для prod)
+   - APP_ID= (X-APPLICATION-ID, одинаковый для dev/prod)
+   - ACCOUNT_ACTIONS_BASIC_PASSWORD= (пароль для AccountActions тестов)
 
- - ### Файл .env автоматически подхватывается при запуске тестов. Если файл отсутствует, переменные будут браться из окружения вашей системы.
+   ### Обязательные поля в ids.json:
+   - host — базовый URL API
+   - lk_account_id — ID аккаунта
+   - subscription_id — ID подписки
+   - company_id_create — ID компании для тестов
 
 ## Запуск тестов
 
-1. Для запуска всех тестов на стендах dev, stage или prod используйте соответствующую команду:
-   
- - $env:ENVIRON='dev'; pytest -s
+1. Для запуска всех тестов на dev или prod:
 
- - $env:ENVIRON='stage'; pytest -s
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -v
+ - ENVIRON=prod .venv/Scripts/pytest tests/ --env=prod -v
 
- - $env:ENVIRON='prod'; pytest -s
+2. Для запуска только smoke-тестов:
 
-2. Параметр для записи allure-results прописан в pytest.ini. Запускается автоматически.
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -m smoke -v
 
- - параметр --clean-alluredir. Каталог, указанный в --alluredir, будет очищен перед генерацией новых результатов тестирования.
+3. Для запуска только e2e-тестов:
 
- - $env:ENVIRON='dev'; pytest -s --clean-alluredir
-    
-3. Для генерации отчета Allure(локально):
-   
- - allure serve allure-results
- 
- - allure generate --clean --single-file allure-results -o allure-report  (генерация одного HTML файла с отчетом)
-    
-4. Для создания истории запусков в Allure-report (ТОЛЬКО ЛОКАЛЬНО) запускать тесты с параметром --report="true":
-   
- - pytest --report="true"
+ - ENVIRON=dev .venv/Scripts/pytest tests/e2e/ --env=dev -v
 
-5. В проекте описаны авто-тесты с возможностью прогона нескольких ранов в рамках одного теста. Для выбора количества ранов используем параметр --runs={количество ранов}
+4. Для параллельного запуска тестов (ускорение):
 
- - pytest --runs={integer}
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev -n auto
 
-6. В файле pytest.ini описаны названия маркеров для запуска отдельных тестовых ранов, для запуска всех ранов использовать маркер test_script_runs.
+5. Для повторного запуска одного теста несколько раз:
 
- - pytest --runs={integer} -m {name run}
+ - ENVIRON=dev .venv/Scripts/pytest tests/path/to/test.py --env=dev --count=3
 
-7. Для запуска одного теста несколько раз используем параметр --count={integer}
+6. Для запуска сценария N раз подряд (проверка стабильности):
 
- - pytest --count={integer} {name test}
+ - ENVIRON=dev .venv/Scripts/pytest tests/e2e/test_script_runs.py --env=dev --runs=5 -v
 
-8. Для запуска выполнения тестов, с распределением тестов по нескольким (доступным) процессорам для ускорения их выполнения:
+7. Для генерации отчёта Allure (локально):
 
- - pytest -n auto
-    
-## Использование
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev --alluredir=allure-results
+ - allure generate allure-results -o allure-report --clean
+ - allure open allure-report
 
-1. Отправка запросов и проверка ответов:
-    - Тесты находятся в tests/
-    - Каждый запрос отправляется к API, а ответ валидируется с помощью моделей.
+8. Для локального накопления истории запусков в Allure-отчёте (запускать тесты с параметром --report=true):
 
-2. Создание тестовых данных:
-    - Тестовые данные создаются перед выполнением тестов с Faker
+ - ENVIRON=dev .venv/Scripts/pytest tests/ --env=dev --report=true
 
-3. Конфигурация тестов:
-    - Общие фикстуры и настройки для тестов находятся в conftest.py.
-    - Конфигурация pytest указана в pytest.ini.
+   При наличии предыдущего отчёта (allure-report/history) история автоматически копируется в allure-results и генерируется новый отчёт.
+
+## Структура проекта
+
+```
+services/        — API-клиенты по доменам (accounts, cards, companies, ...)
+src/             — хелперы, модели, утилиты, waiter-функции
+testkit/         — pytest-фикстуры
+tests/api/       — unit/api тесты (проверка конкретных ручек)
+tests/e2e/       — e2e flow тесты (create → verify → delete)
+config/          — конфигурация окружений и заголовков
+data/            — шаблоны ids (секреты не хранятся в репо)
+scripts/         — вспомогательные скрипты (Telegram уведомления)
+```
+
+## CI/CD — GitHub Actions
+
+Allure-отчёты публикуются на GitHub Pages после каждого прогона.
+Результаты отправляются в Telegram.
 
 ## Зависимости
-
-Список основных зависимостей:
-- python==3.12
-- pytest
-- requests
-- pydantic
-- Faker
-- allure-pytest
 
 Полный список зависимостей можно найти в requirements.txt.

@@ -1,18 +1,31 @@
 import os
+
 from loguru import logger
 
-ENVIRON = os.getenv("ENVIRON", "dev").lower()
 
-URLS = {
-    "dev": os.getenv("URL_DEV_HUBEX"),
-    "stage": os.getenv("URL_STAGE_HUBEX"),
-    "prod": os.getenv("URL_PROD_HUBEX"),
+DEFAULT_URLS = {
+    "dev": "https://dev-api.myqrcards.com",
+    "prod": "https://api.myqrcards.com",
 }
 
-if ENVIRON not in URLS or not URLS[ENVIRON]:
-    raise ValueError(f"Invalid or missing URL for environment: {ENVIRON}")
 
-HOST = URLS[ENVIRON]
+def get_host() -> str:
+    environ = os.getenv("ENVIRON", "dev").lower()
+    if environ not in DEFAULT_URLS:
+        raise ValueError(f"Unsupported environment: {environ}")
+
+    host = (
+        os.getenv("HOST")
+        or os.getenv(f"URL_{environ.upper()}_API")
+        or DEFAULT_URLS[environ]
+    ).rstrip("/")
+    if not host:
+        raise ValueError(f"Invalid or missing URL for environment: {environ}")
+    return host
+
+
+ENVIRON = os.getenv("ENVIRON", "dev").lower()
+HOST = get_host()
 
 logger.debug(f"[ENVIRON] Active environment: {ENVIRON}")
 logger.debug(f"[HOST] Base URL: {HOST}")

@@ -1,0 +1,1 @@
+"""DELETE /accounts/contacts."""
