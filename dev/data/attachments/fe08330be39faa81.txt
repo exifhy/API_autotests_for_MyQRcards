@@ -1,0 +1,20 @@
+2026-05-29 12:53:21.574 | ERROR    | test_script_runs:test_company_create_get_delete_script:76 - Run #1: Create failed: 405 <html>
+  <head><title>405 Not Allowed</title></head>
+  <body>
+  <center><h1>405 Not Allowed</h1></center>
+  <hr><center>nginx</center>
+  </body>
+  </html>
+  
+assert 405 in (<HTTPStatus.OK: 200>, <HTTPStatus.CREATED: 201>, <HTTPStatus.ACCEPTED: 202>)
+ +  where 405 = <Response [405]>.status_code
+2026-05-29 12:53:23.790 | ERROR    | test_script_runs:test_company_create_get_delete_script:76 - Run #1: Create failed: 405 <html>
+  <head><title>405 Not Allowed</title></head>
+  <body>
+  <center><h1>405 Not Allowed</h1></center>
+  <hr><center>nginx</center>
+  </body>
+  </html>
+  
+assert 405 in (<HTTPStatus.OK: 200>, <HTTPStatus.CREATED: 201>, <HTTPStatus.ACCEPTED: 202>)
+ +  where 405 = <Response [405]>.status_code
