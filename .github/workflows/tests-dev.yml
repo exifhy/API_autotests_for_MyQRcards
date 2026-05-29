@@ -1,0 +1,72 @@
+name: Tests DEV
+
+on:
+  schedule:
+    - cron: '0 7 * * 1-5'   # 10:00 Moscow (UTC+3), Mon–Fri
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create .env.dev
+        run: |
+          echo "LK_JWT=${{ secrets.LK_JWT }}" >> .env.dev
+          echo "APP_ID=${{ secrets.APP_ID }}" >> .env.dev
+          echo "ACCOUNT_ACTIONS_BASIC_PASSWORD=${{ secrets.ACCOUNT_ACTIONS_BASIC_PASSWORD }}" >> .env.dev
+
+      - name: Create data/ids.dev.json
+        run: echo '${{ secrets.IDS_DEV_JSON }}' > data/ids.dev.json
+
+      - name: Run tests
+        continue-on-error: true
+        run: |
+          ENVIRON=dev python -m pytest tests/ --env=dev \
+            -q --tb=line --alluredir=allure-results 2>&1 | tee pytest_output.txt
+
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get install -y default-jre-headless
+          wget -q https://github.com/allure-framework/allure2/releases/download/2.27.0/allure_2.27.0-1_all.deb
+          sudo dpkg -i allure_2.27.0-1_all.deb
+
+      - name: Get Allure history
+        run: |
+          git fetch origin gh-pages --depth=1 2>/dev/null \
+            && git checkout origin/gh-pages -- dev/history 2>/dev/null \
+            && mkdir -p allure-results/history \
+            && cp -r dev/history/. allure-results/history/ \
+            || echo "No previous history (first run)"
+
+      - name: Generate Allure report
+        run: allure generate allure-results -o allure-report --clean
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          destination_dir: dev
+
+      - name: Send Telegram notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALLURE_URL: https://exifhy.github.io/API_autotests_for_MyQRcards/dev/
+        run: python scripts/notify_telegram.py pytest_output.txt DEV
