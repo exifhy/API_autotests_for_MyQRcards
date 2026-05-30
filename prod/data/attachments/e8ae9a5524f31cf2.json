@@ -1,0 +1,6 @@
+{
+  "status_code": 500,
+  "reason": "Internal Server Error",
+  "url": "https://api.myqrcards.com/Subscriptions/5213/invitation",
+  "body": "[{\"traceIdentifier\":\"0HNLR54C3GO4B:0000004B\",\"message\":\"Cannot insert duplicate key row in object 'ADM.AccountAuthenticationToken' with unique index 'IXU#AccountAuthenticationToken@ConfirmToken'. The duplicate key value is (5JPmDZjScqm).\",\"arguments\":{\"helpLink.ProdName\":\"Microsoft SQL Server\",\"helpLink.ProdVer\":\"15.00.4410\",\"helpLink.EvtSrc\":\"MSSQLServer\",\"helpLink.EvtID\":\"2601\",\"helpLink.BaseHelpUrl\":\"https://go.microsoft.com/fwlink\",\"helpLink.LinkId\":\"20476\"}}]"
+}
