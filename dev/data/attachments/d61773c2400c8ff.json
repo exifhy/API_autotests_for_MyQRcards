@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://dev-api.myqrcards.com/Companies",
+  "body": "[{\"isCorporate\":true,\"isReadOnly\":false,\"email\":\"dev-kabinet137@bjedu.tech\",\"name\":\"TestComp\",\"id\":3637},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания для копирования сотрудников\",\"id\":3642},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания для перемещения сотрудников\",\"id\":3643},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания куда создаем сотрудников\",\"id\":3647}]"
+}
