@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://api.myqrcards.com/cardlinks/59TNhr2GpI6",
+  "body": "[{\"traceIdentifier\":\"0HNM0SBOFD2U9:00000019\",\"code\":\"InvalidCardLink\",\"message\":\"Недопустимая ссылка на визитку: CardLinkIsDefault\",\"arguments\":{\"0\":\"CardLinkIsDefault\"}}]"
+}
