@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/contacts/115074/download",
-  "body": "BEGIN:VCARD\r\nVERSION:3.0\r\nREV: 2026-06-05T00:21:40\r\nN;CHARSET=utf-8:Contact_1780618899;Api_1780618899;;\r\nFN;CHARSET=utf-8:Contact_1780618899 Api_1780618899\r\nTEL;TYPE=CELL:+79780618899\r\nEMAIL;TYPE=INTERNET:api_contact_1780618899@tt.tt\r\nTITLE;CHARSET=utf-8:Tester_1780618899\r\nORG;CHARSET=utf-8:Company_1780618899\r\nNOTE;CHARSET=utf-8:Desc_1780618899\r\nEND:VCARD\r\n"
-}
