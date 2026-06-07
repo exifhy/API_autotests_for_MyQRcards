@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://api.myqrcards.com/accountActions/SubscriptionInvitation",
-  "body": "[{\"traceIdentifier\":\"0HNM0SBOFD4G5:00000002\",\"code\":\"ParameterNull\",\"message\":\"Параметр [authorization] не может быть пустым.\"}]"
-}
