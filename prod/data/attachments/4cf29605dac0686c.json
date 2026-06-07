@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/cardlinks/autotestn0heizin",
+  "body": "{\"isPublic\":true,\"isDefault\":false,\"url\":\"https://ecard.myqrcards.com/links/autotestn0heizin\",\"cardLink\":{\"isAllowSelfRegistration\":false,\"name\":\"Кастомная ссылка\",\"id\":16},\"account\":{\"id\":276040},\"card\":{\"name\":\"AT_Card_1780867139\",\"id\":2}}"
+}
