@@ -1,897 +1,897 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Mon Jun 08 12:03:41 UTC 2026","Mon Jun 08 12:03:41 UTC 2026","509","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Update contact returns success",""
-"passed","Mon Jun 08 11:55:33 UTC 2026","Mon Jun 08 11:55:33 UTC 2026","511","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes returns dictionary","
-    /AttributeTypes
+"passed","Tue Jun 09 10:45:11 UTC 2026","Tue Jun 09 10:45:12 UTC 2026","656","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Moderator appears in moderators list",""
+"passed","Tue Jun 09 10:31:41 UTC 2026","Tue Jun 09 10:31:42 UTC 2026","636","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","GET /accounttokens/{token} without auth -> 401/403","
+    POST /accounttokens/ -> GET /accounttokens/{token}
     "
-"passed","Mon Jun 08 12:03:15 UTC 2026","Mon Jun 08 12:03:15 UTC 2026","499","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:04:18 UTC 2026","Mon Jun 08 12:04:18 UTC 2026","287","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Upload card photo",""
-"passed","Mon Jun 08 11:58:22 UTC 2026","Mon Jun 08 11:58:23 UTC 2026","508","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink supports offset/fetch query","
+"passed","Tue Jun 09 10:34:52 UTC 2026","Tue Jun 09 10:34:52 UTC 2026","648","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium without auth","
+    /accounts/subscription/hadpremium
+    "
+"passed","Tue Jun 09 10:45:20 UTC 2026","Tue Jun 09 10:45:20 UTC 2026","296","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Employees appear in accounts list",""
+"passed","Tue Jun 09 10:43:41 UTC 2026","Tue Jun 09 10:43:42 UTC 2026","643","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures without auth","
+    /Cultures
+    "
+"passed","Tue Jun 09 10:43:48 UTC 2026","Tue Jun 09 10:43:49 UTC 2026","649","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} without auth","
+    /Locations/{id}
+    "
+"passed","Tue Jun 09 10:36:16 UTC 2026","Tue Jun 09 10:36:18 UTC 2026","1471","tests.api.cards","test_card_link_attribute_attachments","TestCardLinkAttributeAttachments","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes/attachments","
+    GET /cards/{token}/cardLink/attributes/attachments
+    "
+"passed","Tue Jun 09 10:34:52 UTC 2026","Tue Jun 09 10:34:53 UTC 2026","690","tests.api.accounts","test_get_contact_by_id","","","","GET /accounts/contacts/{contactID}","
+    /accounts/contacts/{contactID}
+    "
+"passed","Tue Jun 09 10:34:30 UTC 2026","Tue Jun 09 10:34:31 UTC 2026","1319","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","GET /Accounts/{accountID}/Cards without auth","
+    /Accounts/{accountID}/Cards
+    "
+"passed","Tue Jun 09 10:40:06 UTC 2026","Tue Jun 09 10:40:07 UTC 2026","1017","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/download returns CSV",""
+"passed","Tue Jun 09 10:45:37 UTC 2026","Tue Jun 09 10:45:38 UTC 2026","672","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Add moderator",""
+"passed","Tue Jun 09 10:45:54 UTC 2026","Tue Jun 09 10:45:54 UTC 2026","244","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Merge text attribute",""
+"passed","Tue Jun 09 10:33:54 UTC 2026","Tue Jun 09 10:33:56 UTC 2026","1376","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists","
+    /Accounts/{accountID}/Cards/{cardID}/whiteLists
+    "
+"passed","Tue Jun 09 10:38:42 UTC 2026","Tue Jun 09 10:38:42 UTC 2026","643","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink without auth","
     /Cards/customlink
     "
-"passed","Mon Jun 08 12:03:17 UTC 2026","Mon Jun 08 12:03:18 UTC 2026","496","tests.api.virtual_backgrounds","test_virtual_backgrounds_list","TestVirtualBackgroundsList","","","GET /VirtualBackgrounds returns list","
-    GET /VirtualBackgrounds
+"passed","Tue Jun 09 10:43:52 UTC 2026","Tue Jun 09 10:43:53 UTC 2026","1604","tests.api.locations","test_location_cardlinks_list","TestLocationCardLinksList","","","GET /cards/attributes/locations/cardlink/{token}","
+    GET /cards/attributes/locations/cardlink/{cardLinkId}
     "
-"passed","Mon Jun 08 11:56:49 UTC 2026","Mon Jun 08 11:56:52 UTC 2026","2269","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{cardLinkId}/cardLink/metrics -> DELETE /Cards/{id}","
-    /Cards/{id}/cardLink/metrics
+"passed","Tue Jun 09 10:37:59 UTC 2026","Tue Jun 09 10:38:01 UTC 2026","2056","tests.api.cards","test_cardlinks_update","TestCardLinksUpdate","","","POST /Cards -> PUT /cardlinks/{cardLink} -> GET /cardlinks/{cardLink} -> DELETE /Cards/{id}","
+    /cardlinks/{cardLink}
     "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","164","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Delete mobile card",""
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","337","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Upload avatar photo",""
-"passed","Mon Jun 08 11:55:31 UTC 2026","Mon Jun 08 11:55:31 UTC 2026","493","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms without auth","
-    /AttributeForms
+"passed","Tue Jun 09 10:34:54 UTC 2026","Tue Jun 09 10:34:55 UTC 2026","652","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications without auth","
+    /Applications
     "
-"passed","Mon Jun 08 12:04:20 UTC 2026","Mon Jun 08 12:04:20 UTC 2026","146","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Get card after create",""
-"passed","Mon Jun 08 11:58:12 UTC 2026","Mon Jun 08 11:58:14 UTC 2026","1562","tests.api.cards","test_cards_create_get_delete_flow","TestCardsCreateGetDeleteFlow","","","POST /Cards -> GET /Cards/{id} -> DELETE /Cards/{id}","
+"passed","Tue Jun 09 10:37:29 UTC 2026","Tue Jun 09 10:37:30 UTC 2026","1384","tests.api.cards","test_cardlinks_designsettings","TestCardLinksDesignsettings","","","POST /Cards -> GET /cardLinks/{cardLink}/designsettings -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/designsettings
+    "
+"passed","Tue Jun 09 10:34:56 UTC 2026","Tue Jun 09 10:34:58 UTC 2026","1679","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments/v2 -> DELETE /Attachments/{id}","
+    Проверки Attachments API с изображениями, сгенерированными в коде.
+    "
+"passed","Tue Jun 09 10:44:30 UTC 2026","Tue Jun 09 10:44:30 UTC 2026","635","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:36:24 UTC 2026","Tue Jun 09 10:36:27 UTC 2026","2999","tests.api.cards","test_card_link_leadgen_form_by_id","TestCardLinkLeadGenFormById","","","POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId} -> DELETE","
+    GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId}
+    "
+"passed","Tue Jun 09 10:46:08 UTC 2026","Tue Jun 09 10:46:09 UTC 2026","253","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Create mobile card",""
+"passed","Tue Jun 09 10:39:31 UTC 2026","Tue Jun 09 10:39:32 UTC 2026","721","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards without auth","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Tue Jun 09 10:44:17 UTC 2026","Tue Jun 09 10:44:18 UTC 2026","775","tests.api.subscriptions","test_subscription_moderators","TestSubscriptionModerators","","","620 GET /subscriptions/{id}/moderators -> 200/204","
+    620 GET  /subscriptions/{id}/moderators
+    621 POST /subscriptions/{id}/moderators
+    622 DELETE /subscriptions/{id}/moderators
+    623 GET  /subscriptions/{id}/moderators/{accountId}
+    "
+"passed","Tue Jun 09 10:46:09 UTC 2026","Tue Jun 09 10:46:09 UTC 2026","252","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Get card after create",""
+"passed","Tue Jun 09 10:38:04 UTC 2026","Tue Jun 09 10:38:10 UTC 2026","6475","tests.api.cards","test_cards_attachments_sortorder_flow","TestCardsAttachmentsSortOrderFlow","","","POST /Cards -> PUT /Cards/{id}/V2 gallery -> GET/PUT /Cards/{id}/attachments/sortorder","
+    /Cards/{cardID}/attachments/sortorder
+    "
+"passed","Tue Jun 09 10:31:48 UTC 2026","Tue Jun 09 10:31:49 UTC 2026","659","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","GET /accounts/{id}/cards/{cardId}/attributes/attachments without auth -> 401/403","
+    GET /accounts/{id}/cards/{cardId}/attributes/attachments
+    "
+"passed","Tue Jun 09 10:45:42 UTC 2026","Tue Jun 09 10:45:43 UTC 2026","967","tests.e2e.employee","test_employee_invitation_and_list","","","","Invite employee and find in accounts list",""
+"passed","Tue Jun 09 10:43:54 UTC 2026","Tue Jun 09 10:43:55 UTC 2026","637","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations without auth","
+    /Locations?locationID=1
+    "
+"passed","Tue Jun 09 10:43:46 UTC 2026","Tue Jun 09 10:43:47 UTC 2026","899","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields supports offset/fetch query","
+    /LeadGenFormFields
+    "
+"passed","Tue Jun 09 10:31:43 UTC 2026","Tue Jun 09 10:31:44 UTC 2026","886","tests.api.accounts","test_accounts_authorize","TestAccountsAuthorize","","","POST /accounts/authorize returns current account by token","
+    POST /accounts/authorize
+    "
+"passed","Tue Jun 09 10:45:23 UTC 2026","Tue Jun 09 10:45:24 UTC 2026","764","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees present in accounts list",""
+"passed","Tue Jun 09 10:35:04 UTC 2026","Tue Jun 09 10:35:05 UTC 2026","676","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes returns dictionary","
+    /AttributeTypes
+    "
+"passed","Tue Jun 09 10:44:40 UTC 2026","Tue Jun 09 10:44:42 UTC 2026","1338","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create card","
     /Cards
+    /accounts/{accountID}/CustomMessageTemplates
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
+    /Cards/{id}
     "
-"passed","Mon Jun 08 11:53:45 UTC 2026","Mon Jun 08 11:53:46 UTC 2026","1369","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","GET /Accounts/{accountID}/Cards/{cardID} without auth","
+"passed","Tue Jun 09 10:37:12 UTC 2026","Tue Jun 09 10:37:13 UTC 2026","819","tests.api.cards","test_cardlink_catalog_by_id","TestCardLinkCatalogById","","","GET /cardlinks/{token}/catalog/{id} without auth -> 401/403","
+    GET /cardlinks/{token}/catalog/{id}
+    Catalog not yet implemented — expecting 204 No Content
+    "
+"passed","Tue Jun 09 10:45:57 UTC 2026","Tue Jun 09 10:45:57 UTC 2026","274","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Set designsettings background",""
+"passed","Tue Jun 09 10:44:57 UTC 2026","Tue Jun 09 10:44:58 UTC 2026","660","tests.e2e.company","test_company_list","","","","Companies list is available",""
+"passed","Tue Jun 09 10:46:03 UTC 2026","Tue Jun 09 10:46:06 UTC 2026","2752","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Upload avatar photos",""
+"passed","Tue Jun 09 10:45:35 UTC 2026","Tue Jun 09 10:45:35 UTC 2026","253","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","02. Employee appears in /accounts list",""
+"passed","Tue Jun 09 10:44:22 UTC 2026","Tue Jun 09 10:44:23 UTC 2026","752","tests.api.subscriptions","test_subscription_request","TestSubscriptionRequest","","","POST /Subscriptions/request — random email","
+    POST /Subscriptions/request  (public, no auth required)
+    "
+"passed","Tue Jun 09 10:39:49 UTC 2026","Tue Jun 09 10:39:50 UTC 2026","638","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens without auth","
+    /clientTokens
+    "
+"passed","Tue Jun 09 10:32:41 UTC 2026","Tue Jun 09 10:32:42 UTC 2026","1706","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}","
     /Accounts/{accountID}/Cards/{cardID}
     /Accounts/{accountID}/Cards/{cardID}/V2
     "
-"passed","Mon Jun 08 12:02:58 UTC 2026","Mon Jun 08 12:03:00 UTC 2026","2297","tests.api.subscriptions","test_subscription_designsettings_merge","TestSubscriptionDesignsettingsMerge","","","PUT /Subscriptions/{subscription_id}/designsettings updates color and GET returns it","
-    PUT /Subscriptions/{subscription_id}/designsettings
-    GET /Subscriptions/{subscription_id}/designsettings
+"passed","Tue Jun 09 10:33:06 UTC 2026","Tue Jun 09 10:33:07 UTC 2026","1389","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","GET /Accounts/{accountID}/Cards/{cardID}/leadGenForms supports offset/fetch query","
+    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
     "
-"passed","Mon Jun 08 11:59:08 UTC 2026","Mon Jun 08 11:59:08 UTC 2026","802","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/download returns CSV",""
-"passed","Mon Jun 08 12:03:46 UTC 2026","Mon Jun 08 12:03:49 UTC 2026","3508","tests.e2e.employee","test_employee_invitation_add_copyincompany_delete_flow","TestEmployeeInvitationAddCopyInCompanyDeleteFlow","","","POST invitations x4 → list → copy cards → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, copy cards to target company, verify, delete flow"
-"passed","Mon Jun 08 12:03:14 UTC 2026","Mon Jun 08 12:03:14 UTC 2026","492","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 11:54:40 UTC 2026","Mon Jun 08 11:54:41 UTC 2026","1043","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists","
-    /Accounts/{accountID}/Cards/{cardID}/whiteLists
+"passed","Tue Jun 09 10:45:55 UTC 2026","Tue Jun 09 10:45:55 UTC 2026","277","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Delete mobile card",""
+"passed","Tue Jun 09 10:39:27 UTC 2026","Tue Jun 09 10:39:28 UTC 2026","672","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate returns change list","
+    /Cards/lastupdate
     "
-"passed","Mon Jun 08 11:57:04 UTC 2026","Mon Jun 08 11:57:04 UTC 2026","503","tests.api.cards","test_card_metrics","TestCardMetrics","","","GET /Cards/{id}/metrics supports offset/fetch query","
+"passed","Tue Jun 09 10:45:20 UTC 2026","Tue Jun 09 10:45:20 UTC 2026","291","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Hide cards for employees",""
+"passed","Tue Jun 09 10:45:58 UTC 2026","Tue Jun 09 10:45:58 UTC 2026","240","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Change designsettings color",""
+"passed","Tue Jun 09 10:37:07 UTC 2026","Tue Jun 09 10:37:08 UTC 2026","646","tests.api.cards","test_card_metrics","TestCardMetrics","","","GET /Cards/{id}/metrics without auth","
     /Cards/{cardID}/metrics
     "
-"passed","Mon Jun 08 12:04:13 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","142","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Mobile card GET returns 200",""
-"passed","Mon Jun 08 12:04:18 UTC 2026","Mon Jun 08 12:04:19 UTC 2026","195","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Create mobile card",""
-"passed","Mon Jun 08 11:56:28 UTC 2026","Mon Jun 08 11:56:29 UTC 2026","1054","tests.api.cards","test_card_link_attribute_attachments","TestCardLinkAttributeAttachments","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes/attachments","
-    GET /cards/{token}/cardLink/attributes/attachments
-    "
-"passed","Mon Jun 08 12:03:37 UTC 2026","Mon Jun 08 12:03:37 UTC 2026","505","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Contact GET returns expected contact",""
-"passed","Mon Jun 08 11:58:22 UTC 2026","Mon Jun 08 11:58:22 UTC 2026","556","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink returns custom links list","
-    /Cards/customlink
-    "
-"passed","Mon Jun 08 12:03:32 UTC 2026","Mon Jun 08 12:03:34 UTC 2026","1737","tests.e2e.company","test_company_create_withlogoandcolor_get_delete_flow","TestCompanyCreateWithLogoAndColorFlow","","","POST /Companies → list → upload logo → update → GET → upload bg → designsettings → GET → DELETE","/Companies — create, upload logo + background, set design, delete flow"
-"passed","Mon Jun 08 11:58:51 UTC 2026","Mon Jun 08 11:58:52 UTC 2026","1126","tests.api.cards","test_cards_update_v2_flow","TestCardsUpdateV2Flow","","","POST /Cards -> PUT /Cards/{id}/V2 -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/V2
-    "
-"passed","Mon Jun 08 11:55:30 UTC 2026","Mon Jun 08 11:55:30 UTC 2026","499","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms returns forms list","
-    /AttributeForms
-    "
-"passed","Mon Jun 08 12:03:17 UTC 2026","Mon Jun 08 12:03:17 UTC 2026","492","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds without auth","
-    /VirtualBackgrounds
-    "
-"passed","Mon Jun 08 12:01:20 UTC 2026","Mon Jun 08 12:01:24 UTC 2026","3587","tests.api.contacts","test_contacts_web_flow","TestContactsWebFlow","","","POST /accounts/contacts/web creates visible contact",""
-"passed","Mon Jun 08 11:58:03 UTC 2026","Mon Jun 08 11:58:06 UTC 2026","3222","tests.api.cards","test_cards_copy_flow","TestCardsCopyFlow","","","POST /Cards -> POST /cards/card/copy -> GET /Cards/v2.0 -> DELETE copied card","
-    /cards/card/copy
-    "
-"passed","Mon Jun 08 11:59:01 UTC 2026","Mon Jun 08 11:59:02 UTC 2026","1404","tests.api.companies","test_companies_create_update_get_delete_flow_api","TestCompanyCreateUpdateGetDeleteFlow","","","POST /Companies -> PUT /Companies/{id} -> GET /Companies/{id} -> DELETE /Companies/{id}","
-    /Companies
-    "
-"passed","Mon Jun 08 12:03:09 UTC 2026","Mon Jun 08 12:03:10 UTC 2026","493","tests.api.supported_versions","test_supported_versions_ios","TestSupportedVersionsIos","","","GET /SupportedVersions/ios returns supported versions","
-    /SupportedVersions/ios
-    "
-"passed","Mon Jun 08 11:56:21 UTC 2026","Mon Jun 08 11:56:27 UTC 2026","6193","tests.api.cards","test_card_leadgen_forms_custom_message_template","TestCardLeadGenFormsCustomMessageTemplate","","","POST leadGenForm with CustomMessageTemplateID -> PUT leadGenForm with another CustomMessageTemplateID","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 12:04:23 UTC 2026","Mon Jun 08 12:04:23 UTC 2026","146","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Get card after create",""
-"passed","Mon Jun 08 11:55:35 UTC 2026","Mon Jun 08 11:55:35 UTC 2026","519","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes → 200, non-empty list with valid items","
-    /Attributes
-    "
-"passed","Mon Jun 08 11:53:05 UTC 2026","Mon Jun 08 11:53:06 UTC 2026","493","tests.api.accounts","test_accounts_card_attributes_merge","TestAccountsCardAttributesMerge","","","PUT /accounts/{id}/cards/{cardId}/attributes without auth -> 401/403","
-    PUT /accounts/{id}/cards/{cardId}/attributes
-    "
-"passed","Mon Jun 08 12:04:12 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","695","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Upload mobile photo",""
-"passed","Mon Jun 08 11:53:01 UTC 2026","Mon Jun 08 11:53:02 UTC 2026","1785","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","POST /Accounts/{id}/Cards -> GET /accounts/{id}/cards/{cardId}/attributes/ -> DELETE","
-    GET /accounts/{id}/cards/{cardId}/attributes/
-    "
-"passed","Mon Jun 08 12:02:54 UTC 2026","Mon Jun 08 12:02:55 UTC 2026","494","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts without auth -> 401/403","
-    GET /Subscriptions/{id}/contacts
-    "
-"passed","Mon Jun 08 11:54:32 UTC 2026","Mon Jun 08 11:54:34 UTC 2026","2595","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Accounts/{accountID}/Cards/{cardID}/metrics -> DELETE /Accounts/{accountID}/Cards/{cardID}/metrics","
-    /Accounts/{accountID}/Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:55:34 UTC 2026","Mon Jun 08 11:55:34 UTC 2026","498","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} → 200, validate model fields","
-    /Attributes/{attributeID}
-    "
-"passed","Mon Jun 08 12:03:21 UTC 2026","Mon Jun 08 12:03:21 UTC 2026","701","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Delete card","
-    /Cards
-    /accounts/{accountID}/cards/{cardID}/attributes
-    /accounts/{accountID}/cards/{cardID}/attributes/
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 12:04:13 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","171","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Merge phone and email attributes",""
-"passed","Mon Jun 08 12:04:02 UTC 2026","Mon Jun 08 12:04:02 UTC 2026","507","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Add moderator",""
-"passed","Mon Jun 08 12:04:17 UTC 2026","Mon Jun 08 12:04:17 UTC 2026","138","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Designsettings has background",""
-"passed","Mon Jun 08 12:04:03 UTC 2026","Mon Jun 08 12:04:03 UTC 2026","635","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Delete invitation",""
-"passed","Mon Jun 08 12:04:01 UTC 2026","Mon Jun 08 12:04:02 UTC 2026","153","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Employee appears in accounts list",""
-"passed","Mon Jun 08 12:04:11 UTC 2026","Mon Jun 08 12:04:12 UTC 2026","153","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Employee appears in accounts list","
-    Invitation create -> accounts list verify -> delete -> accounts list verify.
-    "
-"passed","Mon Jun 08 12:03:43 UTC 2026","Mon Jun 08 12:03:44 UTC 2026","510","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Add moderator",""
-"passed","Mon Jun 08 12:03:43 UTC 2026","Mon Jun 08 12:03:43 UTC 2026","150","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Employee appears in accounts list",""
-"passed","Mon Jun 08 11:57:08 UTC 2026","Mon Jun 08 11:57:09 UTC 2026","1068","tests.api.cards","test_cardlink_catalog_by_id","TestCardLinkCatalogById","","","GET /Accounts/{id}/Cards/links -> GET /cardlinks/{token}/catalog/{id} -> 204","
-    GET /cardlinks/{token}/catalog/{id}
-    Catalog not yet implemented — expecting 204 No Content
-    "
-"passed","Mon Jun 08 12:02:48 UTC 2026","Mon Jun 08 12:02:49 UTC 2026","508","tests.api.promotions","test_promotions_list","TestPromotionsList","","","GET /promotions returns list or no content","
-    /promotions
-    "
-"passed","Mon Jun 08 12:04:25 UTC 2026","Mon Jun 08 12:04:26 UTC 2026","172","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Delete mobile card",""
-"passed","Mon Jun 08 12:02:35 UTC 2026","Mon Jun 08 12:02:37 UTC 2026","1581","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports returns 200","
-    /Exports
-    "
-"passed","Mon Jun 08 12:04:20 UTC 2026","Mon Jun 08 12:04:22 UTC 2026","1382","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Upload avatar photos",""
-"passed","Mon Jun 08 12:03:54 UTC 2026","Mon Jun 08 12:03:54 UTC 2026","446","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees visible in accounts list",""
-"passed","Mon Jun 08 12:03:16 UTC 2026","Mon Jun 08 12:03:17 UTC 2026","498","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds supports offset/fetch query","
-    /VirtualBackgrounds
-    "
-"passed","Mon Jun 08 12:03:37 UTC 2026","Mon Jun 08 12:03:38 UTC 2026","801","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","CSV contains created contact",""
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","145","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Merge text attribute",""
-"passed","Mon Jun 08 11:55:47 UTC 2026","Mon Jun 08 11:55:48 UTC 2026","506","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/","
-    GET /cards/{id}/attributes/
-    "
-"passed","Mon Jun 08 11:57:49 UTC 2026","Mon Jun 08 11:57:55 UTC 2026","6439","tests.api.cards","test_cards_attachments_sortorder_flow","TestCardsAttachmentsSortOrderFlow","","","POST /Cards -> PUT /Cards/{id}/V2 gallery -> GET/PUT /Cards/{id}/attachments/sortorder","
-    /Cards/{cardID}/attachments/sortorder
-    "
-"passed","Mon Jun 08 11:54:43 UTC 2026","Mon Jun 08 11:54:44 UTC 2026","1022","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists supports Range/offset/fetch","
-    /Accounts/{accountID}/Cards/{cardID}/whiteLists
-    "
-"passed","Mon Jun 08 12:02:57 UTC 2026","Mon Jun 08 12:02:57 UTC 2026","517","tests.api.subscriptions","test_subscription_designsettings_by_id","TestSubscriptionDesignsettingsById","","","GET /Subscriptions/{subscription_id}/designsettings returns data","
-    /Subscriptions/{subscription_id}/designsettings
-    "
-"passed","Mon Jun 08 12:03:27 UTC 2026","Mon Jun 08 12:03:28 UTC 2026","1030","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Create card","
-    /Cards
-    /Cards/{id}
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 12:04:25 UTC 2026","Mon Jun 08 12:04:25 UTC 2026","156","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Merge photo gallery attribute",""
-"passed","Mon Jun 08 12:00:13 UTC 2026","Mon Jun 08 12:00:13 UTC 2026","503","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/{contact_id}/download returns VCF",""
-"passed","Mon Jun 08 12:04:07 UTC 2026","Mon Jun 08 12:04:07 UTC 2026","515","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Updated fields visible via GET Card/V2",""
-"passed","Mon Jun 08 11:55:33 UTC 2026","Mon Jun 08 11:55:34 UTC 2026","491","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes without auth","
-    /AttributeTypes
-    "
-"passed","Mon Jun 08 12:04:16 UTC 2026","Mon Jun 08 12:04:16 UTC 2026","178","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Create mobile card",""
-"passed","Mon Jun 08 11:58:54 UTC 2026","Mon Jun 08 11:58:55 UTC 2026","494","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens without auth","
-    /clientTokens
-    "
-"passed","Mon Jun 08 12:04:07 UTC 2026","Mon Jun 08 12:04:08 UTC 2026","181","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Delete invitation",""
-"passed","Mon Jun 08 11:55:39 UTC 2026","Mon Jun 08 11:55:40 UTC 2026","498","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","PUT /cards/{id}/upload/fromForm without auth -> 401/403","
-    PUT /cards/{id}/upload/fromForm
-    "
-"passed","Mon Jun 08 11:53:30 UTC 2026","Mon Jun 08 11:53:32 UTC 2026","1609","tests.api.accounts","test_accounts_card_delete","TestAccountsCardDelete","","","POST /Accounts/{accountID}/Cards -> DELETE /Accounts/{accountID}/Cards/{cardID}","
-    /Accounts/{accountID}/Cards/{cardID}
-    /Accounts/{accountID}/Cards/bulkremove
-    "
-"passed","Mon Jun 08 12:04:17 UTC 2026","Mon Jun 08 12:04:17 UTC 2026","142","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Set designsettings background",""
-"passed","Mon Jun 08 11:58:41 UTC 2026","Mon Jun 08 11:58:42 UTC 2026","509","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 supports offset/fetch and AllData query","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 12:04:17 UTC 2026","Mon Jun 08 12:04:18 UTC 2026","135","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Designsettings has new color",""
-"passed","Mon Jun 08 11:53:07 UTC 2026","Mon Jun 08 11:53:10 UTC 2026","3020","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> GET by id -> DELETE catalog","
-    /Accounts/{accountID}/Cards/{cardID}/catalog
-    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
-    "
-"passed","Mon Jun 08 11:57:10 UTC 2026","Mon Jun 08 11:57:11 UTC 2026","1552","tests.api.cards","test_cardlinks_by_id","TestCardLinksById","","","GET /Cards -> GET /cardlinks/{cardLink}","
-    /cardlinks/{cardLink}
-    "
-"passed","Mon Jun 08 11:55:56 UTC 2026","Mon Jun 08 11:55:57 UTC 2026","492","tests.api.cards","test_card_attributes_merge","TestCardAttributesMerge","","","PUT /cards/{id}/attributes without auth -> 401/403","
-    PUT /cards/{id}/attributes
-    "
-"passed","Mon Jun 08 12:03:04 UTC 2026","Mon Jun 08 12:03:04 UTC 2026","530","tests.api.subscriptions","test_subscription_moderators","TestSubscriptionModerators","","","620 GET /subscriptions/{id}/moderators -> 200/204","
-    620 GET  /subscriptions/{id}/moderators
-    621 POST /subscriptions/{id}/moderators
-    622 DELETE /subscriptions/{id}/moderators
-    623 GET  /subscriptions/{id}/moderators/{accountId}
-    "
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","151","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Set avatar via card update",""
-"passed","Mon Jun 08 12:03:53 UTC 2026","Mon Jun 08 12:03:54 UTC 2026","450","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees hidden in accounts list",""
-"passed","Mon Jun 08 11:57:09 UTC 2026","Mon Jun 08 11:57:10 UTC 2026","498","tests.api.cards","test_cardlink_catalog_by_id","TestCardLinkCatalogById","","","GET /cardlinks/{token}/catalog/{id} without auth -> 401/403","
-    GET /cardlinks/{token}/catalog/{id}
-    Catalog not yet implemented — expecting 204 No Content
-    "
-"passed","Mon Jun 08 12:03:42 UTC 2026","Mon Jun 08 12:03:42 UTC 2026","511","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Delete contact",""
-"passed","Mon Jun 08 11:57:41 UTC 2026","Mon Jun 08 11:57:42 UTC 2026","1068","tests.api.cards","test_cardlinks_unassign","TestCardLinksUnassign","","","POST /Cards -> PUT /cardlinks/{cardLink}/unassign -> DELETE /Cards/{id}","Unassign cardlink returned 403 Forbidden — operation is not permitted for this account. This is accepted behaviour after recent API changes."
-"passed","Mon Jun 08 11:56:05 UTC 2026","Mon Jun 08 11:56:06 UTC 2026","507","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","POST /Cards -> GET /Cards/{id}/leadGenForms -> DELETE /Cards/{id}","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 12:03:25 UTC 2026","Mon Jun 08 12:03:25 UTC 2026","544","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Delete card","
-    /Cards
-    /accounts/{accountID}/CustomMessageTemplates
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 12:02:57 UTC 2026","Mon Jun 08 12:02:58 UTC 2026","489","tests.api.subscriptions","test_subscription_designsettings_by_id","TestSubscriptionDesignsettingsById","","","GET /Subscriptions/{subscription_id}/designsettings without auth","
-    /Subscriptions/{subscription_id}/designsettings
-    "
-"passed","Mon Jun 08 11:58:37 UTC 2026","Mon Jun 08 11:58:38 UTC 2026","508","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate returns change list","
-    /Cards/lastupdate
-    "
-"passed","Mon Jun 08 11:53:12 UTC 2026","Mon Jun 08 11:53:14 UTC 2026","1513","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","GET /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID} without auth","
-    /Accounts/{accountID}/Cards/{cardID}/catalog
-    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
-    "
-"passed","Mon Jun 08 11:57:22 UTC 2026","Mon Jun 08 11:57:23 UTC 2026","1023","tests.api.cards","test_cardlinks_designsettings","TestCardLinksDesignsettings","","","POST /Cards -> GET /cardLinks/{cardLink}/designsettings -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/designsettings
-    "
-"passed","Mon Jun 08 12:04:20 UTC 2026","Mon Jun 08 12:04:20 UTC 2026","178","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Attributes list has file attribute",""
-"passed","Mon Jun 08 12:04:18 UTC 2026","Mon Jun 08 12:04:18 UTC 2026","161","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Merge YouTube attribute",""
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","147","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Create mobile card",""
-"passed","Mon Jun 08 11:58:18 UTC 2026","Mon Jun 08 11:58:21 UTC 2026","2206","tests.api.cards","test_cards_create_v2_flow","TestCardsCreateV2Flow","","","POST /Cards/V2.0 -> GET /Cards/{id}/V2","
+"passed","Tue Jun 09 10:45:59 UTC 2026","Tue Jun 09 10:46:00 UTC 2026","623","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Upload card photo",""
+"passed","Tue Jun 09 10:46:13 UTC 2026","Tue Jun 09 10:46:13 UTC 2026","296","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Delete mobile card",""
+"passed","Tue Jun 09 10:38:36 UTC 2026","Tue Jun 09 10:38:39 UTC 2026","2742","tests.api.cards","test_cards_create_v2_flow","TestCardsCreateV2Flow","","","POST /Cards/V2.0 -> GET /Cards/{id}/V2","
     /Cards/V2.0
     "
-"passed","Mon Jun 08 12:02:43 UTC 2026","Mon Jun 08 12:02:44 UTC 2026","680","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations with locationID returns location map","
-    /Locations?locationID=1
+"passed","Tue Jun 09 10:36:36 UTC 2026","Tue Jun 09 10:36:39 UTC 2026","2913","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","GET /Cards/{cardLinkId}/cardLink/leadGenForms supports offset/fetch query","
+    /Cards/{id}/cardLink/leadGenForms
     "
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","1","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Reuse avatar attachment as banner attachment",""
-"passed","Mon Jun 08 12:02:32 UTC 2026","Mon Jun 08 12:02:33 UTC 2026","639","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures supports offset/fetch query","
-    /Cultures
-    "
-"passed","Mon Jun 08 12:02:44 UTC 2026","Mon Jun 08 12:02:44 UTC 2026","489","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations without auth","
-    /Locations?locationID=1
-    "
-"passed","Mon Jun 08 12:02:32 UTC 2026","Mon Jun 08 12:02:32 UTC 2026","509","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures returns cultures list","
-    /Cultures
-    "
-"passed","Mon Jun 08 12:03:51 UTC 2026","Mon Jun 08 12:03:51 UTC 2026","452","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Employees become hidden in accounts list",""
-"passed","Mon Jun 08 12:03:44 UTC 2026","Mon Jun 08 12:03:44 UTC 2026","503","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Moderator appears in moderators list",""
-"passed","Mon Jun 08 12:04:17 UTC 2026","Mon Jun 08 12:04:17 UTC 2026","141","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Change designsettings color",""
-"passed","Mon Jun 08 11:52:56 UTC 2026","Mon Jun 08 11:52:57 UTC 2026","630","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms without auth","
-    /accounts/this/acceptUserTerms
-    "
-"passed","Mon Jun 08 12:03:39 UTC 2026","Mon Jun 08 12:03:40 UTC 2026","511","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Create contact returns id",""
-"passed","Mon Jun 08 12:03:38 UTC 2026","Mon Jun 08 12:03:39 UTC 2026","925","tests.e2e.contacts","test_contact_list","TestContactList","","","Accounts contact list returns 200 and list",""
-"passed","Mon Jun 08 12:04:06 UTC 2026","Mon Jun 08 12:04:06 UTC 2026","184","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Delete invitation",""
-"passed","Mon Jun 08 11:58:40 UTC 2026","Mon Jun 08 11:58:40 UTC 2026","490","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards without auth","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 11:55:32 UTC 2026","Mon Jun 08 11:55:33 UTC 2026","489","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups without auth","
-    /AttributeTypeGroups
-    "
-"passed","Mon Jun 08 12:03:41 UTC 2026","Mon Jun 08 12:03:42 UTC 2026","501","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET has updated fields",""
-"passed","Mon Jun 08 12:04:22 UTC 2026","Mon Jun 08 12:04:22 UTC 2026","152","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Update card with uploaded gallery",""
-"passed","Mon Jun 08 11:55:11 UTC 2026","Mon Jun 08 11:55:12 UTC 2026","1101","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts with searchText filter → 200/206","
-    /accounts/contacts
-    "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","137","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Attributes list contains tg and wa",""
-"passed","Mon Jun 08 12:02:53 UTC 2026","Mon Jun 08 12:02:53 UTC 2026","719","tests.api.subscriptions","test_subscription_contacts_download_csv","TestSubscriptionContactsDownloadCsv","","","GET /Subscriptions/{subscription_id}/contacts/download returns CSV","
+"passed","Tue Jun 09 10:45:24 UTC 2026","Tue Jun 09 10:45:25 UTC 2026","807","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees hidden in accounts list",""
+"passed","Tue Jun 09 10:44:05 UTC 2026","Tue Jun 09 10:44:05 UTC 2026","642","tests.api.subscriptions","test_subscription_contacts_download_csv","TestSubscriptionContactsDownloadCsv","","","GET /Subscriptions/{subscription_id}/contacts/download without auth","
     /Subscriptions/{subscription_id}/contacts/download
     "
-"passed","Mon Jun 08 11:58:42 UTC 2026","Mon Jun 08 11:58:42 UTC 2026","497","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 without auth","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 12:03:45 UTC 2026","Mon Jun 08 12:03:45 UTC 2026","500","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Moderator disappears from moderators list",""
-"passed","Mon Jun 08 12:04:19 UTC 2026","Mon Jun 08 12:04:19 UTC 2026","160","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Merge phone and email",""
-"passed","Mon Jun 08 11:58:23 UTC 2026","Mon Jun 08 11:58:23 UTC 2026","491","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink without auth","
-    /Cards/customlink
-    "
-"passed","Mon Jun 08 12:04:18 UTC 2026","Mon Jun 08 12:04:18 UTC 2026","144","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","085 has YouTube attribute",""
-"passed","Mon Jun 08 12:02:33 UTC 2026","Mon Jun 08 12:02:34 UTC 2026","494","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures without auth","
-    /Cultures
-    "
-"passed","Mon Jun 08 12:03:04 UTC 2026","Mon Jun 08 12:03:08 UTC 2026","3599","tests.api.subscriptions","test_subscription_moderators","TestSubscriptionModerators","","","621+622+623: POST invitation -> POST moderator -> GET list -> GET by id -> DELETE moderator -> DELETE invitation","
-    620 GET  /subscriptions/{id}/moderators
-    621 POST /subscriptions/{id}/moderators
-    622 DELETE /subscriptions/{id}/moderators
-    623 GET  /subscriptions/{id}/moderators/{accountId}
-    "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","145","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Mobile card GET returns 200",""
-"passed","Mon Jun 08 11:55:53 UTC 2026","Mon Jun 08 11:55:53 UTC 2026","496","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/ without auth -> 401/403","
-    GET /cards/{id}/attributes/
-    "
-"passed","Mon Jun 08 12:04:13 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","157","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Create mobile card returns id",""
-"passed","Mon Jun 08 11:56:10 UTC 2026","Mon Jun 08 11:56:11 UTC 2026","491","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","GET /Cards/{id}/leadGenForms without auth","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 11:57:33 UTC 2026","Mon Jun 08 11:57:34 UTC 2026","1084","tests.api.cards","test_cardlinks_short_card","TestCardLinksShortCard","","","POST /Cards -> GET /cardLinks/{cardLink}/short/card -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/short/card
-    "
-"passed","Mon Jun 08 12:03:29 UTC 2026","Mon Jun 08 12:03:29 UTC 2026","139","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Leadgen form appears in list","
-    /Cards
-    /Cards/{id}
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 11:55:03 UTC 2026","Mon Jun 08 11:55:04 UTC 2026","1019","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","GET /Accounts/{accountID}/Cards supports offset/fetch query","
-    /Accounts/{accountID}/Cards
-    "
-"passed","Mon Jun 08 12:04:17 UTC 2026","Mon Jun 08 12:04:17 UTC 2026","310","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Upload back photo",""
-"passed","Mon Jun 08 12:03:50 UTC 2026","Mon Jun 08 12:03:50 UTC 2026","0","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Created 3 employees",""
-"passed","Mon Jun 08 12:03:36 UTC 2026","Mon Jun 08 12:03:37 UTC 2026","514","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Create contact returns id",""
-"passed","Mon Jun 08 11:55:23 UTC 2026","Mon Jun 08 11:55:23 UTC 2026","517","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium returns boolean flag","
-    /accounts/subscription/hadpremium
-    "
-"passed","Mon Jun 08 12:03:50 UTC 2026","Mon Jun 08 12:03:51 UTC 2026","156","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Hide cards for employees",""
-"passed","Mon Jun 08 11:54:28 UTC 2026","Mon Jun 08 11:54:29 UTC 2026","998","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","GET /Accounts/{accountID}/Cards/{cardID}/metrics without auth","
+"passed","Tue Jun 09 10:45:53 UTC 2026","Tue Jun 09 10:45:54 UTC 2026","245","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Set avatar via card update",""
+"passed","Tue Jun 09 10:45:38 UTC 2026","Tue Jun 09 10:45:39 UTC 2026","298","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Delete invitation",""
+"passed","Tue Jun 09 10:33:24 UTC 2026","Tue Jun 09 10:33:26 UTC 2026","2713","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Cards/{id}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
     /Accounts/{accountID}/Cards/{cardID}/metrics
     "
-"passed","Mon Jun 08 11:55:14 UTC 2026","Mon Jun 08 11:55:18 UTC 2026","4205","tests.api.accounts","test_accounts_custom_message_templates","TestAccountsCustomMessageTemplates","","","POST /Cards -> POST template -> GET list -> GET by id -> PUT -> DELETE template","
-    /Accounts/{accountID}/CustomMessageTemplates
+"passed","Tue Jun 09 10:46:00 UTC 2026","Tue Jun 09 10:46:00 UTC 2026","251","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Get card after create",""
+"passed","Tue Jun 09 10:45:55 UTC 2026","Tue Jun 09 10:45:55 UTC 2026","247","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","085 has banner attribute",""
+"passed","Tue Jun 09 10:46:12 UTC 2026","Tue Jun 09 10:46:12 UTC 2026","260","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Merge photo gallery attribute",""
+"passed","Tue Jun 09 10:43:43 UTC 2026","Tue Jun 09 10:43:43 UTC 2026","700","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment without auth","
+    /Exports/employment
     "
-"passed","Mon Jun 08 11:56:13 UTC 2026","Mon Jun 08 11:56:15 UTC 2026","1521","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+"passed","Tue Jun 09 10:45:50 UTC 2026","Tue Jun 09 10:45:50 UTC 2026","249","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Merge phone and email attributes",""
+"passed","Tue Jun 09 10:35:46 UTC 2026","Tue Jun 09 10:35:47 UTC 2026","653","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","POST /Cards -> GET /Cards/{id}/leadGenForms -> DELETE /Cards/{id}","
     /Cards/{cardID}/leadGenForms
     "
-"passed","Mon Jun 08 12:03:24 UTC 2026","Mon Jun 08 12:03:25 UTC 2026","1027","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Leadgen form contains custom message template","
+"passed","Tue Jun 09 10:34:49 UTC 2026","Tue Jun 09 10:34:49 UTC 2026","667","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} without auth","
+    /accounts/{id}
+    "
+"passed","Tue Jun 09 10:44:30 UTC 2026","Tue Jun 09 10:44:31 UTC 2026","638","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:39:41 UTC 2026","Tue Jun 09 10:39:43 UTC 2026","1362","tests.api.cards","test_cards_update_flow","TestCardsUpdateFlow","","","POST /Cards -> PUT /Cards/{id} -> GET /Cards/{id} -> DELETE /Cards/{id}","
     /Cards
-    /accounts/{accountID}/CustomMessageTemplates
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
-    /Cards/{id}
     "
-"passed","Mon Jun 08 12:04:12 UTC 2026","Mon Jun 08 12:04:12 UTC 2026","177","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Delete invitation","
-    Invitation create -> accounts list verify -> delete -> accounts list verify.
+"passed","Tue Jun 09 10:44:33 UTC 2026","Tue Jun 09 10:44:34 UTC 2026","653","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds returns backgrounds list","
+    /VirtualBackgrounds
     "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","141","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Get card after create",""
-"passed","Mon Jun 08 11:58:59 UTC 2026","Mon Jun 08 11:58:59 UTC 2026","529","tests.api.companies","test_companies_create_get_delete_flow_api","TestCompanyCreateGetDeleteFlow","","","POST /Companies -> GET /Companies/{id} -> DELETE /Companies/{id}","
-    /Companies
+"passed","Tue Jun 09 10:44:04 UTC 2026","Tue Jun 09 10:44:05 UTC 2026","957","tests.api.subscriptions","test_subscription_contacts_download_csv","TestSubscriptionContactsDownloadCsv","","","GET /Subscriptions/{subscription_id}/contacts/download returns CSV","
+    /Subscriptions/{subscription_id}/contacts/download
     "
-"passed","Mon Jun 08 11:58:33 UTC 2026","Mon Jun 08 11:58:33 UTC 2026","546","tests.api.cards","test_cards_download_by_id_flow","TestCardsDownloadById","","","POST /Cards -> GET /Cards/{id}/download -> DELETE /Cards/{id}","
-    /Cards/{id}/download
+"passed","Tue Jun 09 10:39:32 UTC 2026","Tue Jun 09 10:39:33 UTC 2026","676","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 supports offset/fetch and AllData query","
+    Проверки списков /Cards и /Cards/v2.0.
     "
-"passed","Mon Jun 08 12:02:38 UTC 2026","Mon Jun 08 12:02:38 UTC 2026","660","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields returns fields list","
-    /LeadGenFormFields
-    "
-"passed","Mon Jun 08 11:52:52 UTC 2026","Mon Jun 08 11:52:53 UTC 2026","1138","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","POST /accounttokens/ -> DELETE /accounttokens/{token}","
-    POST /accounttokens/ -> DELETE /accounttokens/{token}
-    "
-"passed","Mon Jun 08 12:03:09 UTC 2026","Mon Jun 08 12:03:09 UTC 2026","500","tests.api.supported_versions","test_supported_versions_android","TestSupportedVersionsAndroid","","","GET /SupportedVersions/android returns supported version","
-    /SupportedVersions/android
-    "
-"passed","Mon Jun 08 11:52:53 UTC 2026","Mon Jun 08 11:52:54 UTC 2026","653","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","DELETE /accounttokens/{token} without auth -> 401/403","
-    POST /accounttokens/ -> DELETE /accounttokens/{token}
-    "
-"passed","Mon Jun 08 11:57:30 UTC 2026","Mon Jun 08 11:57:32 UTC 2026","1705","tests.api.cards","test_cardlinks_list","TestCardLinksList","","","GET /Cards -> GET /cardLinks?accountUriName=...","
-    /cardLinks?accountUriName=...
-    "
-"passed","Mon Jun 08 12:03:53 UTC 2026","Mon Jun 08 12:03:53 UTC 2026","453","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees present in accounts list",""
-"passed","Mon Jun 08 11:58:38 UTC 2026","Mon Jun 08 11:58:39 UTC 2026","489","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate without auth","
-    /Cards/lastupdate
-    "
-"passed","Mon Jun 08 11:55:58 UTC 2026","Mon Jun 08 11:56:00 UTC 2026","1531","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardID}/leadGenForms/{leadGenFormID} -> DELETE leadGenForm -> DELETE /Cards/{id}","
-    /Cards/{cardID}/leadGenForms/{leadGenFormID}
-    "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","147","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Create mobile card returns id",""
-"passed","Mon Jun 08 12:04:02 UTC 2026","Mon Jun 08 12:04:03 UTC 2026","531","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Moderator visible via GET",""
-"passed","Mon Jun 08 11:54:54 UTC 2026","Mon Jun 08 11:54:55 UTC 2026","1072","tests.api.accounts","test_accounts_cardlinks","TestAccountsCardLinks","","","POST /Cards -> GET /Accounts/{accountID}/Cards/links","
-    /Accounts/{accountID}/Cards/links
-    "
-"passed","Mon Jun 08 12:03:42 UTC 2026","Mon Jun 08 12:03:43 UTC 2026","506","tests.e2e.employee","test_employee_download_form","","","","Download employment form","
-GET /exports/employment?noData=true
-Должен вернуть XLSX файл.
-"
-"passed","Mon Jun 08 12:04:05 UTC 2026","Mon Jun 08 12:04:05 UTC 2026","1","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Employee created and 5 attachments uploaded",""
-"passed","Mon Jun 08 12:03:10 UTC 2026","Mon Jun 08 12:03:10 UTC 2026","491","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 11:58:43 UTC 2026","Mon Jun 08 11:58:46 UTC 2026","2734","tests.api.cards","test_cards_show_hide_flow","TestCardsShowHideFlow","","","POST /Cards -> PUT /Cards/hide -> GET /Cards/{id} -> PUT /Cards/show -> GET /Cards/{id}","
-    /Cards/hide и /Cards/show
-    "
-"passed","Mon Jun 08 12:02:46 UTC 2026","Mon Jun 08 12:02:47 UTC 2026","681","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses → 200, non-empty list with id and nameRu","
-    /onboardingStatuses
-    "
-"passed","Mon Jun 08 11:58:57 UTC 2026","Mon Jun 08 11:58:58 UTC 2026","991","tests.api.client_tokens","test_client_tokens_merge","TestClientTokensMerge","","","PUT /clientTokens without auth","
+"passed","Tue Jun 09 10:39:52 UTC 2026","Tue Jun 09 10:39:54 UTC 2026","1312","tests.api.client_tokens","test_client_tokens_merge","TestClientTokensMerge","","","PUT /clientTokens without auth","
     PUT /clientTokens
     GET /clientTokens
     "
-"passed","Mon Jun 08 12:04:08 UTC 2026","Mon Jun 08 12:04:08 UTC 2026","151","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Employee appears in accounts list","
-    Invitation create -> accounts list verify -> export statistic -> delete.
+"passed","Tue Jun 09 10:34:37 UTC 2026","Tue Jun 09 10:34:38 UTC 2026","646","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts without auth → 401/403","
+    /accounts/contacts
     "
-"passed","Mon Jun 08 12:03:21 UTC 2026","Mon Jun 08 12:03:22 UTC 2026","1044","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create card","
-    /Cards
-    /accounts/{accountID}/CustomMessageTemplates
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
-    /Cards/{id}
+"passed","Tue Jun 09 10:45:08 UTC 2026","Tue Jun 09 10:45:08 UTC 2026","664","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET has updated fields",""
+"passed","Tue Jun 09 10:35:37 UTC 2026","Tue Jun 09 10:35:39 UTC 2026","2003","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardID}/leadGenForms/{leadGenFormID} -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{cardID}/leadGenForms/{leadGenFormID}
     "
-"passed","Mon Jun 08 12:04:22 UTC 2026","Mon Jun 08 12:04:22 UTC 2026","182","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Delete mobile card",""
-"passed","Mon Jun 08 11:55:30 UTC 2026","Mon Jun 08 11:55:31 UTC 2026","499","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms supports offset/fetch query","
-    /AttributeForms
-    "
-"passed","Mon Jun 08 12:04:12 UTC 2026","Mon Jun 08 12:04:12 UTC 2026","146","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Employee disappears from accounts list","
-    Invitation create -> accounts list verify -> delete -> accounts list verify.
-    "
-"passed","Mon Jun 08 11:54:57 UTC 2026","Mon Jun 08 11:54:58 UTC 2026","1000","tests.api.accounts","test_accounts_cardlinks","TestAccountsCardLinks","","","GET /Accounts/{accountID}/Cards/links without auth","
-    /Accounts/{accountID}/Cards/links
-    "
-"passed","Mon Jun 08 11:53:02 UTC 2026","Mon Jun 08 11:53:03 UTC 2026","632","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","GET /accounts/{id}/cards/{cardId}/attributes/ without auth -> 401/403","
-    GET /accounts/{id}/cards/{cardId}/attributes/
-    "
-"passed","Mon Jun 08 12:03:40 UTC 2026","Mon Jun 08 12:03:41 UTC 2026","507","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET contains created fields",""
-"passed","Mon Jun 08 11:59:04 UTC 2026","Mon Jun 08 11:59:05 UTC 2026","1020","tests.api.companies","test_companies_designsettings_flow_api","TestCompanyDesignsettingsFlow","","","POST /Companies -> PUT designsettings -> GET designsettings -> DELETE /Companies/{id}","
-    /Companies/{companyID}/designsettings
-    "
-"passed","Mon Jun 08 12:03:30 UTC 2026","Mon Jun 08 12:03:31 UTC 2026","901","tests.e2e.company","test_company_create_and_edit_get_delete_flow","TestCompanyCreateEditDeleteFlow","","","POST /Companies → GET → PUT → GET → DELETE","/Companies — create, edit, get, delete flow"
-"passed","Mon Jun 08 12:03:51 UTC 2026","Mon Jun 08 12:03:52 UTC 2026","609","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Delete all created employees",""
-"passed","Mon Jun 08 12:04:16 UTC 2026","Mon Jun 08 12:04:16 UTC 2026","199","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Delete mobile card",""
-"passed","Mon Jun 08 12:03:18 UTC 2026","Mon Jun 08 12:03:19 UTC 2026","1023","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Create card","
-    /Cards
-    /accounts/{accountID}/cards/{cardID}/attributes
-    /accounts/{accountID}/cards/{cardID}/attributes/
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 11:56:38 UTC 2026","Mon Jun 08 11:56:40 UTC 2026","2087","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
-    /Cards/{id}/cardLink/leadGenForms
-    "
-"passed","Mon Jun 08 11:55:26 UTC 2026","Mon Jun 08 11:55:27 UTC 2026","1127","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> DELETE /Attachments/{id}","
-    Проверки Attachments API с изображениями, сгенерированными в коде.
-    "
-"passed","Mon Jun 08 12:04:26 UTC 2026","Mon Jun 08 12:04:27 UTC 2026","238","tests.e2e.mobile","test_mobileapp_cardlist","TestMobileAppCardList","","","Cards list returns 200 and subscription",""
-"passed","Mon Jun 08 11:55:34 UTC 2026","Mon Jun 08 11:55:35 UTC 2026","492","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} without auth → 401/403","
-    /Attributes/{attributeID}
-    "
-"passed","Mon Jun 08 11:58:29 UTC 2026","Mon Jun 08 11:58:31 UTC 2026","1168","tests.api.cards","test_cards_designsettings_update_flow","TestCardsDesignsettingsUpdateFlow","","","POST /Cards -> PUT /Cards/{id}/designsettings -> GET /Cards/{id}/designsettings -> DELETE /Cards/{id}","
-    /Cards/{cardID}/designsettings
-    "
-"passed","Mon Jun 08 12:04:00 UTC 2026","Mon Jun 08 12:04:00 UTC 2026","149","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","03. PUT merge social attributes (Telegram + WhatsApp) to card",""
-"passed","Mon Jun 08 11:54:25 UTC 2026","Mon Jun 08 11:54:26 UTC 2026","1015","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","GET /Accounts/{accountID}/Cards/{cardID}/metrics supports offset/fetch query","
-    /Accounts/{accountID}/Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:58:24 UTC 2026","Mon Jun 08 11:58:25 UTC 2026","532","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","POST /Cards -> GET /Cards/{id}/designSettings -> DELETE /Cards/{id}","
-    /Cards/{cardID}/designSettings
-    "
-"passed","Mon Jun 08 11:55:42 UTC 2026","Mon Jun 08 11:55:43 UTC 2026","518","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments","
-    GET /cards/{id}/attributes/attachments
-    "
-"passed","Mon Jun 08 11:52:47 UTC 2026","Mon Jun 08 11:52:48 UTC 2026","1301","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 -> 020 smoke with actionJwt",""
-"passed","Mon Jun 08 11:56:58 UTC 2026","Mon Jun 08 11:56:58 UTC 2026","510","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> GET /Cards/{id}/metrics -> DELETE /Cards/{id}","
-    /Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:55:20 UTC 2026","Mon Jun 08 11:55:21 UTC 2026","505","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns false for random email","
-    /accounts/Exists
-    "
-"passed","Mon Jun 08 12:04:16 UTC 2026","Mon Jun 08 12:04:16 UTC 2026","160","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","085 has banner attribute",""
-"passed","Mon Jun 08 12:03:53 UTC 2026","Mon Jun 08 12:03:53 UTC 2026","0","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Created 3 employees",""
-"passed","Mon Jun 08 12:04:13 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","140","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Attributes list contains phone and email",""
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:16 UTC 2026","168","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Merge banner attribute",""
-"passed","Mon Jun 08 11:53:28 UTC 2026","Mon Jun 08 11:53:30 UTC 2026","1777","tests.api.accounts","test_accounts_card_create","TestAccountsCardCreate","","","POST /Accounts/{accountID}/Cards/V2 -> GET /Accounts/{accountID}/Cards/{cardID}/V2 -> DELETE /Cards/{id}","
-    /Accounts/{accountID}/Cards
-    /Accounts/{accountID}/Cards/V2
-    "
-"passed","Mon Jun 08 12:04:22 UTC 2026","Mon Jun 08 12:04:22 UTC 2026","142","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Get card contains gallery ids",""
-"passed","Mon Jun 08 12:03:16 UTC 2026","Mon Jun 08 12:03:16 UTC 2026","506","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds returns backgrounds list","
+"passed","Tue Jun 09 10:44:34 UTC 2026","Tue Jun 09 10:44:34 UTC 2026","677","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds supports offset/fetch query","
     /VirtualBackgrounds
     "
-"passed","Mon Jun 08 12:04:19 UTC 2026","Mon Jun 08 12:04:19 UTC 2026","164","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Get card after create",""
-"passed","Mon Jun 08 11:57:35 UTC 2026","Mon Jun 08 11:57:36 UTC 2026","784","tests.api.cards","test_cardlinks_statistic","TestCardLinksStatistic","","","GET /cardlinks/statistic returns list","
-    /cardlinks/statistic
+"passed","Tue Jun 09 10:46:02 UTC 2026","Tue Jun 09 10:46:02 UTC 2026","268","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Delete mobile card",""
+"passed","Tue Jun 09 10:35:20 UTC 2026","Tue Jun 09 10:35:20 UTC 2026","645","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments without auth -> 401/403","
+    GET /cards/{id}/attributes/attachments
     "
-"passed","Mon Jun 08 12:04:00 UTC 2026","Mon Jun 08 12:04:00 UTC 2026","0","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","01. Employee created — account_id present",""
-"passed","Mon Jun 08 11:58:48 UTC 2026","Mon Jun 08 11:58:49 UTC 2026","1191","tests.api.cards","test_cards_update_flow","TestCardsUpdateFlow","","","POST /Cards -> PUT /Cards/{id} -> GET /Cards/{id} -> DELETE /Cards/{id}","
-    /Cards
+"passed","Tue Jun 09 10:45:50 UTC 2026","Tue Jun 09 10:45:51 UTC 2026","239","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Attributes list contains phone and email",""
+"passed","Tue Jun 09 10:46:00 UTC 2026","Tue Jun 09 10:46:00 UTC 2026","248","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Create mobile card",""
+"passed","Tue Jun 09 10:44:32 UTC 2026","Tue Jun 09 10:44:32 UTC 2026","652","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:45:25 UTC 2026","Tue Jun 09 10:45:26 UTC 2026","271","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Show employees",""
+"passed","Tue Jun 09 10:43:45 UTC 2026","Tue Jun 09 10:43:45 UTC 2026","830","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports without auth","
+    /Exports
     "
-"passed","Mon Jun 08 12:03:38 UTC 2026","Mon Jun 08 12:03:38 UTC 2026","505","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Delete contact",""
-"passed","Mon Jun 08 11:59:06 UTC 2026","Mon Jun 08 11:59:06 UTC 2026","553","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies returns companies list","
-    /Companies
+"passed","Tue Jun 09 10:44:00 UTC 2026","Tue Jun 09 10:44:03 UTC 2026","2596","tests.api.proxy","test_proxy_card_cardlink","TestProxyCardCardLink","","","GET /Accounts/{id}/Cards/links -> GET /proxy/card/cardlink/{token}","
+    GET /proxy/card/cardlink/{token}
     "
-"passed","Mon Jun 08 12:02:39 UTC 2026","Mon Jun 08 12:02:40 UTC 2026","627","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} without auth","
-    /Locations/{id}
+"passed","Tue Jun 09 10:45:42 UTC 2026","Tue Jun 09 10:45:42 UTC 2026","279","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Delete invitation",""
+"passed","Tue Jun 09 10:38:16 UTC 2026","Tue Jun 09 10:38:17 UTC 2026","655","tests.api.cards","test_cards_by_id_v2_flow","TestCardsByIdV2","","","POST /Cards -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/V2
     "
-"passed","Mon Jun 08 12:04:23 UTC 2026","Mon Jun 08 12:04:25 UTC 2026","1397","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Upload 5 photos as avatar attachments",""
-"passed","Mon Jun 08 11:59:07 UTC 2026","Mon Jun 08 11:59:07 UTC 2026","492","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies without auth","
-    /Companies
-    "
-"passed","Mon Jun 08 11:53:27 UTC 2026","Mon Jun 08 11:53:28 UTC 2026","1564","tests.api.accounts","test_accounts_card_create","TestAccountsCardCreate","","","POST /Accounts/{accountID}/Cards -> GET /Accounts/{accountID}/Cards/{cardID} -> DELETE /Cards/{id}","
+"passed","Tue Jun 09 10:32:25 UTC 2026","Tue Jun 09 10:32:28 UTC 2026","2030","tests.api.accounts","test_accounts_card_create","TestAccountsCardCreate","","","POST /Accounts/{accountID}/Cards -> GET /Accounts/{accountID}/Cards/{cardID} -> DELETE /Cards/{id}","
     /Accounts/{accountID}/Cards
     /Accounts/{accountID}/Cards/V2
     "
-"passed","Mon Jun 08 12:04:08 UTC 2026","Mon Jun 08 12:04:08 UTC 2026","0","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","After delete flag is set",""
-"passed","Mon Jun 08 11:55:12 UTC 2026","Mon Jun 08 11:55:13 UTC 2026","490","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts without auth → 401/403","
-    /accounts/contacts
+"passed","Tue Jun 09 10:33:14 UTC 2026","Tue Jun 09 10:33:21 UTC 2026","6810","tests.api.accounts","test_accounts_card_leadgen_forms_custom_message_template","TestAccountsCardLeadGenFormsCustomMessageTemplate","","","PUT leadGenForm with CustomMessageTemplateID -> GET MessageTemplate","
+    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
     "
-"passed","Mon Jun 08 11:52:48 UTC 2026","Mon Jun 08 11:52:49 UTC 2026","628","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","011 WebAccountVerification smoke — random push_token → not 5xx",""
-"passed","Mon Jun 08 12:03:40 UTC 2026","Mon Jun 08 12:03:40 UTC 2026","508","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET returns 200",""
-"passed","Mon Jun 08 12:02:47 UTC 2026","Mon Jun 08 12:02:48 UTC 2026","528","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ -> 200/204","
-    GET /powerbireports/
+"passed","Tue Jun 09 10:45:43 UTC 2026","Tue Jun 09 10:45:43 UTC 2026","0","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Create invitation returns id",""
+"passed","Tue Jun 09 10:46:07 UTC 2026","Tue Jun 09 10:46:07 UTC 2026","262","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Delete mobile card",""
+"passed","Tue Jun 09 10:45:35 UTC 2026","Tue Jun 09 10:45:35 UTC 2026","251","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","03. PUT merge social attributes (Telegram + WhatsApp) to card",""
+"passed","Tue Jun 09 10:35:32 UTC 2026","Tue Jun 09 10:35:35 UTC 2026","2633","tests.api.cards","test_card_attributes_merge","TestCardAttributesMerge","","","POST card -> PUT /cards/{id}/attributes -> GET verify -> DELETE","
+    PUT /cards/{id}/attributes
     "
-"passed","Mon Jun 08 11:54:20 UTC 2026","Mon Jun 08 11:54:22 UTC 2026","2156","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Accounts/{accountID}/Cards/{cardID}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
+"passed","Tue Jun 09 10:33:40 UTC 2026","Tue Jun 09 10:33:41 UTC 2026","1301","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","GET /Accounts/{accountID}/Cards/{cardID}/metrics without auth","
     /Accounts/{accountID}/Cards/{cardID}/metrics
     "
-"passed","Mon Jun 08 12:04:19 UTC 2026","Mon Jun 08 12:04:19 UTC 2026","137","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Attributes list has phone and email",""
-"passed","Mon Jun 08 12:03:29 UTC 2026","Mon Jun 08 12:03:29 UTC 2026","636","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Add leadgen form","
-    /Cards
-    /Cards/{id}
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /Cards/{id}
+"passed","Tue Jun 09 10:45:50 UTC 2026","Tue Jun 09 10:45:50 UTC 2026","246","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Mobile card GET returns 200",""
+"passed","Tue Jun 09 10:45:51 UTC 2026","Tue Jun 09 10:45:51 UTC 2026","247","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Create mobile card returns id",""
+"passed","Tue Jun 09 10:44:32 UTC 2026","Tue Jun 09 10:44:33 UTC 2026","645","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:34:47 UTC 2026","Tue Jun 09 10:34:47 UTC 2026","657","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns true for known email","
+    /accounts/Exists
     "
-"passed","Mon Jun 08 11:57:12 UTC 2026","Mon Jun 08 11:57:13 UTC 2026","1042","tests.api.cards","test_cardlinks_card","TestCardLinksCard","","","POST /Cards -> GET /cardLinks/{cardLink}/card -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card
+"passed","Tue Jun 09 10:44:09 UTC 2026","Tue Jun 09 10:44:10 UTC 2026","678","tests.api.subscriptions","test_subscription_designsettings_by_id","TestSubscriptionDesignsettingsById","","","GET /Subscriptions/{subscription_id}/designsettings returns data","
+    /Subscriptions/{subscription_id}/designsettings
     "
-"passed","Mon Jun 08 11:57:44 UTC 2026","Mon Jun 08 11:57:46 UTC 2026","1987","tests.api.cards","test_cardlinks_update","TestCardLinksUpdate","","","POST /Cards -> PUT /cardlinks/{cardLink} -> GET /cardlinks/{cardLink} -> DELETE /Cards/{id}","
-    /cardlinks/{cardLink}
+"passed","Tue Jun 09 10:34:02 UTC 2026","Tue Jun 09 10:34:04 UTC 2026","1310","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists without auth","
+    /Accounts/{accountID}/Cards/{cardID}/whiteLists
     "
-"passed","Mon Jun 08 12:04:00 UTC 2026","Mon Jun 08 12:04:01 UTC 2026","532","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","04. Social attributes visible via V2 / 085.2",""
-"passed","Mon Jun 08 12:03:22 UTC 2026","Mon Jun 08 12:03:23 UTC 2026","519","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create custom message template","
-    /Cards
-    /accounts/{accountID}/CustomMessageTemplates
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 11:53:49 UTC 2026","Mon Jun 08 11:53:50 UTC 2026","1138","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","GET /Accounts/{accountID}/Cards/{cardID}/V2 without auth","
-    /Accounts/{accountID}/Cards/{cardID}
-    /Accounts/{accountID}/Cards/{cardID}/V2
-    "
-"passed","Mon Jun 08 12:03:13 UTC 2026","Mon Jun 08 12:03:13 UTC 2026","489","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 11:55:10 UTC 2026","Mon Jun 08 11:55:11 UTC 2026","941","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts → 200/206, validate response structure","
-    /accounts/contacts
-    "
-"passed","Mon Jun 08 12:03:15 UTC 2026","Mon Jun 08 12:03:16 UTC 2026","653","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:03:11 UTC 2026","Mon Jun 08 12:03:12 UTC 2026","490","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:02:48 UTC 2026","Mon Jun 08 12:02:48 UTC 2026","489","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ without auth -> 401/403","
-    GET /powerbireports/
-    "
-"passed","Mon Jun 08 11:52:49 UTC 2026","Mon Jun 08 11:52:50 UTC 2026","646","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","014 MobileAccountSelfRegVerification smoke — random push_token + guid → not 5xx",""
-"passed","Mon Jun 08 12:04:20 UTC 2026","Mon Jun 08 12:04:20 UTC 2026","148","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Create mobile card",""
-"passed","Mon Jun 08 11:55:24 UTC 2026","Mon Jun 08 11:55:24 UTC 2026","507","tests.api.accounts","test_get_contact_by_id","","","","GET /accounts/contacts/{contactID}","
-    /accounts/contacts/{contactID}
-    "
-"passed","Mon Jun 08 12:02:52 UTC 2026","Mon Jun 08 12:02:52 UTC 2026","496","tests.api.social_networks","test_social_networks_list","TestSocialNetworksList","","","GET /socialNetworks returns list","
-    /socialNetworks
-    "
-"passed","Mon Jun 08 12:02:55 UTC 2026","Mon Jun 08 12:02:56 UTC 2026","1742","tests.api.subscriptions","test_subscription_contacts_update_delete","TestSubscriptionContactsUpdateDelete","","","611+612: POST contact -> PUT update -> DELETE from subscription","
+"passed","Tue Jun 09 10:44:07 UTC 2026","Tue Jun 09 10:44:09 UTC 2026","2586","tests.api.subscriptions","test_subscription_contacts_update_delete","TestSubscriptionContactsUpdateDelete","","","611+612: POST contact -> PUT update -> DELETE from subscription","
     611 PUT    /subscriptions/{id}/contacts
     612 DELETE /subscriptions/{id}/contacts
     "
-"passed","Mon Jun 08 12:04:11 UTC 2026","Mon Jun 08 12:04:11 UTC 2026","181","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Delete invitation","
-    Invitation create -> accounts list verify -> export statistic -> delete.
+"passed","Tue Jun 09 10:45:43 UTC 2026","Tue Jun 09 10:45:44 UTC 2026","257","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Employee appears in accounts list",""
+"passed","Tue Jun 09 10:34:22 UTC 2026","Tue Jun 09 10:34:23 UTC 2026","1438","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","POST /Cards -> GET /Accounts/{accountID}/Cards","
+    /Accounts/{accountID}/Cards
     "
-"passed","Mon Jun 08 11:52:51 UTC 2026","Mon Jun 08 11:52:52 UTC 2026","649","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ without auth -> 401/403","
-    POST /accounttokens/
-    "
-"passed","Mon Jun 08 11:57:28 UTC 2026","Mon Jun 08 11:57:29 UTC 2026","1165","tests.api.cards","test_cardlinks_download_v2","TestCardLinksDownloadV2","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download/V2 -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card/download/V2
-    "
-"passed","Mon Jun 08 11:55:50 UTC 2026","Mon Jun 08 11:55:51 UTC 2026","519","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/?attributeID={id} — filter by attribute","
-    GET /cards/{id}/attributes/
-    "
-"passed","Mon Jun 08 11:58:39 UTC 2026","Mon Jun 08 11:58:39 UTC 2026","565","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards returns cards list","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 11:57:58 UTC 2026","Mon Jun 08 11:57:58 UTC 2026","582","tests.api.cards","test_cards_by_id_short_flow","TestCardsByIdShort","","","POST /Cards -> GET /Cards/{id}/short -> DELETE /Cards/{id}","
-    /Cards/{id}/short
-    "
-"passed","Mon Jun 08 11:53:32 UTC 2026","Mon Jun 08 11:53:37 UTC 2026","5254","tests.api.accounts","test_accounts_card_delete","TestAccountsCardDelete","","","POST multiple /Accounts/{accountID}/Cards -> DELETE /Accounts/{accountID}/Cards/bulkremove","
+"passed","Tue Jun 09 10:44:52 UTC 2026","Tue Jun 09 10:44:53 UTC 2026","1547","tests.e2e.company","test_company_create_and_edit_get_delete_flow","TestCompanyCreateEditDeleteFlow","","","POST /Companies → GET → PUT → GET → DELETE","/Companies — create, edit, get, delete flow"
+"passed","Tue Jun 09 10:32:53 UTC 2026","Tue Jun 09 10:32:54 UTC 2026","1324","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","GET /Accounts/{accountID}/Cards/{cardID}/V2 without auth","
     /Accounts/{accountID}/Cards/{cardID}
-    /Accounts/{accountID}/Cards/bulkremove
+    /Accounts/{accountID}/Cards/{cardID}/V2
     "
-"passed","Mon Jun 08 12:02:47 UTC 2026","Mon Jun 08 12:02:47 UTC 2026","500","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses without auth → 401/403","
-    /onboardingStatuses
+"passed","Tue Jun 09 10:45:52 UTC 2026","Tue Jun 09 10:45:53 UTC 2026","255","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Create mobile card",""
+"passed","Tue Jun 09 10:32:28 UTC 2026","Tue Jun 09 10:32:30 UTC 2026","2355","tests.api.accounts","test_accounts_card_create","TestAccountsCardCreate","","","POST /Accounts/{accountID}/Cards/V2 -> GET /Accounts/{accountID}/Cards/{cardID}/V2 -> DELETE /Cards/{id}","
+    /Accounts/{accountID}/Cards
+    /Accounts/{accountID}/Cards/V2
     "
-"passed","Mon Jun 08 12:02:38 UTC 2026","Mon Jun 08 12:02:39 UTC 2026","497","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields supports offset/fetch query","
-    /LeadGenFormFields
+"passed","Tue Jun 09 10:43:47 UTC 2026","Tue Jun 09 10:43:48 UTC 2026","682","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} returns location data","
+    /Locations/{id}
     "
-"passed","Mon Jun 08 12:04:06 UTC 2026","Mon Jun 08 12:04:06 UTC 2026","503","tests.e2e.employee","test_employee_invitation_and_list","","","","Invite employee and find in accounts list",""
-"passed","Mon Jun 08 11:55:23 UTC 2026","Mon Jun 08 11:55:24 UTC 2026","495","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium without auth","
-    /accounts/subscription/hadpremium
+"passed","Tue Jun 09 10:35:50 UTC 2026","Tue Jun 09 10:35:50 UTC 2026","660","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","GET /Cards/{id}/leadGenForms supports offset/fetch query","
+    /Cards/{cardID}/leadGenForms
     "
-"passed","Mon Jun 08 12:03:55 UTC 2026","Mon Jun 08 12:04:00 UTC 2026","4778","tests.e2e.employee","test_employee_invitation_add_moveincompany_delete_flow","TestEmployeeInvitationAddMoveInCompanyDeleteFlow","","","POST invitations x4 → list → PATCH move → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, move to target company, verify, delete flow"
-"passed","Mon Jun 08 11:57:37 UTC 2026","Mon Jun 08 11:57:39 UTC 2026","1514","tests.api.cards","test_cardlinks_statistic_events","TestCardLinksStatisticEvents","","","POST /Cards -> PUT statisticview -> PUT statisticdownload -> DELETE /Cards/{id}","
-    /cardlinks/{cardLink}/statisticview и /cardlinks/{cardLink}/statisticdownload
+"passed","Tue Jun 09 10:44:29 UTC 2026","Tue Jun 09 10:44:30 UTC 2026","665","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:43:53 UTC 2026","Tue Jun 09 10:43:54 UTC 2026","679","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations with locationID returns location map","
+    /Locations?locationID=1
     "
-"passed","Mon Jun 08 12:03:50 UTC 2026","Mon Jun 08 12:03:50 UTC 2026","155","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Employees appear in accounts list",""
-"passed","Mon Jun 08 12:03:34 UTC 2026","Mon Jun 08 12:03:34 UTC 2026","502","tests.e2e.company","test_company_list","","","","Companies list is available",""
-"passed","Mon Jun 08 11:52:57 UTC 2026","Mon Jun 08 11:52:57 UTC 2026","656","tests.api.accounts","test_accounts_authorize","TestAccountsAuthorize","","","POST /accounts/authorize returns current account by token","
-    POST /accounts/authorize
+"passed","Tue Jun 09 10:43:43 UTC 2026","Tue Jun 09 10:43:45 UTC 2026","1212","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports returns 200","
+    /Exports
     "
-"passed","Mon Jun 08 11:55:19 UTC 2026","Mon Jun 08 11:55:20 UTC 2026","608","tests.api.accounts","test_accounts_employments_list","TestAccountsEmploymentsList","","","GET /accounts/{subscription_id}/employments returns employments dict as normalized list","
-    GET /accounts/{subscription_id}/employments
+"passed","Tue Jun 09 10:31:28 UTC 2026","Tue Jun 09 10:31:30 UTC 2026","1783","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 MobileAccountVerification smoke",""
+"passed","Tue Jun 09 10:39:35 UTC 2026","Tue Jun 09 10:39:38 UTC 2026","3339","tests.api.cards","test_cards_show_hide_flow","TestCardsShowHideFlow","","","POST /Cards -> PUT /Cards/hide -> GET /Cards/{id} -> PUT /Cards/show -> GET /Cards/{id}","
+    /Cards/hide и /Cards/show
     "
-"passed","Mon Jun 08 11:55:20 UTC 2026","Mon Jun 08 11:55:20 UTC 2026","519","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns true for known email","
-    /accounts/Exists
+"passed","Tue Jun 09 10:35:01 UTC 2026","Tue Jun 09 10:35:02 UTC 2026","638","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms without auth","
+    /AttributeForms
     "
-"passed","Mon Jun 08 11:55:25 UTC 2026","Mon Jun 08 11:55:26 UTC 2026","492","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications without auth","
-    /Applications
+"passed","Tue Jun 09 10:43:49 UTC 2026","Tue Jun 09 10:43:52 UTC 2026","3068","tests.api.locations","test_location_cardlink_by_id","TestLocationCardLinkById","","","POST /Locations -> GET /cards/attributes/locations/{id}/cardlink/{token} -> DELETE","
+    GET /cards/attributes/locations/{locationId}/cardlink/{cardLinkId}
     "
-"passed","Mon Jun 08 11:52:55 UTC 2026","Mon Jun 08 11:52:55 UTC 2026","662","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","GET /accounttokens/{token} without auth -> 401/403","
-    POST /accounttokens/ -> GET /accounttokens/{token}
-    "
-"passed","Mon Jun 08 11:58:39 UTC 2026","Mon Jun 08 11:58:40 UTC 2026","503","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards supports offset/fetch query","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 12:04:01 UTC 2026","Mon Jun 08 12:04:01 UTC 2026","190","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","05. DELETE employee invitation",""
-"passed","Mon Jun 08 11:55:21 UTC 2026","Mon Jun 08 11:55:22 UTC 2026","490","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} without auth","
-    /accounts/{id}
-    "
-"passed","Mon Jun 08 11:54:08 UTC 2026","Mon Jun 08 11:54:14 UTC 2026","5587","tests.api.accounts","test_accounts_card_leadgen_forms_custom_message_template","TestAccountsCardLeadGenFormsCustomMessageTemplate","","","PUT leadGenForm with CustomMessageTemplateID -> GET MessageTemplate","
-    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 11:52:57 UTC 2026","Mon Jun 08 11:52:58 UTC 2026","494","tests.api.accounts","test_accounts_authorize","TestAccountsAuthorize","","","POST /accounts/authorize without auth","
-    POST /accounts/authorize
-    "
-"passed","Mon Jun 08 12:03:11 UTC 2026","Mon Jun 08 12:03:11 UTC 2026","493","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 11:58:38 UTC 2026","Mon Jun 08 11:58:38 UTC 2026","502","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate supports offset/fetch query","
-    /Cards/lastupdate
-    "
-"passed","Mon Jun 08 11:52:51 UTC 2026","Mon Jun 08 11:52:51 UTC 2026","661","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ -> 201 Created","
-    POST /accounttokens/
-    "
-"passed","Mon Jun 08 12:04:07 UTC 2026","Mon Jun 08 12:04:07 UTC 2026","145","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","PUT Card/V2 updates fields",""
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","147","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","085 has text attribute",""
-"passed","Mon Jun 08 11:55:08 UTC 2026","Mon Jun 08 11:55:10 UTC 2026","1712","tests.api.accounts","test_accounts_contact_create_for_owner","TestAccountsContactCreateForOwner","","","POST /Accounts/{accountID}/Contacts creates contact visible by GET and removable by DELETE","
-    POST /Accounts/{accountID}/Contacts
-    GET /accounts/contacts/{contact_id}
-    DELETE /subscriptions/{sub_id}/contacts
-    "
-"passed","Mon Jun 08 12:02:44 UTC 2026","Mon Jun 08 12:02:45 UTC 2026","501","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes returns metric types list","
-    /MetricTypes
-    "
-"passed","Mon Jun 08 11:56:32 UTC 2026","Mon Jun 08 11:56:33 UTC 2026","1050","tests.api.cards","test_card_link_attributes","TestCardLinkAttributes","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes","
+"passed","Tue Jun 09 10:46:03 UTC 2026","Tue Jun 09 10:46:03 UTC 2026","428","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Create mobile card",""
+"passed","Tue Jun 09 10:36:22 UTC 2026","Tue Jun 09 10:36:23 UTC 2026","1403","tests.api.cards","test_card_link_attributes","TestCardLinkAttributes","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes","
     GET /cards/{token}/cardLink/attributes
     "
-"passed","Mon Jun 08 12:03:12 UTC 2026","Mon Jun 08 12:03:12 UTC 2026","492","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:03:23 UTC 2026","Mon Jun 08 12:03:24 UTC 2026","1027","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create leadgen form linked with custom message template","
+"passed","Tue Jun 09 10:32:11 UTC 2026","Tue Jun 09 10:32:16 UTC 2026","4877","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> POST item -> PUT item -> DELETE catalog cascades item delete","
+    /Accounts/{accountID}/Cards/{cardID}/catalog
+    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
+    "
+"passed","Tue Jun 09 10:46:01 UTC 2026","Tue Jun 09 10:46:01 UTC 2026","242","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Attributes list has phone and email",""
+"passed","Tue Jun 09 10:46:12 UTC 2026","Tue Jun 09 10:46:13 UTC 2026","255","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Attributes list has photo gallery values",""
+"passed","Tue Jun 09 10:35:05 UTC 2026","Tue Jun 09 10:35:06 UTC 2026","653","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} → 200, validate model fields","
+    /Attributes/{attributeID}
+    "
+"passed","Tue Jun 09 10:44:42 UTC 2026","Tue Jun 09 10:44:44 UTC 2026","1431","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create leadgen form linked with custom message template","
     /Cards
     /accounts/{accountID}/CustomMessageTemplates
     /accounts/{accountID}/cards/{cardID}/leadgenforms
     /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
     /Cards/{id}
     "
-"passed","Mon Jun 08 12:03:44 UTC 2026","Mon Jun 08 12:03:45 UTC 2026","504","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Delete moderator",""
-"passed","Mon Jun 08 12:02:53 UTC 2026","Mon Jun 08 12:02:54 UTC 2026","494","tests.api.subscriptions","test_subscription_contacts_download_csv","TestSubscriptionContactsDownloadCsv","","","GET /Subscriptions/{subscription_id}/contacts/download without auth","
-    /Subscriptions/{subscription_id}/contacts/download
-    "
-"passed","Mon Jun 08 12:03:31 UTC 2026","Mon Jun 08 12:03:32 UTC 2026","562","tests.e2e.company","test_company_create_get_delete_flow","TestCompanyCreateGetDeleteFlow","","","POST /Companies → GET /Companies (in list) → DELETE /Companies/{id}","/Companies — create, get list, delete flow"
-"passed","Mon Jun 08 11:56:54 UTC 2026","Mon Jun 08 11:56:56 UTC 2026","2018","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","GET /Cards/{cardLinkId}/cardLink/metrics supports offset/fetch query","
-    /Cards/{id}/cardLink/metrics
-    "
-"passed","Mon Jun 08 11:55:25 UTC 2026","Mon Jun 08 11:55:25 UTC 2026","494","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications supports offset/fetch query","
-    /Applications
-    "
-"passed","Mon Jun 08 12:03:20 UTC 2026","Mon Jun 08 12:03:20 UTC 2026","524","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Merge all social networks into card attributes","
-    /Cards
-    /accounts/{accountID}/cards/{cardID}/attributes
-    /accounts/{accountID}/cards/{cardID}/attributes/
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 11:54:36 UTC 2026","Mon Jun 08 11:54:38 UTC 2026","1277","tests.api.accounts","test_accounts_card_patch","TestAccountsCardPatch","","","PATCH /Accounts/{accountID}/Cards/{cardID} — move card to same company (no-op) → 200/202/204","
-    PATCH /Accounts/{accountID}/Cards/{cardID}
-    Body: [{""Field"": ""CompanyID"", ""Value"": <company_id>}]
-    V1 supports only CompanyID (move card to company).
-    "
-"passed","Mon Jun 08 11:56:17 UTC 2026","Mon Jun 08 11:56:19 UTC 2026","2054","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> PUT leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 11:54:00 UTC 2026","Mon Jun 08 11:54:02 UTC 2026","1427","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","GET /Accounts/{accountID}/Cards/{cardID}/leadGenForms supports offset/fetch query","
-    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 11:55:54 UTC 2026","Mon Jun 08 11:55:56 UTC 2026","2071","tests.api.cards","test_card_attributes_merge","TestCardAttributesMerge","","","POST card -> PUT /cards/{id}/attributes -> GET verify -> DELETE","
-    PUT /cards/{id}/attributes
-    "
-"passed","Mon Jun 08 12:02:37 UTC 2026","Mon Jun 08 12:02:38 UTC 2026","495","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports without auth","
-    /Exports
-    "
-"passed","Mon Jun 08 11:55:32 UTC 2026","Mon Jun 08 11:55:32 UTC 2026","497","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups supports offset/fetch query","
-    /AttributeTypeGroups
-    "
-"passed","Mon Jun 08 12:03:53 UTC 2026","Mon Jun 08 12:03:53 UTC 2026","140","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Hide employees",""
-"passed","Mon Jun 08 11:55:00 UTC 2026","Mon Jun 08 11:55:01 UTC 2026","1185","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","POST /Cards -> GET /Accounts/{accountID}/Cards","
-    /Accounts/{accountID}/Cards
-    "
-"passed","Mon Jun 08 12:02:45 UTC 2026","Mon Jun 08 12:02:46 UTC 2026","492","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes without auth","
-    /MetricTypes
-    "
-"passed","Mon Jun 08 12:03:34 UTC 2026","Mon Jun 08 12:03:36 UTC 2026","1944","tests.e2e.contacts","test_contact_create_and_delete","TestContactCreateAndDelete","","","POST /attachments (photo) → POST contact → GET verify → DELETE","/Contacts — upload photo, create, GET verify, delete flow"
-"passed","Mon Jun 08 12:04:01 UTC 2026","Mon Jun 08 12:04:01 UTC 2026","1","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Employee created",""
-"passed","Mon Jun 08 12:01:18 UTC 2026","Mon Jun 08 12:01:20 UTC 2026","2111","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","Create -> Get -> Update -> Delete contact",""
-"passed","Mon Jun 08 11:58:01 UTC 2026","Mon Jun 08 11:58:01 UTC 2026","514","tests.api.cards","test_cards_by_id_v2_flow","TestCardsByIdV2","","","POST /Cards -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/V2
-    "
-"passed","Mon Jun 08 12:03:28 UTC 2026","Mon Jun 08 12:03:29 UTC 2026","523","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Get created card","
-    /Cards
-    /Cards/{id}
-    /accounts/{accountID}/cards/{cardID}/leadgenforms
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 11:53:38 UTC 2026","Mon Jun 08 11:53:39 UTC 2026","1020","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}","
-    /Accounts/{accountID}/Cards/{cardID}
-    /Accounts/{accountID}/Cards/{cardID}/V2
-    "
-"passed","Mon Jun 08 11:55:22 UTC 2026","Mon Jun 08 11:55:23 UTC 2026","490","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts without auth","
-    /accounts
-    "
-"passed","Mon Jun 08 11:52:49 UTC 2026","Mon Jun 08 11:52:49 UTC 2026","777","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","013 SubscriptionInvitation smoke — random push_token → not 5xx",""
-"passed","Mon Jun 08 11:54:49 UTC 2026","Mon Jun 08 11:54:52 UTC 2026","2656","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","POST whiteList -> GET whiteLists -> DELETE whiteList -> GET whiteLists","
-    /Accounts/{accountID}/Cards/{cardID}/whiteLists
-    "
-"passed","Mon Jun 08 11:52:50 UTC 2026","Mon Jun 08 11:52:51 UTC 2026","625","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","015 MobileAccountNotificationSend smoke — random push_token + guid → not 5xx",""
-"passed","Mon Jun 08 11:57:06 UTC 2026","Mon Jun 08 11:57:07 UTC 2026","492","tests.api.cards","test_card_metrics","TestCardMetrics","","","GET /Cards/{id}/metrics without auth","
-    /Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:56:08 UTC 2026","Mon Jun 08 11:56:08 UTC 2026","500","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","GET /Cards/{id}/leadGenForms supports offset/fetch query","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 12:02:40 UTC 2026","Mon Jun 08 12:02:42 UTC 2026","2351","tests.api.locations","test_location_cardlink_by_id","TestLocationCardLinkById","","","POST /Locations -> GET /cards/attributes/locations/{id}/cardlink/{token} -> DELETE","
-    GET /cards/attributes/locations/{locationId}/cardlink/{cardLinkId}
-    "
-"passed","Mon Jun 08 12:04:14 UTC 2026","Mon Jun 08 12:04:14 UTC 2026","146","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Merge tg and wa attributes",""
-"passed","Mon Jun 08 11:55:36 UTC 2026","Mon Jun 08 11:55:38 UTC 2026","2749","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","POST card -> PUT attrs -> GET attrs -> PUT /cards/{id}/upload/fromForm -> DELETE","
-    PUT /cards/{id}/upload/fromForm
-    "
-"passed","Mon Jun 08 12:03:12 UTC 2026","Mon Jun 08 12:03:13 UTC 2026","658","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 11:57:00 UTC 2026","Mon Jun 08 11:57:02 UTC 2026","1514","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{id}/metrics returns 200 -> DELETE /Cards/{id}","
-    /Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:53:22 UTC 2026","Mon Jun 08 11:53:26 UTC 2026","3280","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> POST item -> DELETE item -> GET catalog (item absent)","
-    /Accounts/{accountID}/Cards/{cardID}/catalog
-    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
-    "
-"passed","Mon Jun 08 11:54:16 UTC 2026","Mon Jun 08 11:54:18 UTC 2026","2088","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Cards/{id}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
-    /Accounts/{accountID}/Cards/{cardID}/metrics
-    "
-"passed","Mon Jun 08 11:53:03 UTC 2026","Mon Jun 08 11:53:05 UTC 2026","2232","tests.api.accounts","test_accounts_card_attributes_merge","TestAccountsCardAttributesMerge","","","POST card -> PUT /accounts/{id}/cards/{cardId}/attributes -> GET verify -> DELETE","
-    PUT /accounts/{id}/cards/{cardId}/attributes
-    "
-"passed","Mon Jun 08 12:04:13 UTC 2026","Mon Jun 08 12:04:13 UTC 2026","165","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Delete mobile card",""
-"passed","Mon Jun 08 12:02:49 UTC 2026","Mon Jun 08 12:02:52 UTC 2026","3334","tests.api.proxy","test_proxy_card_cardlink","TestProxyCardCardLink","","","GET /Accounts/{id}/Cards/links -> GET /proxy/card/cardlink/{token}","
-    GET /proxy/card/cardlink/{token}
-    "
-"passed","Mon Jun 08 12:03:54 UTC 2026","Mon Jun 08 12:03:54 UTC 2026","141","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Show employees",""
-"passed","Mon Jun 08 12:04:20 UTC 2026","Mon Jun 08 12:04:20 UTC 2026","171","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Delete mobile card",""
-"passed","Mon Jun 08 11:52:58 UTC 2026","Mon Jun 08 11:53:00 UTC 2026","1949","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","POST card -> GET /accounts/{id}/cards/{cardId}/attributes/attachments -> DELETE","
-    GET /accounts/{id}/cards/{cardId}/attributes/attachments
-    "
-"passed","Mon Jun 08 12:02:39 UTC 2026","Mon Jun 08 12:02:39 UTC 2026","522","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} returns location data","
-    /Locations/{id}
-    "
-"passed","Mon Jun 08 12:04:07 UTC 2026","Mon Jun 08 12:04:07 UTC 2026","183","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Employee appears in accounts list",""
-"passed","Mon Jun 08 11:55:45 UTC 2026","Mon Jun 08 11:55:45 UTC 2026","490","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments without auth -> 401/403","
-    GET /cards/{id}/attributes/attachments
-    "
-"passed","Mon Jun 08 12:04:16 UTC 2026","Mon Jun 08 12:04:17 UTC 2026","145","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Get card after create",""
-"passed","Mon Jun 08 11:58:27 UTC 2026","Mon Jun 08 11:58:27 UTC 2026","492","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","GET /Cards/{id}/designSettings without auth","
-    /Cards/{cardID}/designSettings
-    "
-"passed","Mon Jun 08 11:53:54 UTC 2026","Mon Jun 08 11:53:58 UTC 2026","4642","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","POST /Cards -> POST /Accounts/{accountID}/Cards/{cardID}/leadGenForms -> GET list -> GET by id","
-    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
-    "
-"passed","Mon Jun 08 12:03:10 UTC 2026","Mon Jun 08 12:03:11 UTC 2026","490","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:03:45 UTC 2026","Mon Jun 08 12:03:46 UTC 2026","206","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Delete invitation",""
-"passed","Mon Jun 08 12:04:18 UTC 2026","Mon Jun 08 12:04:18 UTC 2026","170","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Delete mobile card",""
-"passed","Mon Jun 08 11:54:46 UTC 2026","Mon Jun 08 11:54:47 UTC 2026","999","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists without auth","
-    /Accounts/{accountID}/Cards/{cardID}/whiteLists
-    "
-"passed","Mon Jun 08 11:53:16 UTC 2026","Mon Jun 08 11:53:20 UTC 2026","3932","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> POST item -> PUT item -> DELETE catalog cascades item delete","
-    /Accounts/{accountID}/Cards/{cardID}/catalog
-    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
-    "
-"passed","Mon Jun 08 12:04:10 UTC 2026","Mon Jun 08 12:04:11 UTC 2026","782","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Statistic export returns 200","
-    Invitation create -> accounts list verify -> export statistic -> delete.
-    "
-"passed","Mon Jun 08 11:55:28 UTC 2026","Mon Jun 08 11:55:30 UTC 2026","1604","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> GET /Attachments/{id} -> DELETE /Attachments/{id}","
-    Проверки Attachments API с изображениями, сгенерированными в коде.
-    "
-"passed","Mon Jun 08 12:04:05 UTC 2026","Mon Jun 08 12:04:06 UTC 2026","150","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Photo visible via 085.2",""
-"passed","Mon Jun 08 12:03:20 UTC 2026","Mon Jun 08 12:03:21 UTC 2026","142","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","085 contains all social networks","
-    /Cards
-    /accounts/{accountID}/cards/{cardID}/attributes
-    /accounts/{accountID}/cards/{cardID}/attributes/
-    /Cards/{id}
-    "
-"passed","Mon Jun 08 12:01:17 UTC 2026","Mon Jun 08 12:01:18 UTC 2026","946","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","GET /accounts/contacts returns list",""
-"passed","Mon Jun 08 11:52:55 UTC 2026","Mon Jun 08 11:52:56 UTC 2026","717","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms accepts terms","
-    /accounts/this/acceptUserTerms
-    "
-"passed","Mon Jun 08 11:56:34 UTC 2026","Mon Jun 08 11:56:36 UTC 2026","2054","tests.api.cards","test_card_link_leadgen_form_by_id","TestCardLinkLeadGenFormById","","","POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId} -> DELETE","
-    GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId}
-    "
-"passed","Mon Jun 08 12:03:14 UTC 2026","Mon Jun 08 12:03:15 UTC 2026","492","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:04:08 UTC 2026","Mon Jun 08 12:04:08 UTC 2026","1","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Employee created","
-    Invitation create -> accounts list verify -> export statistic -> delete.
-    "
-"passed","Mon Jun 08 12:04:25 UTC 2026","Mon Jun 08 12:04:25 UTC 2026","173","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Update card avatar gallery",""
-"passed","Mon Jun 08 12:04:27 UTC 2026","Mon Jun 08 12:04:28 UTC 2026","996","tests.e2e","test_script_runs","TestScriptRuns","","","Script: Company create → GET list → DELETE  (N runs)","Stability scenario: POST /companies → verify appears in list → DELETE. Run with --runs=N to repeat N times in one test."
-"passed","Mon Jun 08 12:04:23 UTC 2026","Mon Jun 08 12:04:23 UTC 2026","201","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Create mobile card",""
-"passed","Mon Jun 08 11:55:27 UTC 2026","Mon Jun 08 11:55:28 UTC 2026","1154","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments/v2 -> DELETE /Attachments/{id}","
-    Проверки Attachments API с изображениями, сгенерированными в коде.
-    "
-"passed","Mon Jun 08 12:02:34 UTC 2026","Mon Jun 08 12:02:35 UTC 2026","1212","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment returns XLSX for noData=true","
-    /Exports/employment
-    "
-"passed","Mon Jun 08 11:52:46 UTC 2026","Mon Jun 08 11:52:47 UTC 2026","772","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 MobileAccountVerification smoke",""
-"passed","Mon Jun 08 11:55:31 UTC 2026","Mon Jun 08 11:55:32 UTC 2026","515","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups returns dictionary","
-    /AttributeTypeGroups
-    "
-"passed","Mon Jun 08 12:04:05 UTC 2026","Mon Jun 08 12:04:05 UTC 2026","153","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","PUT photo attribute",""
-"passed","Mon Jun 08 12:03:00 UTC 2026","Mon Jun 08 12:03:04 UTC 2026","4060","tests.api.subscriptions","test_subscription_invitation_flow","TestSubscriptionInvitationFlow","","","POST invitation -> GET /accounts -> DELETE invitation -> GET /accounts","
-    /Subscriptions/{subscription_id}/invitation
-    /accounts
-    /Subscriptions/{subscription_id}/invitation/{invite_id}
-    /accounts
-    "
-"passed","Mon Jun 08 11:55:06 UTC 2026","Mon Jun 08 11:55:07 UTC 2026","997","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","GET /Accounts/{accountID}/Cards without auth","
-    /Accounts/{accountID}/Cards
-    "
-"passed","Mon Jun 08 12:02:54 UTC 2026","Mon Jun 08 12:02:54 UTC 2026","540","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts","
-    GET /Subscriptions/{id}/contacts
-    "
-"passed","Mon Jun 08 12:04:00 UTC 2026","Mon Jun 08 12:04:00 UTC 2026","150","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","02. Employee appears in /accounts list",""
-"passed","Mon Jun 08 12:04:25 UTC 2026","Mon Jun 08 12:04:25 UTC 2026","139","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Attributes list has photo gallery values",""
-"passed","Mon Jun 08 12:02:45 UTC 2026","Mon Jun 08 12:02:45 UTC 2026","496","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes supports offset/fetch query","
-    /MetricTypes
-    "
-"passed","Mon Jun 08 12:04:11 UTC 2026","Mon Jun 08 12:04:11 UTC 2026","0","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Create invitation returns id","
-    Invitation create -> accounts list verify -> delete -> accounts list verify.
-    "
-"passed","Mon Jun 08 11:58:53 UTC 2026","Mon Jun 08 11:58:54 UTC 2026","655","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens returns current client token","
-    /clientTokens
-    "
-"passed","Mon Jun 08 11:53:41 UTC 2026","Mon Jun 08 11:53:42 UTC 2026","1183","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}/V2","
-    /Accounts/{accountID}/Cards/{cardID}
-    /Accounts/{accountID}/Cards/{cardID}/V2
-    "
-"passed","Mon Jun 08 11:58:36 UTC 2026","Mon Jun 08 11:58:36 UTC 2026","710","tests.api.cards","test_cards_download_by_id_v2_flow","TestCardsDownloadByIdV2","","","POST /Cards -> GET /Cards/{id}/download/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/download/V2
-    "
-"passed","Mon Jun 08 11:57:25 UTC 2026","Mon Jun 08 11:57:26 UTC 2026","1072","tests.api.cards","test_cardlinks_download","TestCardLinksDownload","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card/download
-    "
-"passed","Mon Jun 08 12:03:54 UTC 2026","Mon Jun 08 12:03:55 UTC 2026","549","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Delete employees",""
-"passed","Mon Jun 08 11:58:40 UTC 2026","Mon Jun 08 11:58:41 UTC 2026","726","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 returns cards list","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Mon Jun 08 12:03:43 UTC 2026","Mon Jun 08 12:03:43 UTC 2026","0","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Employee created",""
-"passed","Mon Jun 08 11:56:42 UTC 2026","Mon Jun 08 11:56:47 UTC 2026","4745","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","GET /Cards/{cardLinkId}/cardLink/leadGenForms supports offset/fetch query","
-    /Cards/{id}/cardLink/leadGenForms
-    "
-"passed","Mon Jun 08 11:56:29 UTC 2026","Mon Jun 08 11:56:32 UTC 2026","2668","tests.api.cards","test_card_link_attribute_counter","TestCardLinkAttributeCounter","","","205 POST card -> PUT merge WhatsApp -> GET attrs -> PUT /cardLink/attributes/click -> DELETE card","
-    205 PUT /cards/{token}/cardLink/attributes/click
-    Flow: POST card -> merge WhatsApp attr -> get cardAttribute.id -> PUT click -> DELETE card
-    "
-"passed","Mon Jun 08 12:04:19 UTC 2026","Mon Jun 08 12:04:20 UTC 2026","451","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Upload document and merge file attribute",""
-"passed","Mon Jun 08 12:04:07 UTC 2026","Mon Jun 08 12:04:07 UTC 2026","0","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Create invitation returns id",""
-"passed","Mon Jun 08 12:03:18 UTC 2026","Mon Jun 08 12:03:18 UTC 2026","490","tests.api.virtual_backgrounds","test_virtual_backgrounds_list","TestVirtualBackgroundsList","","","GET /VirtualBackgrounds without auth","
+"passed","Tue Jun 09 10:44:36 UTC 2026","Tue Jun 09 10:44:36 UTC 2026","672","tests.api.virtual_backgrounds","test_virtual_backgrounds_list","TestVirtualBackgroundsList","","","GET /VirtualBackgrounds without auth","
     GET /VirtualBackgrounds
     "
-"passed","Mon Jun 08 12:03:08 UTC 2026","Mon Jun 08 12:03:09 UTC 2026","610","tests.api.subscriptions","test_subscription_request","TestSubscriptionRequest","","","POST /Subscriptions/request — random email","
-    POST /Subscriptions/request  (public, no auth required)
+"passed","Tue Jun 09 10:44:10 UTC 2026","Tue Jun 09 10:44:11 UTC 2026","638","tests.api.subscriptions","test_subscription_designsettings_by_id","TestSubscriptionDesignsettingsById","","","GET /Subscriptions/{subscription_id}/designsettings without auth","
+    /Subscriptions/{subscription_id}/designsettings
     "
-"passed","Mon Jun 08 11:57:14 UTC 2026","Mon Jun 08 11:57:16 UTC 2026","2158","tests.api.cards","test_cardlinks_create","TestCardLinksCreate","","","POST /cards/{card_id}/links creates custom card link visible by GET /cardlinks/{cardLink}","
+"passed","Tue Jun 09 10:38:44 UTC 2026","Tue Jun 09 10:38:45 UTC 2026","934","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","POST /Cards -> GET /Cards/{id}/designSettings -> DELETE /Cards/{id}","
+    /Cards/{cardID}/designSettings
+    "
+"passed","Tue Jun 09 10:37:19 UTC 2026","Tue Jun 09 10:37:22 UTC 2026","3010","tests.api.cards","test_cardlinks_create","TestCardLinksCreate","","","POST /cards/{card_id}/links creates custom card link visible by GET /cardlinks/{cardLink}","
     POST /cards
     POST /cards/{card_id}/links
     GET /cardlinks/{cardLink}
     DELETE /cards/{id}
     "
-"passed","Mon Jun 08 11:55:21 UTC 2026","Mon Jun 08 11:55:21 UTC 2026","631","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} returns account data","
+"passed","Tue Jun 09 10:32:30 UTC 2026","Tue Jun 09 10:32:32 UTC 2026","2286","tests.api.accounts","test_accounts_card_delete","TestAccountsCardDelete","","","POST /Accounts/{accountID}/Cards -> DELETE /Accounts/{accountID}/Cards/{cardID}","
+    /Accounts/{accountID}/Cards/{cardID}
+    /Accounts/{accountID}/Cards/bulkremove
+    "
+"passed","Tue Jun 09 10:35:07 UTC 2026","Tue Jun 09 10:35:08 UTC 2026","671","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes without auth → 401/403","
+    /Attributes
+    "
+"passed","Tue Jun 09 10:33:50 UTC 2026","Tue Jun 09 10:33:52 UTC 2026","1591","tests.api.accounts","test_accounts_card_patch","TestAccountsCardPatch","","","PATCH /Accounts/{accountID}/Cards/{cardID} — move card to same company (no-op) → 200/202/204","
+    PATCH /Accounts/{accountID}/Cards/{cardID}
+    Body: [{""Field"": ""CompanyID"", ""Value"": <company_id>}]
+    V1 supports only CompanyID (move card to company).
+    "
+"passed","Tue Jun 09 10:44:28 UTC 2026","Tue Jun 09 10:44:28 UTC 2026","640","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:33:58 UTC 2026","Tue Jun 09 10:34:00 UTC 2026","1333","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","GET /Accounts/{accountID}/Cards/{cardID}/whiteLists supports Range/offset/fetch","
+    /Accounts/{accountID}/Cards/{cardID}/whiteLists
+    "
+"passed","Tue Jun 09 10:34:46 UTC 2026","Tue Jun 09 10:34:47 UTC 2026","749","tests.api.accounts","test_accounts_employments_list","TestAccountsEmploymentsList","","","GET /accounts/{subscription_id}/employments returns employments dict as normalized list","
+    GET /accounts/{subscription_id}/employments
+    "
+"passed","Tue Jun 09 10:31:34 UTC 2026","Tue Jun 09 10:31:34 UTC 2026","939","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","014 MobileAccountSelfRegVerification smoke — random push_token + guid → not 5xx",""
+"passed","Tue Jun 09 10:44:58 UTC 2026","Tue Jun 09 10:45:01 UTC 2026","2972","tests.e2e.contacts","test_contact_create_and_delete","TestContactCreateAndDelete","","","POST /attachments (photo) → POST contact → GET verify → DELETE","/Contacts — upload photo, create, GET verify, delete flow"
+"passed","Tue Jun 09 10:45:48 UTC 2026","Tue Jun 09 10:45:48 UTC 2026","278","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Delete invitation","
+    Invitation create -> accounts list verify -> delete -> accounts list verify.
+    "
+"passed","Tue Jun 09 10:45:35 UTC 2026","Tue Jun 09 10:45:35 UTC 2026","1","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","01. Employee created — account_id present",""
+"passed","Tue Jun 09 10:45:45 UTC 2026","Tue Jun 09 10:45:45 UTC 2026","0","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","After delete flag is set",""
+"passed","Tue Jun 09 10:43:58 UTC 2026","Tue Jun 09 10:43:58 UTC 2026","641","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses without auth → 401/403","
+    /onboardingStatuses
+    "
+"passed","Tue Jun 09 10:42:22 UTC 2026","Tue Jun 09 10:42:28 UTC 2026","6187","tests.api.contacts","test_contacts_web_flow","TestContactsWebFlow","","","POST /accounts/contacts/web creates visible contact",""
+"passed","Tue Jun 09 10:31:42 UTC 2026","Tue Jun 09 10:31:43 UTC 2026","916","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms without auth","
+    /accounts/this/acceptUserTerms
+    "
+"passed","Tue Jun 09 10:45:53 UTC 2026","Tue Jun 09 10:45:53 UTC 2026","641","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Upload avatar photo",""
+"passed","Tue Jun 09 10:44:34 UTC 2026","Tue Jun 09 10:44:35 UTC 2026","642","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds without auth","
+    /VirtualBackgrounds
+    "
+"passed","Tue Jun 09 10:33:29 UTC 2026","Tue Jun 09 10:33:32 UTC 2026","2744","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Accounts/{accountID}/Cards/{cardID}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
+    /Accounts/{accountID}/Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:45:52 UTC 2026","Tue Jun 09 10:45:52 UTC 2026","246","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Merge tg and wa attributes",""
+"passed","Tue Jun 09 10:46:00 UTC 2026","Tue Jun 09 10:46:01 UTC 2026","277","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Merge phone and email",""
+"passed","Tue Jun 09 10:44:27 UTC 2026","Tue Jun 09 10:44:28 UTC 2026","679","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:43:42 UTC 2026","Tue Jun 09 10:43:43 UTC 2026","1139","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment returns XLSX for noData=true","
+    /Exports/employment
+    "
+"passed","Tue Jun 09 10:45:20 UTC 2026","Tue Jun 09 10:45:21 UTC 2026","771","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Employees become hidden in accounts list",""
+"passed","Tue Jun 09 10:39:57 UTC 2026","Tue Jun 09 10:39:59 UTC 2026","1498","tests.api.companies","test_companies_create_update_get_delete_flow_api","TestCompanyCreateUpdateGetDeleteFlow","","","POST /Companies -> PUT /Companies/{id} -> GET /Companies/{id} -> DELETE /Companies/{id}","
+    /Companies
+    "
+"passed","Tue Jun 09 10:34:36 UTC 2026","Tue Jun 09 10:34:37 UTC 2026","1311","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts with searchText filter → 200/206","
+    /accounts/contacts
+    "
+"passed","Tue Jun 09 10:44:45 UTC 2026","Tue Jun 09 10:44:46 UTC 2026","677","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Delete card","
+    /Cards
+    /accounts/{accountID}/CustomMessageTemplates
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:45:52 UTC 2026","Tue Jun 09 10:45:52 UTC 2026","270","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Delete mobile card",""
+"passed","Tue Jun 09 10:38:40 UTC 2026","Tue Jun 09 10:38:41 UTC 2026","685","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink returns custom links list","
+    /Cards/customlink
+    "
+"passed","Tue Jun 09 10:34:47 UTC 2026","Tue Jun 09 10:34:48 UTC 2026","654","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns false for random email","
+    /accounts/Exists
+    "
+"passed","Tue Jun 09 10:43:57 UTC 2026","Tue Jun 09 10:43:58 UTC 2026","648","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses → 200, non-empty list with id and nameRu","
+    /onboardingStatuses
+    "
+"passed","Tue Jun 09 10:45:52 UTC 2026","Tue Jun 09 10:45:52 UTC 2026","244","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Attributes list contains tg and wa",""
+"passed","Tue Jun 09 10:42:17 UTC 2026","Tue Jun 09 10:42:18 UTC 2026","1194","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","GET /accounts/contacts returns list",""
+"passed","Tue Jun 09 10:34:51 UTC 2026","Tue Jun 09 10:34:52 UTC 2026","681","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium returns boolean flag","
+    /accounts/subscription/hadpremium
+    "
+"passed","Tue Jun 09 10:44:23 UTC 2026","Tue Jun 09 10:44:24 UTC 2026","649","tests.api.supported_versions","test_supported_versions_android","TestSupportedVersionsAndroid","","","GET /SupportedVersions/android returns supported version","
+    /SupportedVersions/android
+    "
+"passed","Tue Jun 09 10:45:48 UTC 2026","Tue Jun 09 10:45:49 UTC 2026","253","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Employee disappears from accounts list","
+    Invitation create -> accounts list verify -> delete -> accounts list verify.
+    "
+"passed","Tue Jun 09 10:43:59 UTC 2026","Tue Jun 09 10:44:00 UTC 2026","641","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ without auth -> 401/403","
+    GET /powerbireports/
+    "
+"passed","Tue Jun 09 10:45:26 UTC 2026","Tue Jun 09 10:45:26 UTC 2026","847","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Employees visible in accounts list",""
+"passed","Tue Jun 09 10:45:24 UTC 2026","Tue Jun 09 10:45:24 UTC 2026","242","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Hide employees",""
+"passed","Tue Jun 09 10:38:13 UTC 2026","Tue Jun 09 10:38:14 UTC 2026","728","tests.api.cards","test_cards_by_id_short_flow","TestCardsByIdShort","","","POST /Cards -> GET /Cards/{id}/short -> DELETE /Cards/{id}","
+    /Cards/{id}/short
+    "
+"passed","Tue Jun 09 10:45:49 UTC 2026","Tue Jun 09 10:45:50 UTC 2026","966","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Upload mobile photo",""
+"passed","Tue Jun 09 10:46:03 UTC 2026","Tue Jun 09 10:46:03 UTC 2026","244","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Get card after create",""
+"passed","Tue Jun 09 10:31:59 UTC 2026","Tue Jun 09 10:32:03 UTC 2026","4400","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> GET by id -> DELETE catalog","
+    /Accounts/{accountID}/Cards/{cardID}/catalog
+    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
+    "
+"passed","Tue Jun 09 10:45:12 UTC 2026","Tue Jun 09 10:45:13 UTC 2026","668","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Moderator disappears from moderators list",""
+"passed","Tue Jun 09 10:45:37 UTC 2026","Tue Jun 09 10:45:37 UTC 2026","249","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Employee appears in accounts list",""
+"passed","Tue Jun 09 10:44:18 UTC 2026","Tue Jun 09 10:44:22 UTC 2026","4813","tests.api.subscriptions","test_subscription_moderators","TestSubscriptionModerators","","","621+622+623: POST invitation -> POST moderator -> GET list -> GET by id -> DELETE moderator -> DELETE invitation","
+    620 GET  /subscriptions/{id}/moderators
+    621 POST /subscriptions/{id}/moderators
+    622 DELETE /subscriptions/{id}/moderators
+    623 GET  /subscriptions/{id}/moderators/{accountId}
+    "
+"passed","Tue Jun 09 10:45:21 UTC 2026","Tue Jun 09 10:45:22 UTC 2026","850","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Delete all created employees",""
+"passed","Tue Jun 09 10:31:33 UTC 2026","Tue Jun 09 10:31:34 UTC 2026","1035","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","013 SubscriptionInvitation smoke — random push_token → not 5xx",""
+"passed","Tue Jun 09 10:43:40 UTC 2026","Tue Jun 09 10:43:40 UTC 2026","641","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures returns cultures list","
+    /Cultures
+    "
+"passed","Tue Jun 09 10:45:59 UTC 2026","Tue Jun 09 10:45:59 UTC 2026","262","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Delete mobile card",""
+"passed","Tue Jun 09 10:45:56 UTC 2026","Tue Jun 09 10:45:56 UTC 2026","285","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Get card after create",""
+"passed","Tue Jun 09 10:37:38 UTC 2026","Tue Jun 09 10:37:39 UTC 2026","1455","tests.api.cards","test_cardlinks_download_v2","TestCardLinksDownloadV2","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download/V2 -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card/download/V2
+    "
+"passed","Tue Jun 09 10:35:35 UTC 2026","Tue Jun 09 10:35:35 UTC 2026","625","tests.api.cards","test_card_attributes_merge","TestCardAttributesMerge","","","PUT /cards/{id}/attributes without auth -> 401/403","
+    PUT /cards/{id}/attributes
+    "
+"passed","Tue Jun 09 10:45:51 UTC 2026","Tue Jun 09 10:45:52 UTC 2026","245","tests.e2e.mobile","test_mobileapp_card_create_and_tg_wa","TestMobileAppCardCreateAndTgWa","","","Mobile card GET returns 200",""
+"passed","Tue Jun 09 10:37:45 UTC 2026","Tue Jun 09 10:37:46 UTC 2026","1430","tests.api.cards","test_cardlinks_short_card","TestCardLinksShortCard","","","POST /Cards -> GET /cardLinks/{cardLink}/short/card -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/short/card
+    "
+"passed","Tue Jun 09 10:34:06 UTC 2026","Tue Jun 09 10:34:10 UTC 2026","3414","tests.api.accounts","test_accounts_card_whitelists","TestAccountsCardWhitelists","","","POST whiteList -> GET whiteLists -> DELETE whiteList -> GET whiteLists","
+    /Accounts/{accountID}/Cards/{cardID}/whiteLists
+    "
+"passed","Tue Jun 09 10:40:01 UTC 2026","Tue Jun 09 10:40:02 UTC 2026","1437","tests.api.companies","test_companies_designsettings_flow_api","TestCompanyDesignsettingsFlow","","","POST /Companies -> PUT designsettings -> GET designsettings -> DELETE /Companies/{id}","
+    /Companies/{companyID}/designsettings
+    "
+"passed","Tue Jun 09 10:37:47 UTC 2026","Tue Jun 09 10:37:48 UTC 2026","894","tests.api.cards","test_cardlinks_statistic","TestCardLinksStatistic","","","GET /cardlinks/statistic returns list","
+    /cardlinks/statistic
+    "
+"passed","Tue Jun 09 10:34:54 UTC 2026","Tue Jun 09 10:34:54 UTC 2026","644","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications supports offset/fetch query","
+    /Applications
+    "
+"passed","Tue Jun 09 10:31:42 UTC 2026","Tue Jun 09 10:31:42 UTC 2026","645","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms accepts terms","
+    /accounts/this/acceptUserTerms
+    "
+"passed","Tue Jun 09 10:45:07 UTC 2026","Tue Jun 09 10:45:08 UTC 2026","724","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Update contact returns success",""
+"passed","Tue Jun 09 10:44:11 UTC 2026","Tue Jun 09 10:44:13 UTC 2026","2670","tests.api.subscriptions","test_subscription_designsettings_merge","TestSubscriptionDesignsettingsMerge","","","PUT /Subscriptions/{subscription_id}/designsettings updates color and GET returns it","
+    PUT /Subscriptions/{subscription_id}/designsettings
+    GET /Subscriptions/{subscription_id}/designsettings
+    "
+"passed","Tue Jun 09 10:43:56 UTC 2026","Tue Jun 09 10:43:57 UTC 2026","648","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes without auth","
+    /MetricTypes
+    "
+"passed","Tue Jun 09 10:34:48 UTC 2026","Tue Jun 09 10:34:49 UTC 2026","778","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} returns account data","
     /accounts/{id}
     "
-"passed","Mon Jun 08 11:52:54 UTC 2026","Mon Jun 08 11:52:55 UTC 2026","1004","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","POST /accounttokens/ -> GET /accounttokens/{token} -> 200","
-    POST /accounttokens/ -> GET /accounttokens/{token}
+"passed","Tue Jun 09 10:37:10 UTC 2026","Tue Jun 09 10:37:12 UTC 2026","2148","tests.api.cards","test_cardlink_catalog_by_id","TestCardLinkCatalogById","","","GET /Accounts/{id}/Cards/links -> GET /cardlinks/{token}/catalog/{id} -> 204","
+    GET /cardlinks/{token}/catalog/{id}
+    Catalog not yet implemented — expecting 204 No Content
     "
-"passed","Mon Jun 08 12:03:29 UTC 2026","Mon Jun 08 12:03:30 UTC 2026","529","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Delete card","
+"passed","Tue Jun 09 10:37:33 UTC 2026","Tue Jun 09 10:37:35 UTC 2026","1391","tests.api.cards","test_cardlinks_download","TestCardLinksDownload","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card/download
+    "
+"passed","Tue Jun 09 10:34:55 UTC 2026","Tue Jun 09 10:34:56 UTC 2026","1444","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> DELETE /Attachments/{id}","
+    Проверки Attachments API с изображениями, сгенерированными в коде.
+    "
+"passed","Tue Jun 09 10:45:06 UTC 2026","Tue Jun 09 10:45:07 UTC 2026","645","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET contains created fields",""
+"passed","Tue Jun 09 10:44:48 UTC 2026","Tue Jun 09 10:44:49 UTC 2026","1335","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Create card","
     /Cards
     /Cards/{id}
     /accounts/{accountID}/cards/{cardID}/leadgenforms
     /Cards/{id}
     "
-"passed","Mon Jun 08 12:02:42 UTC 2026","Mon Jun 08 12:02:43 UTC 2026","1088","tests.api.locations","test_location_cardlinks_list","TestLocationCardLinksList","","","GET /cards/attributes/locations/cardlink/{token}","
-    GET /cards/attributes/locations/cardlink/{cardLinkId}
+"passed","Tue Jun 09 10:45:10 UTC 2026","Tue Jun 09 10:45:11 UTC 2026","656","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Add moderator",""
+"passed","Tue Jun 09 10:32:58 UTC 2026","Tue Jun 09 10:33:03 UTC 2026","5507","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","POST /Cards -> POST /Accounts/{accountID}/Cards/{cardID}/leadGenForms -> GET list -> GET by id","
+    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
     "
-"passed","Mon Jun 08 11:55:24 UTC 2026","Mon Jun 08 11:55:25 UTC 2026","506","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications returns applications list","
-    /Applications
-    "
-"passed","Mon Jun 08 11:59:06 UTC 2026","Mon Jun 08 11:59:07 UTC 2026","502","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies supports searchText query","
+"passed","Tue Jun 09 10:40:04 UTC 2026","Tue Jun 09 10:40:05 UTC 2026","648","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies supports searchText query","
     /Companies
     "
-"passed","Mon Jun 08 11:58:55 UTC 2026","Mon Jun 08 11:58:57 UTC 2026","2402","tests.api.client_tokens","test_client_tokens_merge","TestClientTokensMerge","","","PUT /clientTokens updates push token and GET returns updated value","
+"passed","Tue Jun 09 10:44:03 UTC 2026","Tue Jun 09 10:44:04 UTC 2026","926","tests.api.social_networks","test_social_networks_list","TestSocialNetworksList","","","GET /socialNetworks returns list","
+    /socialNetworks
+    "
+"passed","Tue Jun 09 10:44:38 UTC 2026","Tue Jun 09 10:44:39 UTC 2026","894","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Merge all social networks into card attributes","
+    /Cards
+    /accounts/{accountID}/cards/{cardID}/attributes
+    /accounts/{accountID}/cards/{cardID}/attributes/
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:39:50 UTC 2026","Tue Jun 09 10:39:52 UTC 2026","2647","tests.api.client_tokens","test_client_tokens_merge","TestClientTokensMerge","","","PUT /clientTokens updates push token and GET returns updated value","
     PUT /clientTokens
     GET /clientTokens
     "
-"passed","Mon Jun 08 12:03:13 UTC 2026","Mon Jun 08 12:03:14 UTC 2026","490","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
-"passed","Mon Jun 08 12:04:15 UTC 2026","Mon Jun 08 12:04:15 UTC 2026","143","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Get card gallery has avatar",""
-"passed","Mon Jun 08 11:55:22 UTC 2026","Mon Jun 08 11:55:22 UTC 2026","539","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts returns list of accounts","
-    /accounts
+"passed","Tue Jun 09 10:45:55 UTC 2026","Tue Jun 09 10:45:55 UTC 2026","1","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Reuse avatar attachment as banner attachment",""
+"passed","Tue Jun 09 10:45:51 UTC 2026","Tue Jun 09 10:45:51 UTC 2026","301","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Delete mobile card",""
+"passed","Tue Jun 09 10:43:55 UTC 2026","Tue Jun 09 10:43:56 UTC 2026","1029","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes returns metric types list","
+    /MetricTypes
     "
-"passed","Mon Jun 08 12:04:25 UTC 2026","Mon Jun 08 12:04:25 UTC 2026","143","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Get card contains gallery ids",""
-"passed","Mon Jun 08 11:54:04 UTC 2026","Mon Jun 08 11:54:06 UTC 2026","2035","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","GET /Accounts/{accountID}/Cards/{cardID}/leadGenForms without auth","
-    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
+"passed","Tue Jun 09 10:45:44 UTC 2026","Tue Jun 09 10:45:45 UTC 2026","288","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Delete invitation",""
+"passed","Tue Jun 09 10:39:54 UTC 2026","Tue Jun 09 10:39:55 UTC 2026","685","tests.api.companies","test_companies_create_get_delete_flow_api","TestCompanyCreateGetDeleteFlow","","","POST /Companies -> GET /Companies/{id} -> DELETE /Companies/{id}","
+    /Companies
     "
-"passed","Mon Jun 08 11:53:00 UTC 2026","Mon Jun 08 11:53:01 UTC 2026","644","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","GET /accounts/{id}/cards/{cardId}/attributes/attachments without auth -> 401/403","
+"passed","Tue Jun 09 10:44:26 UTC 2026","Tue Jun 09 10:44:26 UTC 2026","675","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:31:45 UTC 2026","Tue Jun 09 10:31:48 UTC 2026","3213","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","POST card -> GET /accounts/{id}/cards/{cardId}/attributes/attachments -> DELETE","
     GET /accounts/{id}/cards/{cardId}/attributes/attachments
     "
-"passed","Mon Jun 08 11:55:35 UTC 2026","Mon Jun 08 11:55:36 UTC 2026","493","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes without auth → 401/403","
+"passed","Tue Jun 09 10:38:29 UTC 2026","Tue Jun 09 10:38:31 UTC 2026","2029","tests.api.cards","test_cards_create_get_delete_flow","TestCardsCreateGetDeleteFlow","","","POST /Cards -> GET /Cards/{id} -> DELETE /Cards/{id}","
+    /Cards
+    "
+"passed","Tue Jun 09 10:32:45 UTC 2026","Tue Jun 09 10:32:46 UTC 2026","1423","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}/V2","
+    /Accounts/{accountID}/Cards/{cardID}
+    /Accounts/{accountID}/Cards/{cardID}/V2
+    "
+"passed","Tue Jun 09 10:36:07 UTC 2026","Tue Jun 09 10:36:15 UTC 2026","7879","tests.api.cards","test_card_leadgen_forms_custom_message_template","TestCardLeadGenFormsCustomMessageTemplate","","","POST leadGenForm with CustomMessageTemplateID -> PUT leadGenForm with another CustomMessageTemplateID","
+    /Cards/{cardID}/leadGenForms
+    "
+"passed","Tue Jun 09 10:45:56 UTC 2026","Tue Jun 09 10:45:56 UTC 2026","251","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Create mobile card",""
+"passed","Tue Jun 09 10:32:06 UTC 2026","Tue Jun 09 10:32:08 UTC 2026","2281","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","GET /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID} without auth","
+    /Accounts/{accountID}/Cards/{cardID}/catalog
+    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
+    "
+"passed","Tue Jun 09 10:41:12 UTC 2026","Tue Jun 09 10:41:12 UTC 2026","683","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/{contact_id}/download returns VCF",""
+"passed","Tue Jun 09 10:45:45 UTC 2026","Tue Jun 09 10:45:45 UTC 2026","273","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Employee appears in accounts list","
+    Invitation create -> accounts list verify -> export statistic -> delete.
+    "
+"passed","Tue Jun 09 10:36:54 UTC 2026","Tue Jun 09 10:36:55 UTC 2026","654","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> GET /Cards/{id}/metrics -> DELETE /Cards/{id}","
+    /Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:45:48 UTC 2026","Tue Jun 09 10:45:48 UTC 2026","284","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Employee appears in accounts list","
+    Invitation create -> accounts list verify -> delete -> accounts list verify.
+    "
+"passed","Tue Jun 09 10:45:01 UTC 2026","Tue Jun 09 10:45:02 UTC 2026","656","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Contact GET returns expected contact",""
+"passed","Tue Jun 09 10:34:49 UTC 2026","Tue Jun 09 10:34:50 UTC 2026","713","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts returns list of accounts","
+    /accounts
+    "
+"passed","Tue Jun 09 10:46:12 UTC 2026","Tue Jun 09 10:46:12 UTC 2026","273","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Get card contains gallery ids",""
+"passed","Tue Jun 09 10:44:40 UTC 2026","Tue Jun 09 10:44:40 UTC 2026","685","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Delete card","
+    /Cards
+    /accounts/{accountID}/cards/{cardID}/attributes
+    /accounts/{accountID}/cards/{cardID}/attributes/
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:45:55 UTC 2026","Tue Jun 09 10:45:55 UTC 2026","254","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Merge banner attribute",""
+"passed","Tue Jun 09 10:45:44 UTC 2026","Tue Jun 09 10:45:44 UTC 2026","652","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","Updated fields visible via GET Card/V2",""
+"passed","Tue Jun 09 10:34:50 UTC 2026","Tue Jun 09 10:34:51 UTC 2026","654","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts without auth","
+    /accounts
+    "
+"passed","Tue Jun 09 10:45:01 UTC 2026","Tue Jun 09 10:45:01 UTC 2026","665","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Create contact returns id",""
+"passed","Tue Jun 09 10:35:53 UTC 2026","Tue Jun 09 10:35:54 UTC 2026","643","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","GET /Cards/{id}/leadGenForms without auth","
+    /Cards/{cardID}/leadGenForms
+    "
+"passed","Tue Jun 09 10:46:14 UTC 2026","Tue Jun 09 10:46:15 UTC 2026","299","tests.e2e.mobile","test_mobileapp_cardlist","TestMobileAppCardList","","","Cards list returns 200 and subscription",""
+"passed","Tue Jun 09 10:44:49 UTC 2026","Tue Jun 09 10:44:50 UTC 2026","668","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Get created card","
+    /Cards
+    /Cards/{id}
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:36:01 UTC 2026","Tue Jun 09 10:36:04 UTC 2026","2951","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> PUT leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{cardID}/leadGenForms
+    "
+"passed","Tue Jun 09 10:44:24 UTC 2026","Tue Jun 09 10:44:25 UTC 2026","650","tests.api.supported_versions","test_supported_versions_ios","TestSupportedVersionsIos","","","GET /SupportedVersions/ios returns supported versions","
+    /SupportedVersions/ios
+    "
+"passed","Tue Jun 09 10:44:42 UTC 2026","Tue Jun 09 10:44:42 UTC 2026","717","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Create custom message template","
+    /Cards
+    /accounts/{accountID}/CustomMessageTemplates
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:44:50 UTC 2026","Tue Jun 09 10:44:50 UTC 2026","244","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Leadgen form appears in list","
+    /Cards
+    /Cards/{id}
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:34:58 UTC 2026","Tue Jun 09 10:35:00 UTC 2026","2073","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> GET /Attachments/{id} -> DELETE /Attachments/{id}","
+    Проверки Attachments API с изображениями, сгенерированными в коде.
+    "
+"passed","Tue Jun 09 10:45:08 UTC 2026","Tue Jun 09 10:45:09 UTC 2026","638","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Delete contact",""
+"passed","Tue Jun 09 10:34:17 UTC 2026","Tue Jun 09 10:34:19 UTC 2026","1305","tests.api.accounts","test_accounts_cardlinks","TestAccountsCardLinks","","","GET /Accounts/{accountID}/Cards/links without auth","
+    /Accounts/{accountID}/Cards/links
+    "
+"passed","Tue Jun 09 10:45:54 UTC 2026","Tue Jun 09 10:45:54 UTC 2026","329","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Get card gallery has avatar",""
+"passed","Tue Jun 09 10:45:10 UTC 2026","Tue Jun 09 10:45:10 UTC 2026","253","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Employee appears in accounts list",""
+"passed","Tue Jun 09 10:37:55 UTC 2026","Tue Jun 09 10:37:56 UTC 2026","1369","tests.api.cards","test_cardlinks_unassign","TestCardLinksUnassign","","","POST /Cards -> PUT /cardlinks/{cardLink}/unassign -> DELETE /Cards/{id}","Unassign cardlink returned 403 Forbidden — operation is not permitted for this account. This is accepted behaviour after recent API changes."
+"passed","Tue Jun 09 10:31:39 UTC 2026","Tue Jun 09 10:31:40 UTC 2026","636","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","DELETE /accounttokens/{token} without auth -> 401/403","
+    POST /accounttokens/ -> DELETE /accounttokens/{token}
+    "
+"passed","Tue Jun 09 10:43:56 UTC 2026","Tue Jun 09 10:43:56 UTC 2026","734","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes supports offset/fetch query","
+    /MetricTypes
+    "
+"passed","Tue Jun 09 10:46:07 UTC 2026","Tue Jun 09 10:46:07 UTC 2026","291","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Get card contains gallery ids",""
+"passed","Tue Jun 09 10:39:48 UTC 2026","Tue Jun 09 10:39:49 UTC 2026","660","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens returns current client token","
+    /clientTokens
+    "
+"passed","Tue Jun 09 10:34:35 UTC 2026","Tue Jun 09 10:34:36 UTC 2026","1218","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts → 200/206, validate response structure","
+    /accounts/contacts
+    "
+"passed","Tue Jun 09 10:31:30 UTC 2026","Tue Jun 09 10:31:32 UTC 2026","1654","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 -> 020 smoke with actionJwt",""
+"passed","Tue Jun 09 10:45:20 UTC 2026","Tue Jun 09 10:45:20 UTC 2026","1","tests.e2e.employee","test_employee_invitation_add_hide_delete_flow","TestEmployeeInvitationAddHideDeleteFlow","","","Created 3 employees",""
+"passed","Tue Jun 09 10:45:03 UTC 2026","Tue Jun 09 10:45:04 UTC 2026","682","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","Delete contact",""
+"passed","Tue Jun 09 10:36:58 UTC 2026","Tue Jun 09 10:37:01 UTC 2026","2535","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{id}/metrics returns 200 -> DELETE /Cards/{id}","
+    /Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:43:40 UTC 2026","Tue Jun 09 10:43:41 UTC 2026","651","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures supports offset/fetch query","
+    /Cultures
+    "
+"passed","Tue Jun 09 10:36:30 UTC 2026","Tue Jun 09 10:36:33 UTC 2026","2673","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{id}/cardLink/leadGenForms
+    "
+"passed","Tue Jun 09 10:35:08 UTC 2026","Tue Jun 09 10:35:12 UTC 2026","3631","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","POST card -> PUT attrs -> GET attrs -> PUT /cards/{id}/upload/fromForm -> DELETE","
+    PUT /cards/{id}/upload/fromForm
+    "
+"passed","Tue Jun 09 10:44:44 UTC 2026","Tue Jun 09 10:44:45 UTC 2026","1370","tests.e2e.cards","test_card_create_leadgen_form_custom_message_flow","TestCardCreateLeadGenFormCustomMessageFlow","","","Leadgen form contains custom message template","
+    /Cards
+    /accounts/{accountID}/CustomMessageTemplates
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /accounts/{accountID}/cards/{cardID}/LeadGenForms/{leadgenFormID}/MessageTemplate
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:45:48 UTC 2026","Tue Jun 09 10:45:48 UTC 2026","0","tests.e2e.employee","test_employee_invitation_flow","TestEmployeeInvitationFlow","","","Create invitation returns id","
+    Invitation create -> accounts list verify -> delete -> accounts list verify.
+    "
+"passed","Tue Jun 09 10:40:05 UTC 2026","Tue Jun 09 10:40:06 UTC 2026","645","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies without auth","
+    /Companies
+    "
+"passed","Tue Jun 09 10:45:50 UTC 2026","Tue Jun 09 10:45:50 UTC 2026","257","tests.e2e.mobile","test_mobileapp_card_create","TestMobileAppCardCreate","","","Create mobile card returns id",""
+"passed","Tue Jun 09 10:34:39 UTC 2026","Tue Jun 09 10:34:45 UTC 2026","5387","tests.api.accounts","test_accounts_custom_message_templates","TestAccountsCustomMessageTemplates","","","POST /Cards -> POST template -> GET list -> GET by id -> PUT -> DELETE template","
+    /Accounts/{accountID}/CustomMessageTemplates
+    "
+"passed","Tue Jun 09 10:45:02 UTC 2026","Tue Jun 09 10:45:03 UTC 2026","1075","tests.e2e.contacts","test_contact_download_csv","TestContactDownloadCsv","","","CSV contains created contact",""
+"passed","Tue Jun 09 10:45:05 UTC 2026","Tue Jun 09 10:45:06 UTC 2026","669","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Create contact returns id",""
+"passed","Tue Jun 09 10:35:42 UTC 2026","Tue Jun 09 10:35:44 UTC 2026","1955","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","GET /Cards/{cardID}/leadGenForms/{leadGenFormID} without auth","
+    /Cards/{cardID}/leadGenForms/{leadGenFormID}
+    "
+"passed","Tue Jun 09 10:45:58 UTC 2026","Tue Jun 09 10:45:58 UTC 2026","235","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Designsettings has new color",""
+"passed","Tue Jun 09 10:46:09 UTC 2026","Tue Jun 09 10:46:12 UTC 2026","2741","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Upload 5 photos as avatar attachments",""
+"passed","Tue Jun 09 10:39:22 UTC 2026","Tue Jun 09 10:39:22 UTC 2026","715","tests.api.cards","test_cards_download_by_id_flow","TestCardsDownloadById","","","POST /Cards -> GET /Cards/{id}/download -> DELETE /Cards/{id}","
+    /Cards/{id}/download
+    "
+"passed","Tue Jun 09 10:35:23 UTC 2026","Tue Jun 09 10:35:24 UTC 2026","661","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/","
+    GET /cards/{id}/attributes/
+    "
+"passed","Tue Jun 09 10:39:46 UTC 2026","Tue Jun 09 10:39:47 UTC 2026","1444","tests.api.cards","test_cards_update_v2_flow","TestCardsUpdateV2Flow","","","POST /Cards -> PUT /Cards/{id}/V2 -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/V2
+    "
+"passed","Tue Jun 09 10:45:37 UTC 2026","Tue Jun 09 10:45:37 UTC 2026","0","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Employee created",""
+"passed","Tue Jun 09 10:32:32 UTC 2026","Tue Jun 09 10:32:39 UTC 2026","7066","tests.api.accounts","test_accounts_card_delete","TestAccountsCardDelete","","","POST multiple /Accounts/{accountID}/Cards -> DELETE /Accounts/{accountID}/Cards/bulkremove","
+    /Accounts/{accountID}/Cards/{cardID}
+    /Accounts/{accountID}/Cards/bulkremove
+    "
+"passed","Tue Jun 09 10:39:32 UTC 2026","Tue Jun 09 10:39:32 UTC 2026","858","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 returns cards list","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Tue Jun 09 10:35:57 UTC 2026","Tue Jun 09 10:35:59 UTC 2026","2187","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{cardID}/leadGenForms
+    "
+"passed","Tue Jun 09 10:45:10 UTC 2026","Tue Jun 09 10:45:10 UTC 2026","0","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Employee created",""
+"passed","Tue Jun 09 10:36:42 UTC 2026","Tue Jun 09 10:36:45 UTC 2026","3271","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{cardLinkId}/cardLink/metrics -> DELETE /Cards/{id}","
+    /Cards/{id}/cardLink/metrics
+    "
+"passed","Tue Jun 09 10:39:28 UTC 2026","Tue Jun 09 10:39:29 UTC 2026","884","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate supports offset/fetch query","
+    /Cards/lastupdate
+    "
+"passed","Tue Jun 09 10:45:45 UTC 2026","Tue Jun 09 10:45:45 UTC 2026","1","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Employee created","
+    Invitation create -> accounts list verify -> export statistic -> delete.
+    "
+"passed","Tue Jun 09 10:45:09 UTC 2026","Tue Jun 09 10:45:09 UTC 2026","352","tests.e2e.employee","test_employee_download_form","","","","Download employment form","
+GET /exports/employment?noData=true
+Должен вернуть XLSX файл.
+"
+"passed","Tue Jun 09 10:37:16 UTC 2026","Tue Jun 09 10:37:18 UTC 2026","1552","tests.api.cards","test_cardlinks_card","TestCardLinksCard","","","POST /Cards -> GET /cardLinks/{cardLink}/card -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card
+    "
+"passed","Tue Jun 09 10:34:26 UTC 2026","Tue Jun 09 10:34:27 UTC 2026","1307","tests.api.accounts","test_accounts_cards_list","TestAccountsCardsList","","","GET /Accounts/{accountID}/Cards supports offset/fetch query","
+    /Accounts/{accountID}/Cards
+    "
+"passed","Tue Jun 09 10:45:38 UTC 2026","Tue Jun 09 10:45:38 UTC 2026","723","tests.e2e.employee","test_employee_invitation_addmoderator_delete_flow","TestEmployeeInvitationAddModeratorDeleteFlowV1","","","Moderator visible via GET",""
+"passed","Tue Jun 09 10:43:45 UTC 2026","Tue Jun 09 10:43:46 UTC 2026","896","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields returns fields list","
+    /LeadGenFormFields
+    "
+"passed","Tue Jun 09 10:45:58 UTC 2026","Tue Jun 09 10:45:59 UTC 2026","244","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","085 has YouTube attribute",""
+"passed","Tue Jun 09 10:42:19 UTC 2026","Tue Jun 09 10:42:22 UTC 2026","3482","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","Create -> Get -> Update -> Delete contact",""
+"passed","Tue Jun 09 10:45:54 UTC 2026","Tue Jun 09 10:45:55 UTC 2026","310","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","085 has text attribute",""
+"passed","Tue Jun 09 10:33:35 UTC 2026","Tue Jun 09 10:33:37 UTC 2026","1712","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","GET /Accounts/{accountID}/Cards/{cardID}/metrics supports offset/fetch query","
+    /Accounts/{accountID}/Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:45:13 UTC 2026","Tue Jun 09 10:45:18 UTC 2026","4880","tests.e2e.employee","test_employee_invitation_add_copyincompany_delete_flow","TestEmployeeInvitationAddCopyInCompanyDeleteFlow","","","POST invitations x4 → list → copy cards → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, copy cards to target company, verify, delete flow"
+"passed","Tue Jun 09 10:44:36 UTC 2026","Tue Jun 09 10:44:38 UTC 2026","1441","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","Create card","
+    /Cards
+    /accounts/{accountID}/cards/{cardID}/attributes
+    /accounts/{accountID}/cards/{cardID}/attributes/
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:45:41 UTC 2026","Tue Jun 09 10:45:42 UTC 2026","259","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Photo visible via 085.2",""
+"passed","Tue Jun 09 10:44:00 UTC 2026","Tue Jun 09 10:44:00 UTC 2026","703","tests.api.promotions","test_promotions_list","TestPromotionsList","","","GET /promotions returns list or no content","
+    /promotions
+    "
+"passed","Tue Jun 09 10:44:50 UTC 2026","Tue Jun 09 10:44:50 UTC 2026","249","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Add leadgen form","
+    /Cards
+    /Cards/{id}
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:40:04 UTC 2026","Tue Jun 09 10:40:04 UTC 2026","710","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies returns companies list","
+    /Companies
+    "
+"passed","Tue Jun 09 10:35:07 UTC 2026","Tue Jun 09 10:35:07 UTC 2026","702","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes → 200, non-empty list with valid items","
     /Attributes
     "
-"passed","Mon Jun 08 12:02:35 UTC 2026","Mon Jun 08 12:02:35 UTC 2026","654","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment without auth","
-    /Exports/employment
+"passed","Tue Jun 09 10:37:50 UTC 2026","Tue Jun 09 10:37:52 UTC 2026","2230","tests.api.cards","test_cardlinks_statistic_events","TestCardLinksStatisticEvents","","","POST /Cards -> PUT statisticview -> PUT statisticdownload -> DELETE /Cards/{id}","
+    /cardlinks/{cardLink}/statisticview и /cardlinks/{cardLink}/statisticdownload
     "
-"passed","Mon Jun 08 11:56:02 UTC 2026","Mon Jun 08 11:56:03 UTC 2026","1519","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","GET /Cards/{cardID}/leadGenForms/{leadGenFormID} without auth","
-    /Cards/{cardID}/leadGenForms/{leadGenFormID}
+"passed","Tue Jun 09 10:43:58 UTC 2026","Tue Jun 09 10:43:59 UTC 2026","718","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ -> 200/204","
+    GET /powerbireports/
+    "
+"passed","Tue Jun 09 10:45:27 UTC 2026","Tue Jun 09 10:45:34 UTC 2026","6890","tests.e2e.employee","test_employee_invitation_add_moveincompany_delete_flow","TestEmployeeInvitationAddMoveInCompanyDeleteFlow","","","POST invitations x4 → list → PATCH move → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, move to target company, verify, delete flow"
+"passed","Tue Jun 09 10:31:44 UTC 2026","Tue Jun 09 10:31:45 UTC 2026","631","tests.api.accounts","test_accounts_authorize","TestAccountsAuthorize","","","POST /accounts/authorize without auth","
+    POST /accounts/authorize
+    "
+"passed","Tue Jun 09 10:31:32 UTC 2026","Tue Jun 09 10:31:33 UTC 2026","642","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","011 WebAccountVerification smoke — random push_token → not 5xx",""
+"passed","Tue Jun 09 10:31:40 UTC 2026","Tue Jun 09 10:31:41 UTC 2026","1340","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","POST /accounttokens/ -> GET /accounttokens/{token} -> 200","
+    POST /accounttokens/ -> GET /accounttokens/{token}
+    "
+"passed","Tue Jun 09 10:45:41 UTC 2026","Tue Jun 09 10:45:41 UTC 2026","253","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","PUT photo attribute",""
+"passed","Tue Jun 09 10:34:53 UTC 2026","Tue Jun 09 10:34:54 UTC 2026","684","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications returns applications list","
+    /Applications
+    "
+"passed","Tue Jun 09 10:44:05 UTC 2026","Tue Jun 09 10:44:06 UTC 2026","688","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts","
+    GET /Subscriptions/{id}/contacts
+    "
+"passed","Tue Jun 09 10:45:56 UTC 2026","Tue Jun 09 10:45:57 UTC 2026","593","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Upload back photo",""
+"passed","Tue Jun 09 10:39:29 UTC 2026","Tue Jun 09 10:39:30 UTC 2026","663","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate without auth","
+    /Cards/lastupdate
+    "
+"passed","Tue Jun 09 10:44:28 UTC 2026","Tue Jun 09 10:44:29 UTC 2026","668","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:33:44 UTC 2026","Tue Jun 09 10:33:47 UTC 2026","3497","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Accounts/{accountID}/Cards/{cardID}/metrics -> DELETE /Accounts/{accountID}/Cards/{cardID}/metrics","
+    /Accounts/{accountID}/Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:31:49 UTC 2026","Tue Jun 09 10:31:51 UTC 2026","2444","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","POST /Accounts/{id}/Cards -> GET /accounts/{id}/cards/{cardId}/attributes/ -> DELETE","
+    GET /accounts/{id}/cards/{cardId}/attributes/
+    "
+"passed","Tue Jun 09 10:45:23 UTC 2026","Tue Jun 09 10:45:23 UTC 2026","0","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Created 3 employees",""
+"passed","Tue Jun 09 10:32:49 UTC 2026","Tue Jun 09 10:32:50 UTC 2026","1352","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","GET /Accounts/{accountID}/Cards/{cardID} without auth","
+    /Accounts/{accountID}/Cards/{cardID}
+    /Accounts/{accountID}/Cards/{cardID}/V2
+    "
+"passed","Tue Jun 09 10:32:19 UTC 2026","Tue Jun 09 10:32:24 UTC 2026","4374","tests.api.accounts","test_accounts_card_catalog","TestAccountsCardCatalog","","","POST catalog -> POST item -> DELETE item -> GET catalog (item absent)","
+    /Accounts/{accountID}/Cards/{cardID}/catalog
+    /Accounts/{accountID}/Cards/{cardID}/catalog/{catalogID}
+    "
+"passed","Tue Jun 09 10:44:13 UTC 2026","Tue Jun 09 10:44:17 UTC 2026","3512","tests.api.subscriptions","test_subscription_invitation_flow","TestSubscriptionInvitationFlow","","","POST invitation -> GET /accounts -> DELETE invitation -> GET /accounts","
+    /Subscriptions/{subscription_id}/invitation
+    /accounts
+    /Subscriptions/{subscription_id}/invitation/{invite_id}
+    /accounts
+    "
+"passed","Tue Jun 09 10:37:13 UTC 2026","Tue Jun 09 10:37:15 UTC 2026","2015","tests.api.cards","test_cardlinks_by_id","TestCardLinksById","","","GET /Cards -> GET /cardlinks/{cardLink}","
+    /cardlinks/{cardLink}
+    "
+"passed","Tue Jun 09 10:45:45 UTC 2026","Tue Jun 09 10:45:47 UTC 2026","1809","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Statistic export returns 200","
+    Invitation create -> accounts list verify -> export statistic -> delete.
+    "
+"passed","Tue Jun 09 10:39:30 UTC 2026","Tue Jun 09 10:39:31 UTC 2026","653","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards supports offset/fetch query","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Tue Jun 09 10:33:10 UTC 2026","Tue Jun 09 10:33:11 UTC 2026","1304","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","GET /Accounts/{accountID}/Cards/{cardID}/leadGenForms without auth","
+    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
+    "
+"passed","Tue Jun 09 10:35:02 UTC 2026","Tue Jun 09 10:35:03 UTC 2026","685","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups returns dictionary","
+    /AttributeTypeGroups
+    "
+"passed","Tue Jun 09 10:37:04 UTC 2026","Tue Jun 09 10:37:04 UTC 2026","654","tests.api.cards","test_card_metrics","TestCardMetrics","","","GET /Cards/{id}/metrics supports offset/fetch query","
+    /Cards/{cardID}/metrics
+    "
+"passed","Tue Jun 09 10:38:41 UTC 2026","Tue Jun 09 10:38:42 UTC 2026","672","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink supports offset/fetch query","
+    /Cards/customlink
+    "
+"passed","Tue Jun 09 10:35:03 UTC 2026","Tue Jun 09 10:35:04 UTC 2026","671","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups without auth","
+    /AttributeTypeGroups
+    "
+"passed","Tue Jun 09 10:39:33 UTC 2026","Tue Jun 09 10:39:34 UTC 2026","639","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 without auth","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Tue Jun 09 10:35:05 UTC 2026","Tue Jun 09 10:35:05 UTC 2026","646","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes without auth","
+    /AttributeTypes
+    "
+"passed","Tue Jun 09 10:46:01 UTC 2026","Tue Jun 09 10:46:02 UTC 2026","813","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Upload document and merge file attribute",""
+"passed","Tue Jun 09 10:45:13 UTC 2026","Tue Jun 09 10:45:13 UTC 2026","296","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Delete invitation",""
+"passed","Tue Jun 09 10:44:25 UTC 2026","Tue Jun 09 10:44:26 UTC 2026","1108","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:44:26 UTC 2026","Tue Jun 09 10:44:27 UTC 2026","647","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:34:33 UTC 2026","Tue Jun 09 10:34:35 UTC 2026","2139","tests.api.accounts","test_accounts_contact_create_for_owner","TestAccountsContactCreateForOwner","","","POST /Accounts/{accountID}/Contacts creates contact visible by GET and removable by DELETE","
+    POST /Accounts/{accountID}/Contacts
+    GET /accounts/contacts/{contact_id}
+    DELETE /subscriptions/{sub_id}/contacts
+    "
+"passed","Tue Jun 09 10:45:04 UTC 2026","Tue Jun 09 10:45:05 UTC 2026","1196","tests.e2e.contacts","test_contact_list","TestContactList","","","Accounts contact list returns 200 and list",""
+"passed","Tue Jun 09 10:35:13 UTC 2026","Tue Jun 09 10:35:14 UTC 2026","678","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","PUT /cards/{id}/upload/fromForm without auth -> 401/403","
+    PUT /cards/{id}/upload/fromForm
+    "
+"passed","Tue Jun 09 10:46:02 UTC 2026","Tue Jun 09 10:46:02 UTC 2026","249","tests.e2e.mobile","test_mobileapp_card_create_upload_file","TestMobileAppCardCreateUploadFile","","","Attributes list has file attribute",""
+"passed","Tue Jun 09 10:45:36 UTC 2026","Tue Jun 09 10:45:36 UTC 2026","277","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","05. DELETE employee invitation",""
+"passed","Tue Jun 09 10:39:30 UTC 2026","Tue Jun 09 10:39:30 UTC 2026","665","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards returns cards list","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Tue Jun 09 10:31:36 UTC 2026","Tue Jun 09 10:31:36 UTC 2026","926","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ -> 201 Created","
+    POST /accounttokens/
+    "
+"passed","Tue Jun 09 10:45:26 UTC 2026","Tue Jun 09 10:45:27 UTC 2026","824","tests.e2e.employee","test_employee_invitation_add_hide_show_delete_flow","TestEmployeeInvitationAddHideShowDeleteFlow","","","Delete employees",""
+"passed","Tue Jun 09 10:46:12 UTC 2026","Tue Jun 09 10:46:12 UTC 2026","249","tests.e2e.mobile","test_mobileapp_card_upload_avatar_and_photo","TestMobileAppCardUploadAvatarAndPhoto","","","Update card avatar gallery",""
+"passed","Tue Jun 09 10:44:53 UTC 2026","Tue Jun 09 10:44:54 UTC 2026","971","tests.e2e.company","test_company_create_get_delete_flow","TestCompanyCreateGetDeleteFlow","","","POST /Companies → GET /Companies (in list) → DELETE /Companies/{id}","/Companies — create, get list, delete flow"
+"passed","Tue Jun 09 10:39:17 UTC 2026","Tue Jun 09 10:39:18 UTC 2026","1350","tests.api.cards","test_cards_designsettings_update_flow","TestCardsDesignsettingsUpdateFlow","","","POST /Cards -> PUT /Cards/{id}/designsettings -> GET /Cards/{id}/designsettings -> DELETE /Cards/{id}","
+    /Cards/{cardID}/designsettings
+    "
+"passed","Tue Jun 09 10:44:35 UTC 2026","Tue Jun 09 10:44:36 UTC 2026","657","tests.api.virtual_backgrounds","test_virtual_backgrounds_list","TestVirtualBackgroundsList","","","GET /VirtualBackgrounds returns list","
+    GET /VirtualBackgrounds
+    "
+"passed","Tue Jun 09 10:45:41 UTC 2026","Tue Jun 09 10:45:41 UTC 2026","1","tests.e2e.employee","test_employee_invitation_addphoto_delete_flow","TestEmployeeInvitationAddPhotoDeleteFlow","","","Employee created and 5 attachments uploaded",""
+"passed","Tue Jun 09 10:37:41 UTC 2026","Tue Jun 09 10:37:43 UTC 2026","2210","tests.api.cards","test_cardlinks_list","TestCardLinksList","","","GET /Cards -> GET /cardLinks?accountUriName=...","
+    /cardLinks?accountUriName=...
+    "
+"passed","Tue Jun 09 10:35:27 UTC 2026","Tue Jun 09 10:35:27 UTC 2026","664","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/?attributeID={id} — filter by attribute","
+    GET /cards/{id}/attributes/
+    "
+"passed","Tue Jun 09 10:45:58 UTC 2026","Tue Jun 09 10:45:58 UTC 2026","251","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Merge YouTube attribute",""
+"passed","Tue Jun 09 10:34:13 UTC 2026","Tue Jun 09 10:34:15 UTC 2026","1380","tests.api.accounts","test_accounts_cardlinks","TestAccountsCardLinks","","","POST /Cards -> GET /Accounts/{accountID}/Cards/links","
+    /Accounts/{accountID}/Cards/links
+    "
+"passed","Tue Jun 09 10:45:47 UTC 2026","Tue Jun 09 10:45:47 UTC 2026","278","tests.e2e.employee","test_employee_invitation_export_statistic_and_delete_flow","TestEmployeeInvitationExportStatisticAndDeleteFlow","","","Delete invitation","
+    Invitation create -> accounts list verify -> export statistic -> delete.
+    "
+"passed","Tue Jun 09 10:45:35 UTC 2026","Tue Jun 09 10:45:36 UTC 2026","686","tests.e2e.employee","test_employee_invitation_addattribute_delete_flow","TestEmployeeInvitationAddAttributeDeleteFlow","","","04. Social attributes visible via V2 / 085.2",""
+"passed","Tue Jun 09 10:36:18 UTC 2026","Tue Jun 09 10:36:22 UTC 2026","4006","tests.api.cards","test_card_link_attribute_counter","TestCardLinkAttributeCounter","","","205 POST card -> PUT merge WhatsApp -> GET attrs -> PUT /cardLink/attributes/click -> DELETE card","
+    205 PUT /cards/{token}/cardLink/attributes/click
+    Flow: POST card -> merge WhatsApp attr -> get cardAttribute.id -> PUT click -> DELETE card
+    "
+"passed","Tue Jun 09 10:46:06 UTC 2026","Tue Jun 09 10:46:07 UTC 2026","647","tests.e2e.mobile","test_mobileapp_card_upload_avatar","TestMobileAppCardUploadAvatar","","","Update card with uploaded gallery",""
+"passed","Tue Jun 09 10:45:12 UTC 2026","Tue Jun 09 10:45:12 UTC 2026","661","tests.e2e.employee","test_employee_invitation_add_and_deletemoderator_delete_flow","TestEmployeeInvitationAddAndDeleteModeratorDeleteFlow","","","Delete moderator",""
+"passed","Tue Jun 09 10:31:56 UTC 2026","Tue Jun 09 10:31:57 UTC 2026","654","tests.api.accounts","test_accounts_card_attributes_merge","TestAccountsCardAttributesMerge","","","PUT /accounts/{id}/cards/{cardId}/attributes without auth -> 401/403","
+    PUT /accounts/{id}/cards/{cardId}/attributes
+    "
+"passed","Tue Jun 09 10:45:57 UTC 2026","Tue Jun 09 10:45:58 UTC 2026","261","tests.e2e.mobile","test_mobileapp_card_create_back_color_youtube","TestMobileAppCardCreateBackColorYoutube","","","Designsettings has background",""
+"passed","Tue Jun 09 10:35:30 UTC 2026","Tue Jun 09 10:35:31 UTC 2026","670","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/ without auth -> 401/403","
+    GET /cards/{id}/attributes/
+    "
+"passed","Tue Jun 09 10:44:54 UTC 2026","Tue Jun 09 10:44:57 UTC 2026","2790","tests.e2e.company","test_company_create_withlogoandcolor_get_delete_flow","TestCompanyCreateWithLogoAndColorFlow","","","POST /Companies → list → upload logo → update → GET → upload bg → designsettings → GET → DELETE","/Companies — create, upload logo + background, set design, delete flow"
+"passed","Tue Jun 09 10:35:06 UTC 2026","Tue Jun 09 10:35:07 UTC 2026","644","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} without auth → 401/403","
+    /Attributes/{attributeID}
+    "
+"passed","Tue Jun 09 10:39:14 UTC 2026","Tue Jun 09 10:39:14 UTC 2026","660","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","GET /Cards/{id}/designSettings without auth","
+    /Cards/{cardID}/designSettings
+    "
+"passed","Tue Jun 09 10:31:35 UTC 2026","Tue Jun 09 10:31:36 UTC 2026","1024","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","015 MobileAccountNotificationSend smoke — random push_token + guid → not 5xx",""
+"passed","Tue Jun 09 10:45:44 UTC 2026","Tue Jun 09 10:45:44 UTC 2026","253","tests.e2e.employee","test_employee_invitation_edit_delete_flow","TestEmployeeInvitationEditDeleteFlow","","","PUT Card/V2 updates fields",""
+"passed","Tue Jun 09 10:36:48 UTC 2026","Tue Jun 09 10:36:51 UTC 2026","3120","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","GET /Cards/{cardLinkId}/cardLink/metrics supports offset/fetch query","
+    /Cards/{id}/cardLink/metrics
+    "
+"passed","Tue Jun 09 10:44:39 UTC 2026","Tue Jun 09 10:44:40 UTC 2026","301","tests.e2e.cards","test_card_add_social_networks_flow","TestCardAddSocialNetworksFlow","","","085 contains all social networks","
+    /Cards
+    /accounts/{accountID}/cards/{cardID}/attributes
+    /accounts/{accountID}/cards/{cardID}/attributes/
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:35:00 UTC 2026","Tue Jun 09 10:35:01 UTC 2026","634","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms returns forms list","
+    /AttributeForms
+    "
+"passed","Tue Jun 09 10:31:52 UTC 2026","Tue Jun 09 10:31:56 UTC 2026","3741","tests.api.accounts","test_accounts_card_attributes_merge","TestAccountsCardAttributesMerge","","","POST card -> PUT /accounts/{id}/cards/{cardId}/attributes -> GET verify -> DELETE","
+    PUT /accounts/{id}/cards/{cardId}/attributes
+    "
+"passed","Tue Jun 09 10:35:01 UTC 2026","Tue Jun 09 10:35:01 UTC 2026","677","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms supports offset/fetch query","
+    /AttributeForms
+    "
+"passed","Tue Jun 09 10:35:16 UTC 2026","Tue Jun 09 10:35:17 UTC 2026","669","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments","
+    GET /cards/{id}/attributes/attachments
+    "
+"passed","Tue Jun 09 10:44:31 UTC 2026","Tue Jun 09 10:44:32 UTC 2026","648","tests.api","test_invalid_auth_parametrize","TestInvalidAuthParametrize","","","Invalid token → 401/403",""
+"passed","Tue Jun 09 10:31:37 UTC 2026","Tue Jun 09 10:31:39 UTC 2026","1985","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","POST /accounttokens/ -> DELETE /accounttokens/{token}","
+    POST /accounttokens/ -> DELETE /accounttokens/{token}
+    "
+"passed","Tue Jun 09 10:44:50 UTC 2026","Tue Jun 09 10:44:51 UTC 2026","692","tests.e2e.cards","test_card_create_leadgen_form_flow","TestCardCreateLeadGenFormFlow","","","Delete card","
+    /Cards
+    /Cards/{id}
+    /accounts/{accountID}/cards/{cardID}/leadgenforms
+    /Cards/{id}
+    "
+"passed","Tue Jun 09 10:31:36 UTC 2026","Tue Jun 09 10:31:37 UTC 2026","639","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ without auth -> 401/403","
+    POST /accounttokens/
+    "
+"passed","Tue Jun 09 10:31:51 UTC 2026","Tue Jun 09 10:31:52 UTC 2026","1085","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","GET /accounts/{id}/cards/{cardId}/attributes/ without auth -> 401/403","
+    GET /accounts/{id}/cards/{cardId}/attributes/
+    "
+"passed","Tue Jun 09 10:45:06 UTC 2026","Tue Jun 09 10:45:06 UTC 2026","652","tests.e2e.contacts","test_contact_update_get_delete_flow","TestContactUpdateGetDeleteFlow","","","Contact GET returns 200",""
+"passed","Tue Jun 09 10:38:19 UTC 2026","Tue Jun 09 10:38:23 UTC 2026","3912","tests.api.cards","test_cards_copy_flow","TestCardsCopyFlow","","","POST /Cards -> POST /cards/card/copy -> GET /Cards/v2.0 -> DELETE copied card","
+    /cards/card/copy
+    "
+"passed","Tue Jun 09 10:39:25 UTC 2026","Tue Jun 09 10:39:26 UTC 2026","789","tests.api.cards","test_cards_download_by_id_v2_flow","TestCardsDownloadByIdV2","","","POST /Cards -> GET /Cards/{id}/download/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/download/V2
+    "
+"passed","Tue Jun 09 10:44:06 UTC 2026","Tue Jun 09 10:44:07 UTC 2026","645","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts without auth -> 401/403","
+    GET /Subscriptions/{id}/contacts
+    "
+"passed","Tue Jun 09 10:45:53 UTC 2026","Tue Jun 09 10:45:53 UTC 2026","246","tests.e2e.mobile","test_mobileapp_card_create_avatar_text_banner","TestMobileAppCardCreateAvatarTextBanner","","","Get card after create",""
+"passed","Tue Jun 09 10:46:15 UTC 2026","Tue Jun 09 10:46:16 UTC 2026","1442","tests.e2e","test_script_runs","TestScriptRuns","","","Script: Company create → GET list → DELETE  (N runs)","Stability scenario: POST /companies → verify appears in list → DELETE. Run with --runs=N to repeat N times in one test."
+"passed","Tue Jun 09 10:35:03 UTC 2026","Tue Jun 09 10:35:03 UTC 2026","644","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups supports offset/fetch query","
+    /AttributeTypeGroups
     "

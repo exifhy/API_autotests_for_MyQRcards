@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/Companies/3799/designsettings",
+  "body": "{\"companyID\":3799,\"accountID\":7124,\"color\":\"aa5c36\",\"qrColor\":\"19d5df\"}"
+}
