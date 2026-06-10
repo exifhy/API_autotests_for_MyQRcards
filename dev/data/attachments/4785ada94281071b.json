@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/accounts?accountID=11153",
-  "body": "[{\"email\":\"at_t5puydlgzd@mail.com\",\"firstName\":\"AT_FN_dw999k\",\"lastName\":\"AT_LN_tga0es\",\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"card\":{\"url\":\"https://dev-ecard.myqrcards.com/links/6LIXLc9sAq7\",\"name\":\"Корпоративная:Компания куда создаем сотрудников\",\"id\":1},\"position\":\"Director\",\"isReadOnly\":false,\"lockNewSubscribing\":true,\"invitationCreated\":\"2026-06-10T08:58:23\",\"invitationAccepted\":\"2026-06-10T08:58:23\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":false,\"id\":11153}]"
-}
