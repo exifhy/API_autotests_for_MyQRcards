@@ -1,0 +1,6 @@
+{
+  "status_code": 504,
+  "reason": "Gateway Time-out",
+  "url": "https://dev-api.myqrcards.com/subscriptions/536/contacts",
+  "body": "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+}
