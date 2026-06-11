@@ -1,283 +1,283 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Jun 10 00:24:18 UTC 2026","Wed Jun 10 00:24:19 UTC 2026","1029","tests.api.cards","test_cards_designsettings_update_flow","TestCardsDesignsettingsUpdateFlow","","","POST /Cards -> PUT /Cards/{id}/designsettings -> GET /Cards/{id}/designsettings -> DELETE /Cards/{id}","
-    /Cards/{cardID}/designsettings
+"passed","Thu Jun 11 00:26:07 UTC 2026","Thu Jun 11 00:26:09 UTC 2026","2204","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{cardLinkId}/cardLink/metrics -> DELETE /Cards/{id}","
+    /Cards/{id}/cardLink/metrics
     "
-"passed","Wed Jun 10 00:27:02 UTC 2026","Wed Jun 10 00:27:03 UTC 2026","514","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures returns cultures list","
-    /Cultures
-    "
-"passed","Wed Jun 10 00:27:06 UTC 2026","Wed Jun 10 00:27:07 UTC 2026","511","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations with locationID returns location map","
-    /Locations?locationID=1
-    "
-"passed","Wed Jun 10 00:20:51 UTC 2026","Wed Jun 10 00:20:52 UTC 2026","647","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ -> 201 Created","
-    POST /accounttokens/
-    "
-"passed","Wed Jun 10 00:24:10 UTC 2026","Wed Jun 10 00:24:12 UTC 2026","2294","tests.api.cards","test_cards_create_v2_flow","TestCardsCreateV2Flow","","","POST /Cards/V2.0 -> GET /Cards/{id}/V2","
-    /Cards/V2.0
-    "
-"passed","Wed Jun 10 00:26:59 UTC 2026","Wed Jun 10 00:26:59 UTC 2026","791","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","GET /accounts/contacts returns list",""
-"passed","Wed Jun 10 00:21:48 UTC 2026","Wed Jun 10 00:21:49 UTC 2026","514","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/","
-    GET /cards/{id}/attributes/
-    "
-"passed","Wed Jun 10 00:22:03 UTC 2026","Wed Jun 10 00:22:09 UTC 2026","6298","tests.api.cards","test_card_leadgen_forms_custom_message_template","TestCardLeadGenFormsCustomMessageTemplate","","","POST leadGenForm with CustomMessageTemplateID -> PUT leadGenForm with another CustomMessageTemplateID","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Wed Jun 10 00:21:32 UTC 2026","Wed Jun 10 00:21:33 UTC 2026","501","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns true for known email","
-    /accounts/Exists
-    "
-"passed","Wed Jun 10 00:25:56 UTC 2026","Wed Jun 10 00:25:57 UTC 2026","653","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/{contact_id}/download returns VCF",""
-"passed","Wed Jun 10 00:23:29 UTC 2026","Wed Jun 10 00:23:31 UTC 2026","1606","tests.api.cards","test_cardlinks_statistic_events","TestCardLinksStatisticEvents","","","POST /Cards -> PUT statisticview -> PUT statisticdownload -> DELETE /Cards/{id}","
-    /cardlinks/{cardLink}/statisticview и /cardlinks/{cardLink}/statisticdownload
-    "
-"passed","Wed Jun 10 00:21:36 UTC 2026","Wed Jun 10 00:21:37 UTC 2026","1212","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> DELETE /Attachments/{id}","
-    Проверки Attachments API с изображениями, сгенерированными в коде.
-    "
-"passed","Wed Jun 10 00:23:13 UTC 2026","Wed Jun 10 00:23:14 UTC 2026","1157","tests.api.cards","test_cardlinks_download","TestCardLinksDownload","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card/download
-    "
-"passed","Wed Jun 10 00:20:50 UTC 2026","Wed Jun 10 00:20:51 UTC 2026","732","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","015 MobileAccountNotificationSend smoke — random push_token + guid → not 5xx",""
-"passed","Wed Jun 10 00:27:15 UTC 2026","Wed Jun 10 00:27:16 UTC 2026","1937","tests.e2e.company","test_company_create_and_edit_get_delete_flow","TestCompanyCreateEditDeleteFlow","","","POST /Companies → GET → PUT → GET → DELETE","/Companies — create, edit, get, delete flow"
-"passed","Wed Jun 10 00:20:47 UTC 2026","Wed Jun 10 00:20:48 UTC 2026","1500","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 -> 020 smoke with actionJwt",""
-"passed","Wed Jun 10 00:23:24 UTC 2026","Wed Jun 10 00:23:25 UTC 2026","1149","tests.api.cards","test_cardlinks_short_card","TestCardLinksShortCard","","","POST /Cards -> GET /cardLinks/{cardLink}/short/card -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/short/card
-    "
-"passed","Wed Jun 10 00:21:24 UTC 2026","Wed Jun 10 00:21:24 UTC 2026","783","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts → 200/206, validate response structure","
-    /accounts/contacts
-    "
-"passed","Wed Jun 10 00:24:44 UTC 2026","Wed Jun 10 00:24:46 UTC 2026","1554","tests.api.companies","test_companies_create_update_get_delete_flow_api","TestCompanyCreateUpdateGetDeleteFlow","","","POST /Companies -> PUT /Companies/{id} -> GET /Companies/{id} -> DELETE /Companies/{id}","
-    /Companies
-    "
-"passed","Wed Jun 10 00:20:46 UTC 2026","Wed Jun 10 00:20:47 UTC 2026","1087","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 MobileAccountVerification smoke",""
-"passed","Wed Jun 10 00:21:55 UTC 2026","Wed Jun 10 00:21:56 UTC 2026","527","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","POST /Cards -> GET /Cards/{id}/leadGenForms -> DELETE /Cards/{id}","
-    /Cards/{cardID}/leadGenForms
-    "
-"passed","Wed Jun 10 00:27:13 UTC 2026","Wed Jun 10 00:27:14 UTC 2026","508","tests.api.supported_versions","test_supported_versions_ios","TestSupportedVersionsIos","","","GET /SupportedVersions/ios returns supported versions","
+"passed","Thu Jun 11 00:31:00 UTC 2026","Thu Jun 11 00:31:01 UTC 2026","627","tests.api.supported_versions","test_supported_versions_ios","TestSupportedVersionsIos","","","GET /SupportedVersions/ios returns supported versions","
     /SupportedVersions/ios
     "
-"passed","Wed Jun 10 00:27:11 UTC 2026","Wed Jun 10 00:27:12 UTC 2026","548","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts","
-    GET /Subscriptions/{id}/contacts
+"passed","Thu Jun 11 00:25:29 UTC 2026","Thu Jun 11 00:25:30 UTC 2026","530","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments","
+    GET /cards/{id}/attributes/attachments
     "
-"passed","Wed Jun 10 00:21:27 UTC 2026","Wed Jun 10 00:21:31 UTC 2026","4533","tests.api.accounts","test_accounts_custom_message_templates","TestAccountsCustomMessageTemplates","","","POST /Cards -> POST template -> GET list -> GET by id -> PUT -> DELETE template","
+"passed","Thu Jun 11 00:30:55 UTC 2026","Thu Jun 11 00:30:56 UTC 2026","511","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ without auth -> 401/403","
+    GET /powerbireports/
+    "
+"passed","Thu Jun 11 00:27:11 UTC 2026","Thu Jun 11 00:27:13 UTC 2026","1970","tests.api.cards","test_cardlinks_statistic","TestCardLinksStatistic","","","GET /cardlinks/statistic returns list","
+    /cardlinks/statistic
+    "
+"passed","Thu Jun 11 00:28:31 UTC 2026","Thu Jun 11 00:28:32 UTC 2026","1564","tests.api.companies","test_companies_create_get_delete_flow_api","TestCompanyCreateGetDeleteFlow","","","POST /Companies -> GET /Companies/{id} -> DELETE /Companies/{id}","
+    /Companies
+    "
+"passed","Thu Jun 11 00:23:45 UTC 2026","Thu Jun 11 00:23:45 UTC 2026","505","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","013 SubscriptionInvitation smoke — random push_token → not 5xx",""
+"passed","Thu Jun 11 00:28:18 UTC 2026","Thu Jun 11 00:28:21 UTC 2026","2837","tests.api.cards","test_cards_show_hide_flow","TestCardsShowHideFlow","","","POST /Cards -> PUT /Cards/hide -> GET /Cards/{id} -> PUT /Cards/show -> GET /Cards/{id}","
+    /Cards/hide и /Cards/show
+    "
+"passed","Thu Jun 11 00:23:50 UTC 2026","Thu Jun 11 00:23:51 UTC 2026","722","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms accepts terms","
+    /accounts/this/acceptUserTerms
+    "
+"passed","Thu Jun 11 00:31:07 UTC 2026","Thu Jun 11 00:31:10 UTC 2026","2131","tests.e2e.contacts","test_contact_create_and_delete","TestContactCreateAndDelete","","","POST /attachments (photo) → POST contact → GET verify → DELETE","/Contacts — upload photo, create, GET verify, delete flow"
+"passed","Thu Jun 11 00:28:41 UTC 2026","Thu Jun 11 00:28:42 UTC 2026","789","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/download returns CSV",""
+"passed","Thu Jun 11 00:27:18 UTC 2026","Thu Jun 11 00:27:19 UTC 2026","1130","tests.api.cards","test_cardlinks_unassign","TestCardLinksUnassign","","","POST /Cards -> PUT /cardlinks/{cardLink}/unassign -> DELETE /Cards/{id}","Unassign cardlink returned 403 Forbidden — operation is not permitted for this account. This is accepted behaviour after recent API changes."
+"passed","Thu Jun 11 00:28:34 UTC 2026","Thu Jun 11 00:28:36 UTC 2026","1690","tests.api.companies","test_companies_create_update_get_delete_flow_api","TestCompanyCreateUpdateGetDeleteFlow","","","POST /Companies -> PUT /Companies/{id} -> GET /Companies/{id} -> DELETE /Companies/{id}","
+    /Companies
+    "
+"passed","Thu Jun 11 00:25:58 UTC 2026","Thu Jun 11 00:26:00 UTC 2026","2156","tests.api.cards","test_card_link_leadgen_form_by_id","TestCardLinkLeadGenFormById","","","POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId} -> DELETE","
+    GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId}
+    "
+"passed","Thu Jun 11 00:27:37 UTC 2026","Thu Jun 11 00:27:38 UTC 2026","720","tests.api.cards","test_cards_by_id_v2_flow","TestCardsByIdV2","","","POST /Cards -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/V2
+    "
+"passed","Thu Jun 11 00:26:12 UTC 2026","Thu Jun 11 00:26:12 UTC 2026","513","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> GET /Cards/{id}/metrics -> DELETE /Cards/{id}","
+    /Cards/{cardID}/metrics
+    "
+"passed","Thu Jun 11 00:25:10 UTC 2026","Thu Jun 11 00:25:15 UTC 2026","4470","tests.api.accounts","test_accounts_custom_message_templates","TestAccountsCustomMessageTemplates","","","POST /Cards -> POST template -> GET list -> GET by id -> PUT -> DELETE template","
     /Accounts/{accountID}/CustomMessageTemplates
     "
-"passed","Wed Jun 10 00:21:41 UTC 2026","Wed Jun 10 00:21:44 UTC 2026","3502","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","POST card -> PUT attrs -> GET attrs -> PUT /cards/{id}/upload/fromForm -> DELETE","
-    PUT /cards/{id}/upload/fromForm
+"passed","Thu Jun 11 00:28:06 UTC 2026","Thu Jun 11 00:28:07 UTC 2026","1097","tests.api.cards","test_cards_designsettings_update_flow","TestCardsDesignsettingsUpdateFlow","","","POST /Cards -> PUT /Cards/{id}/designsettings -> GET /Cards/{id}/designsettings -> DELETE /Cards/{id}","
+    /Cards/{cardID}/designsettings
     "
-"passed","Wed Jun 10 00:21:38 UTC 2026","Wed Jun 10 00:21:39 UTC 2026","541","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes returns dictionary","
-    /AttributeTypes
+"passed","Thu Jun 11 00:27:03 UTC 2026","Thu Jun 11 00:27:07 UTC 2026","3983","tests.api.cards","test_cardlinks_list","TestCardLinksList","","","GET /Cards -> GET /cardLinks?accountUriName=...","
+    /cardLinks?accountUriName=...
     "
-"passed","Wed Jun 10 00:24:38 UTC 2026","Wed Jun 10 00:24:40 UTC 2026","1110","tests.api.cards","test_cards_update_v2_flow","TestCardsUpdateV2Flow","","","POST /Cards -> PUT /Cards/{id}/V2 -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/V2
+"passed","Thu Jun 11 00:27:40 UTC 2026","Thu Jun 11 00:27:43 UTC 2026","3502","tests.api.cards","test_cards_copy_flow","TestCardsCopyFlow","","","POST /Cards -> POST /cards/card/copy -> GET /Cards/v2.0 -> DELETE copied card","
+    /cards/card/copy
     "
-"passed","Wed Jun 10 00:20:52 UTC 2026","Wed Jun 10 00:20:53 UTC 2026","1363","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","POST /accounttokens/ -> DELETE /accounttokens/{token}","
-    POST /accounttokens/ -> DELETE /accounttokens/{token}
+"passed","Thu Jun 11 00:30:49 UTC 2026","Thu Jun 11 00:30:49 UTC 2026","509","tests.api.cultures","test_cultures_list","TestCulturesList","","","GET /Cultures returns cultures list","
+    /Cultures
     "
-"passed","Wed Jun 10 00:23:03 UTC 2026","Wed Jun 10 00:23:05 UTC 2026","1799","tests.api.cards","test_cardlinks_by_id","TestCardLinksById","","","GET /Cards -> GET /cardlinks/{cardLink}","
+"passed","Thu Jun 11 00:26:14 UTC 2026","Thu Jun 11 00:26:15 UTC 2026","1749","tests.api.cards","test_cardlinks_by_id","TestCardLinksById","","","GET /Cards -> GET /cardlinks/{cardLink}","
     /cardlinks/{cardLink}
     "
-"passed","Wed Jun 10 00:27:12 UTC 2026","Wed Jun 10 00:27:13 UTC 2026","848","tests.api.subscriptions","test_subscription_request","TestSubscriptionRequest","","","POST /Subscriptions/request — random email","
-    POST /Subscriptions/request  (public, no auth required)
+"passed","Thu Jun 11 00:23:44 UTC 2026","Thu Jun 11 00:23:45 UTC 2026","705","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","011 WebAccountVerification smoke — random push_token → not 5xx",""
+"passed","Thu Jun 11 00:25:39 UTC 2026","Thu Jun 11 00:25:40 UTC 2026","513","tests.api.cards","test_card_leadgen_forms","TestCardLeadGenForms","","","POST /Cards -> GET /Cards/{id}/leadGenForms -> DELETE /Cards/{id}","
+    /Cards/{cardID}/leadGenForms
     "
-"passed","Wed Jun 10 00:21:38 UTC 2026","Wed Jun 10 00:21:38 UTC 2026","549","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups returns dictionary","
-    /AttributeTypeGroups
+"passed","Thu Jun 11 00:23:47 UTC 2026","Thu Jun 11 00:23:49 UTC 2026","1454","tests.api.account_tokens","test_account_tokens_delete","TestAccountTokensDelete","","","POST /accounttokens/ -> DELETE /accounttokens/{token}","
+    POST /accounttokens/ -> DELETE /accounttokens/{token}
     "
-"passed","Wed Jun 10 00:20:48 UTC 2026","Wed Jun 10 00:20:49 UTC 2026","660","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","011 WebAccountVerification smoke — random push_token → not 5xx",""
-"passed","Wed Jun 10 00:21:12 UTC 2026","Wed Jun 10 00:21:18 UTC 2026","5821","tests.api.accounts","test_accounts_card_leadgen_forms_custom_message_template","TestAccountsCardLeadGenFormsCustomMessageTemplate","","","PUT leadGenForm with CustomMessageTemplateID -> GET MessageTemplate","
+"passed","Thu Jun 11 00:26:02 UTC 2026","Thu Jun 11 00:26:05 UTC 2026","2125","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{id}/cardLink/leadGenForms
+    "
+"passed","Thu Jun 11 00:26:24 UTC 2026","Thu Jun 11 00:26:25 UTC 2026","1119","tests.api.cards","test_cardlinks_download","TestCardLinksDownload","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card/download
+    "
+"passed","Thu Jun 11 00:25:24 UTC 2026","Thu Jun 11 00:25:25 UTC 2026","516","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes → 200, non-empty list with valid items","
+    /Attributes
+    "
+"passed","Thu Jun 11 00:27:08 UTC 2026","Thu Jun 11 00:27:09 UTC 2026","1177","tests.api.cards","test_cardlinks_short_card","TestCardLinksShortCard","","","POST /Cards -> GET /cardLinks/{cardLink}/short/card -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/short/card
+    "
+"passed","Thu Jun 11 00:25:24 UTC 2026","Thu Jun 11 00:25:24 UTC 2026","504","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} without auth → 401/403","
+    /Attributes/{attributeID}
+    "
+"passed","Thu Jun 11 00:24:03 UTC 2026","Thu Jun 11 00:24:08 UTC 2026","4913","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","POST /Cards -> POST /Accounts/{accountID}/Cards/{cardID}/leadGenForms -> GET list -> GET by id","
     /Accounts/{accountID}/Cards/{cardID}/leadGenForms
     "
-"passed","Wed Jun 10 00:27:13 UTC 2026","Wed Jun 10 00:27:13 UTC 2026","649","tests.api.supported_versions","test_supported_versions_android","TestSupportedVersionsAndroid","","","GET /SupportedVersions/android returns supported version","
-    /SupportedVersions/android
+"passed","Thu Jun 11 00:25:17 UTC 2026","Thu Jun 11 00:25:17 UTC 2026","514","tests.api.accounts","test_accounts_exists","TestAccountsExists","","","Exists returns true for known email","
+    /accounts/Exists
     "
-"passed","Wed Jun 10 00:24:15 UTC 2026","Wed Jun 10 00:24:16 UTC 2026","532","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","POST /Cards -> GET /Cards/{id}/designSettings -> DELETE /Cards/{id}","
-    /Cards/{cardID}/designSettings
+"passed","Thu Jun 11 00:23:51 UTC 2026","Thu Jun 11 00:23:55 UTC 2026","3672","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","POST card -> GET /accounts/{id}/cards/{cardId}/attributes/attachments -> DELETE","
+    GET /accounts/{id}/cards/{cardId}/attributes/attachments
     "
-"passed","Wed Jun 10 00:24:27 UTC 2026","Wed Jun 10 00:24:27 UTC 2026","521","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate returns change list","
+"passed","Thu Jun 11 00:23:49 UTC 2026","Thu Jun 11 00:23:50 UTC 2026","1374","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","POST /accounttokens/ -> GET /accounttokens/{token} -> 200","
+    POST /accounttokens/ -> GET /accounttokens/{token}
+    "
+"passed","Thu Jun 11 00:30:49 UTC 2026","Thu Jun 11 00:30:50 UTC 2026","686","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment returns XLSX for noData=true","
+    /Exports/employment
+    "
+"passed","Thu Jun 11 00:30:47 UTC 2026","Thu Jun 11 00:30:49 UTC 2026","2304","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","Create -> Get -> Update -> Delete contact",""
+"passed","Thu Jun 11 00:23:41 UTC 2026","Thu Jun 11 00:23:42 UTC 2026","999","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 MobileAccountVerification smoke",""
+"passed","Thu Jun 11 00:26:16 UTC 2026","Thu Jun 11 00:26:18 UTC 2026","1196","tests.api.cards","test_cardlinks_card","TestCardLinksCard","","","POST /Cards -> GET /cardLinks/{cardLink}/card -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card
+    "
+"passed","Thu Jun 11 00:26:27 UTC 2026","Thu Jun 11 00:26:28 UTC 2026","1165","tests.api.cards","test_cardlinks_download_v2","TestCardLinksDownloadV2","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download/V2 -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/card/download/V2
+    "
+"passed","Thu Jun 11 00:25:17 UTC 2026","Thu Jun 11 00:25:18 UTC 2026","716","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} returns account data","
+    /accounts/{id}
+    "
+"passed","Thu Jun 11 00:23:55 UTC 2026","Thu Jun 11 00:23:57 UTC 2026","1989","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","POST /Accounts/{id}/Cards -> GET /accounts/{id}/cards/{cardId}/attributes/ -> DELETE","
+    GET /accounts/{id}/cards/{cardId}/attributes/
+    "
+"passed","Thu Jun 11 00:30:52 UTC 2026","Thu Jun 11 00:30:53 UTC 2026","520","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} returns location data","
+    /Locations/{id}
+    "
+"passed","Thu Jun 11 00:27:56 UTC 2026","Thu Jun 11 00:27:59 UTC 2026","2622","tests.api.cards","test_cards_create_v2_flow","TestCardsCreateV2Flow","","","POST /Cards/V2.0 -> GET /Cards/{id}/V2","
+    /Cards/V2.0
+    "
+"passed","Thu Jun 11 00:27:34 UTC 2026","Thu Jun 11 00:27:35 UTC 2026","609","tests.api.cards","test_cards_by_id_short_flow","TestCardsByIdShort","","","POST /Cards -> GET /Cards/{id}/short -> DELETE /Cards/{id}","
+    /Cards/{id}/short
+    "
+"passed","Thu Jun 11 00:28:15 UTC 2026","Thu Jun 11 00:28:15 UTC 2026","513","tests.api.cards","test_cards_lastupdate","TestCardsLastUpdate","","","GET /Cards/lastupdate returns change list","
     /Cards/lastupdate
     "
-"passed","Wed Jun 10 00:23:52 UTC 2026","Wed Jun 10 00:23:53 UTC 2026","570","tests.api.cards","test_cards_by_id_v2_flow","TestCardsByIdV2","","","POST /Cards -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/V2
+"passed","Thu Jun 11 00:28:38 UTC 2026","Thu Jun 11 00:28:39 UTC 2026","1097","tests.api.companies","test_companies_designsettings_flow_api","TestCompanyDesignsettingsFlow","","","POST /Companies -> PUT designsettings -> GET designsettings -> DELETE /Companies/{id}","
+    /Companies/{companyID}/designsettings
     "
-"passed","Wed Jun 10 00:21:01 UTC 2026","Wed Jun 10 00:21:02 UTC 2026","1500","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}","
+"passed","Thu Jun 11 00:28:13 UTC 2026","Thu Jun 11 00:28:13 UTC 2026","597","tests.api.cards","test_cards_download_by_id_v2_flow","TestCardsDownloadByIdV2","","","POST /Cards -> GET /Cards/{id}/download/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/download/V2
+    "
+"passed","Thu Jun 11 00:28:40 UTC 2026","Thu Jun 11 00:28:40 UTC 2026","534","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies returns companies list","
+    /Companies
+    "
+"passed","Thu Jun 11 00:30:45 UTC 2026","Thu Jun 11 00:30:46 UTC 2026","1157","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","GET /accounts/contacts returns list",""
+"passed","Thu Jun 11 00:31:17 UTC 2026","Thu Jun 11 00:31:24 UTC 2026","7255","tests.e2e.employee","test_employee_invitation_add_moveincompany_delete_flow","TestEmployeeInvitationAddMoveInCompanyDeleteFlow","","","POST invitations x4 → list → PATCH move → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, move to target company, verify, delete flow"
+"passed","Thu Jun 11 00:30:50 UTC 2026","Thu Jun 11 00:30:52 UTC 2026","1637","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports returns 200","
+    /Exports
+    "
+"passed","Thu Jun 11 00:31:01 UTC 2026","Thu Jun 11 00:31:01 UTC 2026","519","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds returns backgrounds list","
+    /VirtualBackgrounds
+    "
+"passed","Thu Jun 11 00:28:23 UTC 2026","Thu Jun 11 00:28:25 UTC 2026","1272","tests.api.cards","test_cards_update_flow","TestCardsUpdateFlow","","","POST /Cards -> PUT /Cards/{id} -> GET /Cards/{id} -> DELETE /Cards/{id}","
+    /Cards
+    "
+"passed","Thu Jun 11 00:25:46 UTC 2026","Thu Jun 11 00:25:53 UTC 2026","6429","tests.api.cards","test_card_leadgen_forms_custom_message_template","TestCardLeadGenFormsCustomMessageTemplate","","","POST leadGenForm with CustomMessageTemplateID -> PUT leadGenForm with another CustomMessageTemplateID","
+    /Cards/{cardID}/leadGenForms
+    "
+"passed","Thu Jun 11 00:30:52 UTC 2026","Thu Jun 11 00:30:52 UTC 2026","631","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields returns fields list","
+    /LeadGenFormFields
+    "
+"passed","Thu Jun 11 00:25:22 UTC 2026","Thu Jun 11 00:25:23 UTC 2026","510","tests.api.attribute_types","test_attribute_types_list","TestAttributeTypesList","","","GET /AttributeTypes returns dictionary","
+    /AttributeTypes
+    "
+"passed","Thu Jun 11 00:25:19 UTC 2026","Thu Jun 11 00:25:20 UTC 2026","517","tests.api.accounts","test_get_contact_by_id","","","","GET /accounts/contacts/{contactID}","
+    /accounts/contacts/{contactID}
+    "
+"passed","Thu Jun 11 00:25:25 UTC 2026","Thu Jun 11 00:25:28 UTC 2026","3453","tests.api.cards","test_card_attribute_attachment_upload","TestCardAttributeAttachmentUpload","","","POST card -> PUT attrs -> GET attrs -> PUT /cards/{id}/upload/fromForm -> DELETE","
+    PUT /cards/{id}/upload/fromForm
+    "
+"passed","Thu Jun 11 00:30:58 UTC 2026","Thu Jun 11 00:30:58 UTC 2026","503","tests.api.social_networks","test_social_networks_list","TestSocialNetworksList","","","GET /socialNetworks returns list","
+    /socialNetworks
+    "
+"passed","Thu Jun 11 00:31:01 UTC 2026","Thu Jun 11 00:31:03 UTC 2026","2070","tests.e2e.company","test_company_create_and_edit_get_delete_flow","TestCompanyCreateEditDeleteFlow","","","POST /Companies → GET → PUT → GET → DELETE","/Companies — create, edit, get, delete flow"
+"passed","Thu Jun 11 00:23:47 UTC 2026","Thu Jun 11 00:23:47 UTC 2026","810","tests.api.account_tokens","test_account_tokens_add","TestAccountTokensAdd","","","POST /accounttokens/ -> 201 Created","
+    POST /accounttokens/
+    "
+"passed","Thu Jun 11 00:31:10 UTC 2026","Thu Jun 11 00:31:17 UTC 2026","7609","tests.e2e.employee","test_employee_invitation_add_copyincompany_delete_flow","TestEmployeeInvitationAddCopyInCompanyDeleteFlow","","","POST invitations x4 → list → copy cards → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, copy cards to target company, verify, delete flow"
+"passed","Thu Jun 11 00:30:53 UTC 2026","Thu Jun 11 00:30:54 UTC 2026","506","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes returns metric types list","
+    /MetricTypes
+    "
+"passed","Thu Jun 11 00:25:35 UTC 2026","Thu Jun 11 00:25:37 UTC 2026","1625","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardID}/leadGenForms/{leadGenFormID} -> DELETE leadGenForm -> DELETE /Cards/{id}","
+    /Cards/{cardID}/leadGenForms/{leadGenFormID}
+    "
+"passed","Thu Jun 11 00:25:19 UTC 2026","Thu Jun 11 00:25:19 UTC 2026","518","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium returns boolean flag","
+    /accounts/subscription/hadpremium
+    "
+"passed","Thu Jun 11 00:26:20 UTC 2026","Thu Jun 11 00:26:21 UTC 2026","1111","tests.api.cards","test_cardlinks_designsettings","TestCardLinksDesignsettings","","","POST /Cards -> GET /cardLinks/{cardLink}/designsettings -> DELETE /Cards/{id}","
+    /cardLinks/{cardLink}/designsettings
+    "
+"passed","Thu Jun 11 00:28:02 UTC 2026","Thu Jun 11 00:28:03 UTC 2026","529","tests.api.cards","test_cards_designsettings_by_id_flow","TestCardsDesignsettingsByIdFlow","","","POST /Cards -> GET /Cards/{id}/designSettings -> DELETE /Cards/{id}","
+    /Cards/{cardID}/designSettings
+    "
+"passed","Thu Jun 11 00:24:56 UTC 2026","Thu Jun 11 00:25:01 UTC 2026","5497","tests.api.accounts","test_accounts_card_leadgen_forms_custom_message_template","TestAccountsCardLeadGenFormsCustomMessageTemplate","","","PUT leadGenForm with CustomMessageTemplateID -> GET MessageTemplate","
+    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
+    "
+"passed","Thu Jun 11 00:30:54 UTC 2026","Thu Jun 11 00:30:55 UTC 2026","636","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses → 200, non-empty list with id and nameRu","
+    /onboardingStatuses
+    "
+"passed","Thu Jun 11 00:25:21 UTC 2026","Thu Jun 11 00:25:22 UTC 2026","510","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms returns forms list","
+    /AttributeForms
+    "
+"passed","Thu Jun 11 00:31:04 UTC 2026","Thu Jun 11 00:31:07 UTC 2026","3177","tests.e2e.company","test_company_create_withlogoandcolor_get_delete_flow","TestCompanyCreateWithLogoAndColorFlow","","","POST /Companies → list → upload logo → update → GET → upload bg → designsettings → GET → DELETE","/Companies — create, upload logo + background, set design, delete flow"
+"passed","Thu Jun 11 00:28:15 UTC 2026","Thu Jun 11 00:28:16 UTC 2026","655","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards returns cards list","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Thu Jun 11 00:28:09 UTC 2026","Thu Jun 11 00:28:10 UTC 2026","613","tests.api.cards","test_cards_download_by_id_flow","TestCardsDownloadById","","","POST /Cards -> GET /Cards/{id}/download -> DELETE /Cards/{id}","
+    /Cards/{id}/download
+    "
+"passed","Thu Jun 11 00:23:42 UTC 2026","Thu Jun 11 00:23:44 UTC 2026","1434","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","012 -> 020 smoke with actionJwt",""
+"passed","Thu Jun 11 00:23:46 UTC 2026","Thu Jun 11 00:23:46 UTC 2026","709","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","015 MobileAccountNotificationSend smoke — random push_token + guid → not 5xx",""
+"passed","Thu Jun 11 00:25:56 UTC 2026","Thu Jun 11 00:25:57 UTC 2026","1155","tests.api.cards","test_card_link_attributes","TestCardLinkAttributes","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes","
+    GET /cards/{token}/cardLink/attributes
+    "
+"passed","Thu Jun 11 00:28:16 UTC 2026","Thu Jun 11 00:28:16 UTC 2026","683","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 returns cards list","
+    Проверки списков /Cards и /Cards/v2.0.
+    "
+"passed","Thu Jun 11 00:25:32 UTC 2026","Thu Jun 11 00:25:33 UTC 2026","532","tests.api.cards","test_card_attributes_list","TestCardAttributesList","","","GET /cards/{id}/attributes/","
+    GET /cards/{id}/attributes/
+    "
+"passed","Thu Jun 11 00:30:53 UTC 2026","Thu Jun 11 00:30:53 UTC 2026","642","tests.api.locations","test_locations_list","TestLocationsList","","","GET /Locations with locationID returns location map","
+    /Locations?locationID=1
+    "
+"passed","Thu Jun 11 00:25:08 UTC 2026","Thu Jun 11 00:25:08 UTC 2026","783","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts → 200/206, validate response structure","
+    /accounts/contacts
+    "
+"passed","Thu Jun 11 00:25:04 UTC 2026","Thu Jun 11 00:25:06 UTC 2026","2294","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Cards/{id}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
+    /Accounts/{accountID}/Cards/{cardID}/metrics
+    "
+"passed","Thu Jun 11 00:23:58 UTC 2026","Thu Jun 11 00:23:59 UTC 2026","1083","tests.api.accounts","test_accounts_card_get","TestAccountsCardGet","","","POST /Cards -> GET /Accounts/{accountID}/Cards/{cardID}","
     /Accounts/{accountID}/Cards/{cardID}
     /Accounts/{accountID}/Cards/{cardID}/V2
     "
-"passed","Wed Jun 10 00:27:11 UTC 2026","Wed Jun 10 00:27:11 UTC 2026","542","tests.api.social_networks","test_social_networks_list","TestSocialNetworksList","","","GET /socialNetworks returns list","
-    /socialNetworks
+"passed","Thu Jun 11 00:27:50 UTC 2026","Thu Jun 11 00:27:52 UTC 2026","2257","tests.api.cards","test_cards_create_get_delete_flow","TestCardsCreateGetDeleteFlow","","","POST /Cards -> GET /Cards/{id} -> DELETE /Cards/{id}","
+    /Cards
     "
-"passed","Wed Jun 10 00:20:49 UTC 2026","Wed Jun 10 00:20:50 UTC 2026","727","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","013 SubscriptionInvitation smoke — random push_token → not 5xx",""
-"passed","Wed Jun 10 00:21:39 UTC 2026","Wed Jun 10 00:21:39 UTC 2026","529","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} → 200, validate model fields","
-    /Attributes/{attributeID}
-    "
-"passed","Wed Jun 10 00:22:18 UTC 2026","Wed Jun 10 00:22:20 UTC 2026","2142","tests.api.cards","test_card_link_leadgen_forms","TestCardLinkLeadGenForms","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
-    /Cards/{id}/cardLink/leadGenForms
-    "
-"passed","Wed Jun 10 00:27:06 UTC 2026","Wed Jun 10 00:27:06 UTC 2026","525","tests.api.locations","test_location_by_id","TestLocationById","","","GET /Locations/{id} returns location data","
-    /Locations/{id}
-    "
-"passed","Wed Jun 10 00:24:28 UTC 2026","Wed Jun 10 00:24:28 UTC 2026","572","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards/v2.0 returns cards list","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Wed Jun 10 00:22:12 UTC 2026","Wed Jun 10 00:22:13 UTC 2026","1086","tests.api.cards","test_card_link_attributes","TestCardLinkAttributes","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes","
-    GET /cards/{token}/cardLink/attributes
-    "
-"passed","Wed Jun 10 00:21:05 UTC 2026","Wed Jun 10 00:21:10 UTC 2026","4411","tests.api.accounts","test_accounts_card_leadgen_forms","TestAccountsCardLeadGenForms","","","POST /Cards -> POST /Accounts/{accountID}/Cards/{cardID}/leadGenForms -> GET list -> GET by id","
-    /Accounts/{accountID}/Cards/{cardID}/leadGenForms
-    "
-"passed","Wed Jun 10 00:23:09 UTC 2026","Wed Jun 10 00:23:10 UTC 2026","1092","tests.api.cards","test_cardlinks_designsettings","TestCardLinksDesignsettings","","","POST /Cards -> GET /cardLinks/{cardLink}/designsettings -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/designsettings
-    "
-"passed","Wed Jun 10 00:21:24 UTC 2026","Wed Jun 10 00:21:25 UTC 2026","975","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts with searchText filter → 200/206","
-    /accounts/contacts
-    "
-"passed","Wed Jun 10 00:24:41 UTC 2026","Wed Jun 10 00:24:41 UTC 2026","501","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens returns current client token","
-    /clientTokens
-    "
-"passed","Wed Jun 10 00:20:55 UTC 2026","Wed Jun 10 00:20:57 UTC 2026","2145","tests.api.accounts","test_accounts_card_attribute_attachments","TestAccountsCardAttributeAttachments","","","POST card -> GET /accounts/{id}/cards/{cardId}/attributes/attachments -> DELETE","
-    GET /accounts/{id}/cards/{cardId}/attributes/attachments
-    "
-"passed","Wed Jun 10 00:21:37 UTC 2026","Wed Jun 10 00:21:38 UTC 2026","721","tests.api.attribute_forms","test_attribute_forms_list","TestAttributeFormsList","","","GET /AttributeForms returns forms list","
-    /AttributeForms
-    "
-"passed","Wed Jun 10 00:21:35 UTC 2026","Wed Jun 10 00:21:35 UTC 2026","564","tests.api.accounts","test_get_contact_by_id","","","","GET /accounts/contacts/{contactID}","
-    /accounts/contacts/{contactID}
-    "
-"passed","Wed Jun 10 00:27:22 UTC 2026","Wed Jun 10 00:27:29 UTC 2026","7018","tests.e2e.employee","test_employee_invitation_add_copyincompany_delete_flow","TestEmployeeInvitationAddCopyInCompanyDeleteFlow","","","POST invitations x4 → list → copy cards → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, copy cards to target company, verify, delete flow"
-"passed","Wed Jun 10 00:27:07 UTC 2026","Wed Jun 10 00:27:08 UTC 2026","646","tests.api.onboarding_statuses","test_onboarding_statuses","TestOnboardingStatuses","","","GET /onboardingStatuses → 200, non-empty list with id and nameRu","
-    /onboardingStatuses
-    "
-"passed","Wed Jun 10 00:27:03 UTC 2026","Wed Jun 10 00:27:03 UTC 2026","646","tests.api.exports","test_exports_employment","TestExportsEmployment","","","GET /Exports/employment returns XLSX for noData=true","
-    /Exports/employment
-    "
-"passed","Wed Jun 10 00:21:40 UTC 2026","Wed Jun 10 00:21:41 UTC 2026","527","tests.api.attributes","test_attributes_list","TestAttributesList","","","GET /Attributes → 200, non-empty list with valid items","
-    /Attributes
-    "
-"passed","Wed Jun 10 00:21:58 UTC 2026","Wed Jun 10 00:22:00 UTC 2026","1549","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
+"passed","Thu Jun 11 00:31:03 UTC 2026","Thu Jun 11 00:31:04 UTC 2026","795","tests.e2e.company","test_company_create_get_delete_flow","TestCompanyCreateGetDeleteFlow","","","POST /Companies → GET /Companies (in list) → DELETE /Companies/{id}","/Companies — create, get list, delete flow"
+"passed","Thu Jun 11 00:25:42 UTC 2026","Thu Jun 11 00:25:44 UTC 2026","1577","tests.api.cards","test_card_leadgen_forms_crud_flow","TestCardLeadGenFormsCrudFlow","","","POST /Cards -> POST leadGenForm -> GET leadGenForms -> DELETE leadGenForm -> DELETE /Cards/{id}","
     /Cards/{cardID}/leadGenForms
     "
-"passed","Wed Jun 10 00:23:49 UTC 2026","Wed Jun 10 00:23:50 UTC 2026","618","tests.api.cards","test_cards_by_id_short_flow","TestCardsByIdShort","","","POST /Cards -> GET /Cards/{id}/short -> DELETE /Cards/{id}","
-    /Cards/{id}/short
-    "
-"passed","Wed Jun 10 00:20:50 UTC 2026","Wed Jun 10 00:20:50 UTC 2026","495","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","014 MobileAccountSelfRegVerification smoke — random push_token + guid → not 5xx",""
-"passed","Wed Jun 10 00:27:00 UTC 2026","Wed Jun 10 00:27:02 UTC 2026","2479","tests.api.contacts","test_contacts_flow","TestContactsFlow","","","Create -> Get -> Update -> Delete contact",""
-"passed","Wed Jun 10 00:22:14 UTC 2026","Wed Jun 10 00:22:16 UTC 2026","2145","tests.api.cards","test_card_link_leadgen_form_by_id","TestCardLinkLeadGenFormById","","","POST leadGenForm -> GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId} -> DELETE","
-    GET /Cards/{cardLinkId}/cardLink/leadGenForms/{formId}
-    "
-"passed","Wed Jun 10 00:24:47 UTC 2026","Wed Jun 10 00:24:49 UTC 2026","1073","tests.api.companies","test_companies_designsettings_flow_api","TestCompanyDesignsettingsFlow","","","POST /Companies -> PUT designsettings -> GET designsettings -> DELETE /Companies/{id}","
-    /Companies/{companyID}/designsettings
-    "
-"passed","Wed Jun 10 00:22:23 UTC 2026","Wed Jun 10 00:22:25 UTC 2026","2113","tests.api.cards","test_card_link_metrics","TestCardLinkMetrics","","","POST /Cards -> PUT metrics -> GET /Cards/{cardLinkId}/cardLink/metrics -> DELETE /Cards/{id}","
-    /Cards/{id}/cardLink/metrics
-    "
-"passed","Wed Jun 10 00:23:38 UTC 2026","Wed Jun 10 00:23:39 UTC 2026","1633","tests.api.cards","test_cardlinks_update","TestCardLinksUpdate","","","POST /Cards -> PUT /cardlinks/{cardLink} -> GET /cardlinks/{cardLink} -> DELETE /Cards/{id}","
-    /cardlinks/{cardLink}
-    "
-"passed","Wed Jun 10 00:20:53 UTC 2026","Wed Jun 10 00:20:54 UTC 2026","1176","tests.api.account_tokens","test_account_tokens_get","TestAccountTokensGet","","","POST /accounttokens/ -> GET /accounttokens/{token} -> 200","
-    POST /accounttokens/ -> GET /accounttokens/{token}
-    "
-"passed","Wed Jun 10 00:21:34 UTC 2026","Wed Jun 10 00:21:35 UTC 2026","545","tests.api.accounts","test_accounts_subscription_hadpremium","TestAccountsSubscriptionHadPremium","","","GET /accounts/subscription/hadpremium returns boolean flag","
-    /accounts/subscription/hadpremium
-    "
-"passed","Wed Jun 10 00:23:06 UTC 2026","Wed Jun 10 00:23:07 UTC 2026","1091","tests.api.cards","test_cardlinks_card","TestCardLinksCard","","","POST /Cards -> GET /cardLinks/{cardLink}/card -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card
-    "
-"passed","Wed Jun 10 00:23:19 UTC 2026","Wed Jun 10 00:23:22 UTC 2026","3696","tests.api.cards","test_cardlinks_list","TestCardLinksList","","","GET /Cards -> GET /cardLinks?accountUriName=...","
-    /cardLinks?accountUriName=...
-    "
-"passed","Wed Jun 10 00:24:42 UTC 2026","Wed Jun 10 00:24:42 UTC 2026","526","tests.api.companies","test_companies_create_get_delete_flow_api","TestCompanyCreateGetDeleteFlow","","","POST /Companies -> GET /Companies/{id} -> DELETE /Companies/{id}","
-    /Companies
-    "
-"passed","Wed Jun 10 00:23:55 UTC 2026","Wed Jun 10 00:23:58 UTC 2026","3160","tests.api.cards","test_cards_copy_flow","TestCardsCopyFlow","","","POST /Cards -> POST /cards/card/copy -> GET /Cards/v2.0 -> DELETE copied card","
-    /cards/card/copy
-    "
-"passed","Wed Jun 10 00:27:09 UTC 2026","Wed Jun 10 00:27:11 UTC 2026","1804","tests.api.proxy","test_proxy_card_cardlink","TestProxyCardCardLink","","","GET /Accounts/{id}/Cards/links -> GET /proxy/card/cardlink/{token}","
-    GET /proxy/card/cardlink/{token}
-    "
-"passed","Wed Jun 10 00:27:08 UTC 2026","Wed Jun 10 00:27:09 UTC 2026","627","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ without auth -> 401/403","
-    GET /powerbireports/
-    "
-"passed","Wed Jun 10 00:24:27 UTC 2026","Wed Jun 10 00:24:28 UTC 2026","560","tests.api.cards","test_cards_list","TestCardsList","","","GET /Cards returns cards list","
-    Проверки списков /Cards и /Cards/v2.0.
-    "
-"passed","Wed Jun 10 00:24:22 UTC 2026","Wed Jun 10 00:24:23 UTC 2026","657","tests.api.cards","test_cards_download_by_id_flow","TestCardsDownloadById","","","POST /Cards -> GET /Cards/{id}/download -> DELETE /Cards/{id}","
-    /Cards/{id}/download
-    "
-"passed","Wed Jun 10 00:21:45 UTC 2026","Wed Jun 10 00:21:46 UTC 2026","516","tests.api.cards","test_card_attribute_attachments","TestCardAttributeAttachments","","","GET /cards/{id}/attributes/attachments","
-    GET /cards/{id}/attributes/attachments
-    "
-"passed","Wed Jun 10 00:24:25 UTC 2026","Wed Jun 10 00:24:26 UTC 2026","628","tests.api.cards","test_cards_download_by_id_v2_flow","TestCardsDownloadByIdV2","","","POST /Cards -> GET /Cards/{id}/download/V2 -> DELETE /Cards/{id}","
-    /Cards/{id}/download/V2
-    "
-"passed","Wed Jun 10 00:27:07 UTC 2026","Wed Jun 10 00:27:07 UTC 2026","653","tests.api.metrics","test_metric_types","TestMetricTypes","","","GET /MetricTypes returns metric types list","
-    /MetricTypes
-    "
-"passed","Wed Jun 10 00:27:29 UTC 2026","Wed Jun 10 00:27:37 UTC 2026","7381","tests.e2e.employee","test_employee_invitation_add_moveincompany_delete_flow","TestEmployeeInvitationAddMoveInCompanyDeleteFlow","","","POST invitations x4 → list → PATCH move → list in target → DELETE → absent in target","/Employee — create 4 via invitation, verify, move to target company, verify, delete flow"
-"passed","Wed Jun 10 00:27:08 UTC 2026","Wed Jun 10 00:27:08 UTC 2026","543","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ -> 200/204","
-    GET /powerbireports/
-    "
-"passed","Wed Jun 10 00:27:03 UTC 2026","Wed Jun 10 00:27:05 UTC 2026","1428","tests.api.exports","test_exports_statistic","TestExportsStatistic","","","GET /Exports returns 200","
-    /Exports
-    "
-"passed","Wed Jun 10 00:20:54 UTC 2026","Wed Jun 10 00:20:55 UTC 2026","667","tests.api.accounts","test_accounts_accept_user_terms","TestAccountsAcceptUserTerms","","","PUT /accounts/this/acceptUserTerms accepts terms","
-    /accounts/this/acceptUserTerms
-    "
-"passed","Wed Jun 10 00:23:34 UTC 2026","Wed Jun 10 00:23:35 UTC 2026","1315","tests.api.cards","test_cardlinks_unassign","TestCardLinksUnassign","","","POST /Cards -> PUT /cardlinks/{cardLink}/unassign -> DELETE /Cards/{id}","Unassign cardlink returned 403 Forbidden — operation is not permitted for this account. This is accepted behaviour after recent API changes."
-"passed","Wed Jun 10 00:24:04 UTC 2026","Wed Jun 10 00:24:06 UTC 2026","1838","tests.api.cards","test_cards_create_get_delete_flow","TestCardsCreateGetDeleteFlow","","","POST /Cards -> GET /Cards/{id} -> DELETE /Cards/{id}","
-    /Cards
-    "
-"passed","Wed Jun 10 00:27:14 UTC 2026","Wed Jun 10 00:27:14 UTC 2026","511","tests.api.virtual_backgrounds","test_virtual_backgrounds","TestVirtualBackgrounds","","","GET /VirtualBackgrounds returns backgrounds list","
-    /VirtualBackgrounds
-    "
-"passed","Wed Jun 10 00:27:05 UTC 2026","Wed Jun 10 00:27:06 UTC 2026","649","tests.api.leadgen","test_leadgen_form_fields","TestLeadGenFormFields","","","GET /LeadGenFormFields returns fields list","
-    /LeadGenFormFields
-    "
-"passed","Wed Jun 10 00:24:14 UTC 2026","Wed Jun 10 00:24:14 UTC 2026","570","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink returns custom links list","
+"passed","Thu Jun 11 00:28:00 UTC 2026","Thu Jun 11 00:28:01 UTC 2026","612","tests.api.cards","test_cards_customlink","TestCardsCustomLink","","","GET /Cards/customlink returns custom links list","
     /Cards/customlink
     "
-"passed","Wed Jun 10 00:21:51 UTC 2026","Wed Jun 10 00:21:53 UTC 2026","1539","tests.api.cards","test_card_leadgen_form_by_id","TestCardLeadGenFormById","","","POST /Cards -> POST leadGenForm -> GET /Cards/{cardID}/leadGenForms/{leadGenFormID} -> DELETE leadGenForm -> DELETE /Cards/{id}","
-    /Cards/{cardID}/leadGenForms/{leadGenFormID}
+"passed","Thu Jun 11 00:27:14 UTC 2026","Thu Jun 11 00:27:16 UTC 2026","1644","tests.api.cards","test_cardlinks_statistic_events","TestCardLinksStatisticEvents","","","POST /Cards -> PUT statisticview -> PUT statisticdownload -> DELETE /Cards/{id}","
+    /cardlinks/{cardLink}/statisticview и /cardlinks/{cardLink}/statisticdownload
     "
-"passed","Wed Jun 10 00:23:42 UTC 2026","Wed Jun 10 00:23:47 UTC 2026","5097","tests.api.cards","test_cards_attachments_sortorder_flow","TestCardsAttachmentsSortOrderFlow","","","POST /Cards -> PUT /Cards/{id}/V2 gallery -> GET/PUT /Cards/{id}/attachments/sortorder","
-    /Cards/{cardID}/attachments/sortorder
+"passed","Thu Jun 11 00:25:20 UTC 2026","Thu Jun 11 00:25:21 UTC 2026","1120","tests.api.attachments","test_attachments_flow","TestAttachments","","","POST /Attachments -> DELETE /Attachments/{id}","
+    Проверки Attachments API с изображениями, сгенерированными в коде.
     "
-"passed","Wed Jun 10 00:24:30 UTC 2026","Wed Jun 10 00:24:32 UTC 2026","2864","tests.api.cards","test_cards_show_hide_flow","TestCardsShowHideFlow","","","POST /Cards -> PUT /Cards/hide -> GET /Cards/{id} -> PUT /Cards/show -> GET /Cards/{id}","
-    /Cards/hide и /Cards/show
-    "
-"passed","Wed Jun 10 00:24:50 UTC 2026","Wed Jun 10 00:24:50 UTC 2026","574","tests.api.companies","test_companies_list","TestCompaniesList","","","GET /Companies returns companies list","
-    /Companies
-    "
-"passed","Wed Jun 10 00:23:26 UTC 2026","Wed Jun 10 00:23:28 UTC 2026","2020","tests.api.cards","test_cardlinks_statistic","TestCardLinksStatistic","","","GET /cardlinks/statistic returns list","
-    /cardlinks/statistic
-    "
-"passed","Wed Jun 10 00:24:51 UTC 2026","Wed Jun 10 00:24:52 UTC 2026","676","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/download returns CSV",""
-"passed","Wed Jun 10 00:22:27 UTC 2026","Wed Jun 10 00:22:28 UTC 2026","508","tests.api.cards","test_card_metrics","TestCardMetrics","","","POST /Cards -> GET /Cards/{id}/metrics -> DELETE /Cards/{id}","
-    /Cards/{cardID}/metrics
-    "
-"passed","Wed Jun 10 00:22:10 UTC 2026","Wed Jun 10 00:22:12 UTC 2026","1119","tests.api.cards","test_card_link_attribute_attachments","TestCardLinkAttributeAttachments","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes/attachments","
-    GET /cards/{token}/cardLink/attributes/attachments
-    "
-"passed","Wed Jun 10 00:20:57 UTC 2026","Wed Jun 10 00:20:59 UTC 2026","2294","tests.api.accounts","test_accounts_card_attributes_list","TestAccountsCardAttributesList","","","POST /Accounts/{id}/Cards -> GET /accounts/{id}/cards/{cardId}/attributes/ -> DELETE","
-    GET /accounts/{id}/cards/{cardId}/attributes/
-    "
-"passed","Wed Jun 10 00:24:35 UTC 2026","Wed Jun 10 00:24:36 UTC 2026","1273","tests.api.cards","test_cards_update_flow","TestCardsUpdateFlow","","","POST /Cards -> PUT /Cards/{id} -> GET /Cards/{id} -> DELETE /Cards/{id}","
-    /Cards
-    "
-"passed","Wed Jun 10 00:21:33 UTC 2026","Wed Jun 10 00:21:34 UTC 2026","725","tests.api.accounts","test_accounts_get","TestAccountsGet","","","GET /accounts/{id} returns account data","
-    /accounts/{id}
-    "
-"passed","Wed Jun 10 00:27:16 UTC 2026","Wed Jun 10 00:27:17 UTC 2026","751","tests.e2e.company","test_company_create_get_delete_flow","TestCompanyCreateGetDeleteFlow","","","POST /Companies → GET /Companies (in list) → DELETE /Companies/{id}","/Companies — create, get list, delete flow"
-"passed","Wed Jun 10 00:27:20 UTC 2026","Wed Jun 10 00:27:22 UTC 2026","1948","tests.e2e.contacts","test_contact_create_and_delete","TestContactCreateAndDelete","","","POST /attachments (photo) → POST contact → GET verify → DELETE","/Contacts — upload photo, create, GET verify, delete flow"
-"passed","Wed Jun 10 00:21:34 UTC 2026","Wed Jun 10 00:21:34 UTC 2026","650","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts returns list of accounts","
-    /accounts
-    "
-"passed","Wed Jun 10 00:27:17 UTC 2026","Wed Jun 10 00:27:20 UTC 2026","2977","tests.e2e.company","test_company_create_withlogoandcolor_get_delete_flow","TestCompanyCreateWithLogoAndColorFlow","","","POST /Companies → list → upload logo → update → GET → upload bg → designsettings → GET → DELETE","/Companies — create, upload logo + background, set design, delete flow"
-"passed","Wed Jun 10 00:23:16 UTC 2026","Wed Jun 10 00:23:17 UTC 2026","1147","tests.api.cards","test_cardlinks_download_v2","TestCardLinksDownloadV2","","","POST /Cards -> GET /cardLinks/{cardLink}/card/download/V2 -> DELETE /Cards/{id}","
-    /cardLinks/{cardLink}/card/download/V2
-    "
-"passed","Wed Jun 10 00:21:39 UTC 2026","Wed Jun 10 00:21:40 UTC 2026","504","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} without auth → 401/403","
+"passed","Thu Jun 11 00:25:23 UTC 2026","Thu Jun 11 00:25:24 UTC 2026","515","tests.api.attributes","test_attribute_by_id","TestAttributeById","","","GET /Attributes/{id} → 200, validate model fields","
     /Attributes/{attributeID}
     "
-"passed","Wed Jun 10 00:21:20 UTC 2026","Wed Jun 10 00:21:22 UTC 2026","2143","tests.api.accounts","test_accounts_card_metrics","TestAccountsCardMetrics","","","POST /Cards -> PUT /Cards/{id}/metrics -> GET /Accounts/{accountID}/Cards/{cardID}/metrics","
-    /Accounts/{accountID}/Cards/{cardID}/metrics
+"passed","Thu Jun 11 00:30:56 UTC 2026","Thu Jun 11 00:30:58 UTC 2026","1797","tests.api.proxy","test_proxy_card_cardlink","TestProxyCardCardLink","","","GET /Accounts/{id}/Cards/links -> GET /proxy/card/cardlink/{token}","
+    GET /proxy/card/cardlink/{token}
     "
-"passed","Wed Jun 10 00:21:35 UTC 2026","Wed Jun 10 00:21:36 UTC 2026","511","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications returns applications list","
+"passed","Thu Jun 11 00:25:18 UTC 2026","Thu Jun 11 00:25:19 UTC 2026","819","tests.api.accounts","test_accounts_list","TestAccountsList","","","GET /accounts returns list of accounts","
+    /accounts
+    "
+"passed","Thu Jun 11 00:25:22 UTC 2026","Thu Jun 11 00:25:22 UTC 2026","518","tests.api.attribute_type_groups","test_attribute_type_groups_list","TestAttributeTypeGroupsList","","","GET /AttributeTypeGroups returns dictionary","
+    /AttributeTypeGroups
+    "
+"passed","Thu Jun 11 00:28:30 UTC 2026","Thu Jun 11 00:28:30 UTC 2026","514","tests.api.client_tokens","test_client_tokens_get","TestClientTokensGet","","","GET /clientTokens returns current client token","
+    /clientTokens
+    "
+"passed","Thu Jun 11 00:27:22 UTC 2026","Thu Jun 11 00:27:24 UTC 2026","1652","tests.api.cards","test_cardlinks_update","TestCardLinksUpdate","","","POST /Cards -> PUT /cardlinks/{cardLink} -> GET /cardlinks/{cardLink} -> DELETE /Cards/{id}","
+    /cardlinks/{cardLink}
+    "
+"passed","Thu Jun 11 00:30:55 UTC 2026","Thu Jun 11 00:30:55 UTC 2026","825","tests.api.powerbi_reports","test_powerbi_reports_list","TestPowerBIReportsList","","","GET /powerbireports/ -> 200/204","
+    GET /powerbireports/
+    "
+"passed","Thu Jun 11 00:25:54 UTC 2026","Thu Jun 11 00:25:56 UTC 2026","1126","tests.api.cards","test_card_link_attribute_attachments","TestCardLinkAttributeAttachments","","","GET /Accounts/{id}/Cards/links -> GET /cards/{token}/cardLink/attributes/attachments","
+    GET /cards/{token}/cardLink/attributes/attachments
+    "
+"passed","Thu Jun 11 00:25:20 UTC 2026","Thu Jun 11 00:25:20 UTC 2026","718","tests.api.applications","test_applications_list","TestApplicationsList","","","GET /Applications returns applications list","
     /Applications
+    "
+"passed","Thu Jun 11 00:27:26 UTC 2026","Thu Jun 11 00:27:31 UTC 2026","5436","tests.api.cards","test_cards_attachments_sortorder_flow","TestCardsAttachmentsSortOrderFlow","","","POST /Cards -> PUT /Cards/{id}/V2 gallery -> GET/PUT /Cards/{id}/attachments/sortorder","
+    /Cards/{cardID}/attachments/sortorder
+    "
+"passed","Thu Jun 11 00:28:27 UTC 2026","Thu Jun 11 00:28:28 UTC 2026","1247","tests.api.cards","test_cards_update_v2_flow","TestCardsUpdateV2Flow","","","POST /Cards -> PUT /Cards/{id}/V2 -> GET /Cards/{id}/V2 -> DELETE /Cards/{id}","
+    /Cards/{id}/V2
+    "
+"passed","Thu Jun 11 00:29:43 UTC 2026","Thu Jun 11 00:29:44 UTC 2026","521","tests.api.contacts","test_contacts_downloads","TestContactsDownloads","","","GET /accounts/contacts/{contact_id}/download returns VCF",""
+"passed","Thu Jun 11 00:30:59 UTC 2026","Thu Jun 11 00:31:00 UTC 2026","721","tests.api.subscriptions","test_subscription_request","TestSubscriptionRequest","","","POST /Subscriptions/request — random email","
+    POST /Subscriptions/request  (public, no auth required)
+    "
+"passed","Thu Jun 11 00:25:08 UTC 2026","Thu Jun 11 00:25:09 UTC 2026","956","tests.api.accounts","test_accounts_contacts","TestAccountsContacts","","","GET /accounts/contacts with searchText filter → 200/206","
+    /accounts/contacts
+    "
+"passed","Thu Jun 11 00:30:58 UTC 2026","Thu Jun 11 00:30:59 UTC 2026","686","tests.api.subscriptions","test_subscription_contacts_list","TestSubscriptionContactsList","","","GET /Subscriptions/{id}/contacts","
+    GET /Subscriptions/{id}/contacts
+    "
+"passed","Thu Jun 11 00:23:45 UTC 2026","Thu Jun 11 00:23:46 UTC 2026","653","tests.api.account_actions","test_account_actions_smoke","TestAccountActionsSmoke","","","014 MobileAccountSelfRegVerification smoke — random push_token + guid → not 5xx",""
+"passed","Thu Jun 11 00:31:00 UTC 2026","Thu Jun 11 00:31:00 UTC 2026","539","tests.api.supported_versions","test_supported_versions_android","TestSupportedVersionsAndroid","","","GET /SupportedVersions/android returns supported version","
+    /SupportedVersions/android
     "
