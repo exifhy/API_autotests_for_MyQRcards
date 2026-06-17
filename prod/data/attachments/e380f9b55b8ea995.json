@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://api.myqrcards.com/accountActions/WebAccountVerification",
-  "body": "[{\"traceIdentifier\":\"0HNM0S88NKK4G:000000FA\",\"code\":\"ParameterNull\",\"message\":\"Параметр [authorization] не может быть пустым.\"}]"
-}

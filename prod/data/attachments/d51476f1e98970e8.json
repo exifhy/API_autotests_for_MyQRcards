@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/Cards/6GKULXIDQHx/cardLink/metrics?offset=0&fetch=10",
-  "body": "[{\"accountID\":276040,\"cardID\":2,\"metricID\":\"AT_METRIC_1781593342\",\"metricTypeID\":1,\"metricName\":\"YandexMetrika\",\"metricNameRu\":\"Яндекс Метрика\",\"isActive\":true}]"
-}
