@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/companies",
-  "body": "[{\"isCorporate\":true,\"isReadOnly\":false,\"location\":{\"id\":7950,\"country\":\"Russia\",\"postalCode\":\"198198\",\"region\":\"Leningradskaya oblast\",\"address\":\"Murino, Shuvalova 9\",\"notes\":\"13 app.\"},\"phone\":\"+78129875643\",\"fax\":\"+78129875643\",\"email\":\"at_al0wir3fo7@tt.tt\",\"siteUrl\":\"https://www.test.tt\",\"foundedYear\":2018,\"activity\":\"Testing, Testing, Testing\",\"name\":\"Api_tests_company_85qafb60\",\"id\":3803},{\"isCorporate\":true,\"isReadOnly\":false,\"email\":\"dev-kabinet137@bjedu.tech\",\"name\":\"TestComp\",\"id\":3637},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания для копирования сотрудников\",\"id\":3642},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания для перемещения сотрудников\",\"id\":3643},{\"isCorporate\":true,\"isReadOnly\":false,\"name\":\"Компания куда создаем сотрудников\",\"id\":3647}]"
-}

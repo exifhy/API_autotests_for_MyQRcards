@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/clientTokens",
+  "body": "{\"clientID\":\"18FBF3D6-8C80-4523-8CFA-126FEC71744\",\"pushToken\":\"autotest_push_1781781282\",\"created\":\"2026-06-18T11:14:44\"}"
+}
