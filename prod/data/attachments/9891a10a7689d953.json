@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/Companies/205969",
+  "body": "{\"customers\":\"Testers, Testers\",\"location\":{\"id\":205016,\"country\":\"Russia\",\"postalCode\":\"198198\",\"region\":\"Leningradskaya oblast\",\"address\":\"Murino, Shuvalova 9\",\"notes\":\"13 app.\",\"latitude\":32.987656,\"longitude\":32.987656},\"socialNetworks\":[{\"contactUrl\":\"https://cn.com/test\",\"name\":\"Facebook\",\"id\":1},{\"contactUrl\":\"tg://resolve?domain=zdarova\",\"name\":\"Telegram\",\"id\":7},{\"contactUrl\":\"https://wa.me/+89452342323\",\"name\":\"WhatsApp\",\"id\":8},{\"contactUrl\":\"viber://chat?number=86767575676\",\"name\":\"Viber\",\"id\":9},{\"contactUrl\":\"86767575676\",\"name\":\"MAX\",\"id\":19}],\"isReadOnly\":false,\"phone\":\"+78129875643\",\"fax\":\"+78129875643\",\"email\":\"at_kvq3gm49cn@tt.tt\",\"siteUrl\":\"https://www.test.tt\",\"foundedYear\":2018,\"activity\":\"Testing, Testing, Testing\",\"name\":\"Api_tests_company_lfxmkmra\",\"id\":205969}"
+}
