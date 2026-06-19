@@ -1,2 +1,0 @@
-2026-06-18 11:21:15.968 | WARNING  | testkit.fixtures.mobile:_safe_cleanup_mobile_flow:86 - Mobile cleanup issues:
-mobile uploaded attachment cleanup failed for attachment_id=18284: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
