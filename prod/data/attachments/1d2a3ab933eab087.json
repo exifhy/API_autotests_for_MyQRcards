@@ -1,6 +1,0 @@
-{
-  "status_code": 500,
-  "reason": "Internal Server Error",
-  "url": "https://api.myqrcards.com/Cards",
-  "body": "[{\"traceIdentifier\":\"0HNM0S88NKO1O:00000011\",\"message\":\"Violation of PRIMARY KEY constraint 'PK#CardLink@ID'. Cannot insert duplicate key in object 'CARD.CardLink'. The duplicate key value is (6B8yjseHLbm).\",\"arguments\":{\"helpLink.ProdName\":\"Microsoft SQL Server\",\"helpLink.ProdVer\":\"15.00.4410\",\"helpLink.EvtSrc\":\"MSSQLServer\",\"helpLink.EvtID\":\"2627\",\"helpLink.BaseHelpUrl\":\"https://go.microsoft.com/fwlink\",\"helpLink.LinkId\":\"20476\"}}]"
-}
