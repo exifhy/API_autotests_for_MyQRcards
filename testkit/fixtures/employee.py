@@ -5,7 +5,7 @@ from http import HTTPStatus
 from src.api.endpoints import EMPLOYEE_INVITATION_CREATE_PATH, EMPLOYEE_INVITATION_DELETE_PATH
 from src.resources.api import accounts_list
 from src.resources.helpers import find_account_in_list
-from src.resources.uploads import upload_generated_image
+from src.resources.uploads import upload_generated_image, upload_large_image_cdn
 from src.support.waiter import wait_until
 from src.utils.randoms import rand_email, rand_phone_ru8, rand_word
 
@@ -153,6 +153,49 @@ def employee_addphoto_flow(lk_api, cfg):
     attachment_ids: list[int] = []
     for idx in range(5):
         attachment_id = upload_generated_image(lk_api, cfg, label=f"employee_photo_{idx}")
+        attachment_ids.append(attachment_id)
+
+    ctx = {
+        "subscription_id": subscription_id,
+        "invite_id": invite_id,
+        "account_id": account_id,
+        "card_id": card_id,
+        "attachment_ids": attachment_ids,
+        "deleted": False,
+    }
+
+    yield ctx
+
+    if not ctx.get("deleted"):
+        _safe_delete_invitation(lk_api, subscription_id, invite_id)
+
+
+@pytest.fixture(scope="module")
+def employee_addphoto_cdn_flow(lk_api, cfg):
+    subscription_id = int(cfg["subscription_id"])
+    company_id = int(cfg["company_id_create"])
+
+    uniq = int(__import__("time").time())
+    body = {
+        "Email": f"autotest_cdn_{subscription_id}_{uniq}@mail.com",
+        "FirstName": "AT_Photo_CDN",
+        "LastName": "Employee",
+        "CompanyID": company_id,
+        "Phone": "89990001133",
+        "IsAcceptAdvertising": False,
+    }
+
+    response = lk_api.post(f"/Subscriptions/{subscription_id}/invitation", json=body)
+    assert response.status_code in (HTTPStatus.OK, HTTPStatus.CREATED, HTTPStatus.ACCEPTED), response.text
+
+    invite_id = int(response.json()["id"])
+    account_id = invite_id
+    card_id = _resolve_account_card_id(lk_api, account_id)
+    assert card_id is not None, f"Card id not found for invited account {account_id}"
+
+    attachment_ids: list[int] = []
+    for idx in range(3):
+        attachment_id = upload_large_image_cdn(label=f"employee_photo_cdn_{idx}", target_size_mb=2.0)
         attachment_ids.append(attachment_id)
 
     ctx = {

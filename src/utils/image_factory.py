@@ -52,3 +52,23 @@ def generate_image_bytes(
         content_type="image/jpeg",
         data=bio.getvalue(),
     )
+
+
+def generate_large_image_bytes(*, target_size_mb: float = 2.0) -> GeneratedFile:
+    """Generate an uncompressed PNG image guaranteed to exceed target_size_mb."""
+    import math
+    pixels_needed = int(target_size_mb * 1024 * 1024 / 3)
+    side = math.ceil(math.sqrt(pixels_needed))
+
+    stamp = f"{int(time.time())}_{uuid.uuid4().hex[:8]}"
+    img = Image.new("RGB", (side, side), color=(200, 100, 50))
+    draw = ImageDraw.Draw(img)
+    draw.text((10, 10), f"large-autotest {stamp}", fill=(0, 0, 0))
+
+    bio = io.BytesIO()
+    img.save(bio, format="PNG", compress_level=0)
+    return GeneratedFile(
+        filename=f"large_autotest_{stamp}.png",
+        content_type="image/png",
+        data=bio.getvalue(),
+    )
