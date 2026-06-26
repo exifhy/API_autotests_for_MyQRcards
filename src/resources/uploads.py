@@ -1,7 +1,7 @@
 from __future__ import annotations
 from http import HTTPStatus
 
-from src.utils.image_factory import generate_image_bytes
+from src.utils.image_factory import generate_image_bytes, generate_large_image_bytes
 
 
 def upload_attachment_bytes(
@@ -31,6 +31,20 @@ def upload_attachment_bytes(
     payload = r.json() if r.text else {}
     att_id = payload.get("id") if isinstance(payload, dict) else None
     assert att_id, f"No id in upload response: {payload}"
+    return int(att_id)
+
+
+def upload_large_image_cdn(*, label: str | None = None, target_size_mb: float = 2.0) -> int:
+    from services.attachments.attachment_upload_cdn.api_attachment_upload_cdn import AttachmentUploadCdnAPI
+    gen = generate_large_image_bytes(target_size_mb=target_size_mb)
+    response = AttachmentUploadCdnAPI().upload_attachment_cdn(gen)
+    assert response.status_code in (HTTPStatus.OK, HTTPStatus.CREATED), (
+        f"CDN upload failed: {response.status_code} {response.text}"
+    )
+    attachments = response.json().get("attachments", [])
+    assert attachments, f"No attachments in CDN response: {response.text}"
+    att_id = attachments[0].get("id")
+    assert att_id, f"No id in CDN upload response: {response.json()}"
     return int(att_id)
 
 

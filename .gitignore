@@ -8,6 +8,7 @@ allure-report/
 .pip-cache/
 .tmp_python/
 .tmp_postman_items.txt
+.tmp_postman_items_new.txt
 .env
 .env.dev
 .env.prod
