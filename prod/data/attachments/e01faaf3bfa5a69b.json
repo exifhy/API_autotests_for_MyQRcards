@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://api.myqrcards.com/accountActions/MobileAccountSelfRegVerification",
-  "body": "[{\"traceIdentifier\":\"0HNM0SBOFDK7C:00000003\",\"code\":\"ParameterNull\",\"message\":\"Параметр [authorization] не может быть пустым.\"}]"
-}
