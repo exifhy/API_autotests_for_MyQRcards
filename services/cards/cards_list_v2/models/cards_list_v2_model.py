@@ -14,6 +14,7 @@ class CardV2SubscriptionModel(StrictBaseModel):
     isTrial: Optional[bool] = None
     name: Optional[str] = None
     id: Optional[int] = None
+    isValid: Optional[bool] = None
 
 
 class CardV2CompanyModel(StrictBaseModel):
