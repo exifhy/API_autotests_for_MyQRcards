@@ -25,7 +25,7 @@ def _wait_card_deleted(card_id: int, *, timeout_s: int = 60, step_s: int = 3) ->
             url=url,
             headers=Headers.auth_header(bearer_token=get_token()),
         )
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND):
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         return None
 

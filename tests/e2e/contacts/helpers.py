@@ -83,7 +83,7 @@ def wait_contact_absent(
 
     def _absent():
         response = _helper._call("GET", url=endpoint, headers=headers)
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND):
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         return None
 
