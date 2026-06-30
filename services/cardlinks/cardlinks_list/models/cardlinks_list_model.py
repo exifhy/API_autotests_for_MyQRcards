@@ -23,6 +23,9 @@ class CardLinksListItemModel(BaseModel):
     accountID: Optional[int] = None
     name: Optional[str] = None
     url: Optional[str] = None
+    isPublic: Optional[bool] = None
+    isDefault: Optional[bool] = None
+    isSelfRegistrationOnly: Optional[bool] = None
     account: Optional[AccountModel] = None
     card: Optional[CardModel] = None
     cardLink: Optional[LinkTypeModel] = None
