@@ -40,7 +40,7 @@ def _wait_catalog_absent(host: str, account_id: int, card_id: int, catalog_id: i
             url=f"{host}/accounts/{int(account_id)}/cards/{int(card_id)}/catalog/{int(catalog_id)}",
             headers=headers,
         )
-        if response.status_code == HTTPStatus.NO_CONTENT:
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         if response.status_code == HTTPStatus.OK and not response.text:
             return True

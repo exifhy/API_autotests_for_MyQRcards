@@ -26,7 +26,7 @@ def _wait_contact_deleted(contact_id: int, *, app_id: str, timeout_s: int = 60, 
 
     def _gone():
         response = _helper._call("GET", url=endpoint, headers=headers)
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND):
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         return None
 

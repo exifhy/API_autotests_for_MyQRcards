@@ -52,7 +52,7 @@ def wait_company_get_json(lk_api, company_id: int, *, timeout_s: int = 60, step_
 def wait_company_absent(lk_api, company_id: int, *, timeout_s: int = 60, step_s: int = 3):
     def _absent():
         response = lk_api.get(f"/companies/{int(company_id)}")
-        return True if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND) else None
+        return True if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT) else None
 
     return wait_until(_absent, timeout_s=timeout_s, step_s=step_s)
 

@@ -29,3 +29,4 @@ class CardByIdShortModel(StrictBaseModel):
     company: Optional[CardShortCompanyModel] = None
     cardLinkUrl: Optional[str] = None
     customizedUrl: Optional[str] = None
+    isSubscriptionValid: Optional[bool] = None

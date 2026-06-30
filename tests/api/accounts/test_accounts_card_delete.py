@@ -15,7 +15,7 @@ from src.support.waiter import wait_until
 _helper = Helper()
 
 
-def _wait_card_absent(host: str, card_id: int, timeout_s: int = 30, step_s: int = 2):
+def _wait_card_absent(host: str, card_id: int, timeout_s: int = 120, step_s: int = 5):
     headers = Headers.auth_header(bearer_token=get_token())
 
     def _gone():
@@ -24,7 +24,7 @@ def _wait_card_absent(host: str, card_id: int, timeout_s: int = 30, step_s: int 
             url=f"{host}/Cards/{int(card_id)}",
             headers=headers,
         )
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND):
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         return None
 

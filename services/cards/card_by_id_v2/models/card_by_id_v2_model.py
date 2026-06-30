@@ -28,6 +28,7 @@ class CardByIdV2SubscriptionModel(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
     subscriptionType: Optional[dict] = None
+    isValid: Optional[bool] = None
 
 
 class CardByIdV2EmploymentModel(StrictBaseModel):
