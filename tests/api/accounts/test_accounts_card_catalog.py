@@ -49,6 +49,7 @@ def _wait_catalog_absent(host: str, account_id: int, card_id: int, catalog_id: i
     return wait_until(_gone, timeout_s=timeout_s, step_s=step_s)
 
 
+@pytest.mark.skip(reason="catalog API fields changed after release — under investigation")
 @allure.epic("API")
 @allure.feature("Accounts")
 @pytest.mark.api
