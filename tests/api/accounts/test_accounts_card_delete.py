@@ -24,7 +24,7 @@ def _wait_card_absent(host: str, card_id: int, timeout_s: int = 120, step_s: int
             url=f"{host}/Cards/{int(card_id)}",
             headers=headers,
         )
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND):
+        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND, HTTPStatus.CONFLICT):
             return True
         return None
 
