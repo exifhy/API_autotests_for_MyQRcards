@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/cards/16/designsettings",
-  "body": "{\"cardID\":16,\"accountID\":7124,\"color\":\"4673B4\",\"backgroundImagePublicUrl\":\"https://api.selcdn.ru/v1/SEL_83360/Public/wtvM4gsJlEKNzRn5NgZJmQ.jpg\",\"backgroundAttachmentID\":18631,\"customCardLink\":{\"customCardLinkUrl\":\"https://dev-ecard.myqrcards.com/links/\",\"name\":\"Ecard\",\"id\":3}}"
-}
