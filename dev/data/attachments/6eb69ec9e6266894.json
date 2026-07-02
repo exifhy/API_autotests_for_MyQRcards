@@ -1,0 +1,27 @@
+{
+  "name": "AT_Card_Updated_1782986656",
+  "culture": "ru-RU",
+  "isPrimary": true,
+  "themeID": 2,
+  "person": {
+    "firstName": "UFN_1782986656",
+    "lastName": "ULN_1782986656",
+    "middleName": "UMN_1782986656",
+    "attachments": [
+      {
+        "attachmentID": 18766,
+        "sortOrder": 1
+      },
+      {
+        "attachmentID": 18767,
+        "sortOrder": 2
+      }
+    ]
+  },
+  "isHidden": false,
+  "employment": {
+    "companyID": 3647,
+    "position": "AT Tester",
+    "activity": "AT Update Activity"
+  }
+}
