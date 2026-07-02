@@ -1,0 +1,6 @@
+{
+  "status_code": 500,
+  "reason": "Internal Server Error",
+  "url": "https://api.myqrcards.com/Subscriptions/5213/invitation/302435",
+  "body": "[{\"traceIdentifier\":\"0HNMO7KQKGQML:000000B2\",\"message\":\"Data modification failed on system-versioned table 'MyQrCard.AUTH.AccountSubscription' because transaction time was earlier than period start time for affected records.\",\"arguments\":{\"helpLink.ProdName\":\"Microsoft SQL Server\",\"helpLink.ProdVer\":\"15.00.4410\",\"helpLink.EvtSrc\":\"MSSQLServer\",\"helpLink.EvtID\":\"13535\",\"helpLink.BaseHelpUrl\":\"https://go.microsoft.com/fwlink\",\"helpLink.LinkId\":\"20476\"}}]"
+}
