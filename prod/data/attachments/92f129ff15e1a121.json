@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/accounts/276040/cards/11/metrics",
+  "body": "[{\"accountID\":276040,\"cardID\":11,\"metricID\":\"AT_ACCOUNT_METRIC_1783000090\",\"metricTypeID\":1,\"metricName\":\"YandexMetrika\",\"metricNameRu\":\"Яндекс Метрика\",\"isActive\":true}]"
+}

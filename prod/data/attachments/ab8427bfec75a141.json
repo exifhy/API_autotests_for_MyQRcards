@@ -1,0 +1,6 @@
+{
+  "status_code": 500,
+  "reason": "Internal Server Error",
+  "url": "https://api.myqrcards.com/Cards/10",
+  "body": "[{\"traceIdentifier\":\"0HNMO7J1PEJ2G:000001A5\",\"message\":\"Transaction (Process ID 358) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.\",\"arguments\":{\"helpLink.ProdName\":\"Microsoft SQL Server\",\"helpLink.ProdVer\":\"15.00.4410\",\"helpLink.EvtSrc\":\"MSSQLServer\",\"helpLink.EvtID\":\"1205\",\"helpLink.BaseHelpUrl\":\"https://go.microsoft.com/fwlink\",\"helpLink.LinkId\":\"20476\"}}]"
+}
