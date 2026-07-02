@@ -16,3 +16,4 @@ data/ids.dev.json
 data/ids.prod.json
 *.pyc
 *.pyo
+.mcp.json
