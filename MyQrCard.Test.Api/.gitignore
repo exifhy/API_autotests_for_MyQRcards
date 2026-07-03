@@ -1,0 +1,15 @@
+.env
+.env.*
+.env.dev121
+.idea
+venv
+__pycache__
+allure-results
+allure-report
+allure-resultstest_delete_object_by_id
+exported_data.xlsx
+result.xml
+test.py
+cline_rule.md
+.clinerules
+.pytest_cache
