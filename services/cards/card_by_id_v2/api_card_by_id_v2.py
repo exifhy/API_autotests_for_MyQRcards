@@ -14,11 +14,15 @@ class CardByIdV2API(Helper):
         self.endpoints = Endpoints()
 
     @allure.step("GET /Cards/{card_id}/V2")
-    def get_card_by_id_v2(self, card_id: int) -> CardByIdV2Model:
+    def get_card_by_id_v2(
+        self, card_id: int, *, all_data: bool = False, token: str | None = None
+    ) -> CardByIdV2Model:
+        params = {"AllData": "true"} if all_data else {}
         response = self._call(
             "GET",
             url=self.endpoints.get_card_by_id_v2_endpoint.format(card_id=int(card_id)),
-            headers=Headers.auth_header(bearer_token=get_token()),
+            headers=Headers.auth_header(bearer_token=token or get_token()),
+            params=params,
         )
         assert response.status_code == HTTPStatus.OK, (
             f"Expected HTTPStatus.OK, got {response.status_code}: {response.text}"

@@ -17,6 +17,7 @@ class CardShortCompanyModel(StrictBaseModel):
 class CardShortGalleryItemModel(StrictBaseModel):
     id: Optional[int] = None
     url: Optional[str] = None
+    sortOrder: Optional[int] = None
 
 
 class CardByIdShortModel(StrictBaseModel):

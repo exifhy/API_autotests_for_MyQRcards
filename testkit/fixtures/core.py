@@ -29,6 +29,7 @@ def cfg(env) -> dict:
         "subscription_id": _opt_int(ids, "subscription_id"),
         "lk_email": (ids.get("lk_email") or "").strip(),
         "lk_contact_id": _opt_int(ids, "lk_contact_id"),
+        "expired_cardlink_id": (ids.get("expired_cardlink_id") or "").strip(),
         "lk_jwt": getenv_required("LK_JWT"),
         "mobile_jwt": os.getenv("MOBILE_JWT") or os.getenv("ACCESS_JWT_MOBILE") or "",
     }
