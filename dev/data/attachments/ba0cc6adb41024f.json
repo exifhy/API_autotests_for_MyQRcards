@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/Cards/16/attachments/sortorder",
-  "body": "{\"attachmentSortOrder\":[{\"attachmentID\":18766,\"sortOrder\":2},{\"attachmentID\":18767,\"sortOrder\":1}]}"
-}

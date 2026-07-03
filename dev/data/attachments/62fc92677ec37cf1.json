@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/cardlinks/statistic/?DateFrom=2026-06-25T10%3A03%3A58&DateTill=2026-07-02T10%3A03%3A58",
-  "body": "[{\"day\":\"2026-06-30T00:00:00\",\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"accountID\":7124,\"card\":{\"personFullName\":\"ULN_1774453106 UFN_1774453106 UMN_1774453106\",\"name\":\"AT_Card_Updated_1774453106\",\"id\":15},\"viewCount\":1,\"downloadCount\":0}]"
-}
