@@ -37,6 +37,9 @@ class SubscriptionModeratorsListAPI(Helper):
                 accountID=item.get("accountID", item.get("AccountID")),
                 cardID=item.get("cardID", item.get("CardID")),
                 email=item.get("email", item.get("Email")),
+                firstName=item.get("firstName", item.get("FirstName")),
+                lastName=item.get("lastName", item.get("LastName")),
+                middleName=item.get("middleName", item.get("MiddleName")),
             )
             for item in data
             if isinstance(item, dict)

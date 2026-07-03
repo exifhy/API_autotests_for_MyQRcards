@@ -1,0 +1,44 @@
+trigger: none  # только ручной запуск
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: myqrcards-secrets
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.13'
+
+  - script: pip install -r requirements.txt
+    displayName: 'Install dependencies'
+
+  - script: |
+      echo "LK_JWT=$(LK_JWT)" >> .env.dev
+      echo "APP_ID=$(APP_ID)" >> .env.dev
+      echo "ACCOUNT_ACTIONS_BASIC_PASSWORD=$(ACCOUNT_ACTIONS_BASIC_PASSWORD)" >> .env.dev
+    displayName: 'Create .env.dev'
+
+  - script: echo '$(IDS_DEV_JSON)' > data/ids.dev.json
+    displayName: 'Create ids.dev.json'
+
+  - script: |
+      ENVIRON=dev python -m pytest tests/ --env=dev \
+        -q --tb=line --alluredir=allure-results 2>&1 | tee pytest_output.txt
+    displayName: 'Run tests'
+    continueOnError: true
+
+  - script: |
+      wget -q https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+      tar -zxf allure-2.27.0.tgz
+      sudo mv allure-2.27.0 /opt/allure
+      sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+      allure generate allure-results -o allure-report --clean
+    displayName: 'Install Allure and generate report'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'allure-report'
+      artifactName: 'allure-report'
+    displayName: 'Publish Allure report'

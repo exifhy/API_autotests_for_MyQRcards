@@ -1,0 +1,357 @@
+from datetime import datetime, timedelta, UTC, timezone
+import platform
+import os
+import allure
+import pytest
+import json
+import shutil
+import subprocess
+from allure_commons.types import AttachmentType
+from loguru import logger
+from config.headers import Headers
+from dotenv import load_dotenv
+import requests
+import re
+import traceback
+from utils.helper import Helper
+from config.config import HOST, ENVIRON
+from utils.env import get_tenant_id, get_tenant_owner_token, get_api_user_token, get_power_user_token
+
+
+load_dotenv()
+
+
+# API_USER_TOKEN = os.getenv('API_USER_TOKEN')
+# BASIC_TOKEN = os.getenv('SECOND_BASIC_TOKEN')
+# POWER_USER_TOKEN = os.getenv('POWER_USER_TOKEN')
+# TENANT_ID = os.getenv('TENANT_ID')
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+TENANT_MEMBER_ID = os.getenv('TENANT_MEMBER_ID')
+APP_ID = os.getenv('APP_ID')
+TOKEN_EXPIRATION_TIME = datetime.min.replace(tzinfo=UTC)
+BEARER_TOKEN = None
+PYTHON_VERSION = platform.python_version()
+
+
+@pytest.fixture
+def email_check_start_time():
+    """Фиксируем момент старта теста"""
+    return datetime.now(timezone.utc)
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--env", action="store", default=None, help="Optional env file suffix (e.g. dev121, stage405)"
+    )
+    parser.addoption(
+        "--report", action="store", default="false", help="Run fixture if --report=true"
+    )
+    parser.addoption(
+        "--runs",
+        action="store",
+        default=1,
+        help="Number of times to run the test scenario"
+    )
+
+
+def pytest_configure(config):
+    # Если указан конкретный --env, загружаем .env.<env> с override=True
+    env_name = config.getoption("--env")
+    if env_name:
+        env_name_path = f".env.{env_name}"
+        if os.path.exists(env_name_path):
+            logger.debug(f"[pytest_configure] Loading override env file: {env_name_path}")
+
+            load_dotenv(dotenv_path=env_name_path, override=True)
+        else:
+            raise FileNotFoundError(f"Environment file '{env_name_path}' not found.")
+
+
+@allure.step("Authorization via API by Email | Password.")
+@pytest.fixture(scope='module')
+def bearer_token():
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=get_tenant_owner_token(), app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        bearer_token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(bearer_token, APP_ID),
+            json={
+                "tenantID": get_tenant_id(),
+                "tenantMemberID": TENANT_MEMBER_ID
+            }
+        )
+        logger.info("Tenant authorization by user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token}")
+        return token
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+@allure.step("Authorization API by cross tenant admin (power user).")
+@pytest.fixture(scope='module')
+def bearer_token_power_user():
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=get_power_user_token(), app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(token, APP_ID),
+            json={
+                "tenantID": get_tenant_id(),
+                "tenantMemberID": TENANT_MEMBER_ID
+            }
+        )
+        logger.info("Tenant authorization by power user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token_bearer = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token_bearer}")
+        return token_bearer
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+@allure.step("Authorization API by cross tenant admin (power user) with tenantMemberID.")
+@pytest.fixture(scope='module')
+def token_power_user_with_tenant_member_id():
+    return bearer_token_power_user_with_tenant_member_id
+
+
+def bearer_token_power_user_with_tenant_member_id(tenant_member_id: int):
+    try:
+        response_authentication = requests.post(
+            url=f'{HOST}/AUTHN/accounts/login',
+            headers=Headers.authentication_header(token=get_power_user_token(), app_id=APP_ID)
+        )
+        logger.info("Send basic token")
+        if response_authentication.status_code != 200:
+            logger.error(response_authentication.status_code)
+
+        response_authorization_data = response_authentication.json()
+        token = response_authorization_data['access_token']
+
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/accounts/authorize",
+            headers=Headers.authorization_header(token, APP_ID),
+            json={
+                "tenantID": get_tenant_id(),
+                "tenantMemberID": tenant_member_id
+            }
+        )
+        logger.info("Tenant authorization by power user.")
+        if response_authorization.status_code != 200:
+            logger.error(response_authorization.status_code)
+        response_authorization_data = response_authorization.json()
+        token_bearer = response_authorization_data['access_token']
+        logger.info(f"Return bearer token {token_bearer}")
+        return token_bearer
+
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+
+
+@pytest.fixture
+def return_func_name():
+    return return_func_name_with_error
+
+
+def return_func_name_with_error() -> str:
+    # Получаем traceback в виде строки
+    tb = traceback.format_exc()
+
+    # Находим все функции в стеке вызовов
+    matches = re.findall(r'File .+?, line \d+, in (\w+)', tb)
+
+    # Возвращаем последнюю найденную функцию, так как ошибка произошла в ней
+    return matches[-1] if matches else "Unknown function"
+
+
+@allure.title("Get API user access token.")
+def get_api_user_access_token():
+    global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
+    now = datetime.now(UTC)
+    if BEARER_TOKEN and TOKEN_EXPIRATION_TIME and now < TOKEN_EXPIRATION_TIME:
+        return BEARER_TOKEN
+
+    try:
+        response_authorization = requests.post(
+            url=f"{HOST}/AUTHZ/AccessTokens/",
+            headers=Headers.basic_content_type,
+            json={
+                "serviceToken": get_api_user_token(),
+            }
+        )
+        if response_authorization.status_code != 200:
+            logger.error(f'{response_authorization.status_code}: {response_authorization.text}')
+            return None
+
+        response_authorization_data = response_authorization.json()
+        BEARER_TOKEN = response_authorization_data['access_token']
+        TOKEN_EXPIRATION_TIME = now + timedelta(minutes=25)
+        # set_key('.env', 'API_TOKEN', BEARER_TOKEN)
+        # os.environ["API_TOKEN"] = BEARER_TOKEN
+        return BEARER_TOKEN
+    except (requests.exceptions.RequestException, TypeError) as er:
+        logger.error(er)
+        return None
+
+
+@allure.step("Вызывается перед выполнением тестов.")
+def pytest_sessionstart(session):
+    """Вызывается перед выполнением тестов."""
+    logger.debug("[pytest_session] GET API TOKEN")
+    token = get_api_user_access_token()
+    if token:
+        cache = session.config.cache
+        cache.set("api_token", token)
+        logger.debug("[pytest_session] Cache set for API TOKEN")
+        # set_key('.env', 'API_TOKEN', token)
+        # logger.debug('Token set in .env file')
+        os.environ["API_TOKEN"] = token
+        logger.debug(f'[pytest_session] TENANT ID from env at startup: {get_tenant_id()}')
+        # print(f"::set-output name=API_TOKEN::{token}")    # Экспорт токена
+
+
+@allure.step("SYSTEM check of access token lifetime before each test.")
+def pytest_runtest_setup(item):
+    """Проверка перед каждым тестом."""
+    global TOKEN_EXPIRATION_TIME, BEARER_TOKEN
+
+    load_dotenv()
+
+    cache = item.config.cache
+    cached_token = cache.get("api_token", None)
+
+    if cached_token:
+        BEARER_TOKEN = cached_token
+        logger.debug("Loaded API token from pytest cache")
+
+    Helper.attach_token_expiration_time(TOKEN_EXPIRATION_TIME)
+    now = datetime.now(UTC)
+    Helper.attach_test_start_time(now)
+
+    if now > TOKEN_EXPIRATION_TIME:
+        logger.debug("Token expired, refreshing...")
+        new_token = get_api_user_access_token()
+        Helper.attach_token(new_token)
+        if new_token:
+            cache.set("api_token", new_token)  # Обновляем кэш
+            # set_key('.env', 'API_TOKEN', new_token)  # Обновляем .env
+            os.environ["API_TOKEN"] = new_token  # Обновляем переменные окружения
+            logger.debug(f"New token set in pytest cache and .env - {os.environ["API_TOKEN"]}")
+            # print(f"::set-output name=API_TOKEN::{new_token}")
+
+
+@allure.step("Attach host information")
+@pytest.fixture(autouse=True, scope='session')
+def attach_host_info():
+    info = {
+        "STAGE": ENVIRON,
+        "HOST": HOST,
+        "TENANT ID": get_tenant_id(),
+        "USER": "API User"
+    }
+    allure.attach(body=json.dumps(info, indent=4), name='Host Info', attachment_type=AttachmentType.JSON)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_allure_history_fixture(request):
+    if request.config.getoption("--report") == "true":
+        request.addfinalizer(setup_allure_history)
+
+
+def setup_allure_history():
+    try:
+        # logger.info('Start generate history')
+        # Путь к папке allure-report/history
+        allure_report_history = os.path.join(ROOT_DIR, 'allure-report', 'history')
+
+        # Проверка наличия папки allure-report/history
+        if os.path.exists(allure_report_history):
+            # Содержание папки allure-report/history
+            history_files = os.listdir(allure_report_history)
+
+            # Путь к папке allure-results
+            allure_results_dir = os.path.join(ROOT_DIR, 'allure-results')
+
+            # Проверка наличия папки allure-results
+            if os.path.exists(allure_results_dir):
+                # Путь к папке allure-results/history
+                allure_results_history = os.path.join(allure_results_dir, 'history')
+
+                # Создание папки allure-results/history, если она не существует
+                os.makedirs(allure_results_history, exist_ok=True)
+
+                # Копирование содержимого из allure-report/history в allure-results/history
+                for file_name in history_files:
+                    full_file_name = os.path.join(allure_report_history, file_name)
+                    if os.path.isfile(full_file_name):
+                        shutil.copy(full_file_name, allure_results_history)
+                    # logger.info('Copy history complete')
+
+        # Выполнение команды "allure generate allure-results --clean"
+        allure_path = os.path.join(os.environ['USERPROFILE'], 'scoop', 'shims', 'allure.cmd')
+        # logger.debug(f"JAVA_HOME at runtime: {os.environ.get('JAVA_HOME')}")
+        subprocess.run([allure_path, 'generate', 'allure-results', '--clean'], check=True)
+
+    except FileNotFoundError as err:
+        logger.error(err)
+
+def create_allure_environment_file():
+    """Создание environment.properties для Allure."""
+
+    allure_results = "allure-results"
+    env_file_path = os.path.join(allure_results, "environment.properties")
+
+    # Проверяем, существует ли allure-results, иначе создаём
+    if not os.path.exists(allure_results):
+        os.makedirs(allure_results)
+
+    # Если файл уже существует — удаляем
+    if os.path.exists(env_file_path):
+        os.remove(env_file_path)
+
+    data = {
+        "STAGE": ENVIRON,
+        "HOST": HOST,
+        "TENANT_ID": get_tenant_id(),
+        "USER": "API User",
+        "PYTHON_VERSION": PYTHON_VERSION,
+    }
+
+    # Создаём файл заново
+    with open(env_file_path, "w", encoding="utf-8") as f:
+        for key, value in data.items():
+            f.write(f"{key} = {value}\n")
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Хук выполняется после окончания всех тестов."""
+    create_allure_environment_file()
+    logger.debug("[pytest_session_finish] Allure environment.properties file created.")

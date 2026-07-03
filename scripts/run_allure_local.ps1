@@ -29,6 +29,7 @@ if (Test-Path $allureReport) {
 New-Item -ItemType Directory -Path $allureResults | Out-Null
 
 Write-Host "Running pytest for '$TestPath' on env '$EnvName'..." -ForegroundColor Cyan
+$env:ENVIRON = $EnvName
 & $pythonExe -m pytest -q $TestPath --env=$EnvName -p no:cacheprovider
 if ($LASTEXITCODE -ne 0) {
     throw "Pytest finished with exit code $LASTEXITCODE"

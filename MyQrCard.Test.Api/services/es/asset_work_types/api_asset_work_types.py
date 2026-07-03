@@ -1,0 +1,72 @@
+import allure
+import requests
+from loguru import logger
+from requests import JSONDecodeError
+from utils.helper import Helper
+from services.es.asset_work_types.payloads import Payloads
+from services.es.asset_work_types.endpoints import Endpoints
+from config.headers import Headers
+from services.es.asset_work_types.models.asset_work_types_model import *
+import time
+from http import HTTPStatus
+from utils.token_utils import get_token
+from faker import Faker
+
+fake_ru = Faker('ru_RU')
+
+
+class EsAssetWorkTypesAPI(Helper):
+
+    def __init__(self):
+        super().__init__()
+        self.payloads = Payloads()
+        self.endpoints = Endpoints()
+        self.headers = Headers()
+
+    @allure.step("Add work type to asset.")
+    def post_add_work_type_to_asset(self, asset_id: int, work_type_id: int):
+        start = time.time()
+        response = requests.post(
+            url=self.endpoints.add_asset_work_type_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.asset_work_types_payload(
+                asset_id=asset_id,
+                work_type_id=work_type_id,
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.CREATED, f'{response.status_code}, {response.json()}'
+        model = SuccessAssetWorkTypeModel(asset=response.json())
+        logger.info(f'Successfully add a non-default work type: {work_type_id} to asset: {asset_id}')
+        return model
+
+    @allure.step("Delete from asset work type by ID.")
+    def delete_work_type_from_asset_by_id(self, asset_id: int, work_type_id: int):
+        start = time.time()
+        response = requests.delete(
+            url=self.endpoints.delete_work_type_from_asset_endpoint,
+            headers=self.headers.basic_header(get_token()),
+            json=self.payloads.asset_work_types_payload(
+                asset_id=asset_id,
+                work_type_id=work_type_id,
+            )
+        )
+        end = time.time()
+        logger.info(response.headers)
+        try:
+            self.attach_response(response.json())
+        except JSONDecodeError:
+            logger.warning("Received response is not a valid JSON")
+        self.attach_time(start, end)
+        self.attach_request(response.request.body)
+        self.attach_url(response.request.url)
+        assert response.status_code == HTTPStatus.ACCEPTED, f'{response.status_code}, {response.json()}'
+        logger.info(f'Successfully delete from asset: {asset_id} work type by ID: {work_type_id}.')

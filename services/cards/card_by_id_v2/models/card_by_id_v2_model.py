@@ -61,3 +61,4 @@ class CardByIdV2Model(StrictBaseModel):
     url: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
+    subscriptionStatus: Optional[str] = None

@@ -12,11 +12,13 @@ class CardLinkCardAPI(Helper):
         self.endpoints = Endpoints()
 
     @allure.step("GET /cardLinks/{card_link}/card")
-    def get_cardlink_card(self, card_link: str) -> CardLinkCardModel:
+    def get_cardlink_card(self, card_link: str, *, all_data: bool = False) -> CardLinkCardModel:
+        params = {"AllData": "true"} if all_data else {}
         response = self._call(
             "GET",
             url=self.endpoints.get_cardlink_card_endpoint.format(card_link=card_link),
             headers={"Accept": "application/json"},
+            params=params,
         )
         assert response.status_code == HTTPStatus.OK, (
             f"Expected HTTPStatus.OK, got {response.status_code}: {response.text}"

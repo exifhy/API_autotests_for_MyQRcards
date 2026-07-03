@@ -137,3 +137,29 @@ class TestAccountActionsSmoke:
             guid=str(uuid.uuid4()),
         )
         assert response.status_code < 500, f"Server error on 015: {response.status_code}: {response.text}"
+
+    @allure.title("012.2 MobileAccountVerification/silent smoke — 202 + actionJwt, без письма")
+    def test_mobile_account_verification_silent_smoke(self):
+        password, app_id = _require_account_actions_password()
+        suffix = _random_suffix()
+
+        response, model, _ = AccountActionsMobileAccountVerificationAPI().create_mobile_account_verification_silent(
+            app_id=app_id,
+            push_token=f"smoke_push_{suffix}",
+            client_name=f"smoke_client_{suffix}",
+            basic_login=_random_email(),
+            basic_password=password,
+        )
+
+        assert response.status_code == HTTPStatus.ACCEPTED, f"Expected 202, got {response.status_code}: {response.text}"
+        assert getattr(model, "actionJwt", None), "012.2 silent did not return actionJwt"
+        assert getattr(model, "actionToken", None), "012.2 silent did not return actionToken"
+
+    @allure.title("011.2 WebAccountVerification/silent smoke — not 5xx, без письма")
+    def test_web_account_verification_silent_smoke(self):
+        suffix = _random_suffix()
+        response, _, _ = AccountActionsWebAccountVerificationAPI().create_web_account_verification_silent(
+            push_token=f"smoke_push_{suffix}",
+            client_name=f"smoke_client_{suffix}",
+        )
+        assert response.status_code < 500, f"Server error on 011.2 silent: {response.status_code}: {response.text}"
