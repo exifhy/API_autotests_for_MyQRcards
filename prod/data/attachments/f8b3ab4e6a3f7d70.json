@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/Companies?searchText=test&offset=0&fetch=50",
-  "body": "[{\"isCorporate\":true,\"isReadOnly\":false,\"location\":{\"id\":205249,\"country\":\"Russia\",\"postalCode\":\"198198\",\"region\":\"Leningradskaya oblast\",\"address\":\"Murino, Shuvalova 9\",\"notes\":\"13 app.\"},\"phone\":\"+78129875643\",\"fax\":\"+78129875643\",\"email\":\"at_gmvow239pt@tt.tt\",\"siteUrl\":\"https://www.test.tt\",\"foundedYear\":2018,\"activity\":\"Testing, Testing, Testing\",\"name\":\"Api_tests_company_8eps1svd\",\"id\":206764},{\"isCorporate\":true,\"isReadOnly\":false,\"location\":{\"id\":205248,\"country\":\"Russia\",\"postalCode\":\"198198\",\"region\":\"Leningradskaya oblast\",\"address\":\"Murino, Shuvalova 9\",\"notes\":\"13 app.\"},\"phone\":\"+78129875643\",\"fax\":\"+78129875643\",\"email\":\"at_nafb78f7ha@tt.tt\",\"siteUrl\":\"https://www.test.tt\",\"foundedYear\":2018,\"activity\":\"Testing, Testing, Testing\",\"name\":\"Api_tests_company_r7le2lew\",\"id\":206763},{\"isCorporate\":true,\"isReadOnly\":false,\"email\":\"prod-kabinet137@bjedu.tech\",\"name\":\"TestComp\",\"id\":191940}]"
-}
