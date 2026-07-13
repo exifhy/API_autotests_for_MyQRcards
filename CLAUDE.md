@@ -157,9 +157,10 @@ ENVIRON=dev .venv/Scripts/pytest tests/ -v
 ## Замечания
 
 - `.env.dev` и `.env.prod` содержат токены — в git не коммитить
-- Количество тестов: ~375+ (api: ~130 файлов, e2e: ~40 файлов)
+- Количество тестов: 388 (api: 132 файла, e2e: 43 файла)
 - `.tmp_postman_items_new.txt` — список ручек из Postman, для справки
 - `expired_cardlink_id` в `ids.dev.json` / `ids.prod.json` — токен карт-линка с истёкшей подпиской (нужен для тестов AllData=true)
+- `unbound_cardlink_id` в `ids.dev.json` / `ids.prod.json` — токен кардлинка, не привязанного к аккаунту (нужен для тестов IsSkipCheck, REQUIREMENT 31202)
 
 ## Закомментированные тесты (раскомментировать при наличии данных)
 

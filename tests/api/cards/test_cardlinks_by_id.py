@@ -6,6 +6,8 @@ from services.cards.card_by_id.api_card_by_id import CardByIdAPI
 from services.cards.cards_list.api_cards_list import CardsListAPI
 from tests.api.cards.helpers import extract_card_link_id
 
+_SKIP_MSG = "unbound_cardlink_id not configured"
+
 
 @allure.epic("API")
 @allure.feature("CardLinks")
@@ -41,3 +43,33 @@ class TestCardLinksById:
             or account_obj is not None
             or card_obj is not None
         )
+
+    @allure.title("GET /cardlinks/{cardLink} — unbound cardlink without flag returns 204")
+    @pytest.mark.smoke
+    def test_cardlinks_by_id_unbound_no_flag(self, cfg):
+        cardlink_id = cfg.get("unbound_cardlink_id")
+        if not cardlink_id:
+            pytest.skip(_SKIP_MSG)
+
+        model = CardLinkByIdAPI().get_cardlink_by_id(cardlink_id)
+        assert model is None, f"Expected 204 (None) for unbound cardlink without flag, got model: {model}"
+
+    @allure.title("GET /cardlinks/{cardLink}?IsSkipCheck=true — unbound cardlink returns 200 with data")
+    @pytest.mark.smoke
+    def test_cardlinks_by_id_unbound_skip_check_true(self, cfg):
+        cardlink_id = cfg.get("unbound_cardlink_id")
+        if not cardlink_id:
+            pytest.skip(_SKIP_MSG)
+
+        model = CardLinkByIdAPI().get_cardlink_by_id(cardlink_id, is_skip_check=True)
+        assert model is not None, "Expected 200 with data for unbound cardlink with IsSkipCheck=true"
+
+    @allure.title("GET /cardlinks/{cardLink}?IsSkipCheck=false — unbound cardlink returns 204")
+    @pytest.mark.smoke
+    def test_cardlinks_by_id_unbound_skip_check_false(self, cfg):
+        cardlink_id = cfg.get("unbound_cardlink_id")
+        if not cardlink_id:
+            pytest.skip(_SKIP_MSG)
+
+        model = CardLinkByIdAPI().get_cardlink_by_id(cardlink_id, is_skip_check=False)
+        assert model is None, f"Expected 204 (None) for unbound cardlink with IsSkipCheck=false, got model: {model}"

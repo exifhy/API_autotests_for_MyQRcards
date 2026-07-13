@@ -129,6 +129,7 @@
 | `GET /cards/{id}/V2?AllData=true` | С флагом возвращает 200 вместо 409 для карточек с истёкшей подпиской. `subscription.isValid=False`. Нужен `EXPIRED_JWT`. |
 | `GET /cardLinks/{token}/card?AllData=true` | Публичный. Возвращает 200 + данные карточки с истёкшей подпиской. |
 | `GET /cardLinks/{token}/short/card?AllData=true` | Публичный. Возвращает 200 + `isSubscriptionValid=False`. |
+| `GET /cardlinks/{token}` (093) | Непривязанный кардлинк → 204 No Content. С `?IsSkipCheck=true` → 200 + данные (REQUIREMENT 31202). Сервис: `CardLinkByIdAPI.get_cardlink_by_id(token, is_skip_check=True)`. |
 
 ## Покрытие по Postman (статус)
 

@@ -26,7 +26,7 @@ def accounts_list_by_company(lk_api, company_id: int):
 def get_accounts_json_safe(response):
     if response.status_code == HTTPStatus.NO_CONTENT:
         return []
-    if response.status_code != HTTPStatus.OK:
+    if response.status_code not in (HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT):
         return None
     try:
         data = response.json()

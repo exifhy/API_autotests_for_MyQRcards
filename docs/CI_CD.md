@@ -24,6 +24,14 @@
 - `.github/workflows/tests-prod-full.yml` — PROD full (воскресенье)
 - `scripts/notify_telegram.py` — уведомления в Telegram
 
+## Azure DevOps Pipeline
+- Файл: `azure-pipelines.yml` (в корне репо, только в Azure)
+- Trigger: ручной (`trigger: none`)
+- Pool: `ubuntu-latest`, Python 3.13
+- Variable group: `myqrcards-secrets` (содержит `LK_JWT`, `APP_ID`, `ACCOUNT_ACTIONS_BASIC_PASSWORD`, `IDS_DEV_JSON`)
+- Запускает тесты на DEV окружении
+- Генерирует Allure отчёт и публикует как артефакт сборки (`allure-report`)
+
 ## GitHub Secrets (обязательные)
 
 | Секрет | Описание |
@@ -32,8 +40,9 @@
 | `LK_JWT_PROD` | JWT токен для prod |
 | `APP_ID` | X-APPLICATION-ID (одинаковый для dev/prod) |
 | `ACCOUNT_ACTIONS_BASIC_PASSWORD` | Basic-пароль для AccountActions (012/020) — нужен в dev и prod |
-| `IDS_DEV_JSON` | содержимое `data/ids.dev.json` |
-| `IDS_PROD_JSON` | содержимое `data/ids.prod.json` |
+| `IDS_DEV_JSON` | содержимое `data/ids.dev.json` (обновлять при добавлении новых полей в ids.dev.json) |
+| `IDS_PROD_JSON` | содержимое `data/ids.prod.json` (обновлять при добавлении новых полей в ids.prod.json) |
+| `EXPIRED_JWT` | JWT аккаунта с истёкшей подпиской (для тестов AllData=true) |
 | `TELEGRAM_BOT_TOKEN` | токен Telegram бота |
 | `TELEGRAM_CHAT_ID` | ID чата для уведомлений |
 

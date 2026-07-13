@@ -37,7 +37,7 @@ class AccountsListAPI(Helper):
             headers=Headers.auth_header(bearer_token=get_token(), Range=range_header),
             params=params or None,
         )
-        assert response.status_code in (HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT), (
+        assert response.status_code in (HTTPStatus.OK, HTTPStatus.PARTIAL_CONTENT, HTTPStatus.NO_CONTENT), (
             f"Unexpected status: {response.status_code} {response.text}"
         )
 

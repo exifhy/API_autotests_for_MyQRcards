@@ -56,8 +56,15 @@ class TestAccountsCardDelete:
             host = str(cfg["host"]).rstrip("/")
             is_absent = _wait_card_absent(host, created_id)
             assert is_absent is True, f"Card {created_id} is still available after delete"
+            created_id = None
         finally:
-            pass
+            if created_id is not None:
+                try:
+                    headers = Headers.auth_header(bearer_token=get_token())
+                    host = str(cfg["host"]).rstrip("/")
+                    _helper._call("DELETE", url=f"{host}/Cards/{int(created_id)}", headers=headers)
+                except Exception:
+                    pass
 
     @allure.title("POST multiple /Accounts/{accountID}/Cards -> DELETE /Accounts/{accountID}/Cards/bulkremove")
     def test_accounts_cards_delete_many_flow(self, cfg):
