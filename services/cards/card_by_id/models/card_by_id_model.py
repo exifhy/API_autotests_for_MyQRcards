@@ -8,6 +8,8 @@ class CardByIdPersonModel(StrictBaseModel):
     lastName: Optional[str] = None
     middleName: Optional[str] = None
     selfInfo: Optional[str] = None
+    email: Optional[str] = None
+    fileName: Optional[str] = None
 
 
 class CardByIdCardThemeModel(StrictBaseModel):
