@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/accounts/contacts/99023",
+  "body": "{\"firstName\":\"Do not delete !\",\"lastName\":\"autotests\",\"transliterateFullName\":\"autotests_Do_not_delete_!\",\"mobilePhone\":\"+7369147125458\",\"companyName\":\"Компани\",\"position\":\"Механикм\",\"created\":\"2026-02-10T13:46:06\",\"accountID\":276040,\"contactID\":99023}"
+}

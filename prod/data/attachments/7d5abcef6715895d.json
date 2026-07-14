@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/Subscriptions/5213/contacts?accountID=276040",
+  "body": "[{\"accountID\":276040,\"cardID\":3,\"contactID\":99023,\"firstName\":\"Do not delete !\",\"lastName\":\"autotests\",\"mobilePhone\":\"+7369147125458\",\"companyName\":\"Компани\",\"position\":\"Механикм\",\"created\":\"2026-02-10T13:46:06\"}]"
+}

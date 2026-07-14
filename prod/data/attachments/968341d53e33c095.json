@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/Cards/lastupdate",
+  "body": "[{\"accountID\":276040,\"cardID\":3,\"lastModified\":\"2026-07-13T10:22:46\"}]"
+}

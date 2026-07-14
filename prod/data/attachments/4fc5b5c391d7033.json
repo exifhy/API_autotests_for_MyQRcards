@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/accounts",
+  "body": "[{\"email\":\"prod-mobile137@bjedu.tech\",\"firstName\":\"Тест\",\"lastName\":\"\",\"middleName\":\"\",\"avatar\":{\"id\":356330,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/Fwy1OBNTGkii6FUhYl-NoQ.jpg\"},\"company\":{\"name\":\"TestComp\",\"id\":191940},\"card\":{\"url\":\"https://ecard.myqrcards.com/links/5jvh5w3ybTP\",\"name\":\"Корпоративная:TestComp\",\"id\":1},\"position\":\"\",\"isReadOnly\":false,\"lockNewSubscribing\":true,\"invitationCreated\":\"2026-01-23T12:48:30\",\"invitationAccepted\":\"2026-01-23T12:48:30\",\"isAcceptAdvertising\":true,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":false,\"id\":276041},{\"email\":\"prod-kabinet137@bjedu.tech\",\"firstName\":\"Не УДАЛЯТЬ\",\"lastName\":\"АВТОТЕСТЫ\",\"company\":{\"name\":\"TestComp\",\"id\":191940},\"card\":{\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8\",\"name\":\"автотесты - прогон\",\"id\":3},\"isReadOnly\":true,\"lockNewSubscribing\":true,\"invitationAccepted\":\"2026-01-23T12:45:20\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":true,\"id\":276040}]"
+}
