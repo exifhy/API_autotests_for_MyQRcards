@@ -7,3 +7,7 @@ def get_token() -> str | None:
 
 def get_expired_jwt() -> str | None:
     return os.getenv("EXPIRED_JWT")
+
+
+def get_test_jwt() -> str | None:
+    return os.getenv("TEST_LK_JWT")
