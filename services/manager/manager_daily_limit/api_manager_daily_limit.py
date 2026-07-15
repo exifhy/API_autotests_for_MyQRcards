@@ -6,7 +6,7 @@ from config.headers import Headers
 from services.manager.manager_daily_limit.endpoints import Endpoints
 from services.manager.manager_daily_limit.models.manager_daily_limit_model import ManagerDailyLimitModel
 from src.support.helper import Helper
-from src.support.token_utils import get_token
+from src.support.token_utils import get_manager_jwt, get_token
 
 
 class ManagerDailyLimitAPI(Helper):
@@ -18,7 +18,7 @@ class ManagerDailyLimitAPI(Helper):
         response = self._call(
             "GET",
             url=self.endpoints.get_manager_daily_limit_endpoint,
-            headers=Headers.auth_header(bearer_token=get_token()),
+            headers=Headers.auth_header(bearer_token=get_manager_jwt()),
         )
         assert response.status_code == HTTPStatus.OK, (
             f"Expected HTTPStatus.OK, got {response.status_code}: {response.text}"

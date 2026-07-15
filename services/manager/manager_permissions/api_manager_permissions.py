@@ -4,9 +4,12 @@ import allure
 
 from config.headers import Headers
 from services.manager.manager_permissions.endpoints import Endpoints
-from services.manager.manager_permissions.models.manager_permissions_model import ManagerPermissionsModel
+from services.manager.manager_permissions.models.manager_permissions_model import (
+    ManagerPermissionItemModel,
+    ManagerPermissionsModel,
+)
 from src.support.helper import Helper
-from src.support.token_utils import get_token
+from src.support.token_utils import get_manager_jwt, get_token
 
 
 class ManagerPermissionsAPI(Helper):
@@ -18,12 +21,14 @@ class ManagerPermissionsAPI(Helper):
         response = self._call(
             "GET",
             url=self.endpoints.get_manager_permissions_endpoint,
-            headers=Headers.auth_header(bearer_token=get_token()),
+            headers=Headers.auth_header(bearer_token=get_manager_jwt()),
         )
         assert response.status_code == HTTPStatus.OK, (
             f"Expected HTTPStatus.OK, got {response.status_code}: {response.text}"
         )
-        return ManagerPermissionsModel(**response.json())
+        data = response.json()
+        assert isinstance(data, list), f"Expected list, got {type(data)}: {data}"
+        return ManagerPermissionsModel(items=[ManagerPermissionItemModel(**item) for item in data])
 
     @allure.step("GET /Manager/permissions (raw, no assert — for negative/non-manager cases)")
     def get_manager_permissions_raw(self):

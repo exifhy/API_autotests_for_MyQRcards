@@ -1,8 +1,6 @@
-from pydantic import BaseModel, ConfigDict
+from src.models.base import StrictBaseModel
 
 
-class ManagerDailyLimitModel(BaseModel):
-    """REQUIREMENT 29760. Response shape not yet confirmed against a real manager
-    account — extra="allow" until verified, tighten to StrictBaseModel afterwards.
-    """
-    model_config = ConfigDict(extra="allow")
+class ManagerDailyLimitModel(StrictBaseModel):
+    dailyLimit: int
+    usedToday: int

@@ -13,11 +13,18 @@ from services.manager.manager_permissions.api_manager_permissions import Manager
     """
     GET /Manager/permissions
     REQUIREMENT 29760 — админка для сейлов.
-    Позитивный сценарий (валидный менеджер + managerPassword) требует отдельного
-    менеджерского аккаунта — пока недоступен, тест не написан.
+    Позитивный сценарий — под менеджерским аккаунтом (TEST_LK_JWT / get_manager_jwt()).
     """
 )
 class TestManagerPermissions:
+    @allure.title("GET /Manager/permissions — менеджерский аккаунт получает список прав")
+    @pytest.mark.smoke
+    def test_manager_permissions_flow(self):
+        model = ManagerPermissionsAPI().get_manager_permissions()
+        assert model.items, "Expected non-empty permissions list"
+        names = {item.name for item in model.items}
+        assert "CreateSubscription" in names, f"Expected CreateSubscription in permissions, got: {names}"
+
     @allure.title("GET /Manager/permissions — обычный (не-менеджерский) аккаунт получает отказ")
     @pytest.mark.smoke
     def test_manager_permissions_non_manager_account(self):
