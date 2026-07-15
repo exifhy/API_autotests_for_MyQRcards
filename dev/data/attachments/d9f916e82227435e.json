@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/accounts?IsIncludeSubscriptionOwner=true",
-  "body": "[{\"email\":\"at_sjk716t86q@mail.com\",\"firstName\":\"AT_Nikita_s04c7j\",\"lastName\":\"AT_Test_cvo9wl\",\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"card\":{\"url\":\"https://dev-ecard.myqrcards.com/links/6WIUD9Veqck\",\"name\":\"Корпоративная:Компания куда создаем сотрудников\",\"id\":1},\"position\":\"Director\",\"isReadOnly\":false,\"lockNewSubscribing\":true,\"invitationCreated\":\"2026-07-14T09:16:53\",\"invitationAccepted\":\"2026-07-14T09:16:53\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":false,\"id\":12290},{\"email\":\"dev-kabinet137@bjedu.tech\",\"firstName\":\"UFN_1774453106\",\"lastName\":\"ULN_1774453106\",\"middleName\":\"UMN_1774453106\",\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"card\":{\"url\":\"https://dev-ecard.myqrcards.com/links/5Uttqn4Wqyw\",\"name\":\"AT_Card_Updated_1774453106\",\"id\":15},\"position\":\"AT Tester\",\"isReadOnly\":true,\"lockNewSubscribing\":true,\"invitationAccepted\":\"2026-01-23T12:39:58\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":true,\"id\":7124}]"
-}
