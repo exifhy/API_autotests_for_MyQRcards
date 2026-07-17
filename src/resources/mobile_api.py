@@ -50,6 +50,13 @@ def list_mobile_cards(api: MobileApiClient, *, all_data: bool | None = None):
     return api.get("/cards", headers={"Accept": "*/*"}, params=params)
 
 
+def list_mobile_cards_v2(api: MobileApiClient, *, all_data: bool | None = None):
+    params = None
+    if all_data is not None:
+        params = {"AllData": str(all_data).lower()}
+    return api.get("/cards/v2.0", headers={"Accept": "*/*"}, params=params)
+
+
 def upload_mobile_attachment(api: MobileApiClient, *, file_path: str):
     headers = dict(api.session.headers)
     headers.pop("Content-Type", None)

@@ -5,6 +5,7 @@ from http import HTTPStatus
 from src.constants.attributes import YOUTUBE_ATTRIBUTE_ID
 from src.resources.mobile_api import (
     delete_mobile_card,
+    list_mobile_cards_v2,
     merge_mobile_card_attributes,
     merge_mobile_designsettings,
     upload_mobile_attachment_v2,
@@ -88,6 +89,29 @@ class TestMobileAppCardCreateBackColorYoutube:
             step_s=3,
         )
         assert data is not None, f"BackgroundAttachmentID not found: {expected_att}"
+
+    @allure.title("057 Cards/ListV2 has background fields (REQUIREMENT 31890)")
+    def test_05a_cards_listv2_has_background(self, mobile_api, mobile_back_color_youtube_flow):
+        card_id = mobile_back_color_youtube_flow["card_id"]
+        attachment_id = mobile_back_color_youtube_flow["background_attachment_id"]
+        assert card_id, "card_id empty (test_01 failed?)"
+        assert attachment_id, "background_attachment_id empty (test_03 failed?)"
+
+        response = list_mobile_cards_v2(mobile_api)
+        assert response.status_code == HTTPStatus.OK, (
+            f"Cards/ListV2 failed: {response.status_code}, body={response.text}"
+        )
+        cards = response.json()
+        card = next((c for c in cards if c.get("id") == card_id), None)
+        assert card is not None, f"Card {card_id} not found in Cards/ListV2 response"
+
+        background_attachment = card.get("backgroundAttachment") or {}
+        assert background_attachment.get("id") == attachment_id, (
+            f"Expected backgroundAttachment.id={attachment_id}, got {background_attachment.get('id')}"
+        )
+        assert background_attachment.get("url"), (
+            f"backgroundAttachment.url missing/empty for card {card_id}: {card}"
+        )
 
     @allure.title("Change designsettings color")
     def test_06_merge_designsettings_change_color(self, mobile_api, mobile_back_color_youtube_flow):
