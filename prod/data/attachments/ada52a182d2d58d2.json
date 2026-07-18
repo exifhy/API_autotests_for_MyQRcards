@@ -1,0 +1,6 @@
+{
+  "status_code": 403,
+  "reason": "Forbidden",
+  "url": "https://api.myqrcards.com/cardlinks/5dYmTtPvH1M/unassign",
+  "body": "[{\"traceIdentifier\":\"0HNMO7KQKH7B5:0000001A\",\"code\":\"Forbidden\",\"message\":\"Доступ запрещен\"}]"
+}
