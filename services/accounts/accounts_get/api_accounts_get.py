@@ -34,6 +34,7 @@ class AccountsGetAPI(Helper):
             "email": data.get("email", data.get("Email")),
             "firstName": data.get("firstName", data.get("FirstName")),
             "lastName": data.get("lastName", data.get("LastName")),
+            "isAcceptAdvertising": data.get("isAcceptAdvertising", data.get("IsAcceptAdvertising")),
         }
         return AccountGetModel(**normalized)
 

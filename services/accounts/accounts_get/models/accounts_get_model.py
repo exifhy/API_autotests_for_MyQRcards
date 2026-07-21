@@ -8,3 +8,4 @@ class AccountGetModel(StrictBaseModel):
     email: Optional[str] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
+    isAcceptAdvertising: Optional[bool] = None
