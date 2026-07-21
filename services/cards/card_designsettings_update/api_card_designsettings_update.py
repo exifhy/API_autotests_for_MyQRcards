@@ -27,3 +27,12 @@ class CardDesignsettingsUpdateAPI(Helper):
         )
         return response, payload
 
+    @allure.step("PUT /Cards/{card_id}/designsettings (raw payload, no assert — for font positive/negative cases)")
+    def merge_card_designsettings_raw(self, card_id: int, payload: dict):
+        return self._call(
+            "PUT",
+            url=self.endpoints.update_card_designsettings_endpoint.format(card_id=int(card_id)),
+            headers=Headers.auth_header(bearer_token=get_token()),
+            json=payload,
+        )
+
