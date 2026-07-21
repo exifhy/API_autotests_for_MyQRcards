@@ -1,5 +1,6 @@
 ﻿.venv/
 .claude/
+CLAUDE.md
 __pycache__/
 .pytest_cache/
 allure-results/
@@ -16,3 +17,5 @@ data/ids.prod.json
 *.pyc
 *.pyo
 .mcp.json
+docs/
+docs_hubex/
