@@ -1,6 +1,0 @@
-{
-  "status_code": 202,
-  "reason": "Accepted",
-  "url": "https://dev-api.myqrcards.com/accountActions/MobileAccountVerification",
-  "body": "{\"actionJwt\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODQ2MjU4NDcsIkFjdGlvblRva2VuIjoiMWk1ZFFJRERDbHRPZyIsImlzcyI6Im15cXJjYXJkcy5jb20iLCJhdWQiOiJkZXYtYXBpLm15cXJjYXJkcy5jb20ifQ.Sa_Z0H8-HzWyQc40cIUFYP85Pkep-jVhtQFCZZg-1QQ\",\"actionToken\":\"1i5dQIDDCltOg\",\"validTill\":\"2026-07-24T09:24:07\",\"repeatAfter\":\"2026-07-21T09:25:07\"}"
-}
