@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/AttributeForms?offset=0&fetch=50",
+  "body": "[{\"id\":1,\"name\":\"Квадратная\"},{\"id\":2,\"name\":\"Прямоугольная\"},{\"id\":3,\"name\":\"Форма лидогенерации\"}]"
+}
