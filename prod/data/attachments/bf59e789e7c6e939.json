@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/cards/4/attributes",
-  "body": "[{\"accountID\":276040,\"cardID\":4,\"attribute\":{\"name\":\"WhatsApp\",\"id\":12},\"cardAttribute\":{\"name\":\"WhatsApp\",\"id\":1},\"sortOrder\":4,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"WhatsApp\",\"name\":\"WhatsApp\",\"id\":12},\"attributeTypeGroupID\":3,\"attributeTypeIsPublic\":true,\"values\":[\"89990002211\"]},{\"accountID\":276040,\"cardID\":4,\"attribute\":{\"name\":\"Telegram\",\"id\":15},\"cardAttribute\":{\"name\":\"Telegram\",\"id\":2},\"sortOrder\":3,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"Telegram\",\"name\":\"Telegram\",\"id\":15},\"attributeTypeGroupID\":3,\"attributeTypeIsPublic\":true,\"values\":[\"89454531212\"]}]"
-}
