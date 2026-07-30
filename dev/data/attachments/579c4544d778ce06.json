@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/accounttokens/5URZioRAI0G",
+  "body": "{\"accountID\":7124,\"token\":\"5URZioRAI0G\",\"created\":\"2026-07-30T09:26:40\",\"validTill\":\"2026-07-30T09:56:40\"}"
+}
