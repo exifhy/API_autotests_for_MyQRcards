@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/Cards/4/leadGenForms/1",
-  "body": "{\"fields\":[{\"accountID\":276040,\"cardID\":4,\"id\":42480,\"leadGenFormID\":1,\"isVisible\":true,\"isRequired\":true,\"sortOrder\":1,\"fieldTemplateID\":1,\"customFieldName\":\"AT custom field 1785283527\"}],\"accountID\":276040,\"cardID\":4,\"id\":1,\"formText\":\"AT lead form text 1785283527\",\"buttonText\":\"AT button 1785283527\"}"
-}
