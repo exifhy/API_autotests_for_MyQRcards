@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cards/16/attributes?attributeID=9",
+  "body": "[{\"accountID\":7124,\"cardID\":16,\"attribute\":{\"name\":\"Баннер\",\"id\":9},\"cardAttribute\":{\"name\":\"Р‘Р°РЅРЅРµСЂ\",\"id\":2},\"sortOrder\":2,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"Banner\",\"name\":\"Баннер\",\"id\":9},\"attributeTypeGroupID\":2,\"attributeTypeIsPublic\":false,\"values\":[\"https://space_j00yug11.com/orbit_f0drib8bmr\"]}]"
+}
