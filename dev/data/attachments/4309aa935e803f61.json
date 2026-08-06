@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cardlinks/5Uw1sUaqjpq",
+  "body": "{\"isPublic\":true,\"isDefault\":true,\"url\":\"https://dev-ecard.myqrcards.com/links/5Uw1sUaqjpq\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"Электронная\",\"id\":0},\"account\":{\"id\":7124},\"card\":{\"name\":\"AT_Card_1786009550\",\"id\":16},\"isSelfRegistrationOnly\":false}"
+}
