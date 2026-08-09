@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/accounts?companyID=208804&IsIncludeSubscriptionOwner=true",
-  "body": "[{\"email\":\"prod-kabinet137@bjedu.tech\",\"firstName\":\"FN_1786308021\",\"lastName\":\"LN_1786308021\",\"middleName\":\"MN_1786308021\",\"company\":{\"name\":\"Api_tests_company_ear6plrj\",\"id\":208804},\"card\":{\"url\":\"https://ecard.myqrcards.com/links/5P95YymQAJY\",\"name\":\"AT_Card_1786308021 (2)\",\"id\":5},\"isReadOnly\":true,\"lockNewSubscribing\":true,\"invitationAccepted\":\"2026-01-23T12:45:20\",\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":true,\"id\":276040}]"
-}

@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/accounts/276040/cards?offset=0&fetch=10",
-  "body": "[{\"subscription\":{\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"TestComp\",\"id\":191940},\"person\":{\"firstName\":\"Не УДАЛЯТЬ\",\"lastName\":\"АВТОТЕСТЫ\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8?v=11046\",\"name\":\"автотесты - прогон\",\"id\":3},{\"subscription\":{\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":192145},\"person\":{\"firstName\":\"FN_1786307729\",\"lastName\":\"LN_1786307729\",\"middleName\":\"MN_1786307729\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":false,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/5JTe6V6AjM8?v=17251\",\"name\":\"AT_Card_1786307729\",\"id\":4}]"
-}
