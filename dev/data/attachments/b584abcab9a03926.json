@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cardLinks/5dQCoMYoYOI/designsettings",
+  "body": "{\"cardID\":16,\"accountID\":7124,\"color\":\"112233\",\"customCardLink\":{\"customCardLinkUrl\":\"https://dev-ecard.myqrcards.com/links/\",\"name\":\"Ecard\",\"id\":3}}"
+}
