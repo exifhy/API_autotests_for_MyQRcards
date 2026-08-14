@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/accounts/7124/cards",
-  "body": "[{\"subscription\":{\"validTill\":\"2325-10-12T21:00:00\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":536},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"person\":{\"firstName\":\"UFN_1774453106\",\"lastName\":\"ULN_1774453106\",\"middleName\":\"UMN_1774453106\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://dev-ecard.myqrcards.com/links/5Uttqn4Wqyw?v=-1216\",\"name\":\"AT_Card_Updated_1774453106\",\"id\":15},{\"subscription\":{\"validTill\":\"2325-10-12T21:00:00\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":536},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"person\":{\"firstName\":\"FN_1786609172\",\"lastName\":\"LN_1786609172\",\"middleName\":\"MN_1786609172\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":false,\"isHidden\":false,\"url\":\"https://dev-ecard.myqrcards.com/links/59wATc8UMvi?v=-2005\",\"name\":\"AT_Card_1786609172\",\"id\":16}]"
-}
