@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://api.myqrcards.com/accountActions/MobileAccountNotificationSend",
+  "body": "[{\"traceIdentifier\":\"0HNNP85U33LKM:00000004\",\"code\":\"ParameterNull\",\"message\":\"Параметр [authorization] не может быть пустым.\"}]"
+}
