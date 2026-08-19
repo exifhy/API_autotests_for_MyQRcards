@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cards/24/attributes",
+  "body": "[{\"accountID\":7124,\"cardID\":24,\"attribute\":{\"name\":\"Мобильный телефон\",\"id\":2},\"cardAttribute\":{\"name\":\"Мобильный телефон\",\"id\":1},\"sortOrder\":1,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"MobilePhone\",\"name\":\"Мобильный телефон\",\"id\":2},\"attributeTypeGroupID\":1,\"attributeTypeIsPublic\":false,\"values\":[\"84654563535\"]},{\"accountID\":7124,\"cardID\":24,\"attribute\":{\"name\":\"Электронная почта\",\"id\":3},\"cardAttribute\":{\"name\":\"Электронная почта\",\"id\":2},\"sortOrder\":2,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"Email\",\"name\":\"Электронная почта\",\"id\":3},\"attributeTypeGroupID\":1,\"attributeTypeIsPublic\":false,\"values\":[\"kakdela@gmail.com\"]}]"
+}
