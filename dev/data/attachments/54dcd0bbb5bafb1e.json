@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/Cards/lastupdate",
-  "body": "[{\"accountID\":7124,\"cardID\":15,\"lastModified\":\"2026-03-25T15:38:29\"},{\"accountID\":7124,\"cardID\":16,\"lastModified\":\"2026-08-18T07:48:39\"},{\"accountID\":7124,\"cardID\":17,\"lastModified\":\"2026-08-18T07:48:49\"},{\"accountID\":7124,\"cardID\":18,\"lastModified\":\"2026-08-18T07:49:00\"},{\"accountID\":7124,\"cardID\":19,\"lastModified\":\"2026-08-18T09:43:20\"},{\"accountID\":7124,\"cardID\":20,\"lastModified\":\"2026-08-18T09:43:29\"},{\"accountID\":7124,\"cardID\":21,\"lastModified\":\"2026-08-18T09:43:39\"}]"
-}
