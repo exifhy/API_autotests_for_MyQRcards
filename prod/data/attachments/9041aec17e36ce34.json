@@ -1,0 +1,6 @@
+{
+  "status_code": 403,
+  "reason": "Forbidden",
+  "url": "https://api.myqrcards.com/Locations",
+  "body": "[{\"traceIdentifier\":\"0HNNP85U33PDJ:00000008\",\"code\":\"AccessDenied\",\"message\":\"Доступ запрещен\"}]"
+}
