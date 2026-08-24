@@ -1,0 +1,6 @@
+{
+  "status_code": 401,
+  "reason": "Unauthorized",
+  "url": "https://dev-api.myqrcards.com/VirtualBackgrounds?offset=0&fetch=20",
+  "body": "[{\"traceIdentifier\":\"0HNNT4LFFA272:0000006C\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
+}

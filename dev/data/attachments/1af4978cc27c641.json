@@ -1,6 +1,0 @@
-{
-  "status_code": 403,
-  "reason": "Forbidden",
-  "url": "https://dev-api.myqrcards.com/accounts/7124/cards",
-  "body": "[{\"traceIdentifier\":\"0HNNT4LFFA210:00000056\",\"code\":\"SubscriptionConstraint\",\"message\":\"Ограничение подписки: Нет доступных визиток\",\"arguments\":{\"0\":\"Нет доступных визиток\"}}]"
-}

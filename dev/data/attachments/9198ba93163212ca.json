@@ -1,0 +1,6 @@
+{
+  "status_code": 401,
+  "reason": "Unauthorized",
+  "url": "https://dev-api.myqrcards.com/Subscriptions/536/invitation",
+  "body": "[{\"traceIdentifier\":\"0HNNT4LFFA271:000000EA\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
+}

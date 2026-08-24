@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/SubscriptionPrices",
-  "body": "[{\"subscriptionType\":{\"name\":\"PremiumInternal\",\"id\":5},\"currencyCode\":\"RUB\",\"price\":7777.00,\"discountedPrice\":1490.00,\"discountPercent\":22.00}]"
-}
