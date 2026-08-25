@@ -1,0 +1,6 @@
+{
+  "status_code": 401,
+  "reason": "Unauthorized",
+  "url": "https://dev-api.myqrcards.com/accounts/contacts/app",
+  "body": "[{\"traceIdentifier\":\"0HNO1NRKM4HKE:0000015A\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
+}
