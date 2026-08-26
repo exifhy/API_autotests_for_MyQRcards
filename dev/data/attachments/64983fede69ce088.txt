@@ -1,0 +1,6 @@
+2026-08-26 07:56:30.125 | ERROR    | test_script_runs:test_company_create_get_delete_script:76 - Run #1: Create failed: 401 [{"traceIdentifier":"0HNO1NRKM4HN2:000000A5","code":"InvalidToken","message":"Некорректный или недействительный токен."}]
+assert 401 in (<HTTPStatus.OK: 200>, <HTTPStatus.CREATED: 201>, <HTTPStatus.ACCEPTED: 202>)
+ +  where 401 = <Response [401]>.status_code
+2026-08-26 07:56:32.272 | ERROR    | test_script_runs:test_company_create_get_delete_script:76 - Run #1: Create failed: 401 [{"traceIdentifier":"0HNO1NRKM4HN3:000000A3","code":"InvalidToken","message":"Некорректный или недействительный токен."}]
+assert 401 in (<HTTPStatus.OK: 200>, <HTTPStatus.CREATED: 201>, <HTTPStatus.ACCEPTED: 202>)
+ +  where 401 = <Response [401]>.status_code
