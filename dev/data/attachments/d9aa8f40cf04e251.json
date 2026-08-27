@@ -1,0 +1,6 @@
+{
+  "status_code": 401,
+  "reason": "Unauthorized",
+  "url": "https://dev-upload.myqrcards.com/attachments/v2/",
+  "body": "[{\"traceIdentifier\":\"0HNO46C7K1I8U:0000008A\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
+}
