@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/accounts/7124/cards?offset=0&fetch=10",
-  "body": "[{\"subscription\":{\"validTill\":\"2325-10-12T21:00:00\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":536},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"person\":{\"firstName\":\"FN_1787945522\",\"lastName\":\"LN_1787945522\",\"middleName\":\"MN_1787945522\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://dev-ecard.myqrcards.com/links/59BM9Noz5Zi?v=-7121\",\"name\":\"AT_Card_1787945522\",\"id\":1}]"
-}

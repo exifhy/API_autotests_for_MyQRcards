@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/accounts/7124/cards/2/attributes/",
+  "body": "[{\"accountID\":7124,\"cardID\":2,\"attribute\":{\"name\":\"Мобильный телефон\",\"id\":2},\"cardAttribute\":{\"name\":\"Phone\",\"id\":1},\"sortOrder\":1,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"MobilePhone\",\"name\":\"Мобильный телефон\",\"id\":2},\"attributeTypeGroupID\":1,\"attributeTypeIsPublic\":false,\"values\":[\"+79000000001\"]}]"
+}

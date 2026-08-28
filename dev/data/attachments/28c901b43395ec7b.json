@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://dev-api.myqrcards.com/accounts",
-  "body": "[{\"email\":\"dev-kabinet1372@bjedu.tech\",\"isReadOnly\":true,\"lockNewSubscribing\":false,\"isAcceptAdvertising\":false,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":false,\"id\":7124}]"
-}
