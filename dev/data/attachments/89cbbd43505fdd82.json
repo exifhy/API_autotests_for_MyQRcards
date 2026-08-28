@@ -1,6 +1,0 @@
-{
-  "status_code": 401,
-  "reason": "Unauthorized",
-  "url": "https://dev-api.myqrcards.com/Accounts/sso/providers",
-  "body": "[{\"traceIdentifier\":\"0HNO46C7K1I8U:0000007A\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
-}
