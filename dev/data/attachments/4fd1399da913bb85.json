@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/cards/v2.0",
+  "body": "[{\"subscription\":{\"subscriptionType\":{\"name\":\"CorporateBusiness\",\"id\":2},\"validTill\":\"2325-10-12T21:00:00\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":536},\"person\":{\"firstName\":\"FN_ftzsxj98\",\"lastName\":\"LN_gy5nbcbc\",\"middleName\":\"MN_acc4t6wl\"},\"employment\":{},\"color\":\"4673B4\",\"backgroundAttachment\":{\"id\":20725,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/wtvM4gsJlEKNzRn5NgZJmQ.jpg\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://dev-ecard.myqrcards.com/links/5PaH1EeXuSs?v=18593\",\"name\":\"TestCard_kn0cvd74\",\"id\":1}]"
+}

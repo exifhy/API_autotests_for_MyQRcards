@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/accounts/7124/cards/1/LeadGenForms/1/MessageTemplate",
+  "body": "{\"accountID\":7124,\"cardID\":1,\"leadGenFormID\":1,\"templateID\":733,\"subjectTemplate\":\"AT subject template 1787946165\",\"contentTemplate\":\"Здравствуйте, <b>@Model.ContactFirstName</b>. Это тестовый шаблон 1787946165 для @Model.UserFirstName.\"}"
+}

@@ -1,6 +1,0 @@
-{
-  "status_code": 401,
-  "reason": "Unauthorized",
-  "url": "https://dev-api.myqrcards.com/subscriptions/536/moderators",
-  "body": "[{\"traceIdentifier\":\"0HNO4RA7UQR0H:000001D1\",\"code\":\"InvalidToken\",\"message\":\"Некорректный или недействительный токен.\"}]"
-}

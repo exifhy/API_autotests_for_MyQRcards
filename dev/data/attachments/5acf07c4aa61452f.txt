@@ -1,3 +1,0 @@
-2026-08-28 19:29:23.719 | ERROR    | test_script_runs:test_company_create_get_delete_script:76 - Run #1: Create failed: 401 [{"traceIdentifier":"0HNO4RA7UQR0H:0000026D","code":"InvalidToken","message":"Некорректный или недействительный токен."}]
-assert 401 in (<HTTPStatus.OK: 200>, <HTTPStatus.CREATED: 201>, <HTTPStatus.ACCEPTED: 202>)
- +  where 401 = <Response [401]>.status_code
