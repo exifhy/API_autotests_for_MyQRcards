@@ -13,7 +13,9 @@ from tests.e2e.mobile.builders import build_mobile_payload, build_mobile_random_
 
 @pytest.fixture(scope="session")
 def mobile_api(cfg) -> MobileApiClient:
-    token = cfg.get("mobile_jwt") or cfg.get("lk_jwt")
+    from src.support.mobile_auth import get_fresh_access_jwt
+
+    token = get_fresh_access_jwt() or cfg.get("mobile_jwt") or cfg.get("lk_jwt")
     assert token, "No token available for mobile_api (MOBILE_JWT and LK_JWT are both missing)"
     return MobileApiClient(host=cfg["host"], token=token)
 
