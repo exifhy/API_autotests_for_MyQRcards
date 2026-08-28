@@ -56,6 +56,7 @@ class CardV2ListItemModel(StrictBaseModel):
     url: Optional[str] = None
     name: Optional[str] = None
     id: Optional[int] = None
+    isIndexable: Optional[bool] = None
 
 
 class CardsListV2Model(StrictBaseModel):

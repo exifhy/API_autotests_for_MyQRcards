@@ -55,3 +55,4 @@ class CardByIdModel(StrictBaseModel):
     name: Optional[str] = None
     id: Optional[int] = None
     subscriptionStatus: Optional[str] = None
+    isIndexable: Optional[bool] = None

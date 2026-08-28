@@ -31,3 +31,4 @@ class CardByIdShortModel(StrictBaseModel):
     cardLinkUrl: Optional[str] = None
     customizedUrl: Optional[str] = None
     isSubscriptionValid: Optional[bool] = None
+    isIndexable: Optional[bool] = None
