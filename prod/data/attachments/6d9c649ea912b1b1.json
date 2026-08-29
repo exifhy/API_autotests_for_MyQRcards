@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/accounts/276040",
+  "body": "{\"email\":\"prod-kabinet137@bjedu.tech\",\"firstName\":\"Не УДАЛЯТЬ\",\"lastName\":\"АВТОТЕСТЫ\",\"company\":{\"name\":\"TestComp\",\"id\":191940},\"card\":{\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8\",\"name\":\"автотесты - прогон\",\"id\":3},\"isReadOnly\":true,\"lockNewSubscribing\":true,\"invitationAccepted\":\"2026-01-23T12:45:20\",\"isAcceptAdvertising\":true,\"isHidden\":false,\"isModerator\":false,\"isSubscriptionOwner\":true,\"id\":276040}"
+}
