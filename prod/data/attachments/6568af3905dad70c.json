@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/Cards/v2.0?offset=0&fetch=5&AllData=true",
+  "body": "[{\"subscription\":{\"subscriptionType\":{\"name\":\"CorporateBusiness\",\"id\":2},\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"TestComp\",\"id\":191940},\"person\":{\"firstName\":\"Не УДАЛЯТЬ\",\"lastName\":\"АВТОТЕСТЫ\",\"email\":\"prod-kabinet137@bjedu.tech\"},\"employment\":{},\"color\":\"112233\",\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8?v=11046\",\"name\":\"автотесты - прогон\",\"id\":3}]"
+}

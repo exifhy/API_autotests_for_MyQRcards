@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/accountActions",
+  "body": "{\"validTill\":\"2026-09-02T22:26:55\",\"repeatAfter\":\"2026-08-30T22:27:55\"}"
+}
