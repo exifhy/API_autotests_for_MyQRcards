@@ -1,6 +1,0 @@
-{
-  "status_code": 400,
-  "reason": "Bad Request",
-  "url": "https://api.myqrcards.com/accountActions/MobileWebAccountVerification",
-  "body": "{\"errors\":{\"actionID\":[\"The value 'MobileWebAccountVerification' is not valid.\"]},\"title\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-9ca99948f3bfde43a9376a129b82cf26-2dc0dd01ae828443-00\"}"
-}

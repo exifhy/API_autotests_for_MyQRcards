@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/cards/v2.0",
-  "body": "[{\"subscription\":{\"subscriptionType\":{\"name\":\"CorporateBusiness\",\"id\":2},\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"company\":{\"name\":\"TestComp\",\"id\":191940},\"person\":{\"firstName\":\"Не УДАЛЯТЬ\",\"lastName\":\"АВТОТЕСТЫ\",\"email\":\"prod-kabinet137@bjedu.tech\"},\"employment\":{},\"color\":\"112233\",\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":false,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8?v=11046\",\"name\":\"автотесты - прогон\",\"id\":3},{\"subscription\":{\"subscriptionType\":{\"name\":\"CorporateBusiness\",\"id\":2},\"validTill\":\"2077-02-15T23:59:59\",\"isTrial\":false,\"name\":\"TestComp\",\"id\":5213},\"person\":{\"firstName\":\"FN_q79trizh\",\"lastName\":\"LN_k4vgve6o\",\"middleName\":\"MN_y2gxekp7\"},\"employment\":{},\"color\":\"4673B4\",\"backgroundAttachment\":{\"id\":387453,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/wdWIK-szBk2PSJ3zPW11sg.jpg\"},\"isAttributesSupported\":false,\"isPublic\":true,\"culture\":\"ru-RU\",\"isPrimary\":true,\"isHidden\":false,\"url\":\"https://ecard.myqrcards.com/links/6Won8byBx4t?v=26988\",\"name\":\"TestCard_miv2falv\",\"id\":4}]"
-}
