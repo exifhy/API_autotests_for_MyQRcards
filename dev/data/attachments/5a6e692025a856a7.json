@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/Cards/2/short",
-  "body": "{\"accountID\":7124,\"id\":2,\"person\":{\"firstName\":\"FN_1787946866\",\"lastName\":\"LN_1787946866\",\"middleName\":\"MN_1787946866\"},\"company\":{\"name\":\"Компания куда создаем сотрудников\",\"id\":3647},\"cardLinkUrl\":\"https://dev-ecard.myqrcards.com/links/5jkZQSETIwV\",\"isSubscriptionValid\":true}"
-}
