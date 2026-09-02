@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://dev-api.myqrcards.com/Cards/2/designsettings",
+  "body": "[{\"traceIdentifier\":\"0HNO4RA7UQR9O:00000297\",\"code\":\"InvalidData\",\"message\":\"Неверные данные: FontStyle.\",\"arguments\":{\"0\":\"FontStyle\"}}]"
+}

@@ -3,12 +3,12 @@ launch_status_broken 0
 launch_status_passed 415
 launch_status_skipped 6
 launch_status_unknown 0
-launch_time_duration 857666
+launch_time_duration 1099092
 launch_time_min_duration 0
-launch_time_max_duration 6820
-launch_time_sum_duration 397208
+launch_time_max_duration 10055
+launch_time_sum_duration 552751
 launch_problems_прочие_падения 2
 launch_problems_ошибки_авторизации_и_доступа 2
 launch_problems_контракт_ответа_/_проверки_assert 2
-launch_retries_retries 3
+launch_retries_retries 2
 launch_retries_run 423
