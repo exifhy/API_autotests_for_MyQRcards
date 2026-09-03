@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://dev-api.myqrcards.com/Cards/2/designsettings",
+  "body": "[{\"traceIdentifier\":\"0HNO4RA7UQREG:000001D5\",\"code\":\"InvalidData\",\"message\":\"Цвет должен содержать не более FontColor символов\"}]"
+}

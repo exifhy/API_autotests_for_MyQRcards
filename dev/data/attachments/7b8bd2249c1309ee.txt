@@ -1,0 +1,1 @@
+2026-09-03 12:06:20.908 | DEBUG    | src.support.mobile_auth:get_fresh_access_jwt:25 - [mobile_auth] Skipped: ACCOUNT_ACTIONS_BASIC_LOGIN/PASSWORD or manager creds not configured
