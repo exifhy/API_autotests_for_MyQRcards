@@ -66,33 +66,31 @@ class TestAccountsGoogleWallet:
             f"Expected HTTPStatus.UNAUTHORIZED, got {response.status_code}: {response.text}"
         )
 
-    @allure.title("POST /Accounts/GoogleWallet/{cardID} for nonexistent card -> 403 (AC wants 204/404)")
+    @allure.title("POST /Accounts/GoogleWallet/{cardID} for nonexistent card -> 404")
     @pytest.mark.ng
-    def test_google_wallet_by_card_id_nonexistent_403(self):
+    def test_google_wallet_by_card_id_nonexistent_404(self):
         # AC (REQUIREMENT 32221) says a not-found card should give "204 No Content либо принятый
-        # в API код" — reported live by QA as an actual defect (work item 32221 comment, 2026-09-03):
-        # dev currently returns 403 Forbidden ("доступ запрещен") for a nonexistent cardID, which reads
-        # misleadingly like an ownership/auth problem rather than "card not found". Still 403 as of
-        # 2026-09-04 (re-verified live) — not yet fixed. Asserting current behavior so this test flags
-        # the moment it changes to 204/404, rather than silently staying green either way.
+        # в API код". QA reported live (work item 32221 comment, 2026-09-03) that dev originally
+        # returned 403 Forbidden here — misleading, since it reads like an ownership/auth problem
+        # rather than "card not found". Fixed by 2026-09-04 (re-verified live): now 404 CardNotFound,
+        # which is an accepted API code per the AC wording.
         response = AccountsGoogleWalletAPI().create_google_wallet_raw(255)
-        assert response.status_code == HTTPStatus.FORBIDDEN, (
-            f"Expected HTTPStatus.FORBIDDEN (known discrepancy vs AC, see REQUIREMENT 32221 comments), "
-            f"got {response.status_code}: {response.text}"
+        assert response.status_code == HTTPStatus.NOT_FOUND, (
+            f"Expected HTTPStatus.NOT_FOUND, got {response.status_code}: {response.text}"
         )
 
-    @allure.title("POST /Accounts/GoogleWallet/{cardID} for a deleted card -> 403 (AC wants 204/404)")
+    @allure.title("POST /Accounts/GoogleWallet/{cardID} for a deleted card -> 404")
     @pytest.mark.ng
-    def test_google_wallet_by_card_id_deleted_card_403(self, created_card):
-        # Same known discrepancy as test_google_wallet_by_card_id_nonexistent_403 above — QA checklist
-        # on the work item explicitly marks "deleted card -> 204" as ❌ (failing) as of 2026-09-03.
+    def test_google_wallet_by_card_id_deleted_card_404(self, created_card):
+        # Same fix as test_google_wallet_by_card_id_nonexistent_404 above — QA checklist on the work
+        # item marked "deleted card -> 204" as ❌ (failing, was 403) as of 2026-09-03; re-verified
+        # live on 2026-09-04 after the fix landed — now 404 CardNotFound.
         card_id = created_card.id
         CardDeleteByIdAPI().delete_card_by_id(card_id)
 
         response = AccountsGoogleWalletAPI().create_google_wallet_raw(card_id)
-        assert response.status_code == HTTPStatus.FORBIDDEN, (
-            f"Expected HTTPStatus.FORBIDDEN (known discrepancy vs AC, see REQUIREMENT 32221 comments), "
-            f"got {response.status_code}: {response.text}"
+        assert response.status_code == HTTPStatus.NOT_FOUND, (
+            f"Expected HTTPStatus.NOT_FOUND, got {response.status_code}: {response.text}"
         )
 
     @allure.title("POST /Accounts/GoogleWallet/{cardLinkID}/card for an invalid token -> 409")
@@ -118,13 +116,12 @@ class TestAccountsGoogleWallet:
             f"Expected HTTPStatus.CONFLICT, got {response.status_code}: {response.text}"
         )
 
-    @allure.title("Google Wallet JWT payload: header shows first+last name only, no middle name")
-    def test_google_wallet_jwt_header_omits_middle_name(self, created_card):
+    @allure.title("Google Wallet JWT payload: header shows full name including middle name")
+    def test_google_wallet_jwt_header_includes_middle_name(self, created_card):
         # AC asks for "ФИО" (full name incl. patronymic) in the Pass. QA found live (REQUIREMENT 32221
-        # comment, 2026-09-03) that the middle name never comes through — only first+last name — even
-        # though the underlying card person does have one (dev noted Apple Wallet does the same, so this
-        # may be an accepted limitation rather than a bug). Characterizing the current behavior here so
-        # a silent change (either direction) gets caught.
+        # comment, 2026-09-03) that the middle name didn't come through — only first+last name — even
+        # though the underlying card person has one. Fixed by 2026-09-04 (re-verified live): the header
+        # now includes all three parts, in "firstName middleName lastName" order.
         card = CardByIdAPI().get_card_by_id(created_card.id)
         assert card.person is not None
         assert card.person.middleName, "Test card unexpectedly has no middleName — fixture data changed?"
@@ -135,13 +132,8 @@ class TestAccountsGoogleWallet:
         payload = decode_jwt_payload(result.jwt)
         header_value = payload["payload"]["genericObjects"][0]["header"]["defaultValue"]["value"]
 
-        assert header_value == f"{card.person.firstName} {card.person.lastName}", (
-            f"Expected header '{card.person.firstName} {card.person.lastName}', got '{header_value}'"
-        )
-        assert card.person.middleName not in header_value, (
-            "Middle name unexpectedly appeared in the Wallet header — "
-            "if this is now supported, update this test rather than deleting it"
-        )
+        expected = f"{card.person.firstName} {card.person.middleName} {card.person.lastName}"
+        assert header_value == expected, f"Expected header '{expected}', got '{header_value}'"
 
     @allure.title("Google Wallet JWT payload: QR barcode points at the card's public link")
     def test_google_wallet_jwt_barcode_points_to_card_url(self, created_card):
