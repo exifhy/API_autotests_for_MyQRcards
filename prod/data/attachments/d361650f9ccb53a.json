@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/Exists?email=autotest_no_such_user_1234567890%40example.com",
-  "body": "false"
-}

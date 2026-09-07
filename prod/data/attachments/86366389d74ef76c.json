@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/contacts/123955",
-  "body": "{\"firstName\":\"Web_1788732704\",\"lastName\":\"Contact_1788732704\",\"transliterateFullName\":\"Contact_1788732704_Web_1788732704\",\"email\":\"web_contact_1788732704@tt.tt\",\"mobilePhone\":\"+79788732704\",\"companyName\":\"Company_1788732704\",\"position\":\"Tester_1788732704\",\"cardID\":4,\"description\":\"Desc_1788732704\",\"created\":\"2026-09-06T22:11:48\",\"accountID\":276040,\"contactID\":123955}"
-}

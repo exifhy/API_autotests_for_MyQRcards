@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/276040/cards/links",
-  "body": "[{\"description\":\"For testing\",\"isPublic\":true,\"isDefault\":false,\"url\":\"https://ecard.myqrcards.com/links/6LPt9qU1jtL\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"NFC\",\"id\":2},\"account\":{\"id\":276040},\"card\":{\"name\":\"автотесты - прогон\",\"id\":3},\"isSelfRegistrationOnly\":false},{\"isPublic\":true,\"isDefault\":true,\"url\":\"https://ecard.myqrcards.com/links/72JBeCWrMD8\",\"cardLink\":{\"isAllowSelfRegistration\":true,\"name\":\"Электронная\",\"id\":0},\"account\":{\"id\":276040},\"card\":{\"name\":\"автотесты - прогон\",\"id\":3},\"isSelfRegistrationOnly\":false}]"
-}
