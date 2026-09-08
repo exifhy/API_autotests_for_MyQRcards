@@ -13,6 +13,8 @@ class SubscriptionContactItemModel(StrictBaseModel):
     position: Optional[str] = None
     created: Optional[str] = None
     companyName: Optional[str] = None
+    email: Optional[str] = None
+    description: Optional[str] = None
 
 
 class SubscriptionContactsListModel(StrictBaseModel):
