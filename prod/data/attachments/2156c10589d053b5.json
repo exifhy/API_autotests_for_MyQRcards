@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/Subscriptions/5213/contacts?accountID=276040",
+  "body": "[{\"accountID\":276040,\"cardID\":3,\"contactID\":124402,\"firstName\":\"Web_1788875555\",\"lastName\":\"Contact_1788875555\",\"email\":\"web_contact_1788875555@tt.tt\",\"mobilePhone\":\"+79788875555\",\"companyName\":\"Company_1788875555\",\"position\":\"Tester_1788875555\",\"description\":\"Desc_1788875555\",\"created\":\"2026-09-08T13:52:40\"},{\"accountID\":276040,\"cardID\":3,\"contactID\":99023,\"firstName\":\"Do not delete !\",\"lastName\":\"autotests\",\"mobilePhone\":\"+7369147125458\",\"companyName\":\"Компани\",\"position\":\"Механикм\",\"created\":\"2026-02-10T13:46:06\"}]"
+}
