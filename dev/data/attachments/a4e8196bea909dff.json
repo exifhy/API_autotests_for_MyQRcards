@@ -1,6 +1,0 @@
-{
-  "status_code": 400,
-  "reason": "Bad Request",
-  "url": "https://dev-api.myqrcards.com/Cards/2/indexing",
-  "body": "{\"errors\":{\"isIndexable\":[\"Could not convert string to boolean: not_a_bool. Path 'isIndexable', line 1, position 28.\"]},\"title\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-f369b67dc4e965488a60195c94ee382a-e8fe5b9b43ab6d46-00\"}"
-}

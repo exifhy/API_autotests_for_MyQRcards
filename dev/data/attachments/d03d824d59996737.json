@@ -1,6 +1,0 @@
-{
-  "status_code": 400,
-  "reason": "Bad Request",
-  "url": "https://dev-api.myqrcards.com/accounts/this/acceptAdvertising",
-  "body": "{\"errors\":{\"isAcceptAdvertising\":[\"Could not convert string to boolean: yes. Path 'isAcceptAdvertising', line 1, position 29.\"]},\"title\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-725c78f4e4f5cf44896904619793c0c6-94ad959b4dac4145-00\"}"
-}
