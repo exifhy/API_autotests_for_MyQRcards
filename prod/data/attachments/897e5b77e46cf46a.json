@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://api.myqrcards.com/accounts/contacts/124637",
-  "body": "{\"firstName\":\"Sber_AT\",\"lastName\":\"Test_AT\",\"transliterateFullName\":\"Test_AT_Sber_AT\",\"email\":\"at_contact_1789002391@tt.tt\",\"mobilePhone\":\"+79789002391\",\"companyName\":\"testcompany\",\"position\":\"Tester\",\"avatar\":{\"id\":390387,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/9n0d3kk94kSn6Vdr33Ycvg.png\"},\"description\":\"desc\",\"created\":\"2026-09-10T01:06:32\",\"accountID\":276040,\"contactID\":124637}"
-}
