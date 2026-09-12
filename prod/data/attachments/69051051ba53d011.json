@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://api.myqrcards.com/Companies/211220",
-  "body": "[{\"traceIdentifier\":\"0HNODL949729P:00000006\",\"code\":\"NotFound\",\"message\":\"Не найдено\"}]"
-}
