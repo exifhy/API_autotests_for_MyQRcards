@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://api.myqrcards.com/Accounts/GoogleWallet/fake-token-does-not-exist/card",
+  "body": "[{\"traceIdentifier\":\"0HNODLAPH2JE6:0000003A\",\"code\":\"InvalidData\",\"message\":\"Неверные данные: CardLinkInvalid.\",\"arguments\":{\"0\":\"CardLinkInvalid\"}}]"
+}
