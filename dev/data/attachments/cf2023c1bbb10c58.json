@@ -1,0 +1,4 @@
+{
+  "subjectTemplate": "AT subject template 1789475476",
+  "contentTemplate": "Здравствуйте, <b>@Model.ContactFirstName</b>. Это тестовый шаблон 1789475476 для @Model.UserFirstName."
+}

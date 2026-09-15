@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://dev-api.myqrcards.com/Accounts/GoogleWallet/5UQBqQJHal3/card",
+  "body": "[{\"traceIdentifier\":\"0HNOICJ6622GR:0000002A\",\"code\":\"InvalidData\",\"message\":\"Неверные данные: CardLinkInvalid.\",\"arguments\":{\"0\":\"CardLinkInvalid\"}}]"
+}
