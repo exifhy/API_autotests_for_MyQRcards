@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/accounts/276040/CustomMessageTemplates/1884",
+  "body": "{\"id\":1884,\"subjectTemplate\":\"AT subject template 1789521450\",\"contentTemplate\":\"Здравствуйте, <b>@Model.ContactFirstName</b>. Это тестовый шаблон 1789521450 для @Model.UserFirstName.\"}"
+}
