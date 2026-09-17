@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://api.myqrcards.com/Manager/permissions",
-  "body": "[{\"traceIdentifier\":\"0HNODL9497619:0000000A\",\"code\":\"NotFound\",\"message\":\"Manager не найден\",\"arguments\":{\"0\":\"Manager\"}}]"
-}
