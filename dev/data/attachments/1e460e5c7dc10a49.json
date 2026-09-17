@@ -1,0 +1,6 @@
+{
+  "status_code": 404,
+  "reason": "Not Found",
+  "url": "https://dev-api.myqrcards.com/Accounts/GoogleWallet/3",
+  "body": "[{\"traceIdentifier\":\"0HNOKKBG7ATCK:0000004A\",\"code\":\"CardNotFound\",\"message\":\"Не найдена визитка\"}]"
+}
