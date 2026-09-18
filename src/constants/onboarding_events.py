@@ -1,0 +1,21 @@
+"""REQUIREMENT 29915 — onboarding event types (ADM.OnboardingEventType)."""
+
+SEND_CARD_TYPE_ID = 1
+OPEN_CONTACTS_TYPE_ID = 2
+SHOW_QR_TYPE_ID = 3
+FLIP_QR_TYPE_ID = 4
+SCANNER_TYPE_ID = 5
+ANALYTICS_TYPE_ID = 6
+EDIT_CARD_TYPE_ID = 7
+CREATE_CARD_TYPE_ID = 8
+
+ONBOARDING_EVENT_CODES_BY_TYPE_ID = {
+    SEND_CARD_TYPE_ID: "SendCard",
+    OPEN_CONTACTS_TYPE_ID: "OpenContacts",
+    SHOW_QR_TYPE_ID: "ShowQr",
+    FLIP_QR_TYPE_ID: "FlipQr",
+    SCANNER_TYPE_ID: "Scanner",
+    ANALYTICS_TYPE_ID: "Analytics",
+    EDIT_CARD_TYPE_ID: "EditCard",
+    CREATE_CARD_TYPE_ID: "CreateCard",
+}
