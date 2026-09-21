@@ -1,0 +1,6 @@
+{
+  "status_code": 400,
+  "reason": "Bad Request",
+  "url": "https://dev-api.myqrcards.com/Cards/3/designsettings",
+  "body": "{\"errors\":{\"fontStyleID\":[\"Error converting value 999999 to type 'System.Nullable`1[System.Int16]'. Path 'fontStyleID', line 1, position 22.\"]},\"title\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-13a4d9034882884a9a790e6b1816d1df-743bf373cd6db942-00\"}"
+}
