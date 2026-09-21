@@ -1,6 +1,0 @@
-{
-  "status_code": 206,
-  "reason": "Partial Content",
-  "url": "https://api.myqrcards.com/Cards/customlink?offset=0&fetch=5",
-  "body": "[{\"customCardLinkUrl\":\"https://s-card.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Визитка-чат\",\"id\":1},{\"customCardLinkUrl\":\"https://card.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Электронная визитка\",\"id\":2},{\"customCardLinkUrl\":\"https://ecard.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Ecard\",\"id\":3},{\"customCardLinkUrl\":\"https://person.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"HUBEX - insta\",\"id\":38},{\"customCardLinkUrl\":\"https://pet.myqrcards.com/links/\",\"isAttributesSupported\":false,\"name\":\"Визитка Питомец\",\"id\":67}]"
-}
