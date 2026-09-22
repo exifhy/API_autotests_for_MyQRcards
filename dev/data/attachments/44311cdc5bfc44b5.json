@@ -1,0 +1,12 @@
+{
+  "showGreeting": false,
+  "showName": false,
+  "showPosition": false,
+  "showCompany": false,
+  "showPhone": false,
+  "showEmail": false,
+  "showQR": false,
+  "showLogo": false,
+  "qrSize": 60,
+  "greetingText": ""
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "attributeID": 6,
+    "name": "Root1",
+    "sortOrder": 1,
+    "isEnabled": true,
+    "value": [],
+    "children": [
+      {
+        "attributeID": 2,
+        "name": "Child-Phone",
+        "sortOrder": 1,
+        "isEnabled": true,
+        "value": [
+          "+79000000001"
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "attributeID": 3,
+    "name": "Root2-Email",
+    "sortOrder": 2,
+    "isEnabled": true,
+    "value": [
+      "a@b.com"
+    ],
+    "children": []
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "attributeID": 6,
+    "name": "Root1-WithChild",
+    "sortOrder": 1,
+    "isEnabled": true,
+    "value": [],
+    "children": [
+      {
+        "attributeID": 2,
+        "name": "Child-Phone",
+        "sortOrder": 1,
+        "isEnabled": true,
+        "value": [
+          "+79000000001"
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "attributeID": 3,
+    "name": "Root2",
+    "sortOrder": 2,
+    "isEnabled": true,
+    "value": [
+      "a@b.com"
+    ],
+    "children": []
+  },
+  {
+    "attributeID": 3,
+    "name": "Root3",
+    "sortOrder": 3,
+    "isEnabled": true,
+    "value": [
+      "c@d.com"
+    ],
+    "children": []
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/Accounts/onboardingEvents",
+  "body": "[{\"accountID\":7124,\"typeID\":1,\"code\":\"SendCard\",\"nameRu\":\"Отправить визитку\",\"created\":\"2026-09-18T12:38:25\"},{\"accountID\":7124,\"typeID\":2,\"code\":\"OpenContacts\",\"nameRu\":\"Открыл Контакты\",\"created\":\"2026-09-18T12:38:29\"},{\"accountID\":7124,\"typeID\":3,\"code\":\"ShowQr\",\"nameRu\":\"Показать QR-код\",\"created\":\"2026-09-18T12:38:29\"},{\"accountID\":7124,\"typeID\":4,\"code\":\"FlipQr\",\"nameRu\":\"Перевернуть QR-код\",\"created\":\"2026-09-18T12:38:29\"},{\"accountID\":7124,\"typeID\":5,\"code\":\"Scanner\",\"nameRu\":\"Сканер\",\"created\":\"2026-09-18T12:38:30\"},{\"accountID\":7124,\"typeID\":6,\"code\":\"Analytics\",\"nameRu\":\"Аналитика\",\"created\":\"2026-09-18T12:38:30\"},{\"accountID\":7124,\"typeID\":7,\"code\":\"EditCard\",\"nameRu\":\"Редактировать визитку\",\"created\":\"2026-09-18T12:38:30\"},{\"accountID\":7124,\"typeID\":8,\"code\":\"CreateCard\",\"nameRu\":\"Создать визитку\",\"created\":\"2026-09-18T12:38:31\"}]"
+}

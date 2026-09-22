@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://dev-api.myqrcards.com/Companies/3879/emailsignaturesettings",
+  "body": "{\"accountID\":7124,\"companyID\":3879,\"showGreeting\":true,\"showName\":true,\"showPosition\":false,\"showCompany\":true,\"showPhone\":false,\"showEmail\":true,\"showQR\":true,\"showLogo\":false,\"qrSize\":150,\"greetingText\":\"AT probe greeting\"}"
+}

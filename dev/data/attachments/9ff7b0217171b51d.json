@@ -1,0 +1,21 @@
+[
+  {
+    "attributeID": 6,
+    "name": "Group",
+    "sortOrder": 1,
+    "isEnabled": true,
+    "value": [],
+    "children": [
+      {
+        "attributeID": 2,
+        "name": "Phone",
+        "sortOrder": 1,
+        "isEnabled": true,
+        "value": [
+          "+79000000001"
+        ],
+        "children": []
+      }
+    ]
+  }
+]

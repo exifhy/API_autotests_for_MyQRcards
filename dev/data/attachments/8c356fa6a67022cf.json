@@ -1,0 +1,28 @@
+[
+  {
+    "attributeID": 6,
+    "name": "L1",
+    "sortOrder": 1,
+    "isEnabled": true,
+    "value": [],
+    "children": [
+      {
+        "attributeID": 6,
+        "name": "L2",
+        "sortOrder": 1,
+        "isEnabled": true,
+        "value": [],
+        "children": [
+          {
+            "attributeID": 6,
+            "name": "L3",
+            "sortOrder": 1,
+            "isEnabled": true,
+            "value": [],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
