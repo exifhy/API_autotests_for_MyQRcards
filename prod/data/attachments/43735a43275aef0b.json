@@ -1,0 +1,12 @@
+{
+  "showGreeting": true,
+  "showName": true,
+  "showPosition": false,
+  "showCompany": true,
+  "showPhone": false,
+  "showEmail": true,
+  "showQR": true,
+  "showLogo": false,
+  "qrSize": 150,
+  "greetingText": "AT probe greeting"
+}
