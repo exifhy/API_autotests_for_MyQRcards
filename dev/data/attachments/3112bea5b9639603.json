@@ -1,6 +1,0 @@
-{
-  "status_code": 409,
-  "reason": "Conflict",
-  "url": "https://dev-api.myqrcards.com/Accounts/onboardingEvents/0",
-  "body": "[{\"traceIdentifier\":\"0HNOMBCNSFH1H:00000175\",\"code\":\"ParameterOutOfRange\",\"message\":\"Значение параметра [typeID] находится вне допустимого диапазона.\"}]"
-}

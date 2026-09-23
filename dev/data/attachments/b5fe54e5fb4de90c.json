@@ -1,0 +1,6 @@
+{
+  "status_code": 409,
+  "reason": "Conflict",
+  "url": "https://dev-api.myqrcards.com/Cards/3/attributes/V2",
+  "body": "[{\"traceIdentifier\":\"0HNOMBCNSFH50:000001D6\",\"code\":\"ParameterNull\",\"message\":\"Параметр [data] не может быть пустым.\"}]"
+}
