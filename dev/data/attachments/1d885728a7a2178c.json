@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/Cards/3/attributes/V2",
-  "body": "[{\"cardAttributeNodeID\":13676,\"children\":[{\"cardAttributeNodeID\":13677,\"parentCardAttributeNodeID\":13676,\"children\":[],\"accountID\":7124,\"cardID\":3,\"attribute\":{\"name\":\"Мобильный телефон\",\"id\":2},\"cardAttribute\":{\"name\":\"Phone\",\"id\":2},\"sortOrder\":1,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"MobilePhone\",\"name\":\"Мобильный телефон\",\"id\":2},\"attributeTypeGroupID\":1,\"attributeTypeIsPublic\":false,\"values\":[\"+79000000001\"]}],\"accountID\":7124,\"cardID\":3,\"attribute\":{\"name\":\"Многострочный текст\",\"id\":6},\"cardAttribute\":{\"name\":\"Group\",\"id\":1},\"sortOrder\":1,\"isEnabled\":true,\"selectionMode\":{\"name\":\"Одно значение\",\"id\":1},\"attributeType\":{\"code\":\"Text\",\"name\":\"Многострочный текст\",\"id\":6},\"attributeTypeGroupID\":2,\"attributeTypeIsPublic\":true}]"
-}
