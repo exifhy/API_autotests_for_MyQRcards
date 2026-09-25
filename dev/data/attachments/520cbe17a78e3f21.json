@@ -1,6 +1,0 @@
-{
-  "status_code": 200,
-  "reason": "OK",
-  "url": "https://dev-api.myqrcards.com/Companies/3882/emailsignaturesettings",
-  "body": "{\"accountID\":7124,\"companyID\":3882,\"showGreeting\":true,\"showName\":true,\"showPosition\":true,\"showCompany\":true,\"showPhone\":true,\"showEmail\":true,\"showQR\":true,\"showLogo\":true,\"qrSize\":999,\"greetingText\":\"С уважением,\"}"
-}

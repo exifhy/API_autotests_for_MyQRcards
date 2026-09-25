@@ -1,0 +1,6 @@
+{
+  "status_code": 400,
+  "reason": "Bad Request",
+  "url": "https://dev-api.myqrcards.com/Cards/3/attributes/V2",
+  "body": "{\"errors\":{\"\":[\"A non-empty request body is required.\"]},\"title\":\"One or more validation errors occurred.\",\"status\":400,\"traceId\":\"00-3728c77a1f7ec94bb8ad67bae1d26763-8bb1a4d13bfec548-00\"}"
+}
