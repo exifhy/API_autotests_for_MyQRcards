@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/fonts",
+  "body": "[{\"id\":1,\"displayName\":\"Inter\",\"fontFamily\":\"Inter\",\"url\":\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap\"}]"
+}

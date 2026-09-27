@@ -1,0 +1,12 @@
+{
+  "showGreeting": true,
+  "showName": true,
+  "showPosition": true,
+  "showCompany": true,
+  "showPhone": true,
+  "showEmail": true,
+  "showQR": true,
+  "showLogo": true,
+  "qrSize": 180,
+  "greetingText": "First"
+}

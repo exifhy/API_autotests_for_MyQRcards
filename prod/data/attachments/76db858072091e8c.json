@@ -1,0 +1,6 @@
+{
+  "status_code": 206,
+  "reason": "Partial Content",
+  "url": "https://api.myqrcards.com/Applications?offset=0&fetch=50",
+  "body": "[{\"code\":\"WebApp\",\"name\":\"Веб-приложение\",\"id\":2},{\"code\":\"MobileApp\",\"name\":\"Мобильное приложение\",\"id\":1},{\"code\":\"AdminApp\",\"name\":\"Форма администрирования подписок\",\"id\":3}]"
+}

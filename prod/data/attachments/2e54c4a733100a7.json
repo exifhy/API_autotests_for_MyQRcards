@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/Accounts/sso/providers",
+  "body": "[{\"providerType\":1,\"code\":\"Yandex\",\"nameRu\":\"Яндекс ID\",\"nameEn\":\"Yandex ID\"},{\"providerType\":2,\"code\":\"Vk\",\"nameRu\":\"VK ID\",\"nameEn\":\"VK ID\"}]"
+}
