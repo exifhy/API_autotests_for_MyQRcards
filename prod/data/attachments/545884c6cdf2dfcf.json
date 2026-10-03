@@ -1,0 +1,6 @@
+{
+  "status_code": 200,
+  "reason": "OK",
+  "url": "https://api.myqrcards.com/companies/213146",
+  "body": "{\"customers\":\"Updated customers\",\"location\":{\"id\":207106,\"country\":\"Russia\",\"postalCode\":\"190000\",\"region\":\"Saint Petersburg\",\"city\":\"Saint Petersburg\",\"address\":\"Nevsky prospect, 1\",\"notes\":\"updated office\",\"latitude\":59.934300,\"longitude\":30.335100},\"socialNetworks\":[{\"contactUrl\":\"https://vk.com/updated_test\",\"name\":\"Facebook\",\"id\":1},{\"contactUrl\":\"tg://resolve?domain=updatedtest\",\"name\":\"Telegram\",\"id\":7}],\"isReadOnly\":false,\"logo\":{\"id\":397112,\"url\":\"https://api.selcdn.ru/v1/SEL_83360/Public/mK-FFr_yP0SwRJmB91UkxA.png\"},\"phone\":\"+78120000000\",\"fax\":\"+78121111111\",\"email\":\"at_le4fr6ry1a@tt.tt\",\"siteUrl\":\"https://www.updated-test.tt\",\"foundedYear\":2024,\"activity\":\"Updated activity\",\"name\":\"AT_UpdatedCompany_q7v5dsazo1\",\"id\":213146}"
+}
